@@ -685,7 +685,8 @@ DESIGN INTENT != CANON FACT
 > `novelforge-product-v2.0` 冻结（该 tag 现已归档：historical / archived /
 > not an active Git ref；其 commit `56cda829…` 由外部 bundle 承载）。
 > 它们的验收测试依赖本机历史数据，
-> 默认不运行（`pytest -m historical_acceptance` 显式运行，见 `tests/conftest.py`）。
+> **V4-01 起这批历史验收测试已随废弃资产删除**（作者决策 A/B；
+> marker 保留给 V4 里程碑验收复用，见 `pytest.ini`）。
 > 本节规则仍然有效：**任何情况下都不得自行修改** 已冻结的 Repair Contract / Gate /
 > truth boundary，即使相关代码已经归档为只读历史路径。
 
@@ -970,7 +971,7 @@ release tag 只增不改
 - 作者数据（`novel/authoring/story_engine/**`、内容包 `*_pack.json`、forge chain、
   `workspace/**`）一律 gitignored，由运行环境生成；
 - 测试默认不得读取开发机上的作者数据：需要历史数据的 V2 里程碑验收
-  以 `historical_acceptance` 标记隔离（见 `tests/conftest.py` / `pytest.ini`）；
+  V4 里程碑验收改用最小 deterministic fixture（不依赖本机历史数据）；
 - 仓库根目录不保留临时文件、备份、审计截图或一次性迁移脚本。
 
 ---

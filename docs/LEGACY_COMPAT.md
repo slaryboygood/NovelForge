@@ -37,7 +37,9 @@ Product V3.0 / Product V2.0 / Story Engine V2（已归档）
 
 守卫：`tests/test_v2_frozen_guard.py`（冻结证据摘要 + 单一 root + 历史 ref 语义，默认运行）、
 `tests/test_v3_frozen_guard.py`（route_lab 只读放宽边界，默认运行）。
-字节级 M11–M18 frozen-digest 验收保留在历史套件（`pytest -m historical_acceptance`）。
+> **V4-01 更新**：字节级 M11–M18 frozen-digest 验收所依赖的 570 章 historical 数据由作者判定为
+> 废弃并已删除，对应测试随之移除（`pytest -m historical_acceptance` 目前为空；
+> marker 保留给 V4 里程碑验收复用）。frozen-boundary 规则本身保持不变。
 
 ## 旧存档兼容（仍然只读支持）
 

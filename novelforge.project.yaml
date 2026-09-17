@@ -21,7 +21,6 @@ ui:
 protected_paths:
   - novel/authoring/story_builder
   - novel/config/story_builder
-  - novel/final
   - novel/state
   - .env.local
 generated_paths:

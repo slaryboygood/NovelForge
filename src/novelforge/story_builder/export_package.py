@@ -41,7 +41,6 @@ EXPORT_FORMAT_VERSION = "m16-export-1"
 TRUTH_LAYER_LEGEND: dict[str, str] = {
     "occurred": "StoryState / Canon（已发生事实）",
     "planned": "规划 / 大纲（未提交为事实）",
-    "historical_repair": "M11/M12 frozen repair lineage（历史修复证据）",
     "ui_derived": "导出派生（仅用于阅读，不成为 truth）",
 }
 
@@ -50,7 +49,6 @@ TRUTH_LAYER_LEGEND: dict[str, str] = {
 TRUTH_LAYER_AUTHOR_LABEL: dict[str, str] = {
     "occurred": "已经发生的事实",
     "planned": "还在计划里",
-    "historical_repair": "历史修复证据",
     "ui_derived": "阅读用派生信息",
 }
 

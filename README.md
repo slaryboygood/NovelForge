@@ -107,10 +107,15 @@ advisory（1 moderate、1 high）。它们只影响本地 `vite dev server`；�
 
 如果 Playwright 装在别的位置，用 `NODE_PATH` 指向你自己的 `node_modules` 即可。
 
-历史里程碑验收（M11–M18 / wasteland）依赖开发机的历史数据，默认不运行：
+历史里程碑验收（V2 M11–M18 / wasteland / 570 章 historical）**已在 V4-01 随废弃资产一并删除**：
+作者判定那批历史数据与旧正文没有保留价值，因此仓库里不再保留对应的数据、脚本与测试
+（详见 `docs/v4/V4_DELETION_PLAN.md` §2.1 与 `docs/v4/V4_01_BOUNDARY_FOUNDATION_REPORT.md`）。
+`historical_acceptance` marker 仍注册在 `pytest.ini`，留给 V4 里程碑验收复用。
+
+V4 边界守卫（跨作品污染 / 废弃资产 / 模块依赖）现在默认运行：
 
 ```powershell
-.venv\Scripts\python.exe -m pytest -m historical_acceptance -q
+.venv\Scripts\python.exe -m pytest -q tests/v4 -q
 ```
 
 ## 文档

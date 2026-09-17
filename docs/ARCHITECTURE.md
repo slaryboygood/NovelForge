@@ -60,7 +60,7 @@ deterministic rules，不由 LLM 决定。
 | 路线 | `route_lab.py` | 分支试演 / 对比 / 合并 / 冻结（分支事实独立存储） |
 | 大纲 | `outline_forge.py`、`outline_revision.py`、`outline_export` | 四级大纲（BOOK → VOLUME → ARC → CHAPTER）+ 版本 / 修订 / 导出 |
 | 实例分层 | `profile.py`、`templates.py`、`content.py`、`wizard.py`、`linkage.py` | NovelProfile / Genre Template / ContentPack / 路线事实 → 大纲联动 |
-| 历史层 | `historical_ir.py`、`repair.py`、M11/M12 服务 | 570 章 Historical Chapter IR、repair replay、冻结的修复 lineage |
+| 历史层（**V4-01 起仅保留源码，不再是产品路径**） | `historical_ir.py`、`repair.py`、M11/M12 服务 | 570 章 Historical Chapter IR、repair replay、冻结的修复 lineage；对应数据资产已在 V4-01 删除（作者决策 B），产品侧不再引用 |
 
 ## Application
 
@@ -68,9 +68,9 @@ deterministic rules，不由 LLM 决定。
 | --- | --- | --- |
 | UI 只读投影 | `story_builder/ui_flow.py` | 引导流状态、设定影响范围、设定总览、区域卡、关系图；`GET /guided-flow`、`/settings/impact|overview|regions|relationships` |
 | Inspector / Repair | `story_builder/inspector.py` | 跨层只读检查（Canon / StoryState / 570 章历史 IR + provenance）与修复诊断；`GET /inspector/*`、`/repair/diagnosis|history` |
-| Planning Export | `story_builder/export_package.py` | 单一 export projection（Story Bible / 卡片 / Timeline / Spine / 四级大纲 / planning / canon_refs / historical_ir）+ json/markdown/docx serializer + validation |
+| Planning Export | `story_builder/export_package.py` | 单一 export projection（Story Bible / 卡片 / Timeline / 四级大纲 / planning / canon_refs）+ json/markdown/docx serializer + validation。**V4-01 起不再包含 spine / historical_ir 分区**（历史资产已删除，跨作品污染缺陷 NR-002 已结构性修复）；唯一调用入口是 `application.services.export.ExportService` |
 | Writer Integration | `story_builder/writer_integration.py` | `WriterContextBuilder`（6 层 truth block + 去重 + 预算）、草稿入口、Draft Fact Sync（proposal-only） |
-| Writer Store（SSOT） | `story_builder/writer_integration.py` | 写作草稿的**唯一** canonical 存储：`novel/authoring/story_engine/writer/<novel_id>/index.json` + `drafts/*.json`。写入（`WriterDraftService`）与读取（`v3_projection` 投影、导出、UI）共用同一个常量；历史路径 `workspace/wasteland_001_exports/writer_v1` 只读兼容（canonical 为空时才使用，避免同一份草稿被计两次） |
+| Writer Store（SSOT） | `story_builder/writer_integration.py` | 写作草稿的**唯一**存储：`novel/authoring/story_engine/writer/<novel_id>/index.json` + `drafts/*.json`。写入（`WriterDraftService`）与读取（`v3_projection` 投影、导出、UI）共用同一个常量。**V4-01 起不再有历史目录回退**（`workspace/wasteland_001_exports/writer_v1` 已删除）；注意草稿属于 preview 层，V4 的 canonical 创作产物是 Story Blueprint（ADR-011） |
 | 作者语言映射 | `novelforge/author_language.py` | 内部标识 → 作者语言的**唯一**展示层映射（角色 / 地点 / 支线 / 伏笔 / 资源 / 状态 / 行动类别）。引擎生成文案、V3 投影、导出与 API 错误文案全部走它，避免同一 id 在不同位置一半被翻译 |
 | 作品级管理 | `story_builder/novel_admin.py` | 重命名（只改 `NovelProfile.title`）与删除（= 整体归档到 gitignored `workspace/archived_novels/`，可恢复、不留孤儿产物） |
 | 跨题材验证（Cross-genre E2E） | `story_builder/cross_genre_e2e.py` | `CrossGenreE2ECase` / `CrossGenreE2ERunner`：3 题材 13 步产品链；Inspector / Repair / Planning Export / Writer Integration 均由本层统一提供入口 |
@@ -129,7 +129,8 @@ Release（V2 / V3）
 
 ```text
 默认套件            pytest（当前产品测试；自包含，不需要本机作者数据）
-历史里程碑验收      pytest -m historical_acceptance（V2 M11–M18 / wasteland；需要本机历史数据）
+V4 边界守卫          pytest -q tests/v4（跨作品隔离 / 废弃资产 / 模块依赖，默认运行）
+历史里程碑验收       已随废弃资产删除（V4-01；marker 保留给 V4 里程碑复用）
 浏览器门禁          tests/browser_v3_p0|p2|p3|p4|p5|p6_acceptance.cjs、
                     tests/browser_v3_visual_asset_gate.cjs、tests/browser_advanced_tools.cjs
 Frozen guard        tests/test_v2_frozen_guard.py（V2 tag / release 记录 / authoring 未漂移）、

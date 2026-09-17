@@ -42,14 +42,28 @@ application_derived Objective / Next Action / Command Center 状态：应用层�
 写路径：`ActionResolver` 事务化应用 Action + Effect，失败回滚；客户端不能自证合法性。
 读取路径：`creator_context` → `*_view.py` 投影（世界 / 角色 / 剧情 / 成长 / 记忆 / 导演 / 联动）。
 
-## 历史与冻结对象（historical_repair / frozen / read-only）
+## 历史与冻结对象（V4-01 起已删除）
+
+> ⚠️ **V4-01 Boundary Foundation（作者决策 A / B）**：以下历史资产被判定为废弃并**直接删除**
+> （不迁移、不归档、不做 fixture、不进 `legacy/`）：
+>
+> ```text
+> novel/final/**（69 个 tracked 正文文件）
+> workspace/wasteland_001_exports/**（570 章 historical IR / M11 证据 / 旧导出，1918 文件 / 62 MB）
+> ```
+>
+> 表内条目仅作为 V3 历史记录保留（描述"曾经存在什么"），
+> **不再是当前数据模型的一部分**。当前 ownership 见 `src/novelforge/persistence/paths.py`
+> 与 `docs/v4/V4_MODULE_BOUNDARIES.md` §3.3。
+
+### V3 历史记录（已删除）
 
 | 对象 | 位置 | 说明 |
 | --- | --- | --- |
 | Canon | `novel/authoring/story_engine/canon/wasteland_001.sqlite` | 权威事实表（fact / entity / event）；只读引用 |
-| 570 章 source Chapter IR | `workspace/wasteland_001_exports/chapter_ir_v1/` | M1 影子迁移产物（source IR），冻结 |
-| Historical IR（`ChapterSemanticIR` body） | `workspace/wasteland_001_exports/historical_chapter_ir_v1/` | 570 章 Historical IR：完整 `ChapterSemanticIR` body + evidence coverage + integrity manifest + foundation gate（derived / frozen） |
-| Repair overlay / reconciliation / ledger | `workspace/wasteland_001_exports/repair_adoption_v1/M11_*.json` | M11 修复状态：overlay V2 / subtype ledger / final closure reconciliation |
+| ~~570 章 source Chapter IR~~ | ~~`workspace/wasteland_001_exports/chapter_ir_v1/`~~ | **V4-01 已删除** |
+| ~~Historical IR（`ChapterSemanticIR` body）~~ | ~~`workspace/wasteland_001_exports/historical_chapter_ir_v1/`~~ | **V4-01 已删除** |
+| ~~Repair overlay / reconciliation / ledger~~ | ~~`workspace/wasteland_001_exports/repair_adoption_v1/M11_*.json`~~ | **V4-01 已删除** |
 | Run / batch reconciliation | 同上（`M11_RUN_*_RECONCILIATION.json`、`m11_run_*/`） | 每个 production run 的本地证据 |
 | Milestone acceptance | 同上（`m12/`…`m18/`、`phase_snapshots/<phase_id>/`） | baseline / freeze guard / acceptance / readiness + write-once phase snapshot（含 digest manifest）；`m18/NOVELFORGE_PRODUCT_V2_RELEASE.json` 为 deterministic release manifest（无时间戳） |
 | Contract / Gate | `M11_REPAIR_SYSTEM_CONTRACT_V1.json`、`REPAIR_GATE_V1.json` | frozen 修复契约与 gate digest |
@@ -58,10 +72,10 @@ application_derived Objective / Next Action / Command Center 状态：应用层�
 
 | 对象 | 生成者 | 说明 |
 | --- | --- | --- |
-| ExportProjection（Story Bible / 卡片 / Timeline / Spine / 大纲 / planning / canon_refs / historical_ir） | `story_builder/export_package.py` | 只读导出投影；每个 section 带 truth_layer / source / identity / digest；serializer 输出 json / markdown / docx |
+| ExportProjection（Story Bible / 卡片 / Timeline / 大纲 / planning / canon_refs） | `story_builder/export_package.py`（入口 `application.services.export.ExportService`） | 只读导出投影；每个 section 带 truth_layer / source / identity / digest；serializer 输出 json / markdown / docx。V4-01 起不再包含 spine / historical_ir 分区 |
 | WriterContext | `story_builder/writer_integration.py` | 6 层 block（canon_truth / story_state / historical_repair / planning / chapter_plan / writer_guidance），每块带 source / identity / digest；跨块去重 + 预算 |
 | WriterDraft（canonical） | `novel/authoring/story_engine/writer/<novel_id>/`（`index.json` + `drafts/*.json`） | writer 输出（preview 层）：narration + 声明 + 既有校验结果。写入与读取（V3 投影 / 导出）共用同一个常量 `writer_integration.WRITER_DIR` |
-| WriterDraft（历史路径，只读兼容） | `workspace/wasteland_001_exports/writer_v1/<novel>/drafts/` | V2 早期写入位置：只在 canonical 完全没有草稿时被读取，不再写入 |
+| ~~WriterDraft（历史路径，只读兼容）~~ | ~~`workspace/wasteland_001_exports/writer_v1/<novel>/drafts/`~~ | **V4-01 已删除**；草稿只从 canonical 目录读取，不再有任何历史回退 |
 | 已归档作品 | `workspace/archived_novels/<novel_id>_<UTC>/`（含 `ARCHIVE_MANIFEST.json`） | 删除作品＝整体归档：profile / 内容包 / StoryState / 大纲 / 写作草稿一起移动，可恢复、不留孤儿（gitignored） |
 | FactProposal | 同目录 `proposals/` | `sync-facts` 产生的 `PROPOSED` 事实提议（需作者或修复流程确认） |
 | Inspector 记录 | `story_builder/inspector.py` 运行时投影 | 跨层只读检查结果 + provenance（source refs / repair replay / reconciliation） |
@@ -74,7 +88,7 @@ application_derived Objective / Next Action / Command Center 状态：应用层�
 novel/config/                     模板 / 内容包 / 十步目录（数据）
 novel/authoring/story_engine/     Canon / StoryState / profiles / packs / planning
 novel/authoring/story_builder/    sessions / blueprints / outlines
-workspace/wasteland_001_exports/  WASTELAND 实例的 frozen 证据与 milestone 验收
+workspace/                       运行期产物（V4-01 起不再包含 wasteland 历史导出）
 ui/src/                           前端（React + TS）
 ```
 

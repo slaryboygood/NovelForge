@@ -165,7 +165,7 @@
 | `scripts/start_novelforge_ui.py` | 启动器 | 起后端 + 构建前端 | KEEP | 不变 | 无 | app | P0 |
 | `scripts/creator_ui_test_server.py` | 隔离测试服务 | 用隔离数据根起服务 | KEEP | `tests/support/` | 浏览器门禁依赖它 | app | P0 |
 | `scripts/validate_project.py` | 工程校验 | 路由边界 + catalog 加载断言 | KEEP | 不变 | 16 行守卫，V4 需扩展而不是替换 | app/catalog | P0 |
-| `scripts/wasteland_001_m1b_closure.py` | M1b closeout | 历史 closeout 证据生成 | COMPATIBILITY_ONLY | `legacy/scripts/` | 被 `tests/test_m1b_v2_coverage.py:22` 引用 | story_engine | FROZEN |
+| `scripts/wasteland_001_m1b_closure.py` | M1b closeout | 历史 closeout 证据生成 | DELETE | — | 作者决策 B（V4-01 已执行）：只服务 570 章 historical；调用它的测试同时删除 | story_engine | V4-01 |
 | `scripts/seed_long_line_state.py` | 长线测试数据种 | 造浏览器测试所需 StoryState | COMPATIBILITY_ONLY | `tests/support/` | 被 `tests/browser_creator_long_lines.cjs:59` 调用 | storage | P0 |
 | `novel/config/**`（103 文件） | 模板 / 内容包 / 目录 / schema | 数据（不是事实） | KEEP | `novel/config/**` + plugin packs | 引擎无题材分支的保证 | — | P0 |
 | `novel/authoring/**`（2,381 文件） | 运行期作者数据 | Canon / StoryState / profile / 大纲 / 草稿 | KEEP | 不变（gitignored 边界保持） | 真实作者数据不进版本控制 | — | P0 |

@@ -100,7 +100,8 @@ Decision        : 作者决策 B —— DELETE / NO IMPORT / NO FIXTURE / NO leg
 | ~~`workspace/wasteland_001_exports/**`~~ | — | **已删除（V4-01，作者决策 B）**；`workspace/pilot_v2/**` 仍保留、待裁定 |
 | ~~`novel/final/**`~~ | — | **已删除（V4-01，作者决策 A）**；不再是「不删除清单」成员 |
 | `novel/runs/**`、`novel/state/**`、`novel/pipelines/**`、`novel/learning/**`、`novel/status/**`、9 个空目录 | 产品代码无引用 | 证据不足（`V4_CODEBASE_INVENTORY.md` §6）；需先确认是否为外部写作流程产物 |
-| `scripts/wasteland_001_m1b_closure.py`、`scripts/seed_long_line_state.py` | 一次性脚本观感 | 分别被 `tests/test_m1b_v2_coverage.py:22` 与 `tests/browser_creator_long_lines.cjs:59` 引用（`docs/V3_FINAL_REPOSITORY_FREEZE_REPORT.md` 亦记录 KEEP 判定） |
+| ~~`scripts/wasteland_001_m1b_closure.py`~~ | — | **已删除（V4-01，作者决策 B）**：只服务 570 章 historical 的 M1b closeout；其唯一调用方 `tests/test_m1b_v2_coverage.py` 同时删除 |
+| `scripts/seed_long_line_state.py` | 一次性脚本观感 | 被 `tests/browser_creator_long_lines.cjs:59` 引用（浏览器门禁仍需要），保留 |
 | `ui/src/StoryBuilderPage.tsx` + 14 个 legacy 面板 | 与 V3 工作台功能重叠 | 它们是**唯一**的完整编辑入口（角色 / 地点 / 势力 / 路线 / Canon / 修复）。删除前必须由新 UI 提供同等能力（`docs/LEGACY_COMPAT.md` 的 bridge 定义） |
 | `story_builder/ai_recommendations.py` | 目前 provider 恒为 None（`AI_UNAVAILABLE`） | 它实现了「AI 只能补充、不能新增结构」的合并与校验逻辑，是 V4 Gateway 的良好输入（分类 = REWRITE，不是 DELETE） |
 | `story_builder/cross_genre_e2e.py` | 看起来像测试代码 | 它是 3 题材 13 步的回归 harness，V4 迁移的主要安全网 |

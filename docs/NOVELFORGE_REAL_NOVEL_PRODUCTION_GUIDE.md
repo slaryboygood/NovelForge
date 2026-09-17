@@ -127,7 +127,11 @@ POST /api/story-builder/runtime/tick?novel_id=real_novel_001
 
 ## 6. 如何保存章节
 
-1. 正文写在隔离目录：`workspace/<novel>/novel/final/chNNN_标题.md`。
+> **V4-01 更新**：V4 的 canonical 创作产物是 **Story Blueprint**（故事蓝图 / 大纲），
+> 不是小说正文；仓库内旧的正文资产（`novel/final/**`）已由作者判定废弃并删除。
+> 本节描述的是 V3 的正文型生产流程，保留作为历史参考。
+
+1. （V3 流程）正文写在隔离目录：`workspace/<novel>/novel/final/chNNN_标题.md`。
 2. StoryState 由 `runtime/advance` 自动原子写入，不需要手工保存。
 3. 每章结束做一次**重载确认**：
 

@@ -44,7 +44,8 @@ Module Tests
 | Story Engine / Domain | `domain` | `src/novelforge/story_engine/` | 保持原位（不整体移动） | EXISTS | — |
 | LLM Gateway | `ai` | `src/novelforge/ai/` | 不变（V4-02 已落地） | **EXISTS** | V4-02 ✅ |
 | Story Memory | `memory` | `src/novelforge/memory/` | 不变（V4-03 已落地） | **EXISTS** | V4-03 ✅ |
-| Blueprint Generation | `blueprint-generation` | `story_engine/{creative,settings_gen,outline_forge,journey}.py` | `src/novelforge/generation/` | DEFERRED | V4-04 |
+| Blueprint Generation | `generation` | `src/novelforge/generation/` | 不变（V4-04 已落地） | **EXISTS** | V4-04 ✅ |
+| Story Blueprint Store | `blueprint` | `src/novelforge/blueprint/` | 不变（V4-04 已落地） | **NEW** | V4-04 ✅ |
 | Story Quality | `quality` | 9 处 validator / finding | `src/novelforge/quality/` | DEFERRED | V4-05 |
 | Story Repair | `repair` | `story_engine/repair.py`（冻结历史用途） | `src/novelforge/quality/repair/` | DEFERRED | V4-05 |
 | Blueprint Editor | `editor` | `story_builder/writer_integration.py` | `src/novelforge/editor/` | DEFERRED | V4-06 |
@@ -264,6 +265,53 @@ Exceptions
 ---
 
 ## 4. 依赖矩阵（V4-01 生效部分）
+
+### 3.9 `blueprint` — Story Blueprint canonical store（V4-04 落地）
+
+```text
+Public Contract
+  BlueprintNode / BlueprintNodeRef / NodeType / NodeStatus / BLUEPRINT_SCHEMA_VERSION
+  PAYLOAD_MODELS（12 类 payload：premise…payoff）/ ALLOWED_PARENT_TYPES
+  BlueprintRepository（append-only revision + index + idempotency）
+  validate_node / validate_graph / require_valid
+  ALLOWED_STATUS_TRANSITIONS / assert_can_regenerate / next_status_for_regeneration
+  BlueprintError 家族
+Internal
+  无（repository / validation / lifecycle 本身就是最小实现）
+Allowed
+  core（revision）、persistence.paths（唯一路径来源）、python stdlib、pydantic
+Forbidden
+  ai / generation / memory / api / fastapi / mcp / HTTP client / 自行拼路径
+State Ownership
+  **canonical Story Blueprint**（节点与 revision 历史）；不拥有 Canon / StoryState
+Module Tests
+  tests/generation/test_blueprint_contracts.py、test_blueprint_repository.py、
+  tests/v4/isolation/test_generation_boundaries.py
+```
+
+### 3.10 `generation` — Blueprint Generation（V4-04 落地）
+
+```text
+Public Contract
+  BlueprintGenerationService / GenerationRequest / GenerationResult /
+  GenerationPlan / GenerationEvidence / TaskSpec / TaskRegistry /
+  DEFAULT_PIPELINE / default_registry / GenerationError 家族
+Internal
+  generation/tasks/*（premise / world / characters / story / chapter / scene / links）
+Allowed
+  ai（LLMGateway）、memory（ContextBuilder）、blueprint（节点模型 + repository）、
+  core、persistence.paths、domain public contract
+Forbidden
+  api / interfaces、ai.providers、HTTP client、直接 CanonRepository / StoryState 读取、
+  自行拼 artifact 路径
+State Ownership
+  无 truth；只产出 proposal 节点（写入经 BlueprintRepository）
+Module Tests
+  tests/generation/**（57 个）
+Exceptions
+  四处 legacy structured provider（creative / settings_gen / outline_forge /
+  ai_recommendations）允许函数内惰性 import novelforge.ai（Gateway 桥）
+```
 
 `✓` 允许 / `✗` 禁止 / `△` 仅经显式 Contract。
 

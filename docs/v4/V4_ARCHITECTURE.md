@@ -460,6 +460,7 @@ Legacy       → 不允许被新的写路径依赖
 | **Memory 边界** | Canon / StoryState 是 truth；`memory/*` 是派生、可重建、非权威 | ✅ V4-03 已落地：`novelforge.memory`（检索契约 + 四类视图 + 偏好 + ContextBuilder），条目带 source_ids / revision / stale 语义；`story_engine/memory.py` 保持原义不改名 | V4-03 完成 |
 | **Quality 边界** | 每次生成经过 QualityService；issue 是业务对象 | 9 处 deterministic validator 分散 | V4-05 统一契约 |
 | **Export 边界** | 唯一 `ExportService`；不允许 UI / API 各自拼产物 | `export_package` + `outlines` 导出 + `docx_bytes` 三处 | V4-07 收敛 |
+| **Blueprint 边界** | canonical Story Blueprint = `blueprint` 节点图 + repository；生成只产出 proposal | ✅ V4-04 已落地：`novelforge.blueprint` + `novelforge.generation`（逐级生成 / 局部重生成 / revision / 幂等 / 结构校验） | V4-04 完成 |
 | **MCP 边界** | MCP 只是协议；tool 调 service；统一 Result Envelope | 不存在 | V4-08 新建 |
 | **Plugin 边界** | 插件通过 Registry 注册，声明 capability，经 Port 访问核心 | 不存在 | V4-09 新建 |
 | **Revision 边界** | 每个 artifact 带 `revision`；写操作带 `expected_revision` | blueprints / outlines / planning / StoryState 各自实现 | V4-01 统一语义 |

@@ -166,6 +166,10 @@ owner      : persistence.story_state（唯一写入口 ActionResolver）
 
 ### 4.4 Semantic Memory
 
+（V4-04 补充：`blueprint_node` 已经是合法的 `source_type`，
+Story Blueprint 节点可以按同一契约进入语义索引；Context Builder 的
+`required.target` 块就是为它预留的。）
+
 ```text
 对象      : 人物 / 地点 / 势力 / 关系 / 世界设定 / 伏笔 / 主题
 来源      : Canon fact + ContentPack + 大纲 + 章节 revision

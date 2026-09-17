@@ -4,6 +4,21 @@
 > 依据：`docs/v4/V4_ARCHITECTURE.md` §1.3、§4、§5；CHALLENGE-08
 > 原则：**Quality 是业务能力，不是测试脚本。**
 
+### 0.0 V4-04 衔接（generation validation vs Quality Gate）
+
+```text
+V4-04 已实现的是 **generation validation**（属于 Q0/Q1 的一部分）：
+  schema（严格 payload 模型）/ structural（parent 类型、sequence）/
+  ownership（同 novel_id）/ reference integrity（character / chapter / causal 端点 /
+  setup-payoff 绑定）
+
+V4-05 才实现 Quality Gate 本体：Q2 Canon / Q3 Continuity / Q4 Character / Q5 Causality /
+Q6 Semantic Repetition / Q7 Narrative / Q8 Style / Q9 Delivery，
+以及 Repair Planner / Targeted Repair / Re-evaluate。
+
+节点上的 `quality_status` 字段已存在（默认 "unevaluated"），V4-05 直接消费它。
+```
+
 ### 0.1 V4-01 对齐
 
 ```text

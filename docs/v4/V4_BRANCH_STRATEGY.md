@@ -75,6 +75,10 @@ Tests    : tests/test_ai_gateway.py, tests/test_ai_provider_offline.py
 | `v4-01-boundary-foundation` | `boundary` | `src/novelforge/{persistence,application,core,legacy}/**` | `api/story_builder_routes.py`、`story_builder/{export_package,writer_integration,inspector,ui_flow,v3_projection,novel_admin}.py`、`tests/**`、`docs/**` | frozen 历史模块内部实现、`novel/authoring/**`、release tag | `ArtifactContext` / `RevisionRef` / `LegacyManifest`（新增） | `tests/v4/**` |
 | `v4-02-llm-gateway` | `ai` | `src/novelforge/ai/**` | `core`（revision/ids 复用）、`observability/model_trace.py`、`application/services/utility.py`、`story_engine/spec/llm.py`（仅 compatibility 适配）、`tests/ai/**`、`tests/v4/isolation/test_module_boundaries.py`、`docs/v4/**` | `story_engine` 其余部分、`persistence`、`api`、UI、frozen 模块内部实现 | `LLMContract` / `ModelPolicy` / `LLMProvider` / `LLMResult`（新增） | `tests/ai/**`、`tests/v4/isolation/test_module_boundaries.py` |
 | `v4-03-memory-integration` | `memory` | `src/novelforge/memory/**` | `persistence/paths.py`（新增 memory 路径，唯一路径来源）、`tests/memory/**`、`tests/v4/isolation/**`、`docs/v4/**` | `story_engine` 内部实现、`ai`、`api`、UI、`novel/final` 与 570 章 historical（已删除） | `MemoryQuery` / `MemoryResult` / `MemoryItem` / `ContextRequest` / `ContextBundle`（新增） | `tests/memory/**`、`tests/v4/isolation/test_memory_ownership.py` |
+| `v4-04-blueprint-generation` | `generation`（+ `blueprint`） | `src/novelforge/generation/**`、`src/novelforge/blueprint/**` | `persistence/paths.py`（新增 blueprint 路径）、`ai/legacy_support.py`（structured 桥）、`application/services/blueprint.py`、四处 legacy provider 接入点、`tests/generation/**`、`tests/v4/isolation/**`、`docs/v4/**` | `story_engine` 内部实现、`api`、UI、frozen 模块、Canon / StoryState 写入 | `BlueprintNode` / `BlueprintRepository` / `GenerationRequest` / `GenerationResult`（新增） | `tests/generation/**`、`tests/v4/isolation/test_generation_boundaries.py` |
+
+> V4-04 执行方式：任务书 §2 允许「单 Agent 顺序执行 → 一个 integration branch + 清晰提交边界」，
+> 本阶段即采用该方式（`v4-04-blueprint-generation` = integration branch）。
 
 > V4-03 执行方式：本阶段的任务分支 `v4-03a…v4-03e` 以**线性提交序列**实现在
 > integration 分支 `v4-03-memory-integration` 上（单 agent 顺序执行；分叉+合并只会

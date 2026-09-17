@@ -125,7 +125,11 @@ from novelforge.story_builder.v3_projection import (
     command_center as v3_command_center,
     novel_cards as v3_novel_cards,
 )
-from novelforge.story_builder.export_package import export_package
+from novelforge.application.services import (
+    export_service,
+    journey_service,
+    project_service,
+)
 from novelforge.story_builder.novel_admin import (
     NovelAdminError,
     archive_novel,
@@ -485,18 +489,15 @@ def create_story_builder_router(
 
     @router.get("/novels")
     def list_novels() -> dict[str, Any]:
-        return {"novels": [{"novel_id": item.novel_id, "title": item.title, "genre": item.genre,
-                            "updated_at": item.updated_at.isoformat(),
-                            "cast": len(item.cast), "factions": len(item.factions)}
-                           for item in profiles.list()]}
+        # V4-01：应用服务边界 —— 路由不再自己拼投影（见 ADR-001）。
+        return {"novels": project_service(project_root).list_novels()}
 
     @router.post("/novels", status_code=201)
     def create_novel(body: CreateNovelRequest) -> dict[str, Any]:
-        profile = profiles.create(body.novel_id, title=body.title, genre=body.genre,
-                                  content_pack_id=body.content_pack_id)
-        if body.template_id:
-            profile = profiles.save(apply_template(profile, body.template_id))
-        return {"novel": profile.model_dump(mode="json")}
+        novel = project_service(project_root).create_novel(
+            body.novel_id, title=body.title, genre=body.genre,
+            content_pack_id=body.content_pack_id, template_id=body.template_id)
+        return {"novel": novel}
 
     @router.get("/content-packs")
     def list_content_packs() -> dict[str, Any]:
@@ -507,14 +508,14 @@ def create_story_builder_router(
 
     @router.get("/novels/{novel_id}")
     def get_novel(novel_id: str) -> dict[str, Any]:
-        return {"novel": profiles.load(novel_id).model_dump(mode="json")}
+        return {"novel": project_service(project_root).get_novel(novel_id)}
 
     @router.patch("/novels/{novel_id}")
     def rename_novel_route(novel_id: str, body: NovelRenameRequest) -> dict[str, Any]:
         """NF-011：改作者可见的作品名（只改名字，不动任何事实）。"""
 
         try:
-            return rename_novel(project_root, novel_id, body.title)
+            return project_service(project_root).rename_novel(novel_id, body.title)
         except NovelAdminError as exc:
             status = 404 if exc.code == "PROFILE_NOT_FOUND" else 422
             raise HTTPException(status_code=status, detail=exc.as_dict()) from exc
@@ -531,7 +532,7 @@ def create_story_builder_router(
                 "message": "删除作品需要二次确认：请带上 confirm=true。",
                 "novel_id": novel_id})
         try:
-            return archive_novel(project_root, novel_id, reason=reason)
+            return project_service(project_root).archive_novel(novel_id, reason=reason)
         except NovelAdminError as exc:
             status = 404 if exc.code == "PROFILE_NOT_FOUND" else 422
             raise HTTPException(status_code=status, detail=exc.as_dict()) from exc
@@ -1239,6 +1240,15 @@ def create_story_builder_router(
 
         return v3_command_center(project_root, novel_id)
 
+    @router.get("/v3/novels/{novel_id}/journey")
+    def v3_journey_route(novel_id: str) -> dict[str, Any]:
+        """V4-01：canonical JourneyProjection（唯一阶段 / 进度 / 下一步入口）。
+
+        UI / REST / 未来的 MCP resource 都消费这一个投影（ADR-004）。
+        """
+
+        return journey_service(project_root, novel_id).projection()
+
     @router.get("/settings/impact")
     def get_settings_impact(novel_id: str = Query(default=DEFAULT_NOVEL_ID, min_length=3,
                                                   max_length=96),
@@ -1332,8 +1342,8 @@ def create_story_builder_router(
                            ) -> dict[str, Any]:
         """M16A：Planning Export（json / markdown / docx）+ validation。"""
 
-        return export_package(project_root, novel_id, branch_id=branch_id,
-                              fmt=format, include_projection=include_projection)
+        return export_service(project_root, novel_id, branch_id=branch_id).export(
+            fmt=format, include_projection=include_projection)
 
     @router.get("/export/writer-bundle")
     def get_writer_bundle(novel_id: str = Query(default=DEFAULT_NOVEL_ID,
@@ -1342,7 +1352,7 @@ def create_story_builder_router(
                           ) -> dict[str, Any]:
         """M16A：Writer-ready Package（export manifest + 分层 writer context）。"""
 
-        return writer_export_bundle(project_root, novel_id, branch_id=branch_id)
+        return export_service(project_root, novel_id, branch_id=branch_id).writer_bundle()
 
     @router.get("/writer/context")
     def get_writer_context(novel_id: str = Query(default=DEFAULT_NOVEL_ID,

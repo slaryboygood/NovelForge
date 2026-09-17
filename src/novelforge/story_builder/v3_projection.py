@@ -1522,6 +1522,17 @@ def _journey_projection(project_root: Path | str, novel_id: str) -> dict[str, An
     }
 
 
+def journey_projection(project_root: Path | str, novel_id: str) -> dict[str, Any]:
+    """公开 Contract：唯一 JourneyProjection（V4-01）。
+
+    `V4_ARCHITECTURE.md` ADR-004 要求 UI / REST / MCP 消费同一份阶段 / 进度 / 下一步；
+    本函数是该投影的**唯一公开入口**，`_journey_projection()` 属于内部实现。
+    服务层入口见 `novelforge.application.services.journey.JourneyService`。
+    """
+
+    return _journey_projection(project_root, novel_id)
+
+
 def command_center(project_root: Path | str, novel_id: str) -> dict[str, Any]:
     """Novel Command Center 的完整只读投影（Landing 与 Command Center 的唯一数据源）。"""
 

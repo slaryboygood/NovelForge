@@ -312,11 +312,22 @@ def guided_flow_state(project_root: Path | str, novel_id: str) -> dict[str, Any]
                      "status": "current",
                      "deep_link": {"panel": "route", "step": "output",
                                    "group": "", "hash": ""}}
+    # V4-01（ADR-004）：阶段不再由本模块自己推导 —— 引导流只保留"四步 onboarding 进度"，
+    # canonical 阶段 / 下一步统一来自 JourneyService（= v3_projection.journey_projection）。
+    from novelforge.application.services.journey import JourneyService
+
+    journey_service = JourneyService(project_root, novel_id)
+    journey = journey_service.projection()
+    journey_stage = (journey.get("journey") or {}).get("current_stage", "")
+    display_group = journey_service.display_group(journey)
     return {
         "novel_id": novel_id,
-        "current_stage": (next_step or {}).get("stage", "design"),
-        "current_stage_label": STAGE_LABELS.get((next_step or {}).get("stage", "design"),
-                                                STAGE_LABELS["design"]),
+        "current_stage": display_group,
+        "current_stage_label": STAGE_LABELS.get(display_group, STAGE_LABELS["design"]),
+        "journey_stage": journey_stage,
+        "journey_stage_label": (journey.get("journey") or {}).get(
+            "current_stage_label", ""),
+        "journey_next_action": journey.get("next_action") or {},
         "current_step": current,
         "next_step": next_step,
         "steps": steps,

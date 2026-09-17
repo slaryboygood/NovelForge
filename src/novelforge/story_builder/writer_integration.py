@@ -8,7 +8,7 @@ Draft Fact Sync（事实校验 → 产品入口与回写通道）」。
 ```text
 Frozen Truth / Planning / Chapter IR
         ↓
-WriterContextBuilder（分层：canon / occurred / historical_repair / planned / guidance）
+WriterContextBuilder（分层：canon / story_state / planned / guidance）
         ↓
 WriterPackage（复用 story_engine.writer.build_writer_package）
         ↓
@@ -29,8 +29,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from novelforge.persistence.paths import canon_db_path
 from novelforge.story_engine.creator import DEFAULT_BRANCH, resolve_creator_context
-from novelforge.story_engine.historical_ir import HISTORY_DIR, HistoricalIRStore
 from novelforge.story_engine.memory_view import memory_snapshot
 from novelforge.story_engine.outline_forge import load_forge_chain
 from novelforge.story_engine.settings_gen import load_pack_draft, saved_pack_id
@@ -51,27 +51,23 @@ from novelforge.story_engine.world_view import world_snapshot
 #   novel/authoring/story_engine/writer/<novel_id>/index.json   ← 草稿索引
 #   novel/authoring/story_engine/writer/<novel_id>/drafts/*.json
 #
-# 这里同时被「写入（WriterDraftService）」与「读取（v3_projection 投影 /
-# export）」使用，因此产品的 create / read / update / projection / progress /
-# export 只有一个来源。历史路径只读兼容（见 LEGACY_WRITER_STORE_DIR）。
+# 这里同时被「写入（WriterDraftService）」与「读取（v3_projection 投影 / export）」使用，
+# 因此产品的 create / read / update / projection / progress / export 只有一个来源。
+# V4-01：历史路径与 historical_repair 上下文块已删除（作者决策 B）。
 WRITER_STORE_DIR = "novel/authoring/story_engine/writer"
-# V2 M16B 早期把草稿写在 workspace 下（gitignored，可能已有作者数据）：
-# 保留只读回退，不再写入，避免同一语义对象出现两个写入源。
-LEGACY_WRITER_STORE_DIR = "workspace/wasteland_001_exports/writer_v1"
+# V4-01：V2 早期的 `workspace/wasteland_001_exports/writer_v1` 回退已删除
+# （作者决策 B：570 章 historical 资产废弃）。草稿只有一个 canonical 位置。
 # 兼容旧常量名（旧调用点 / 旧测试）：值就是 canonical 路径。
 WRITER_DIR = WRITER_STORE_DIR
 CONTEXT_FORMAT_VERSION = "m16-writer-context-1"
 BLOCK_BUDGET = 40
 
-CANON_DB = "novel/authoring/story_engine/canon/wasteland_001.sqlite"
-
 TRUTH_BLOCKS: tuple[tuple[str, str, int], ...] = (
     ("canon_truth", "occurred", 0),
     ("story_state", "occurred", 1),
-    ("historical_repair", "historical_repair", 2),
-    ("planning", "planned", 3),
-    ("chapter_plan", "planned", 4),
-    ("writer_guidance", "ui_derived", 5),
+    ("planning", "planned", 2),
+    ("chapter_plan", "planned", 3),
+    ("writer_guidance", "ui_derived", 4),
 )
 
 
@@ -95,13 +91,6 @@ def _digest(payload: Any) -> str:
     blob = json.dumps(payload, sort_keys=True, ensure_ascii=False,
                       default=str).encode("utf-8")
     return hashlib.sha256(blob).hexdigest()[:16]
-
-
-def _history_dir(project_root: Path | str) -> Path:
-    local = Path(project_root) / HISTORY_DIR
-    if (local / "index.json").is_file():
-        return local
-    return Path(__file__).resolve().parents[3] / HISTORY_DIR
 
 
 # ------------------------------------------------------- writer store（SSOT）
@@ -147,12 +136,13 @@ def read_writer_drafts(project_root: Path | str, novel_id: str, *,
                        writer_dir: str = WRITER_DIR) -> list[dict[str, Any]]:
     """唯一的 writer 草稿读取入口（投影 / 导出 / 列表都走这里）。
 
-    顺序：
+    顺序（V4-01 起不再有历史目录回退）：
 
     1. canonical `index.json`（写入方始终维护）；
-    2. canonical `drafts/*.json`（索引缺失时按真实文件重建，不写盘）；
-    3. legacy `workspace/wasteland_001_exports/writer_v1`（**只读兼容**，仅当
-       canonical 完全没有草稿时才使用，避免同一份草稿被计两次）。
+    2. canonical `drafts/*.json`（索引缺失时按真实文件重建，不写盘）。
+
+    历史路径 `workspace/wasteland_001_exports/writer_v1` 已在 V4-01 删除
+    （作者决策 B）；这里不再做任何跨目录回退，避免再次引入隐式归属。
     """
 
     payload = _read_json(writer_index_path(project_root, novel_id, writer_dir=writer_dir))
@@ -165,11 +155,6 @@ def read_writer_drafts(project_root: Path | str, novel_id: str, *,
 
     store = writer_store_path(project_root, novel_id, writer_dir=writer_dir)
     rows = [draft_summary(item) for item in _read_draft_files(store / "drafts")]
-    if rows:
-        return sorted(rows, key=lambda row: str(row.get("generated_at") or ""), reverse=True)
-
-    legacy = writer_store_path(project_root, novel_id, writer_dir=LEGACY_WRITER_STORE_DIR)
-    rows = [draft_summary(item) for item in _read_draft_files(legacy / "drafts")]
     return sorted(rows, key=lambda row: str(row.get("generated_at") or ""), reverse=True)
 
 
@@ -184,7 +169,7 @@ class WriterContextBuilder:
     def _canon_block(self) -> dict[str, Any]:
         from novelforge.story_engine.canon.repository import CanonRepository
 
-        db = self.root / CANON_DB
+        db = canon_db_path(self.root, self.novel_id)
         items: list[dict[str, Any]] = []
         if db.is_file():
             repository = CanonRepository(db)
@@ -195,7 +180,8 @@ class WriterContextBuilder:
                                   "status": row.status})
             finally:
                 repository.close()
-        return {"source": CANON_DB, "identity": self.novel_id, "items": items}
+        return {"source": f"canon/{self.novel_id}.sqlite",
+                "identity": self.novel_id, "items": items}
 
     def _state_block(self, context: Any, package: Mapping[str, Any],
                      card_id: str) -> dict[str, Any]:
@@ -216,25 +202,6 @@ class WriterContextBuilder:
         return {"source": "StoryState（runtime）",
                 "identity": card_id or context.runtime_id or self.novel_id,
                 "items": items}
-
-    def _repair_block(self, chapter_id: str) -> dict[str, Any]:
-        items: list[dict[str, Any]] = []
-        store = HistoricalIRStore(_history_dir(self.root))
-        if (_history_dir(self.root) / "index.json").is_file() and chapter_id:
-            artifacts = store.load_artifacts()
-            artifact = artifacts.get(chapter_id)
-            if artifact is not None:
-                items.append({
-                    "id": artifact.chapter_id, "kind": "historical_ir_chapter",
-                    "text": f"{artifact.legacy_label}｜{artifact.chapter_function}｜"
-                            f"{artifact.materialization_status}",
-                    "source_ref": f"{HISTORY_DIR}/artifacts/{artifact.chapter_id}.json"})
-        items.append({"id": "repair_replay", "kind": "artifact_ref",
-                      "text": f"{HISTORY_DIR}/REPAIR_REPLAY.json"})
-        items.append({"id": "reconciliation", "kind": "artifact_ref",
-                      "text": "M11_FINAL_CLOSURE_RECONCILIATION.json"})
-        return {"source": HISTORY_DIR,
-                "identity": chapter_id or "historical_foundation", "items": items}
 
     def _planning_block(self) -> dict[str, Any]:
         chain = load_forge_chain(self.root, self.novel_id, branch_id=DEFAULT_BRANCH)
@@ -306,7 +273,6 @@ class WriterContextBuilder:
         raw_blocks = {
             "canon_truth": self._canon_block(),
             "story_state": self._state_block(context, package, chapter_id),
-            "historical_repair": self._repair_block(chapter_id),
             "planning": self._planning_block(),
             "chapter_plan": self._chapter_plan_block(chapter_id, plan),
             "writer_guidance": self._guidance_block(package),
@@ -349,7 +315,6 @@ class WriterContextBuilder:
             "writer_package": package,
             "truth_layer_legend": {
                 "occurred": "Canon / StoryState（已发生事实，不得改写）",
-                "historical_repair": "M11/M12 frozen repair evidence（只读）",
                 "planned": "规划 / 章节计划（未提交为事实）",
                 "ui_derived": "writer-only guidance（不成为事实）"},
             "preview_only": True,
@@ -377,9 +342,8 @@ def validate_writer_context(context: Mapping[str, Any]) -> dict[str, Any]:
     checks = {
         "truth_layer_matches_declaration": all(
             row["truth_layer"] == truth_by_block.get(row["block_id"]) for row in blocks),
-        "required_blocks_present": {"canon_truth", "story_state", "historical_repair",
-                                    "planning", "chapter_plan",
-                                    "writer_guidance"} <= set(by_id),
+        "required_blocks_present": {"canon_truth", "story_state", "planning",
+                                    "chapter_plan", "writer_guidance"} <= set(by_id),
         "no_duplicate_ownership": not duplicate_ownership,
         "stable_block_order": ordered == [block_id for block_id, _, _ in TRUTH_BLOCKS],
         "planned_not_in_occurred": not any(
@@ -560,8 +524,8 @@ def writer_export_bundle(project_root: Path | str, novel_id: str, *,
 
 
 __all__ = [
-    "BLOCK_BUDGET", "CONTEXT_FORMAT_VERSION", "LEGACY_WRITER_STORE_DIR", "TRUTH_BLOCKS",
-    "WRITER_DIR", "WRITER_STORE_DIR", "WriterContextBuilder", "WriterDraftService",
+    "BLOCK_BUDGET", "CONTEXT_FORMAT_VERSION", "TRUTH_BLOCKS", "WRITER_DIR",
+    "WRITER_STORE_DIR", "WriterContextBuilder", "WriterDraftService",
     "draft_summary", "read_writer_drafts", "validate_writer_context",
     "writer_export_bundle", "writer_index_path", "writer_store_path",
 ]

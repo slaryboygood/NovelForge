@@ -26,20 +26,17 @@ import json
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from novelforge.persistence.paths import canon_db_path, planning_index_path
 from novelforge.story_engine.creator import DEFAULT_BRANCH, resolve_creator_context
-from novelforge.story_engine.historical_ir import HISTORY_DIR, HistoricalIRStore
-from novelforge.story_engine.m11_p15p import (
-    FROZEN_FOUNDATION_DIGESTS,
-    FROZEN_SOURCE_DIGESTS,
-)
 from novelforge.story_engine.outline_forge import load_forge_chain
 from novelforge.story_engine.outline_revision import docx_bytes
 from novelforge.story_engine.settings_gen import load_pack_draft, saved_pack_id
 from novelforge.story_engine.world_view import world_snapshot
 
 EXPORT_FORMAT_VERSION = "m16-export-1"
-RECON_DIR = "workspace/wasteland_001_exports/reconstruction_v2"
-PLANNING_INDEX = "novel/authoring/story_engine/planning/wasteland_001/index.json"
+
+# V4-01：导出不再引用历史资产（旧正文 / 570 章 historical / 单作品硬编码路径）。
+# 所有 artifact 路径都由 `novelforge.persistence.paths` 按 novel_id 解析。
 
 TRUTH_LAYER_LEGEND: dict[str, str] = {
     "occurred": "StoryState / Canon（已发生事实）",
@@ -80,7 +77,7 @@ def _section(section_id: str, title: str, truth_layer: str, *, source: str,
 def _canon_refs(project_root: Path | str, novel_id: str) -> list[dict[str, Any]]:
     from novelforge.story_engine.canon.repository import CanonRepository
 
-    db = Path(project_root) / "novel/authoring/story_engine/canon/wasteland_001.sqlite"
+    db = canon_db_path(project_root, novel_id)
     if not db.is_file():
         return []
     repository = CanonRepository(db)
@@ -136,13 +133,6 @@ def build_export_projection(project_root: Path | str, novel_id: str, *,
     ]
     canon_items = _canon_refs(project_root, novel_id)
 
-    spine_items: list[dict[str, Any]] = []
-    for name in ("FULL_BOOK_FUTURE_SPINE.json", "HISTORICAL_CAUSAL_SPINE.json"):
-        payload = _read_json(Path(project_root) / RECON_DIR / name)
-        if payload:
-            spine_items.append({"id": name, "digest": _digest(payload),
-                                "source_ref": f"{RECON_DIR}/{name}"})
-
     chain = load_forge_chain(project_root, novel_id, branch_id=branch_id)
     outline_items: list[dict[str, Any]] = []
     for package in [chain["book"], *chain["volumes"], *chain["arcs"], *chain["chapters"]]:
@@ -156,18 +146,12 @@ def build_export_projection(project_root: Path | str, novel_id: str, *,
                 "major_turns": list(item.major_turns), "ending_hook": item.ending_hook,
                 "must_keep": list(item.must_keep), "must_avoid": list(item.must_avoid)})
 
-    planning_index = _read_json(Path(project_root) / PLANNING_INDEX)
+    planning_index_file = planning_index_path(project_root, novel_id)
+    planning_index = _read_json(planning_index_file)
     planning_items = [{"planning_revision": planning_index.get("head_revision_id")
                        or planning_index.get("current_revision_id") or "",
                        "revision_count": planning_index.get("revision_count"),
-                       "source_ref": PLANNING_INDEX}]
-    store_dir = Path(project_root) / HISTORY_DIR
-    if not (store_dir / "index.json").is_file():
-        store_dir = Path(__file__).resolve().parents[3] / HISTORY_DIR
-    ir_index = _read_json(store_dir / "index.json")
-    ir_items = ([{"chapter_count": ir_index.get("chapter_count"),
-                  "index_digest": ir_index.get("index_digest"),
-                  "source_ref": f"{HISTORY_DIR}/index.json"}] if ir_index else [])
+                       "source_ref": f"planning/{novel_id}/index.json"}]
 
     sections = [
         _section("story_bible", "Story Bible", "planned",
@@ -184,31 +168,24 @@ def build_export_projection(project_root: Path | str, novel_id: str, *,
                  items=location_items),
         _section("timeline", "Timeline", "occurred", source="StoryState.timeline",
                  identity=context.runtime_id or novel_id, items=timeline_items),
-        _section("spine", "StorySpine", "planned", source=RECON_DIR,
-                 identity=branch_id, items=spine_items),
         _section("outline", "全书 / 卷 / 篇章 / 章节大纲", "planned",
                  source="outline_forge.load_forge_chain", identity=branch_id,
                  items=outline_items),
-        _section("planning", "StoryPlanningIR", "planned", source=PLANNING_INDEX,
+        _section("planning", "StoryPlanningIR", "planned",
+                 source=f"planning/{novel_id}/index.json",
                  identity=planning_items[0]["planning_revision"] if planning_items else "",
                  items=planning_items),
         _section("canon_refs", "Canon 事实（只读引用）", "occurred",
-                 source="canon/wasteland_001.sqlite", identity=novel_id, items=canon_items),
-        _section("historical_ir", "570 章 historical IR", "historical_repair",
-                 source=f"{HISTORY_DIR}/index.json", identity=novel_id, items=ir_items),
+                 source=f"canon/{novel_id}.sqlite", identity=novel_id,
+                 items=canon_items),
     ]
     manifest = {
         "export_id": f"export_{novel_id}_{branch_id}_{_digest([s['digest'] for s in sections])}",
         "format_version": EXPORT_FORMAT_VERSION,
         "novel_id": novel_id, "branch_id": branch_id,
         "pack_id": pack_id,
-        "source_digests": {"canon": FROZEN_SOURCE_DIGESTS["canon"],
-                           "story_state": FROZEN_SOURCE_DIGESTS["story_state"],
-                           "legacy": FROZEN_SOURCE_DIGESTS["legacy"],
-                           "chapter_ir": FROZEN_SOURCE_DIGESTS["chapter_ir"],
-                           "historical_foundation": dict(FROZEN_FOUNDATION_DIGESTS),
-                           "contract": "67559aa55442d69e",
-                           "repair_gate": "e1eab4c33ae75b01"},
+        # V4-01：source_digests 只包含**本作品**的 section 摘要（不再引用冻结历史契约 digest）。
+        "source_digests": {row["section_id"]: row["digest"] for row in sections},
         "sections": [{"section_id": row["section_id"], "truth_layer": row["truth_layer"],
                       "item_count": row["item_count"], "digest": row["digest"]}
                      for row in sections],
@@ -231,7 +208,7 @@ def validate_export_package(projection: Mapping[str, Any]) -> dict[str, Any]:
     sections = list(projection.get("sections") or [])
     section_ids = [str(row.get("section_id")) for row in sections]
     required_ids = {"story_bible", "cards.characters", "cards.factions",
-                    "cards.locations", "timeline", "spine", "outline", "planning"}
+                    "cards.locations", "timeline", "outline", "planning"}
     digest_now = _digest([row.get("digest") for row in sections])
     checks = {
         "schema_sections_present": required_ids <= set(section_ids),
@@ -241,12 +218,10 @@ def validate_export_package(projection: Mapping[str, Any]) -> dict[str, Any]:
                                   for row in sections),
         "truth_layer_declared": all(row.get("truth_layer") in TRUTH_LAYER_LEGEND
                                     for row in sections),
-        "truth_separation": (
-            all(row["truth_layer"] == "historical_repair"
-                for row in sections if row["section_id"] == "historical_ir")
-            and all(row["truth_layer"] == "planned"
-                    for row in sections if row["section_id"] in
-                    ("story_bible", "outline", "planning", "spine"))),
+        "truth_separation": all(
+            row["truth_layer"] == "planned"
+            for row in sections
+            if row["section_id"] in ("story_bible", "outline", "planning")),
         "source_digests_recorded": bool(manifest.get("source_digests")),
         "writer_ready_block": bool(projection.get("writer_ready")),
     }

@@ -9,6 +9,8 @@ from fastapi import APIRouter, FastAPI, HTTPException, Query
 from pydantic import Field
 
 from novelforge.models import StrictModel
+from novelforge.persistence.paths import canon_db_path as _canon_db_path
+from novelforge.story_engine.profile import DEFAULT_NOVEL_ID
 from novelforge.story_engine.canon.bootstrap import CanonBootstrap
 from novelforge.story_engine.canon.chapters import ChapterLineageStore
 from novelforge.story_engine.canon.gate import SchemaGateError, validate_chapter_plan
@@ -18,7 +20,9 @@ from novelforge.story_engine.canon.semantic import EventSemanticSignature, Local
 from novelforge.story_engine.canon.validator import SourceReferenceValidator
 from novelforge.story_engine.canon.models import CanonSourceRef
 
-DEFAULT_NOVEL_ID = "wasteland_001"
+# V4-01：默认作品不再是废弃的 wasteland_001。这里复用产品通用默认 id
+# （story_engine.profile.DEFAULT_NOVEL_ID = "novel_project"）；
+# 客户端（UI / MCP）必须显式传 novel_id，服务端不做磁盘推断。
 
 
 class RebuildRequest(StrictModel):
@@ -33,7 +37,9 @@ class ValidateOutlineRequest(StrictModel):
 
 
 def canon_db_path(project_root: Path, novel_id: str) -> Path:
-    return Path(project_root) / "novel" / "authoring" / "story_engine" / "canon" / f"{novel_id}.sqlite"
+    """兼容包装：唯一实现已迁到 `persistence.paths.canon_db_path`（V4-01）。"""
+
+    return _canon_db_path(project_root, novel_id)
 
 
 def install_canon_api(app: FastAPI, project_root: Path) -> None:

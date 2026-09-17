@@ -2,8 +2,15 @@
 
 repo 定义（V2 里程碑，见 docs/CHANGELOG.md）：M15 = 「Canon 检查器 + 修复中心 UI」。
 本模块提供 **只读** 查询与诊断；任何写入都必须走既有正式 API
-（`settings/check(repair=true)`、`outline/revise|restore|merge-versions`）或 M11/M12 已冻结的
-repair 边界，UI 不得直接改 Canon / StoryState。
+（`settings/check(repair=true)`、`outline/revise|restore|merge-versions`），
+UI 不得直接改 Canon / StoryState。
+
+V4-01 变更（作者决策 B / ADR-011）：
+
+* 删除 570 章 historical IR 层（`historical_repair`）与 REPAIR_REPLAY 引用；
+  Inspector 现在只检查 **本作品** 的 Canon 与 StoryState。
+* Canon DB 路径按 `novel_id` 解析（`persistence.paths.canon_db_path`），
+  不再写死 `wasteland_001`，也不再回落到别的作品。
 """
 
 from __future__ import annotations
@@ -11,9 +18,9 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Mapping
 
+from novelforge.persistence.paths import canon_db_path
 from novelforge.story_engine.canon.repository import CanonRepository
 from novelforge.story_engine.creator import CreatorContextError, resolve_creator_context
-from novelforge.story_engine.historical_ir import HISTORY_DIR, HistoricalIRStore
 from novelforge.story_engine.memory_view import memory_snapshot
 from novelforge.story_engine.creator import DEFAULT_BRANCH
 from novelforge.story_engine.outline_forge import (
@@ -26,9 +33,7 @@ from novelforge.story_engine.settings_check import run_settings_check
 from novelforge.story_engine.settings_gen import load_pack_draft, saved_pack_id
 from novelforge.story_engine.world_view import world_snapshot
 
-CANON_DB = "novel/authoring/story_engine/canon/wasteland_001.sqlite"
-
-LAYERS: tuple[str, ...] = ("occurred", "planned", "historical_repair", "ui_derived")
+LAYERS: tuple[str, ...] = ("occurred", "planned", "ui_derived")
 
 
 def _read_json(path: Path) -> Any:
@@ -45,24 +50,10 @@ def _context(project_root: Path | str, novel_id: str):
         return None
 
 
-def history_dir(project_root: Path | str) -> Path:
-    """historical IR 的只读根：优先数据根，缺失时回落到仓库内的 frozen foundation。
-
-    570 章 historical IR 是 frozen 证据（不是可写数据），隔离数据根通常只挂配置与作者数据，
-    因此这里允许回落到 repo 内的同一路径，保证 Inspector 在隔离环境下也能检查真实历史层。
-    """
-
-    local = Path(project_root) / HISTORY_DIR
-    if (local / "index.json").is_file():
-        return local
-    repo = Path(__file__).resolve().parents[3]
-    return repo / HISTORY_DIR
-
-
 def _canon_rows(project_root: Path | str, novel_id: str) -> dict[str, Any]:
     """Canon 只读读取（DB 不存在时返回空，不创建文件）。"""
 
-    db_path = Path(project_root) / CANON_DB
+    db_path = canon_db_path(project_root, novel_id)
     if not db_path.is_file():
         return {"available": False, "facts": [], "entities": [], "events": []}
     repository = CanonRepository(db_path)
@@ -106,28 +97,6 @@ def _ref(item: Any) -> str:
     return ":".join(part for part in (str(kind), str(stable), str(label)) if part)
 
 
-def _chapter_ir_rows(project_root: Path | str, novel_id: str,
-                     *, limit: int = 0) -> list[dict[str, Any]]:
-    store_dir = history_dir(project_root)
-    store = HistoricalIRStore(store_dir)
-    if not (store_dir / "index.json").is_file():
-        return []
-    artifacts = store.load_artifacts()
-    rows: list[dict[str, Any]] = []
-    for artifact in sorted(artifacts.values(), key=lambda item: item.display_number):
-        rows.append({
-            "record_kind": "chapter_ir", "ref_id": artifact.chapter_id,
-            "label": f"{artifact.legacy_label} · {artifact.chapter_function}",
-            "summary": artifact.chapter_ir.goal,
-            "truth_layer": "historical_repair",
-            "status": artifact.materialization_status,
-            "source_refs": [f"{HISTORY_DIR}/artifacts/{artifact.chapter_id}.json"],
-        })
-        if limit and len(rows) >= limit:
-            break
-    return rows
-
-
 def inspector_overview(project_root: Path | str, novel_id: str) -> dict[str, Any]:
     """M15-01：Canon Inspector 总览（各层数量 + 出处摘要，只读）。"""
 
@@ -147,19 +116,18 @@ def inspector_overview(project_root: Path | str, novel_id: str) -> dict[str, Any
                                "label": f"{row['id']}（{row['certainty']}）",
                                "truth_layer": "occurred",
                                "source_refs": [f"StoryState.knowledge:{row['source']}"]})
-    index = _read_json(history_dir(project_root) / "index.json")
     return {
         "novel_id": novel_id,
         "canon": {"available": canon["available"],
                   "fact_count": len(canon["facts"]),
                   "entity_count": len(canon["entities"]),
-                  "db_ref": CANON_DB},
+                  "db_ref": f"canon/{novel_id}.sqlite"},
         "story_state": {"available": context is not None,
                         "record_count": len(state_rows),
                         "records": state_rows[:50]},
-        "chapter_ir": {"chapter_count": index.get("chapter_count"),
-                       "index_digest": index.get("index_digest"),
-                       "index_ref": f"{HISTORY_DIR}/index.json"},
+        # V4-01：570 章 historical IR 层已删除；本字段保留为显式 null，
+        # 让消费者能区分"没有这一层"与"这一层是空的"。
+        "chapter_ir": None,
         "layers": list(LAYERS),
         "read_only": True, "non_authoritative": True,
     }
@@ -168,13 +136,12 @@ def inspector_overview(project_root: Path | str, novel_id: str) -> dict[str, Any
 def inspector_search(project_root: Path | str, novel_id: str, *, query: str = "",
                      layer: str = "", record_kind: str = "", limit: int = 50
                      ) -> dict[str, Any]:
-    """M15-01：跨层检索（Canon 事实 / 实体 / StoryState / 570 章 historical IR）。"""
+    """M15-01：跨层检索（Canon 事实 / 实体 / StoryState；V4-01 起不含 historical IR）。"""
 
     rows: list[dict[str, Any]] = []
     canon = _canon_rows(project_root, novel_id)
     rows.extend(canon["facts"])
     rows.extend(canon["entities"])
-    rows.extend(_chapter_ir_rows(project_root, novel_id))
     context = _context(project_root, novel_id)
     if context is not None:
         world = world_snapshot(context)
@@ -227,11 +194,6 @@ def inspector_record(project_root: Path | str, novel_id: str, *, ref_id: str
                 "read_only": True, "non_authoritative": True}
     provenance = [{"ref": ref, "kind": "source"} for ref in
                   (match.get("source_refs") or ["（未记录来源）"])]
-    if match.get("record_kind") == "chapter_ir":
-        provenance.append({"ref": f"{HISTORY_DIR}/REPAIR_REPLAY.json",
-                           "kind": "repair_replay"})
-        provenance.append({"ref": "M11_FINAL_CLOSURE_RECONCILIATION.json",
-                           "kind": "reconciliation"})
     return {
         "novel_id": novel_id, "ref_id": ref_id, "found": True,
         "record": match, "provenance": provenance,
@@ -292,14 +254,13 @@ def repair_diagnosis(project_root: Path | str, novel_id: str) -> dict[str, Any]:
             "novel_id": novel_id, "issue_count": len(issues), "issues": issues,
             "outline_quality_ok": bool(quality.get("ok")),
             "execution_boundary": ("Repair Center 只调用既有 API；不直接写 Canon / "
-                                   "StoryState / frozen repair artifacts"),
+                                   "StoryState"),
             "read_only": True, "non_authoritative": True,
         }
     return {
         "novel_id": novel_id, "issue_count": len(issues), "issues": issues,
         "outline_quality_ok": None,
-        "execution_boundary": ("Repair Center 只调用既有 API；不直接写 Canon / StoryState / "
-                               "frozen repair artifacts"),
+        "execution_boundary": "Repair Center 只调用既有 API；不直接写 Canon / StoryState",
         "read_only": True, "non_authoritative": True,
     }
 
@@ -327,6 +288,6 @@ def repair_history(project_root: Path | str, novel_id: str) -> dict[str, Any]:
 
 
 __all__ = [
-    "CANON_DB", "LAYERS", "inspector_overview", "inspector_record",
+    "LAYERS", "inspector_overview", "inspector_record",
     "inspector_search", "repair_diagnosis", "repair_history",
 ]

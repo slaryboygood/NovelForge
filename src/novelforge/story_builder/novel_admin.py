@@ -48,7 +48,6 @@ def novel_artifact_paths(project_root: Path | str, novel_id: str) -> list[Path]:
         root / "novel" / "config" / "story_engine" / f"{novel_id}_pack.json",
         root / "novel" / "authoring" / "story_engine" / "state" / f"runtime_{novel_id}",
         root / "novel" / "authoring" / "story_engine" / "writer" / novel_id,
-        root / "workspace" / "wasteland_001_exports" / "writer_v1" / novel_id,
     ]
     outlines = root / "novel" / "authoring" / "story_builder" / "outlines"
     if outlines.is_dir():

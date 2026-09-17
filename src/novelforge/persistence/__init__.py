@@ -17,6 +17,10 @@ from .paths import (
     OwnershipError,
     canon_db_path,
     content_pack_path,
+    memory_dir,
+    memory_episodes_path,
+    memory_manifest_path,
+    memory_preferences_path,
     novel_context,
     planning_dir,
     planning_index_path,
@@ -30,6 +34,6 @@ __all__ = [
     "ARTIFACT_KINDS", "NOVEL_ID_PATTERN", "ArtifactContext", "OwnershipError",
     "canon_db_path", "content_pack_path", "novel_context", "planning_dir",
     "planning_index_path", "profiles_path", "require_same_novel", "story_state_dir",
-    "writer_store_dir",
+    "writer_store_dir", "memory_dir", "memory_episodes_path",
+    "memory_manifest_path", "memory_preferences_path",
 ]
-

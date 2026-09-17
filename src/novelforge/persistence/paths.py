@@ -32,6 +32,7 @@ ARTIFACT_KINDS: frozenset[str] = frozenset({
     "session",
     "blueprint",
     "outline",
+    "memory",
 })
 
 _NOVEL_ID_RE = re.compile(NOVEL_ID_PATTERN)
@@ -181,10 +182,40 @@ def planning_index_path(project_root: Path | str, novel_id: str) -> Path:
     return planning_dir(project_root, novel_id) / "index.json"
 
 
+def memory_dir(project_root: Path | str, novel_id: str) -> Path:
+    """派生记忆根目录：novel/authoring/story_engine/memory/<novel_id>
+
+    V4-03：memory 模块**不得自行拼路径**，只能通过本函数获得位置；
+    目录内容全部是派生数据（可重建、可删除，不承载任何 truth）。
+    """
+
+    context = novel_context(project_root, novel_id, artifact_kind="memory")
+    return context.resolve("novel", "authoring", "story_engine", "memory",
+                           context.novel_id)
+
+
+def memory_preferences_path(project_root: Path | str, novel_id: str) -> Path:
+    """作者偏好存储：memory/<novel_id>/preferences.json"""
+
+    return memory_dir(project_root, novel_id) / "preferences.json"
+
+
+def memory_episodes_path(project_root: Path | str, novel_id: str) -> Path:
+    """Episode 存储：memory/<novel_id>/episodes.json"""
+
+    return memory_dir(project_root, novel_id) / "episodes.json"
+
+
+def memory_manifest_path(project_root: Path | str, novel_id: str) -> Path:
+    """派生记忆 manifest：memory/<novel_id>/MANIFEST.json"""
+
+    return memory_dir(project_root, novel_id) / "MANIFEST.json"
+
+
 __all__ = [
     "ARTIFACT_KINDS", "NOVEL_ID_PATTERN", "ArtifactContext", "OwnershipError",
     "canon_db_path", "content_pack_path", "novel_context", "planning_dir",
     "planning_index_path", "profiles_path", "require_same_novel", "story_state_dir",
-    "writer_store_dir",
+    "writer_store_dir", "memory_dir", "memory_episodes_path",
+    "memory_manifest_path", "memory_preferences_path",
 ]
-

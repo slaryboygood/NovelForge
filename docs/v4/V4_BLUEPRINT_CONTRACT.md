@@ -90,7 +90,26 @@ payload 全部是 **strict pydantic 模型**（`extra="forbid"`）：模型输�
 }
 ```
 
-`quality_status` 字段已存在但 **V4-04 不实现 Quality Loop**（属 V4-05）。
+### 3.1 `quality_status`（V4-05 起有明确语义）
+
+```text
+quality_status 是 **Quality Store 的投影**，不是质量详情的 owner（ADR-020）。
+执行者：application.services.ReviewService（或显式 lifecycle function）。
+取值：unevaluated（默认） / passed / passed_with_issues / failed / blocked
+```
+
+映射规则（`QualityService.project_quality_status`）：
+
+| Quality Store 里该节点的 issue | 投影值 |
+| --- | --- |
+| 存在 blocker | `blocked` |
+| 存在 major | `failed` |
+| 只有 minor / info | `passed_with_issues` |
+| 没有 issue | `passed` |
+| 未评估过 | `unevaluated`（默认，V4-04 行为不变） |
+
+**evaluator 是只读的**：Q0–Q9 都不修改 Blueprint 节点；evidence / issue 明细存放在
+`novel/authoring/story_engine/quality/<novel_id>/`（V4-05），不写进节点 payload。
 
 ---
 
@@ -209,4 +228,3 @@ OutlinePackage      Chapter Card 可编译成 OutlineItem（不新建平行大�
 ContentPack         世界/人物提案仍可过既有 schema 校验
 Canon / StoryState  只作为上下文（经 Memory），生成结果不写入
 ```
-

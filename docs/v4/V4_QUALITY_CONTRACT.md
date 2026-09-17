@@ -1,8 +1,33 @@
-# NovelForge V4 — Quality Contract（设计稿）
+# NovelForge V4 — Quality Contract
 
-> 状态：**V4-00 Architecture / Proposed**，已按 **V4-01 作者决策**对齐（2026-09-17）
-> 依据：`docs/v4/V4_ARCHITECTURE.md` §1.3、§4、§5；CHALLENGE-08
+> 状态：**V4-05 冻结（Quality Closed Loop 已实施）**，V4-00 设计稿 + V4-01 作者决策 + V4-05 实现事实
+> 依据：`docs/v4/V4_ARCHITECTURE.md` §1.3、§4、§5；CHALLENGE-08；
+>      `ADR-018`（gate-based）/ `ADR-019`（minimal-scope repair）/ `ADR-020`（evidence 独立存储）
 > 原则：**Quality 是业务能力，不是测试脚本。**
+> 实现位置：`src/novelforge/quality/**`（evaluator）、`src/novelforge/quality/repair/**`、
+>          `src/novelforge/application/services/review.py`（闭环编排）
+
+### 0.2 V4-05 实施落地（冻结）
+
+```text
+Quality 模块        src/novelforge/quality/{contracts,codes,registry,aggregation,service,store}.py
+Evaluator（Q0–Q9）  src/novelforge/quality/evaluators/*.py（10 个 gate 模块 + base）
+Repair 子模块       src/novelforge/quality/repair/{contracts,blast_radius,planner,executor,verifier}.py
+Application         application.services.ReviewService / QualityLoopService（§55–§56）
+Store               novel/authoring/story_engine/quality/<novel_id>/{reports,issues,repair_history}
+```
+
+已冻结语义（不得由 evaluator 自行解释）：
+
+```text
+severity    info / minor / major / blocker（含义见 §6）
+status      unevaluated / evaluating / passed / failed / blocked / needs_human_review
+issue code  只能来自 quality/codes.py 的 CODE_REGISTRY（LLM 不得自造 code）
+判定        decide_status = Gate + Severity + Policy（绝不使用平均分，ADR-018）
+```
+
+详见 `V4_REPAIR_CONTRACT.md`（修复契约 SSOT）与
+`V4_05_QUALITY_CLOSED_LOOP_REPORT.md`（本阶段实施结果）。
 
 ### 0.0 V4-04 衔接（generation validation vs Quality Gate）
 
@@ -126,6 +151,8 @@ class QualityResult:
 
 ## 3. 质量门 Q0–Q9
 
+> 下表是 **V4-00 的设计意图**；V4-05 的实现事实见 §3.3 冻结矩阵。
+
 | Gate | 名称 | 内容 | 实现类型 | 现有实现来源 |
 | --- | --- | --- | --- | --- |
 | **Q0** | Schema | 结构是否有效 | **deterministic** | `chapter_ir/schemas.py`、`canon/gate.py`、`planning/schemas.py`、`content.validate_pack_draft` |
@@ -158,6 +185,74 @@ class QualityResult:
 
 理由：同一模型评估自己的输出会产生系统性偏差。
 V4 的 `ModelRouter` 必须支持为 Q3–Q8 指定独立模型（见 `V4_LLM_CONTRACT.md` §4.3）。
+
+### 3.3 V4-05 冻结矩阵（deterministic / hybrid / LLM）
+
+| Gate | 实现类型（实现事实） | Evaluator | 主要 issue codes | LLM 使用条件 |
+| --- | --- | --- | --- | --- |
+| **Q0** Schema | **deterministic** | `quality.schema.v1` | `SCHEMA_INVALID` / `REFERENCE_BROKEN` / `PARENT_TYPE_INVALID` / `SEQUENCE_INVALID` | 不用（ADAPT `blueprint.validate_node` + `validate_graph` 的 sequence 部分） |
+| **Q1** Integrity | **deterministic** | `quality.integrity.v1` | `OWNERSHIP_MISMATCH` / `DUPLICATE_NODE_ID` / `REVISION_CHAIN_BROKEN` / `PROVENANCE_INVALID` / `MISSING_REQUIRED_NODE` / `INDEX_INCONSISTENT` / `IDEMPOTENCY_INCONSISTENT` | 不用（结构化身份 + 守恒） |
+| **Q2** Canon | **hybrid** | `quality.canon.v1`（deterministic）+ `quality.canon.critic.v1`（llm_assisted） | `CANON_CONTRADICTION` / `CANON_CHARACTER_IDENTITY_CONFLICT` | critic 只在 `QualityPolicy.enable_llm_evaluators=True` 时运行；capability = `critic`；critic 只能提 candidate（code 必须在 registry 内） |
+| **Q3** Continuity | **hybrid**（当前 deterministic 层已覆盖时间/地点/信息/关系；语义层留给 critic 扩展） | `quality.continuity.v1` | `CONTINUITY_TIME_CONFLICT` / `CONTINUITY_LOCATION_CONFLICT` / `CONTINUITY_KNOWLEDGE_LEAK` / `CONTINUITY_RELATIONSHIP_CONFLICT` | 结构化可判 → deterministic；跨章语义矛盾留给后续 critic 扩展 |
+| **Q4** Character | **hybrid**（动机 / 人物弧 / 转折均为结构化字段判定） | `quality.character.v1` | `CHARACTER_MOTIVATION_GAP` / `CHARACTER_ARC_STALL` / `CHARACTER_ARC_UNSUPPORTED_TURN` | 不用模糊 prompt；必须给结构字段 evidence |
+| **Q5** Causality | **hybrid**（因果图 deterministic） | `quality.causality.v1` | `CAUSAL_GAP` / `ORPHAN_EVENT` / `CIRCULAR_DEPENDENCY` / `UNSUPPORTED_PAYOFF` / `UNMOTIVATED_DECISION` / `DEAD_BRANCH` | 图的入/出边与 escalation/conflict 可机械判定 |
+| **Q6** Semantic | **hybrid**（normalized 精确 + token/char-ngram 相似度）；**不使用 embedding** | `quality.semantic.v1` | `SCENE_SEMANTIC_REPETITION` / `CHAPTER_GOAL_REPETITION` / `TITLE_SEMANTIC_REPETITION` / `CONFLICT_PATTERN_REPETITION` / `HOLLOW_NODE` | 第三层语义比较（critic）属于可选扩展；`LocalHashEmbedding` 不得用于真实质量判定 |
+| **Q7** Narrative | **deterministic evidence**（LLM-assisted 为可选扩展） | `quality.narrative.v1` | `SCENE_NO_NARRATIVE_FUNCTION` / `PACING_STAGNATION` / `CLIMAX_UNPREPARED` / `RESOLUTION_INCOMPLETE` / `SETUP_PAYOFF_DISTRIBUTION_SKEW` | 直接消费 `SceneCard.story_function` 与 `StoryArc` 结构字段 |
+| **Q8** Style | **hybrid**（当前 deterministic） | `quality.style.v1` | `BLUEPRINT_VAGUE_CONTENT` / `BLUEPRINT_FIELD_LABEL_TEXT` / `BLUEPRINT_PLACEHOLDER_TEXT` / `BLUEPRINT_TITLE_TOO_SIMILAR` | 只评 Blueprint clarity / specificity / consistency，**不评小说文笔** |
+| **Q9** Delivery | **mostly deterministic** | `quality.delivery.v1` | `DELIVERY_MISSING_REQUIRED_NODE` / `DELIVERY_UNPAID_SETUP` / `DELIVERY_MISSING_CHAPTER_OR_SCENE` / `DELIVERY_ORPHAN_NODE` / `DELIVERY_PLACEHOLDER` / `DELIVERY_CROSS_NOVEL_CONTAMINATION` / `DELIVERY_UNRESOLVED_BLOCKER` | 只做 delivery readiness，不实现导出（V4-07） |
+
+执行顺序（§42）：**deterministic first**。`QualityPolicy.stop_on_blocker=True` 时，
+Q0/Q1 出现 blocker 会跳过下游 gate（标记 `skipped` 并给出原因），不浪费 critic 预算。
+
+### 3.4 Issue Code Registry（§28）
+
+```text
+src/novelforge/quality/codes.py  →  CODE_REGISTRY（code → gate / severity / repairable /
+                                   preserve / allow_change / description）
+LLM 只能选择 registry 中已有的 code；构造未注册 code 的 issue 会被拒绝
+（QualityPolicyError），这是 §54「模型不能自由生成 issue code」的机械保证。
+```
+
+### 3.5 Evidence 模型（§27）
+
+```text
+QualityEvidence = evidence_id / kind / source_ids / node_ids / revision /
+                  excerpt / comparison / metric / explanation
+```
+
+`kind ∈ {node_field, comparison, metric, graph, retrieval}`；
+`comparison` / `metric` 保存结构化对照（相似度、run length、字符数等）——
+这些是 **diagnostic**，不参与 PASS / FAIL（ADR-018）。
+`revision` 记录 evidence 来自哪个 revision；**issue identity 与 revision 无关**
+（同一问题跨 revision 保持同一 `issue_id`，否则 verifier 会把"没修好"误判成
+"已解决 + 新问题"）。
+
+### 3.6 Quality Store 与节点投影
+
+```text
+novel/authoring/story_engine/quality/<novel_id>/
+├── reports/<report_id>.json
+├── issues/<issue_id>.json
+├── repair_history/<plan_id>.json
+└── MANIFEST.json
+```
+
+节点上的 `quality_status` 只是该 store 的**投影**（`QualityService.project_quality_status`），
+evaluator 不写回节点（ADR-020）。投影值：`passed` / `passed_with_issues` / `failed` / `blocked`。
+
+### 3.7 Quality Policy（§40）
+
+```text
+required_gates          哪些 gate 必须评估过才允许判 passed（默认 Q0/Q1/Q2/Q3/Q5/Q6/Q7/Q8）
+blocking_severities     哪些 severity 阻止通过（默认 blocker + major）
+max_repair_rounds       闭环最大轮次（默认 3）
+enable_llm_evaluators   是否允许 hybrid/LLM evaluator 参与（默认 False）
+cost_limit / token_limit 预算（触顶 → 停止自动 repair）
+stop_on_blocker         上游 blocker 是否跳过下游 gate（默认 True）
+gate_thresholds/max_issues_per_gate  可配置阈值与 issue 上限
+```
+
+生产策略只来自 policy，不写死在 evaluator 里。
 
 ---
 
@@ -290,12 +385,24 @@ Export → 交付前必须拿到 status != failed 的 QualityResult（Q9）
 ## 9. 验收判据（V4-05）
 
 ```text
-[ ] 存在统一 QualityIssue / QualityEvidence / Scope / RepairContract / QualityResult
-[ ] 既有 deterministic validator 全部注册进对应 Gate（无重复实现）
-[ ] Q0–Q9 每个 Gate 显式声明实现类型与 evidence 形态
-[ ] 修复只动 allow_change_fields（有测试：canon / source_ids 未被修改）
-[ ] 修复次数受限，超限进入 needs_author（有测试）
-[ ] 每次 evaluate / repair 记录 usage 与 lineage
-[ ] 未通过 Q9 的产物无法导出（有测试）
-[ ] M11 frozen repair contract / gate 未被引用或修改（有守卫测试）
+[x] 存在统一 QualityIssue / QualityEvidence / Scope / RepairContract / QualityReport
+[x] 既有 deterministic validator 被 ADAPT 进对应 Gate（Q0 = blueprint.validate_node +
+    validate_graph 的 sequence 部分；Memory 检索经 ContextBuilder / MemoryService）
+[x] Q0–Q9 每个 Gate 显式声明实现类型与 evidence 形态（§3.3 冻结矩阵）
+[x] 修复只动 allow_change 字段（preserve 违反 → REPAIR_PRESERVE_VIOLATION 上报）
+[x] 修复次数 / token / cost 受限，超限进入 needs_human_review（有测试）
+[x] 每次 evaluate / repair / verify 记录 usage 与 lineage（quality store repair_history）
+[x] Q9 给出 delivery readiness 结论（真正的导出与门禁在 V4-07）
+[x] M11 frozen repair contract / gate 未被引用或修改（守卫测试 + 边界测试）
+[x] quality 模块边界由永久守卫测试机械验证（tests/v4/isolation/test_quality_boundaries.py）
+```
+
+## 10. 开放项（不属于 V4-05）
+
+```text
+· Q3/Q6/Q7/Q8 的 critic 扩展（LLM-assisted 层）：契约已留出（enable_llm_evaluators），
+  当前只有 Q2 具备 critic evaluator；扩展属后续阶段。
+· 质量结果的 UI 呈现 / Diff / accept-reject：V4-06 + V4-10。
+· 质量结论进入导出交付物：V4-07。
+· 让 quality 参与 REST / MCP：V4-08（只经 application.services.ReviewService）。
 ```

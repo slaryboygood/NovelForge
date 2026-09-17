@@ -23,6 +23,9 @@
 | [ADR-015](ADR-015-context-builder-owns-model-context-selection.md) | Context Builder Owns Model Context Selection | **Accepted**（V4-03 实施完成） | V4-03 起 |
 | [ADR-016](ADR-016-story-blueprint-is-a-revisioned-node-graph.md) | Story Blueprint Is A Revisioned Node Graph | **Accepted**（V4-04 实施完成） | V4-04 起 |
 | [ADR-017](ADR-017-generated-content-is-proposal-until-promoted.md) | Generated Content Is Proposal Until Promoted | **Accepted**（V4-04 实施完成） | V4-04 起 |
+| [ADR-018](ADR-018-quality-is-gate-based-not-score-based.md) | Quality Is Gate-Based, Not Score-Based | **Accepted**（V4-05 实施完成） | V4-05 起 |
+| [ADR-019](ADR-019-repair-is-minimal-scope-and-revisioned.md) | Repair Is Minimal-Scope And Revisioned | **Accepted**（V4-05 实施完成） | V4-05 起 |
+| [ADR-020](ADR-020-quality-evidence-is-separate-from-story-truth.md) | Quality Evidence Is Separate From Story Truth | **Accepted**（V4-05 实施完成） | V4-05 起 |
 
 ## 已被作者裁定的决策（原待决项）
 

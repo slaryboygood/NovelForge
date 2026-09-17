@@ -26,6 +26,11 @@ from .paths import (
     blueprint_manifest_path,
     blueprint_node_dir,
     blueprint_node_path,
+    quality_dir,
+    quality_issues_dir,
+    quality_manifest_path,
+    quality_repair_history_dir,
+    quality_reports_dir,
     novel_context,
     planning_dir,
     planning_index_path,
@@ -43,4 +48,6 @@ __all__ = [
     "memory_manifest_path", "memory_preferences_path",
     "blueprint_dir", "blueprint_index_path", "blueprint_manifest_path",
     "blueprint_node_dir", "blueprint_node_path",
+    "quality_dir", "quality_issues_dir", "quality_manifest_path",
+    "quality_repair_history_dir", "quality_reports_dir",
 ]

@@ -34,6 +34,7 @@ ARTIFACT_KINDS: frozenset[str] = frozenset({
     "outline",
     "memory",
     "blueprint",
+    "quality",
 })
 
 _NOVEL_ID_RE = re.compile(NOVEL_ID_PATTERN)
@@ -258,6 +259,34 @@ def blueprint_manifest_path(project_root: Path | str, novel_id: str) -> Path:
     return blueprint_dir(project_root, novel_id) / "MANIFEST.json"
 
 
+def quality_dir(project_root: Path | str, novel_id: str) -> Path:
+    """Quality Store 根目录：novel/authoring/story_engine/quality/<novel_id>
+
+    V4-05：质量结果（reports / issues / evidence / repair_history）独立存储，
+    是 **quality truth**（不是 story truth），且不得塞进 Blueprint 节点。
+    """
+
+    context = novel_context(project_root, novel_id, artifact_kind="quality")
+    return context.resolve("novel", "authoring", "story_engine", "quality",
+                           context.novel_id)
+
+
+def quality_reports_dir(project_root: Path | str, novel_id: str) -> Path:
+    return quality_dir(project_root, novel_id) / "reports"
+
+
+def quality_issues_dir(project_root: Path | str, novel_id: str) -> Path:
+    return quality_dir(project_root, novel_id) / "issues"
+
+
+def quality_repair_history_dir(project_root: Path | str, novel_id: str) -> Path:
+    return quality_dir(project_root, novel_id) / "repair_history"
+
+
+def quality_manifest_path(project_root: Path | str, novel_id: str) -> Path:
+    return quality_dir(project_root, novel_id) / "MANIFEST.json"
+
+
 __all__ = [
     "ARTIFACT_KINDS", "NOVEL_ID_PATTERN", "ArtifactContext", "OwnershipError",
     "canon_db_path", "content_pack_path", "novel_context", "planning_dir",
@@ -266,4 +295,6 @@ __all__ = [
     "memory_manifest_path", "memory_preferences_path",
     "blueprint_dir", "blueprint_index_path", "blueprint_manifest_path",
     "blueprint_node_dir", "blueprint_node_path",
+    "quality_dir", "quality_issues_dir", "quality_manifest_path",
+    "quality_repair_history_dir", "quality_reports_dir",
 ]

@@ -19,6 +19,8 @@
 | [ADR-011](ADR-011-story-blueprint-primary-artifact.md) | Story Blueprint Is The Primary Creative Artifact | **Accepted**（V4-01 作者决策） | V4-01 起 |
 | [ADR-012](ADR-012-unified-llm-gateway.md) | Unified LLM Gateway | **Accepted**（V4-02 实施完成） | V4-02 起 |
 | [ADR-013](ADR-013-provider-config-and-secret-boundary.md) | Provider Configuration And Secret Boundary | **Accepted**（V4-02 实施完成） | V4-02 起 |
+| [ADR-014](ADR-014-memory-is-derived-canon-remains-authoritative.md) | Memory Is Derived, Canon Remains Authoritative | **Accepted**（V4-03 实施完成） | V4-03 起 |
+| [ADR-015](ADR-015-context-builder-owns-model-context-selection.md) | Context Builder Owns Model Context Selection | **Accepted**（V4-03 实施完成） | V4-03 起 |
 
 ## 已被作者裁定的决策（原待决项）
 

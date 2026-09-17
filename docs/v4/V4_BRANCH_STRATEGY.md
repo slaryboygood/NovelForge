@@ -74,6 +74,12 @@ Tests    : tests/test_ai_gateway.py, tests/test_ai_provider_offline.py
 | --- | --- | --- | --- | --- | --- | --- |
 | `v4-01-boundary-foundation` | `boundary` | `src/novelforge/{persistence,application,core,legacy}/**` | `api/story_builder_routes.py`、`story_builder/{export_package,writer_integration,inspector,ui_flow,v3_projection,novel_admin}.py`、`tests/**`、`docs/**` | frozen 历史模块内部实现、`novel/authoring/**`、release tag | `ArtifactContext` / `RevisionRef` / `LegacyManifest`（新增） | `tests/v4/**` |
 | `v4-02-llm-gateway` | `ai` | `src/novelforge/ai/**` | `core`（revision/ids 复用）、`observability/model_trace.py`、`application/services/utility.py`、`story_engine/spec/llm.py`（仅 compatibility 适配）、`tests/ai/**`、`tests/v4/isolation/test_module_boundaries.py`、`docs/v4/**` | `story_engine` 其余部分、`persistence`、`api`、UI、frozen 模块内部实现 | `LLMContract` / `ModelPolicy` / `LLMProvider` / `LLMResult`（新增） | `tests/ai/**`、`tests/v4/isolation/test_module_boundaries.py` |
+| `v4-03-memory-integration` | `memory` | `src/novelforge/memory/**` | `persistence/paths.py`（新增 memory 路径，唯一路径来源）、`tests/memory/**`、`tests/v4/isolation/**`、`docs/v4/**` | `story_engine` 内部实现、`ai`、`api`、UI、`novel/final` 与 570 章 historical（已删除） | `MemoryQuery` / `MemoryResult` / `MemoryItem` / `ContextRequest` / `ContextBundle`（新增） | `tests/memory/**`、`tests/v4/isolation/test_memory_ownership.py` |
+
+> V4-03 执行方式：本阶段的任务分支 `v4-03a…v4-03e` 以**线性提交序列**实现在
+> integration 分支 `v4-03-memory-integration` 上（单 agent 顺序执行；分叉+合并只会
+> 产生无意义的合并提交）。提交边界即模块边界：contracts → stores/views →
+> preferences/context/service → tests → guards → report。
 
 > V4-02 的辅助修改理由：
 >

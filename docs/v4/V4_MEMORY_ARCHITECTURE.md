@@ -1,7 +1,34 @@
 # NovelForge V4 — Memory Architecture（设计稿）
 
-> 状态：**V4-00 Architecture / Proposed**，已按 **V4-01 作者决策**对齐（2026-09-17）
+> 状态：**V4-00 设计 / V4-03 已实施**（实现差异见 §0.2）
 > 依据：`docs/v4/V4_ARCHITECTURE.md` §4（`memory/*` 只允许依赖 persistence 只读 + ai.gateway）、§6
+
+### 0.2 V4-03 实施状态
+
+```text
+已实施（src/novelforge/memory/）：
+  contracts        MemorySource / MemoryScope / MemoryItem / MemoryQuery /
+                   MemoryResult / RetrievalPolicy（含 source_type 与 revision_key）
+  service          MemoryService（search / rebuild / stale_report / refresh_staleness /
+                   add_items / add_episodes / add_semantic / search_semantic / stats）
+  sources          CanonMemorySource（Canon 只读投影）
+                   StoryStateMemorySource（StoryState 只读投影 + episode 推导）
+  episodic         EpisodeEntry / EpisodicStore / derive_episodes
+                   （StoryState effect_log → episode；不读正文，也不读已删除历史）
+  semantic         SemanticIndex / SemanticEntry（结构化 + 关键词 + 可选 embedding）
+  embedding        EmbeddingProvider / NullEmbeddingProvider / LocalHashEmbedding / cosine
+  preferences      AuthorPreference / AuthorPreferenceService
+                   （global / project / novel / operation，确定性 merge）
+  context          ContextBuilder / ContextRequest / ContextBundle / ContextBlock /
+                   token budget / 压缩（确定性截断 + 可选 Gateway 摘要）
+  index            MemoryIndex（按 novel_id 分区 + stale 语义 + rebuild 幂等）
+
+尚未实施（后续阶段）：
+  向量数据库 / 服务端 embedding（用 NullEmbeddingProvider + 本地确定性伪向量占位）
+  自动学习作者偏好（V4-03 只支持显式偏好；inferred 字段已就位）
+  落盘记忆索引（当前进程内；目录已由 persistence.paths.memory_dir 预留）
+  Context Builder 与真实生成任务的接线（属于 V4-04）
+```
 
 ### 0.1 V4-01 对齐
 

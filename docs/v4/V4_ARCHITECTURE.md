@@ -457,7 +457,7 @@ Legacy       → 不允许被新的写路径依赖
 | --- | --- | --- | --- |
 | **Service 边界** | 唯一业务入口是 `application.services`；路由 / MCP / UI 一律薄 | `api/story_builder_routes.py` 1,545 行含内联编排 | V4-01 拆薄 |
 | **LLM 边界** | `ai.gateway.llm.generate(contract, context, model_policy)`；业务层禁止直接调 SDK | ✅ V4-02 已收编：`novelforge.ai` 是唯一入口；3 个 legacy 调用点（spec / plot / route）改为经 `ai.legacy_support` 调用，全仓再无自带 HTTP 的模型调用 | V4-02 完成 |
-| **Memory 边界** | Canon / StoryState 是 truth；`memory/*` 是派生、可重建、非权威 | `WriterContextBuilder` 已具备分层/去重/预算 | V4-03 提升 |
+| **Memory 边界** | Canon / StoryState 是 truth；`memory/*` 是派生、可重建、非权威 | ✅ V4-03 已落地：`novelforge.memory`（检索契约 + 四类视图 + 偏好 + ContextBuilder），条目带 source_ids / revision / stale 语义；`story_engine/memory.py` 保持原义不改名 | V4-03 完成 |
 | **Quality 边界** | 每次生成经过 QualityService；issue 是业务对象 | 9 处 deterministic validator 分散 | V4-05 统一契约 |
 | **Export 边界** | 唯一 `ExportService`；不允许 UI / API 各自拼产物 | `export_package` + `outlines` 导出 + `docx_bytes` 三处 | V4-07 收敛 |
 | **MCP 边界** | MCP 只是协议；tool 调 service；统一 Result Envelope | 不存在 | V4-08 新建 |

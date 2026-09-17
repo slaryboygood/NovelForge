@@ -43,7 +43,7 @@ Module Tests
 | Legacy Compatibility | `legacy` | `story_engine/m11_*.py` 等 | `src/novelforge/legacy/` | NEW（adapter + manifest） | V4-01 |
 | Story Engine / Domain | `domain` | `src/novelforge/story_engine/` | 保持原位（不整体移动） | EXISTS | — |
 | LLM Gateway | `ai` | `src/novelforge/ai/` | 不变（V4-02 已落地） | **EXISTS** | V4-02 ✅ |
-| Story Memory | `memory` | 无（`story_engine/memory.py` 是知识事实，需改名） | `src/novelforge/memory/` | DEFERRED | V4-03 |
+| Story Memory | `memory` | `src/novelforge/memory/` | 不变（V4-03 已落地） | **EXISTS** | V4-03 ✅ |
 | Blueprint Generation | `blueprint-generation` | `story_engine/{creative,settings_gen,outline_forge,journey}.py` | `src/novelforge/generation/` | DEFERRED | V4-04 |
 | Story Quality | `quality` | 9 处 validator / finding | `src/novelforge/quality/` | DEFERRED | V4-05 |
 | Story Repair | `repair` | `story_engine/repair.py`（冻结历史用途） | `src/novelforge/quality/repair/` | DEFERRED | V4-05 |
@@ -230,6 +230,35 @@ Exceptions（显式登记，只减不增）
     story_engine/planning/route_candidates.py
   （登记在 tests/v4/isolation/test_module_boundaries.py 的 DOMAIN_AI_IMPORT_ALLOWLIST；
    移除条件写在 src/novelforge/legacy/manifest.py）
+```
+
+### 3.8 `memory` — Story Memory & Context Builder（V4-03 落地）
+
+```text
+Public Contract（保持精简，§10）
+  MemoryService / build_default_service
+  MemoryItem / MemoryQuery / MemoryResult / MemoryScope / MemorySource / RetrievalPolicy
+  ContextBuilder / ContextRequest / ContextBundle / ContextBlock
+  AuthorPreference / AuthorPreferenceService / PREFERENCE_SCOPE_ORDER
+  DeterministicTokenEstimator / TokenEstimator / BLOCK_PRIORITY_ORDER
+  DeterministicTruncatingCompressor / GatewayCompressor / NullCompressor
+  MEMORY_SCHEMA_VERSION / MemoryError 家族
+Internal
+  memory/index.py（MemoryIndex）、memory/scoring.py（确定性打分）
+  memory/sources/*（Canon / StoryState 只读投影）、memory/episodic/*、memory/semantic/*
+  memory/embedding.py（embedding 实现）、memory/retrieval.py（装配辅助）
+Allowed
+  core、domain（story_engine 只读 Public API）、persistence.paths（唯一路径来源）、
+  novelforge.ai（Public Contract：摘要 / extraction / 可选 embedding）
+Forbidden
+  novelforge.api / novelforge.application、fastapi / mcp、novelforge.ai.providers、
+  任何 HTTP client、自行拼 artifact 路径
+State Ownership
+  只拥有**派生**记忆（可重建、可失效）；不拥有 Canon / StoryState / Blueprint truth
+Module Tests
+  tests/memory/**（61 个）、tests/v4/isolation/test_memory_ownership.py（跨作品隔离）
+Exceptions
+  memory 是唯一允许"读取 domain 并投影成派生视图"的能力层；domain / ai 不得反向依赖 memory
 ```
 
 ---

@@ -26,8 +26,8 @@
 | R-03 | LLM coupling | M | **H** | `ai` / `generation` |
 | R-04 | Provider coupling | M | M | `ai.providers` |
 | R-05 | Prompt sprawl | **H** | M | `ai.contracts` / `generation` |
-| R-06 | Context explosion | M | M | `memory.context_builder` |
-| R-07 | Memory corruption | M | **H** | `memory` |
+| R-06 | Context explosion | M | M（**已缓解**：固定优先级 + 保护块 + 预算报告） | `memory.context_builder` |
+| R-07 | Memory corruption | M | **H**（**已缓解**：派生 + 可重建 + stale + 跨作品隔离） | `memory` |
 | R-08 | Canon drift | M | **H** | `domain.canon` / `quality` |
 | R-09 | Revision race | M | **H** | `persistence` / `application` |
 | R-10 | Agent duplicate writes | **H** | **H** | `interfaces.mcp` / `application` |

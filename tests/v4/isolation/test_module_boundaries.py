@@ -41,6 +41,13 @@ AI_FORBIDDEN_PREFIXES = (
 HTTP_CLIENT_PREFIXES = ("httpx", "requests", "urllib", "aiohttp", "openai",
                         "anthropic")
 
+#: V4-03：memory 禁止依赖 interface / application / provider 实现
+MEMORY_FORBIDDEN_PREFIXES = (
+    "novelforge.api", "novelforge.application", "novelforge.ai.providers",
+    "fastapi", "starlette", "mcp", "httpx", "requests", "urllib", "openai",
+    "anthropic",
+)
+
 #: V4-02 允许的 legacy 适配器：**只能在函数内**惰性 import novelforge.ai
 DOMAIN_AI_IMPORT_ALLOWLIST = {
     "src/novelforge/story_engine/spec/llm.py",
@@ -174,3 +181,25 @@ def test_legacy_llm_adapter_uses_nested_imports_only() -> None:
     nested = [name for name, _ in iter_imports(path)
               if name.startswith("novelforge.ai")]
     assert nested, "legacy 适配器必须通过 ai（Gateway）调用模型"
+
+
+# ---------------------------------------------------------------- V4-03（memory）
+def test_memory_does_not_depend_on_interface_or_application() -> None:
+    offenders: list[str] = []
+    for path in python_files("memory"):
+        for name, line in imports_matching(path, MEMORY_FORBIDDEN_PREFIXES):
+            offenders.append(f"{_relative(path)}:{line} → {name}")
+    assert offenders == [], (
+        "memory 不得依赖 interface / application / provider 实现：\n"
+        + "\n".join(offenders))
+
+
+def test_domain_and_ai_do_not_import_memory() -> None:
+    offenders: list[str] = []
+    for package in ("story_engine", "story_builder", "ai", "core", "persistence"):
+        for path in python_files(package):
+            for name, line in iter_imports(path):
+                if name.startswith("novelforge.memory"):
+                    offenders.append(f"{_relative(path)}:{line} → {name}")
+    assert offenders == [], (
+        "依赖方向必须是 memory → domain / ai（不得反向）：\n" + "\n".join(offenders))

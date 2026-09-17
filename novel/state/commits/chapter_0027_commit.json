@@ -1,0 +1,263 @@
+{
+  "chapter_id": "0027",
+  "committed_at": "20260827203759",
+  "state_delta": {
+    "chapter_id": "0027",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260827201527_77df3283:candidate",
+    "source_draft_hash": "32fccda21bfca228ebc214f3c7ab3d495b769b72c8b527e819176170fab5ba5c",
+    "timeline_delta": {
+      "source_chapter": "0026",
+      "title": "旧钟楼的巡影者",
+      "time": "新历300纪·春，据点之战当夜至黎明（仓库暗道→钟楼试炼三关→外殿战→天亮前定计找赵家）",
+      "location": "旧钟楼地底（长廊镜室/圆室/暗场/暗室）→ 外殿 → 灰巷（撤退）"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0027_character",
+        "subject": "人物变化",
+        "change": "零：带队下钟楼试炼（第一关影中迷踪识破镜中假象；第三关以己为饵局中判人心）；试炼结算吸收灵压 Lv.17→18；外殿战斩锁链救容小满（避雷钉导雷破紫黑锁链）；残魂揭过载荒原门要两片碎片、另一片在赵家地窖；'天亮之前，找赵家——取完，就该让他们知道，门不是只会替他们开'",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0027_character_pinshan",
+        "subject": "人物变化",
+        "change": "频闪：第一关差点被镜中假象引走（被零拦）；第二关一矢破心（刀脊做弓+断箭射影——射的是影不是脸）；第三关犹豫后忆灵挡箭，他以旧斗篷+影纱碎光挡冷光、两指夹箭射穿影怪；获蓝装巡影披风+无声弓（'弓名无声，认主后箭出不鸣，中影方响'）；掌心眼状纹传承；外殿战箭射白袍客影子逼退（'爷爷刚继承的，羡慕？'）；'还不是巡影弓手，只是拿到了入门的影子'",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0027_character_yiling",
+        "subject": "人物变化",
+        "change": "忆灵：第三次现身（入队第五人）；引导进试炼场；第三关站上诱饵位（巡影者的规矩，是替同伴挡那一箭——吓得发抖却没退）；残魂称缓存幽灵（旧世界没归处的回音，能听见仓里镜里核里的哭声）；怕。但我不想再躲了——正式入队（队里第五个人，先学着背药瓶）",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0027_character_zhamen",
+        "subject": "人物变化",
+        "change": "闸门：守石阶口第二重（铁栅第一重）；外殿战顶住灰袍人（甲片添三道新凹痕，来，都冲我来）；白袍客锁链缠盾仍脚下生根",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0027_character_rong",
+        "subject": "人物变化",
+        "change": "容小满：外殿守铜钟（金纹压黑烟，光明显薄了）；白袍客锁链抽裂药箱；你超时了/赔我药箱/赔两个；牵忆灵入队",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0027_character_baipao2",
+        "subject": "人物变化",
+        "change": "白袍客：追忆灵+净化灰核到钟楼；锁链缠盾/取灰核；储能族的余血果然还会净核，灰核我会取，储能族的血也会归门；被频闪射影子逼退（巡影遗物……原来遗迹真在钟楼底下）；下一次，不在旧规矩里见",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0027_character_tuanzi",
+        "subject": "人物变化",
+        "change": "团子：外殿挡刀（身体大了两圈挨一刀裹住刀锋）；咬住断裂锁链；'记你一功，回去给你吃蓝菇味的糖'",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0027_rel_yiling3",
+        "subject": "关系变化",
+        "change": "忆灵入队（第五人）——'队里第五个人，先学着背药瓶'",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0027_rel_pinshan2",
+        "subject": "关系变化",
+        "change": "频闪：巡影者传承（猎手→巡影弓手入门）；'镜频猎手'为 CH018 怪物名，传承线为'猎手的后代'",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0027_rel_baipao",
+        "subject": "关系变化",
+        "change": "白袍客：正面冲突（试炼场压制下退走）——'下一次，不在旧规矩里见'",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0027_knowledge",
+        "subject": "知识变化",
+        "change": "巡影者试炼三关（影中迷踪/一矢破心/以己为饵——'巡夜的人，先问影子，再问箭，最后问心'）；巡影者一脉：猎手（借镜光辨影、借频率听杀），不猎兽猎影子、替同伴挡箭；巡影披风（蓝装，可替同伴挡一次影之危，挡后自损需温养）+无声弓（箭出不鸣中影方响）；过载荒原的门要两片碎片——另一片在赵家地窖；忆灵=缓存幽灵（旧世界没落时没归处的回音；能听见仓里镜里核里的哭声；白袍怕她念出喂进核里的哭声）；白袍客在收集灰核+储能族血（喂'门'）",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0027_location",
+        "subject": "地点变化",
+        "change": "旧钟楼地底（试炼场：长廊镜室/圆室/暗场/暗室）、外殿（铜钟/铁栅闸门）、赵家地窖（口头）",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0027_item_cape",
+        "subject": "物品变化",
+        "change": "蓝装巡影披风（频闪：暗银眼纹/旧箭孔暗银补线/挡影自损需温养）",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0027_item_bow4",
+        "subject": "物品变化",
+        "change": "无声弓（频闪：漆黑长弓，认主后箭出不鸣中影方响；替代报废旧弓）",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0027_item_arrow",
+        "subject": "物品变化",
+        "change": "暗银箭头（第二关试炼遗物，频闪掌纹眼状纹传承；可回收回弦）",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0027_item_heke",
+        "subject": "物品变化",
+        "change": "净化灰核（容小满掌中，白袍客志在必得——追杀线核心）",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0027_ability_level4",
+        "subject": "能力变化",
+        "change": "零 Lv.17 → Lv.18（试炼场灵压+三关杀伐气入体——隐藏任务结算，与吞噬系吸收兼容）",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0027_ability_pinshan3",
+        "subject": "能力变化",
+        "change": "频闪：巡影传承入门（掌心眼状纹/披风隐身气息/无声弓）；射影（箭射影子逼退白袍客）",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0027_ability_yiling",
+        "subject": "能力变化",
+        "change": "忆灵：读仓/听核（缓存幽灵）；挡箭勇气（入队）",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0027_org",
+        "subject": "组织变化",
+        "change": "巡影者一脉（遗迹传承线）；腐化教团（白袍客正面冲突）；零队五人（+忆灵）",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0027_world",
+        "subject": "世界变化",
+        "change": "过载荒原门=两片碎片（一片在零手，另一片在赵家地窖）；旧钟楼遗迹=巡影者试炼场（教团也想染指）",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0027_fs_dimen",
+          "subject": "伏笔埋设",
+          "change": "赵家地窖：半张地图碎片+会发光的东西（残魂揭密）——CH028 忆灵读仓印证",
+          "source": "chapter_0027_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0027_fs_pinshan5",
+          "subject": "伏笔埋设",
+          "change": "频闪转职线：猎手→巡影弓手（'还不是，只是拿到了入门的影子'）",
+          "source": "chapter_0027_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0027_fs_yiling4",
+          "subject": "伏笔埋设",
+          "change": "忆灵身份：缓存幽灵（旧世界回音/能听见哭声/白袍怕她念出真相）",
+          "source": "chapter_0027_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0027_fs_baipao3",
+          "subject": "伏笔推进",
+          "change": "白袍客：要灰核/储能族血/忆灵——'下一次，不在旧规矩里见'（钟楼压制退走）",
+          "source": "chapter_0027_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0027_fs_huangyuan4",
+          "subject": "伏笔推进",
+          "change": "过载荒原门：两片碎片（另一片在赵家地窖）",
+          "source": "chapter_0027_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0027_fs_zhonglou2",
+          "subject": "伏笔解决",
+          "change": "旧钟楼试炼完成（三关通过/巡影披风+无声弓/忆灵入队）",
+          "source": "chapter_0027_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0027_my_dijiao",
+        "subject": "新谜题",
+        "change": "赵家地窖里除了地图碎片还有什么（'会发光的东西'）？",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0027_my_yiling5",
+        "subject": "新谜题",
+        "change": "忆灵作为缓存幽灵的完整来历？'离门更近一步'是什么意思？",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0027_my_men2",
+        "subject": "新谜题",
+        "change": "白袍客要把储能族血送进'门'——门到底是什么？",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0027_goal",
+        "subject": "第0027章主要目标",
+        "change": "旧钟楼巡影者试炼三关（影中迷踪/一矢破心/以己为饵）通过；频闪获蓝装巡影披风+无声弓（猎手→巡影弓手传承入门）；忆灵入队第五人（缓存幽灵身份揭晓）；白袍客追灰核/忆灵/储能族血杀到外殿，被射影逼退（'下一次不在旧规矩里见'）；残魂揭过载荒原门要两片碎片、另一片在赵家地窖；零 Lv.17→18；天亮前定计找赵家",
+        "source": "chapter_0027_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

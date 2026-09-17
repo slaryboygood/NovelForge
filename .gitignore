@@ -1,0 +1,83 @@
+# --- Existing rules (preserved) ---
+.dsh-runtime/
+node_modules/
+npm-cache/
+*.log
+.agents/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+
+# --- IDE ---
+.vscode/
+.idea/
+
+# --- OS ---
+Thumbs.db
+.DS_Store
+
+# --- Runtime temp ---
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# --- Local runtime ---
+.codex_tmp/
+.venv/
+venv/
+.python311/
+
+# --- Secrets ---
+.env
+.env.*
+!.env.example
+*api-key*.txt
+*apikey*.txt
+*secret*.txt
+*credential*.txt
+*token*.txt
+
+# --- Local authoring data（真实作者数据：运行时生成，永不进入版本控制） ---
+novel/authoring/story_engine/
+novel/config/story_engine/*_pack.json
+novel/authoring/story_builder/outlines/*/ol_forge_*
+novel/authoring/story_builder/sessions/*.json
+
+# --- NovelForge runtime telemetry (never committed) ---
+*.partial.md
+*.partial.json
+**/traces/
+novel/runs/
+
+# --- UI build + workspace runtime ---
+ui/dist/
+novel/workspace/
+*.tsbuildinfo
+
+# --- 浏览器验收 / 测试产物 ---
+playwright-report/
+test-results/
+coverage/
+htmlcov/
+.vite/
+*.png.tmp
+
+# --- Derived authoring revision history (rebuildable, not canon) ---
+novel/authoring/revisions/
+
+# --- 本地临时产物：创作面板测试数据根目录、验收截图与临时报告 ---
+workspace/
+
+# --- 本地工具运行目录（Codex / QA 临时输出） ---
+.codex/
+
+# --- 第三方参考书原文与派生中间产物（版权素材，且可由 tools 重新生成） ---
+reference_books/*/source/
+reference_books/*/derived/
+

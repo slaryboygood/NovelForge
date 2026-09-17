@@ -1,0 +1,208 @@
+{
+  "$defs": {
+    "ReviewIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "reviewer": {
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "location": {
+          "title": "Location",
+          "type": "string"
+        },
+        "problem": {
+          "title": "Problem",
+          "type": "string"
+        },
+        "evidence": {
+          "title": "Evidence",
+          "type": "string"
+        },
+        "impact": {
+          "title": "Impact",
+          "type": "string"
+        },
+        "recommendation": {
+          "title": "Recommendation",
+          "type": "string"
+        },
+        "hard_fail": {
+          "default": false,
+          "title": "Hard Fail",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "reviewer",
+        "severity",
+        "location",
+        "problem",
+        "evidence",
+        "impact",
+        "recommendation"
+      ],
+      "title": "ReviewIssue",
+      "type": "object"
+    },
+    "ScoreBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "plot": {
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Plot",
+          "type": "number"
+        },
+        "character": {
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Character",
+          "type": "number"
+        },
+        "continuity": {
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Continuity",
+          "type": "number"
+        },
+        "prose": {
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Prose",
+          "type": "number"
+        },
+        "pacing": {
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Pacing",
+          "type": "number"
+        },
+        "immersion": {
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Immersion",
+          "type": "number"
+        },
+        "philosophy": {
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Philosophy",
+          "type": "number"
+        },
+        "webnovel_hook": {
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Webnovel Hook",
+          "type": "number"
+        },
+        "worldbuilding": {
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Worldbuilding",
+          "type": "number"
+        },
+        "silicon_grind": {
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Silicon Grind",
+          "type": "number"
+        },
+        "ai_routine_feel": {
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Ai Routine Feel",
+          "type": "number"
+        }
+      },
+      "required": [
+        "plot",
+        "character",
+        "continuity",
+        "prose",
+        "pacing",
+        "immersion",
+        "philosophy",
+        "webnovel_hook",
+        "worldbuilding",
+        "silicon_grind",
+        "ai_routine_feel"
+      ],
+      "title": "ScoreBlock",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "chapter_id": {
+      "pattern": "^\\d{4}$",
+      "title": "Chapter Id",
+      "type": "string"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    },
+    "scores": {
+      "$ref": "#/$defs/ScoreBlock"
+    },
+    "hard_fail": {
+      "title": "Hard Fail",
+      "type": "boolean"
+    },
+    "issues": {
+      "items": {
+        "$ref": "#/$defs/ReviewIssue"
+      },
+      "title": "Issues",
+      "type": "array"
+    },
+    "strengths": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Strengths",
+      "type": "array"
+    },
+    "revision_priorities": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Revision Priorities",
+      "type": "array"
+    },
+    "verdict": {
+      "enum": [
+        "approve",
+        "revise",
+        "reject"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    }
+  },
+  "required": [
+    "chapter_id",
+    "version",
+    "scores",
+    "hard_fail",
+    "verdict"
+  ],
+  "title": "ReviewReport",
+  "type": "object"
+}

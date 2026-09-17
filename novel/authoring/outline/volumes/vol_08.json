@@ -1,0 +1,7 @@
+{
+  "volume_id": "vol_08",
+  "title": "万芯之巅",
+  "zone": "# 卷八《万芯之巅》（第 106-120 章）\n\n- 卷名：万芯之巅\n- 大玩法：终局远征与世界选择（每卷核心玩法不同，避免八卷同质化）\n- 阶段Boss：旧世界残响；卷中Boss：万芯残党首领；卷末Boss：万芯之主\n- 升级节点：进入等级→关键突破→离开等级（曲线见 progression/levels.yaml）\n- 核心地图：万芯之巅（终局地图）\n- 当前等级：Lv.90 → Lv.100",
+  "status": "PLANNED",
+  "origin": "NOVEL_REBOOT_VOLUME_OUTLINE"
+}

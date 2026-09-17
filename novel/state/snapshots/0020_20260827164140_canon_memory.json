@@ -1,0 +1,709 @@
+[
+  {
+    "id": "chapter_0001_goal",
+    "summary": "第0001章主要目标: 开局立人设：空白灵核零级废灵少年在废渣镇拾荒求生，从废料堆捡到断刃裂变剑；铺垫腐化潮将至；赖三欺压、容小满缝补、村长善意三条人物线立住",
+    "source": "chapter_0001_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0001_character",
+    "summary": "人物变化: 零：护断剑被赖三打手追打受伤；发现断口旧纹与额角芯片纹呼应发烫；腐化潮夜被赖三栽赃堵在巷子尽头，骨头深处第一次睁开眼的异动（吞噬觉醒前兆）",
+    "source": "chapter_0001_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0001_knowledge",
+    "summary": "知识变化: 镇口展出黑鳞怪物残骸（平原西边，离镇不到十里）；腐化潮将至的传言；腐化潮夜爆发",
+    "source": "chapter_0001_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0002_goal",
+    "summary": "第0002章主要目标: 腐化潮夜绝境中吞噬第一枚怪物灵核，觉醒隐藏能力【吞噬】并反杀野狗群，Lv.0→Lv.1；确立吞噬金手指的第一条规则（可吞灵核/临时强化/越级翻倍）与代价悬念",
+    "source": "chapter_0002_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0002_character",
+    "summary": "人物变化: 零：Lv.0→Lv.1；绝境吞下第一枚生灵核，觉醒隐藏能力【吞噬】；反杀腐化野狗群救下镇民；被镇民恐惧、被赖三指为邪祟；村长放行并单独警告他保密；体内留下暗灰纹路与硬核（代价前兆）；得知'越级杀怪收获翻倍'的直觉规则",
+    "source": "chapter_0002_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0002_knowledge",
+    "summary": "知识变化: 吞噬规则初探：可吞灵核、临时强化、越级杀怪收获翻倍；灵核带着腐化，普通人不能直接吞；身体'满了'不能再吞；吞核后体内留硬核、皮肤下闪过暗灰纹路（代价悬念）",
+    "source": "chapter_0002_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0002_ability",
+    "summary": "能力变化: 【吞噬】觉醒（隐藏能力）：可吞灵核、临时强化、越级击杀收获翻倍；吞噬带来饥饿本能与代价悬念",
+    "source": "chapter_0002_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0003_goal",
+    "summary": "第0003章主要目标: 潮后三天，零用吞噬连续猎杀低级怪物冲上 Lv.3；镇民既感激又恐惧；拾荒者商会账房铁算盘第一次嗅到他的秘密（借用本能成长 + 腐化代价隐约感知）",
+    "source": "chapter_0003_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0003_character",
+    "summary": "人物变化: 零：Lv.1→Lv.3；连续清剿腐黏液群与铁皮虫窝（含大虫），收获大笔铜钱；吞噬可短暂借用怪物本能（黏液感知/甲虫蛮横）；吞下大虫坏核后夜里灵核发烫，暗灰纹路蔓延过腕骨，第一次清楚感到力量有代价；面对镇民恐惧与赖三挑衅保持沉默；铁算盘深夜上门抛来'宝贝也是祸根'的选择，他伸手搭上门栓",
+    "source": "chapter_0003_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0003_knowledge",
+    "summary": "知识变化: 吞噬成长性：可短暂借用所吞怪物的攻击本能（黏液感知/甲虫本能）；潮后怪物的灵核都带腐化味，吞得越多夜里灵核越烫；染腐气的坏核不能吃不能炼；铁皮虫弱点：酸液从腹节喷（弓背抬头时是破绽）、背甲横纹连到颈后",
+    "source": "chapter_0003_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0003_ability",
+    "summary": "能力变化: 【吞噬】成长：可短暂借用所吞怪物的攻击本能（成长性初显）；吞噬熟练提升",
+    "source": "chapter_0003_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0004_goal",
+    "summary": "第0004章主要目标: 接下拾荒者商会首单委托，清剿镇西甲虫窝；学会组队打怪的配合；Lv.3→Lv.4；发现甲虫窝深处通往静电洞穴方向的地道（地图伏笔）",
+    "source": "chapter_0004_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0004_character",
+    "summary": "人物变化: 零：接下商会首单（镇西甲虫窝清剿），学会组队配合；吞精英甲虫半颗灵核惊险取胜，Lv.3→Lv.4；暗灰纹路越过腕骨直逼小臂、缠绕暗红（代价加深）；发现甲虫窝深处的旧通道直通静电洞穴——'甲虫窝是后来长在它外面的，它们像是在逃'；深夜雷声般的咕噜声（静电洞穴深处的庞然大物）",
+    "source": "chapter_0004_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0004_knowledge",
+    "summary": "知识变化: 清剿牌情报不可全信（'十余只'实为上百，是虫群门厅）；精英甲虫（Lv.5 小头目）头冠裂缝藏半成形灵核，甲壳刀砍不动、硬刺/颚刃致命；镇西废车场地下有旧通道直通静电洞穴（黑玻璃灼痕、焦麻气息）；静电洞穴的传说：白光、铁壳影、地底雷声，深入者多未归",
+    "source": "chapter_0004_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0004_ability",
+    "summary": "能力变化: 【吞噬】加深：吞半颗灵核（不完全吞噬）代价更大——体内横冲直撞、吞不净化不开，热意烧到眼底；吞碎灵可临时强化",
+    "source": "chapter_0004_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0005_goal",
+    "summary": "第0005章主要目标: 升级期第一场硬仗：猎杀废铁狼群，Lv.4→Lv.5；遭废铁狼王伏击惨胜，左臂留下狼咬疤；狼窝里捡到半张旧地图碎片（锈铁神龛隐藏地点线索）；容小满暴露非商会治疗术",
+    "source": "chapter_0005_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0005_character",
+    "summary": "人物变化: 零：Lv.4→Lv.5；猎废铁狼群（借'狼之意'的速度、隔空勾动狼核）；被废铁狼王（Lv.7 精英）伏击，左臂被獠牙对穿留下两圈疤，反咬狼王咽喉惨胜；获得完整狼王灵核（未吞未喂剑，抉择悬置）；狼窝捡到半张'锈铁神龛'旧地图碎片；察觉容小满有商会没教过的治疗术（乳白光，能治能伤人）",
+    "source": "chapter_0005_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0005_knowledge",
+    "summary": "知识变化: 废铁狼习性：成群包夹、专挑弱者下口、放哨头狼、耗人战术，狼王享用最虚弱的猎物；借狼之意可短暂获得狼的速度与狠劲；狼王（Lv.7 精英）灵核完整、内里赤红光点；狼窝旧箱里半张旧地图指向'锈铁神龛'（字迹：……锈铁神……龛，奉……勿近……）；容小满的乳白光不是商会教的",
+    "source": "chapter_0005_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0005_ability",
+    "summary": "能力变化: 【吞噬】新用法：借'意'（狼的速度与狠劲）、隔空勾动活狼核、捏碎狼核狂暴化、以血肉之躯撕咬吞噬（反咬狼王）",
+    "source": "chapter_0005_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0006_goal",
+    "summary": "第0006章主要目标: 按地图碎片找到隐藏遗迹锈铁神龛，破解机关拿到藏宝：技能书·闪步加灵能结晶；但技能书'读不进去'——空白灵核的限制，埋下觉醒才能学的伏笔；烧蚀犬自爆预演闪步",
+    "source": "chapter_0006_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0006_character",
+    "summary": "人物变化: 零：按地图找到锈铁神龛（机关锁/毒钉陷阱/守龛烧蚀犬 Lv.8 精英）；烧蚀犬自爆瞬间本能踏出'闪步'预演；技能书·闪步到手却读不进去——空白灵核是'口没底的井，倒多少漏多少'（觉醒才能学的伏笔加深）；地图走过之后显出新印记与新红线（指向静电洞穴）；裂变剑两次偷吸灵能结晶，浮现两道裂纹灵纹（剑在自行进食）",
+    "source": "chapter_0006_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0006_character_laoque",
+    "summary": "人物变化: 老瘸（镇上有名老猎户，独眼/旱烟）：加入零的探索小队——指点狼性、警告'烧红了的狗'、自爆一吼救命、收存烧蚀腺（'将来有大用'）",
+    "source": "chapter_0006_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0006_knowledge",
+    "summary": "知识变化: 锈铁神龛：闭合眼睛图腾、机关锁（毒钉）、铁心脏造型神龛、背后小门（掌印开启）；烧蚀犬（Lv.8 精英）：皮裂透光、伤越重光越亮、残血自爆；烧蚀腺=燃烧瓶原材料（晒干封罐能烧半条街）；技能书·闪步：字是活的，认主需灵核承载——空白灵核装不下（'口没底的井'）；地图走过隐藏点后会显出新印记与新路线",
+    "source": "chapter_0006_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0006_ability",
+    "summary": "能力变化: 闪步（预演）：烧蚀犬自爆一瞬本能踏出一步（胸口灵核'磕'了一下，世界变慢）——技能书到手但暂不可学",
+    "source": "chapter_0006_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0007_goal",
+    "summary": "第0007章主要目标: 猎杀烧蚀犬获取火星牙材料（商会订单），遭遇赖三带打手截胡抢猎、打伤老瘸，结怨升级；容小满第一次展示'净化'能力（看见并逼出腐化黑丝，自己扛下代价）",
+    "source": "chapter_0007_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0007_character",
+    "summary": "人物变化: 零：为商会订单陪老瘸猎烧蚀犬；被赖三带打手截胡抢猎、麻杆偷袭右肩（铁丝绞伤）；七条犬杀尽牙却被撬光（憋屈蓄力）；背回老瘸；收获大公犬烧蚀腺×1（裂变剑想吃被拦下：'这个有用'）；目睹容小满净化腐化毒的全过程（她越治越虚——代价机制）",
+    "source": "chapter_0007_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0007_character_laoque",
+    "summary": "人物变化: 老瘸：独自接商会订单（三枚火星牙换伤药/碎屑/盐），被犬群围伤、腐化毒入腿，被零背回；赖三踩手抢走整袋牙",
+    "source": "chapter_0007_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0007_knowledge",
+    "summary": "知识变化: 烧蚀犬：牙根含火灵、伤口带腐化毒（不处理会烂到心口）、死后犬齿最好拔；火星牙=商会收购物；容小满能看见腐化黑丝并逼出（储能堂方士看不见、不会——非商会术法）；烧蚀腺晒干封罐能烧半条街（大公犬腺体入手）",
+    "source": "chapter_0007_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0007_ability",
+    "summary": "能力变化: 裂变剑：斩杀烧蚀犬时自行吞咽火灵气（'它在吃'，裂纹灵纹亮一分）——成长武器继续进食",
+    "source": "chapter_0007_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0008_goal",
+    "summary": "第0008章主要目标: 中爽点：赖三当众掀容小满药摊逼交保护费，并拿'废灵'羞辱零；零忍无可忍当众单挑赖三加两打手，Lv.5→Lv.7 碾压式打脸，立威废渣镇；铁算盘深夜上门送上商会令牌（静电洞穴外围清剿+进洞取物委托）",
+    "source": "chapter_0008_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0008_character",
+    "summary": "人物变化: 零：Lv.5→Lv.7（吞三犬'井满了一回'+当众碾压）；赖三掀容小满药摊、当众辱骂'废灵'，零忍无可忍当众单挑赖三与麻杆/墩子——肩撞、借力、握拳、单膝摁跪，碾压立威（'摊子，给她摆好'）；野狗扑咬被一剑拍晕；手背暗纹一闪被淘铁人看见，立刻收敛吞噬本能（'不能在这儿——明天传开的就不是'零不是废物'，而是'零是个吃人的怪物'）；得知'天梭城的贵人'；铁算盘深夜上门送商会令牌（静电洞穴外围清剿+进洞取一样东西）",
+    "source": "chapter_0008_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0008_character_rong",
+    "summary": "人物变化: 容小满：药摊被掀、被辱'净化婊子'；零立威后眼眶泛红地笑（'箱子裂了，回头你帮我钉一钉'）——关系升温",
+    "source": "chapter_0008_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0008_knowledge",
+    "summary": "知识变化: 赖三的底牌是拾荒者商会（份子钱是商会要收）；赖三两次失口提到'天梭城的贵人'（'要镇子有个干净样子'）；商会令牌可开静电洞穴外围；铁算盘要零进洞取'一样东西'",
+    "source": "chapter_0008_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0008_ability",
+    "summary": "能力变化: 吞噬本能再进一步：能感知活人体内的灵韵（赖三那团'浑浊的灵韵'），差一点当众施展——被自己压回井底",
+    "source": "chapter_0008_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0009_goal",
+    "summary": "第0009章主要目标: 静电洞穴副本线开启（商会委托）；容小满正式入队——她决定跟零进洞，第一次被人护在身后；Lv.7→Lv.8；洞穴外围初探（水蛭越级首战+黑水潭史莱姆王现身）",
+    "source": "chapter_0009_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0009_character",
+    "summary": "人物变化: 零：Lv.7→Lv.8；接下商会静电洞穴外围清剿委托，与容小满组成'一队'（两人）；首次体会洞内灵压压制（'外头七分本事，里头只剩五分'）；水蛭群战中被吸灵、吞水蛭灵核反制（获得静电感知与吸灵抗性）；在'止步'铁牌后第一次亲眼看见黑水潭上的庞然大物——一双青色眼睛（静电史莱姆王，位阶差距：像一粒火星面对暴雨前的雷云）",
+    "source": "chapter_0009_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0009_character_rong",
+    "summary": "人物变化: 容小满：正式入队（'一队，两人'）——'我只会这个，你负责砍'；回灵术实战（七次回灵+银针定虫+避雷钉配合），证明'治疗学徒不是拖油瓶'；手背青纹暴露一瞬（'擦伤'，藏住）",
+    "source": "chapter_0009_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0009_knowledge",
+    "summary": "知识变化: 静电洞穴灵压规则：进洞后实力打折（七分变五分），水蛭吸灵先于吸血；静电水蛭（Lv.11 首次越级怪）：藏水/绕后/吸灵，导电——避雷钉+水导电可反制；残骸'不是商会杀的——孔很小，一圈牙印，像虫'（洞穴异变）；'止步'铁牌后的黑水潭有庞大生物（青色眼睛，史莱姆王第一层信息）；商会令牌的虫纹会发烫、剑不喜欢它",
+    "source": "chapter_0009_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0009_ability",
+    "summary": "能力变化: 吞噬：吞水蛭灵核获得静电感知（湿暗石缝/积水/成群细影的记忆）+吸灵抗性；Lv.8 灵流更稳",
+    "source": "chapter_0009_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0009_ability_rong",
+    "summary": "能力变化: 容小满：回灵术实战小成（第七次回灵+银针定虫+自我透支术式）——手背青纹初显（血脉细节）",
+    "source": "chapter_0009_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0010_goal",
+    "summary": "第0010章主要目标: 深入静电洞穴：清理电苔怪与水蛭巢，收集材料灵核；学习洞内环境规则；发现史莱姆王巢穴外围与旧冒险者留言（'别往深处去'）；Lv.8 维持——为 Boss 战蓄力",
+    "source": "chapter_0010_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0010_character",
+    "summary": "人物变化: 零：Lv.8 维持；学会洞内环境规则（积水带电/电苔孢子/水蛭吸灵）；清剿电苔怪与深水蛭巢；与容小满配合从生涩到默契（她看水他看怪、她数灵能他出剑）；采得蓝息菇二十朵（商会要的货）；发现旧冒险者留言（'别往深处去''压扁我们的不是虫'）；在史莱姆王巢穴入口看见满地压扁的遗物——一块护甲片被看不见的力道又压沉一分（本章止步于此）",
+    "source": "chapter_0010_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0010_character_rong",
+    "summary": "人物变化: 容小满：第一次主动冲进战圈（'别乱动，伤口会崩！'）；用青光倒灌逼退大水蛭；负责灵能预算与采菇（'大核值钱，小核给它当零嘴'）——正式成为队伍的'算账的'",
+    "source": "chapter_0010_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0010_knowledge",
+    "summary": "知识变化: 洞内环境规则：积水带电（'这破洞会咬人'）、电苔怪喷孢子麻人、水蛭巢在水里（斩巢可清群）；电苔怪/水蛭灵核均可吞用；蓝息菇=商会要的'会发蓝光的东西'（喜雷喜湿、不能用铁器硬挖）；旧冒险者留言：'王不在潭里''水会偷力，苔会吐麻，虫只吸灵''蓝菇能卖命，也能买路''铁牌不是拦人，是喂它''它醒了''商会知道''压扁我们的不是虫'；史莱姆王巢穴=雷声源头（溶洞最深处）；压扁遗物的力量不是砍/烧/吸",
+    "source": "chapter_0010_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0010_ability",
+    "summary": "能力变化: 吞噬：吞电苔/水蛭灵核（静电感知强化——哪片水带电更凶、哪片苔会喷孢子）；Lv.8 灵流稳住",
+    "source": "chapter_0010_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0010_ability_rong",
+    "summary": "能力变化: 容小满：青光治疗线可'抽麻意''倒灌逼虫'（回灵术实战扩展）；手背青纹一闪即隐（血脉细节）",
+    "source": "chapter_0010_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0011_goal",
+    "summary": "第0011章主要目标: 首次交锋 Boss：零凭'莽'正面冲进巢穴挑战静电史莱姆王，被分裂小史莱姆淹没——初战惨败第一幕；Lv.8（掉灵能）；狼狈逃出；观察记录分裂弱点与怕热疑点（首杀前置）",
+    "source": "chapter_0011_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0011_character",
+    "summary": "人物变化: 零：Lv.8 维持、灵能被抽空（'等级没有掉，可灵能空了'）；莽冲史莱姆王正面遭遇教学战惨败——雷球封路、分裂小史莱姆越打越多、被王扑压（'像被一堵墙砸进地里'），被容小满拼死拖出巢穴；战斗中观察记录：王分裂时本体变空、怕热疑点（白雾/乳白光灼伤/水遇雷炸）——为 CH014 首杀埋前置；鼻梁肿、背焦伤、左腿麻；认错（'先探弱点再打'——'嗯'）",
+    "source": "chapter_0011_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0011_character_rong",
+    "summary": "人物变化: 容小满：拼死救人（乳白光灼胶质、避雷钉炸小史莱姆、掐衣领硬拖）；药箱/药粉/水囊全损（'不要了！'）；手背被胶质灼出红痕",
+    "source": "chapter_0011_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0011_knowledge",
+    "summary": "知识变化: 静电史莱姆王：雷球轰炸（不快但落点准）、分裂小史莱姆（越打越多、劈碎会再聚）、扑压（压扁遗物的来源）；分裂时本体变空（弱点观察）；怕热疑点（火？不是光。是热？——留白）；王守地盘不追（'是他们已经出了它的地盘'）；铁算盘要的'东西'在王体内（雷浆汇聚核心）；商会令牌虫纹被王压过一头",
+    "source": "chapter_0011_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0011_ability",
+    "summary": "能力变化: 吞噬：吞电苔核临时雷抗（硬冲雷球间缝）——代价：灵能透支；Boss 核'吞不动'（力量悬殊）",
+    "source": "chapter_0011_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0012_goal",
+    "summary": "第0012章主要目标: 惨败后的复盘与复仇准备：研究 Boss 弱点（怕热/分裂空）、制作燃烧瓶（火星牙+灵能结晶）、洞口清小怪练级回血 Lv.8→Lv.9；与铁算盘谈妥'蓝光东西归商会'的交易（先付一半底细）",
+    "source": "chapter_0012_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0012_character",
+    "summary": "人物变化: 零：Lv.8→Lv.9（洞口清史莱姆回血）；复盘 Boss 战（分裂时本体空/怕热）；制定战术（先清小再趁分裂放火）；硬吃大公犬自爆（皮毡+湿泥沟），手背后颈燎泡；与铁算盘谈妥'蓝光东西归商会'+先付一半底细（旧羊皮情报）；学会谈价（'你才配听这句'）；收下容小满的入伙股钱（73+6 枚）",
+    "source": "chapter_0012_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0012_character_rong",
+    "summary": "人物变化: 容小满：掏出一半积蓄 73 枚做材料（'算我入伙的股钱'）；设计猎犬战术（引犬/湿土沟/喊退）；最后只剩 6 枚+2 颗石子也全押上（闭环）",
+    "source": "chapter_0012_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0012_character_laoque",
+    "summary": "人物变化: 老瘸：制燃烧瓶（牙是火种结晶是火粮），收 20 枚'看热闹的彩头'",
+    "source": "chapter_0012_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0012_knowledge",
+    "summary": "知识变化: 王怕热（白雾/焦痕缩）；分裂时本体空；战术：先清小再趁分裂放火；火星牙=火种、灵能结晶=火粮（燃烧瓶配方）；蓝息菇只是祭台蓝光的'种子'；商会折三拨人的记录（一拨疯/一拨无回/一拨只剩压扁铁片）；祭台在巢穴中央、王眼皮下；天梭城贵人点名要蓝光之物；铁算盘年轻时进过更深的地方（新谜）",
+    "source": "chapter_0012_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0012_ability",
+    "summary": "能力变化: Lv.9；火性耐受（吞过火性东西+犬血灼热记忆——硬吃自爆的底气）",
+    "source": "chapter_0012_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0013_goal",
+    "summary": "第0013章主要目标: 复仇再战前奏：带着燃烧瓶与完整战术再入洞穴，清空巢穴外围小怪腾出干净战场；Lv.9 维持；途中发现旧冒险者遗骸与笔记残页（洞内异变的秘密一角：旧时代祭台/守门的东西）",
+    "source": "chapter_0013_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0013_character",
+    "summary": "人物变化: 零：Lv.9 维持；带燃烧瓶再入洞——烧水蛭巢（先烧后斩）、电苔区'引炸'（打一发跑一段/飞剑磕湿石）；发现旧冒险者遗骸与笔记残页（旧时代祭台/守门的东西/别答应商会）；学会听容小满的'喊停'（撤退休整再进）；巢穴口王已列阵等待——决战在即",
+    "source": "chapter_0013_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0013_character_rong",
+    "summary": "人物变化: 容小满：'股东有资格喊停'；算灵能次数（七次→零砍到六次）；火潭战耗损后主动喊撤（'先撤……我得歇'）；把燃烧瓶与避雷钉重新分配；恢复后继续前行（'我只有前面七成'）",
+    "source": "chapter_0013_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0013_knowledge",
+    "summary": "知识变化: 旧冒险者笔记残页：洞比地图深；蓝菇不是最值钱的，深处有光；'阿青说那是旧时代留下的祭台，商会不知道或知道不说'；'雷球不是怪，它从祭台旁边滚出来'；'虫只吸灵不吸血——它们在替里面的东西看门'；'王不在潭里，王在祭台前'；'蓝光就是祭台的心。别碰，别拿，别答应商会'；'它不是怪。它是守着门的'；'旧世界没死，只是睡在……'；水蛭会配合电苔（一个麻人一个吸灵）；电苔连锁爆可引炸",
+    "source": "chapter_0013_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0013_ability",
+    "summary": "能力变化: Lv.9 维持；剑吸电苔残核灵性（裂纹灵纹'眼睛'轮廓更深）",
+    "source": "chapter_0013_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0014_goal",
+    "summary": "第0014章主要目标: 大爽点：完整战术 Boss 战——燃烧瓶破雷球、清分裂、吞噬小史莱姆灵核强化、斩本体；首杀静电史莱姆王；掉落雷纹护臂（蓝）、史莱姆宠物蛋、技能书·静电束缚；裂变剑灰白→绿；Lv.9→Lv.10；团子登场；祭台空（商会扑空反转）；守门人记忆+石门伏笔",
+    "source": "chapter_0014_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0014_character",
+    "summary": "人物变化: 零：Lv.9→Lv.10；首杀静电史莱姆王（燃烧瓶破雷球/火墙/吞小核雷抗/分裂空与扑压核心前薄两次破绽/火星牙引爆核心）；获【击杀】【副本通关】提示；看到王核心里的守门人记忆（'我是……守门人……'）；三掉落（雷纹护臂蓝/史莱姆宠物蛋/技能书·静电束缚）；裂变剑灰白→绿（暗绿剑身+门缝灵纹）；发现祭台后石门（眼形凹痕与剑纹相似），'不是现在'先回镇；团子孵化登场（吞护臂又吐出）；把蓝光晶体交给容小满（'别先给铁算盘'——想先知道他为什么骗我们）",
+    "source": "chapter_0014_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0014_character_rong",
+    "summary": "人物变化: 容小满：白光护罩拖小史莱姆、灵能耗尽（'一滴都没了'）；收下蓝光晶体；'那句留言你也听见了——别答应商会'",
+    "source": "chapter_0014_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0014_knowledge",
+    "summary": "知识变化: 王=守门人（核心记忆：'我是……守门人……'旧世界遗迹守门者）；祭台蓝光=商会要的货，被王吞守体内；蓝光已灭变晶体（'他要的是活的'）；祭台后石门（眼形凹痕与剑纹相似）；铁牌背面抓痕（'像有什么东西曾被挡在牌后，一遍一遍往外爬'）；金属片'……奉……守门……勿启……'与锈铁神龛地图字迹相似；扑压时核心前一层最薄（新破绽）",
+    "source": "chapter_0014_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0014_ability",
+    "summary": "能力变化: Lv.10；吞噬小史莱姆核获临时雷抗与雷电感知（闪避雷球连射——闪步预演）；静电束缚书到手（Lv.25 解锁）",
+    "source": "chapter_0014_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0015_goal",
+    "summary": "第0015章主要目标: 爆点：任务结算加探索奖励冲顶 Lv.10；记忆仓完成职业觉醒【斩波者】；闪步技能书终于'读得进'；团子正式孵化入队；赖三带'贵人打手'找回场子被秒杀立威；当众告别废渣镇前往天梭城（卷一收官）",
+    "source": "chapter_0015_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0015_character",
+    "summary": "人物变化: 零：Lv.10 基础觉醒【斩波者】（记忆仓九阶/空白灵核'不是装不下，是没开'——井底开门）；习得斩波斩+闪步（技能书终于读得进——'字终于找到了路'）；觉醒后可储存灵核（水蛭小核收进井里）；结算 396 铜+荐书+觉醒木牌；疤七三人（贵人打手）被闪步+斩波斩三秒放倒立威；'份子钱以后不收了''药箱钱两份'；收下团子命名；告别废渣镇前往天梭城；镇外甲虫王影子——'留给下一个冒险者吧'；城门口年轻掌柜（像铁算盘）金令牌：'找你们贵人，说货到了'",
+    "source": "chapter_0015_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0015_character_rong",
+    "summary": "人物变化: 容小满：换新药箱（零用疗伤药换的+赖三赔两份）；分钱；旧药箱留作纪念；同行入城",
+    "source": "chapter_0015_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0015_character_tuanzi",
+    "summary": "人物变化: 团子：正式命名；咬避雷钉（不合口吐了）、糊技能书字；吐电花打赖三；黏人",
+    "source": "chapter_0015_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0015_knowledge",
+    "summary": "知识变化: 职业觉醒机制：Lv.10 基础觉醒一生一次（记忆仓）；空白灵核'不是装不下，是没开'；觉醒后可储存灵核（不再只能当场烧尽）；斩波斩（基础技）/闪步（位移技）习得；闪步书读得进的条件=灵核开窍；天梭城有记忆总仓/职业公会/猎怪行会；城门口有商会年轻掌柜（金令牌）接应；疤七=贵人手下（赖三请来）",
+    "source": "chapter_0015_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0015_ability",
+    "summary": "能力变化: 职业【斩波者】：斩波斩 Lv.1（基础技）；闪步 Lv.1（技能书习得）；吞噬同步进化：可储存灵核、可喂剑（新规则）",
+    "source": "chapter_0015_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0015_ability_sword",
+    "summary": "能力变化: 裂变剑：绿·灵纹门缝；觉醒时共鸣",
+    "source": "chapter_0015_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0016_goal",
+    "summary": "第0016章主要目标: 零一行抵达天梭城，完成冒险者注册，打出'势利眼接待'第一记小爽点打脸（断桩/闪步/定傀儡三息→铁牌候补）；赵启初次亮相结怨，立住'天梭城新人'卷题；红纸悬赏（脉冲林噬流虫）落款贵族印章=赵家",
+    "source": "chapter_0016_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0016_character",
+    "summary": "人物变化: 零：入天梭城（登记官刁难'垃圾税'→商会传话牌压价 40 铜）；公会注册（女接待乱收费 230 铜→试炼三连打脸：斩波斩断测试桩/闪步躲鞭/雷纹护臂静电束缚定傀儡三息→铁牌候补，退 200 铜）；从金算盘处得知'城里有人等货'；与赵启（赵家旁支）初次结怨；发现红纸悬赏的贵族印章=赵启袖口鸟纹",
+    "source": "chapter_0016_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0016_character_rong",
+    "summary": "人物变化: 容小满：同入城（未注册，'我陪他来'）；药师身份亮出",
+    "source": "chapter_0016_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0016_character_tuanzi",
+    "summary": "人物变化: 团子：被'灵宠审查'针对；碰铁牌嫌弃；朝任务板低叽",
+    "source": "chapter_0016_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0016_knowledge",
+    "summary": "知识变化: 天梭城规矩：城门拔剑赔钱/入城费视灵纹与担保而定/等级牌（木铁铜银金）决定待遇；公会注册与评定（力量桩/身法鞭/傀儡十息）；铁评候选可升铜评；脉冲林红纸悬赏（噬流虫泛滥双倍计酬，贵族印章=赵家鸟纹）；金算盘=铁算盘之侄（外账房）",
+    "source": "chapter_0016_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0016_ability",
+    "summary": "能力变化: 静电束缚（未习得书技）：靠雷纹护臂+静电感知+被电记忆临场放出静电丝（定傀儡三息）——护臂能力，非书技",
+    "source": "chapter_0016_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0017_goal",
+    "summary": "第0017章主要目标: 完成首单公会任务（脉冲林边缘噬流虫清剿），展示三人一宠配合，零 Lv.10 → 12 双连升；首次直面脉冲林生态；为赵启第一次使绊子埋线（引虫饵/扣钱）",
+    "source": "chapter_0017_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0017_character",
+    "summary": "人物变化: 零：Lv.10→Lv.12 双连升；接下赵家红单（动机：钱/立足/查赵启）；发现引虫饵（鸟纹油布——赵启使绊子证据）；清剿三倍规模噬流虫群+越级斩雷弧兽精英（闪步+护臂静电束缚+斩波劈软缝）；报酬被扣一半（120 押账'等复核'）；'钱先记着''他会有第二回'",
+    "source": "chapter_0017_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0017_character_rong",
+    "summary": "人物变化: 容小满：回灵术护场（防灵能丝）；识破扣钱真相（'他扣钱，不是怀疑你虚报——是怕你把虫群真的清干净了，还活着回来'）",
+    "source": "chapter_0017_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0017_character_tuanzi",
+    "summary": "人物变化: 团子：吞灵能丝→吐静电弹（晕三四十只）；啃流核；体色变深带紫电（异常伏笔）",
+    "source": "chapter_0017_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0017_character_laisan",
+    "summary": "人物变化: 赖三：随队（盯自家家当）；堵侧翼（'老子在废渣镇杀过狼——啊不对我没杀过'）——喜剧担当，回城后继续赖在队里",
+    "source": "chapter_0017_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0017_knowledge",
+    "summary": "知识变化: 脉冲林生态：银青灰叶/焦针/细密麻意；噬流虫 Lv.9 群（吐灵能丝/懂配合）；雷弧兽 Lv.12+ 精英（电弧锁气息/骨弧三电齐发）；引虫饵（红符油布+甜腥膏）可扩大虫群与引来精英——赵家纹样证据；虫巢流核（鸽蛋大蓝纹）；公会验收'不可能不知道'林图失真",
+    "source": "chapter_0017_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0017_ability",
+    "summary": "能力变化: Lv.12（双连升）；静电束缚（护臂放电丝——定兽三息级）；团子新能力：吞丝吐静电弹/啃流核变色",
+    "source": "chapter_0017_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0018_goal",
+    "summary": "第0018章主要目标: 救援被虫群围困的猎手频闪，频闪入队；赵启第一次'买凶使绊子'浮出水面（改图/引虫/鹰镖队）；频闪之眼亮相；青梅赵璃轻描一笔；虫王悬赏钩子",
+    "source": "chapter_0018_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0018_character",
+    "summary": "人物变化: 零：接下救援委托（频闪失联三天）；识破公会旧图红圈错位（往里偏一里=最密虫道）；谷口虫群战+镜频猎手幻影战（频闪之眼标记黑核→静电束缚+斩波斩破核）；制服鹰镖队佣兵（供出赵管事买凶：'他嘴太快，林子里的事不能让他带回镇上'）；证据链完成：鸟纹油布边角与图上油印拼成展翅鸟+鹰镖铜徽；'赵启第一次买凶使绊子不再只是猜测'",
+    "source": "chapter_0018_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0018_character_pinshan",
+    "summary": "人物变化: 频闪（话痨猎手·人形导航）：救出入队；左眼银蓝环纹（频闪之眼：看灵核波动/标记真身）；被灭口原因：'他认得真正的路'；提出虫王悬赏（三米长，挂了一个月没人敢接）",
+    "source": "chapter_0018_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0018_character_rong",
+    "summary": "人物变化: 容小满：光盾防酸+识破'图错一里'；点破频闪的价值（'你认得真正的路'）",
+    "source": "chapter_0018_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0018_character_tuanzi",
+    "summary": "人物变化: 团子：吞电麻虫；深紫电光与林深处'遥遥相应'（异常加深）",
+    "source": "chapter_0018_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0018_knowledge",
+    "summary": "知识变化: 虫巢谷：铁皮虫群守谷（'在守里面的东西'）；镜频猎手（会学人/砍假越多/黑核可破——频闪之眼可标记）；公会旧图错位一里（油印鸟纹=赵家改图证据）；鹰镖队=赵家私活（鹰爪镖纹铜徽）；'林子里有人在猎杀猎手'（三道旧血痕+碎牌）；频闪之眼能力；虫王在脉冲林深部（三米长）",
+    "source": "chapter_0018_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0018_ability",
+    "summary": "能力变化: 静电束缚实战（水蛭本能导电——地面所有导电物绷紧缠腿）；雷纹护臂新增刀口（外层黑皮削开一角）",
+    "source": "chapter_0018_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0019_goal",
+    "summary": "第0019章主要目标: 四人队伍首杀区域 Boss 噬流虫王（越级 Lv.20），零 Lv.12 → 13；掉落地图碎片·过载荒原，剑喂灵核获技能残影；赵家鹰镖队抢功被当场打脸（雷纹印记）——卷二第一个中爽点",
+    "source": "chapter_0019_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0019_character",
+    "summary": "人物变化: 零：四人首杀噬流虫王（Lv.20 越级）——穿云箭牵制/光盾挡毒/静电束缚定三秒/一剑穿心；Lv.12→Lv.13；获得地图碎片·过载荒原（虫王体内掉出）；剑吞核获技能残影（口器绽开/毒液倒流之影）；庆功宴当众打脸赵家鹰镖队（雷纹印记+容小满验核痕+伤口对比）；拿回灵核/地图/赏金；灰袍管事让功换赵家面子（'不是停手。是换了法子'）",
+    "source": "chapter_0019_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0019_character_pinshan",
+    "summary": "人物变化: 频闪：穿云箭破口器牵制；'死了没？没死再射两箭！'；打脸现场嗓门担当",
+    "source": "chapter_0019_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0019_character_rong",
+    "summary": "人物变化: 容小满：光盾挡毒/药粉断流虫/验核痕（'外裂新，内痕旧'）；警惕赵家补药（'回去我先验——毒'）",
+    "source": "chapter_0019_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0019_character_tuanzi",
+    "summary": "人物变化: 团子：静电弹清流虫；啃王核边角（'牙口好得很'）；庆功宴被夸'那个史莱姆也挺凶'",
+    "source": "chapter_0019_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0019_knowledge",
+    "summary": "知识变化: 噬流虫王机制：口器盛开喷毒/唤虫/尾钩横扫；雷纹印记可作首杀铁证（核内锁纹）；灵核伤痕时序鉴定（外裂新/内痕旧）；地图碎片·过载荒原（黄褐荒原/半扇门/过载二字；与旧地图拼不上——还缺一片）；赵家灰袍管事（马队长背后）；'荒原开拓优先令'与过载荒原的联系",
+    "source": "chapter_0019_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0019_ability",
+    "summary": "能力变化: Lv.13；静电束缚定 Boss 三秒（雷纹入核）；剑技能残影（新能力伏笔）",
+    "source": "chapter_0019_final",
+    "visibility": "global",
+    "weight": 1.0
+  }
+]

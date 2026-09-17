@@ -1,0 +1,323 @@
+{
+  "chapter_id": "0001",
+  "plan": {
+    "chapter_id": "0001",
+    "title": "废渣镇的零",
+    "source_title": "卷一 · 废灵崛起",
+    "source_file": "novel/config/outline/chapters/volume_01_chapters.yaml",
+    "timeline": {
+      "date": null,
+      "time": "腐化潮来临前的碎屑平原",
+      "elapsed_from_previous": null
+    },
+    "pov": {
+      "character": "未命名",
+      "perspective": "近距离第三人称，跟随人形少年主角"
+    },
+    "location": [
+      "碎屑平原",
+      "废渣镇",
+      "镇外废料堆"
+    ],
+    "chapter_purpose": {
+      "main": "零（Lv.0 废灵）在腐化潮中为救容小满被迫迎战静电史莱姆，意外吞噬灵核觉醒隐藏能力【吞噬】。",
+      "secondary": [
+        "建立废灵身份与打脸期待",
+        "埋下空白灵核与裂变剑来历伏笔",
+        "展示拟人化主角的性格（嘴硬/贪吃/讲义气）"
+      ]
+    },
+    "opening_state": {
+      "protagonist": "废渣镇孤儿少年零，Lv.0 废灵，灵核空白，全镇公认的废物；银灰短发琥珀眼，破旧灰布衣。",
+      "world": "碎屑平原腐化潮将至，镇外静电史莱姆数量暴增。"
+    },
+    "must_happen": [
+      "零在废料堆捡到一根破铁条（裂变剑）",
+      "腐化潮爆发，镇民逃散",
+      "零为救被史莱姆围住的容小满，被迫挥剑迎战",
+      "绝境中零本能吞噬了一枚静电史莱姆灵核，觉醒【吞噬】",
+      "等级 Lv.0 → Lv.1，掌心浮现暗紫灵核纹"
+    ],
+    "must_not_happen": [
+      "不能揭示空白灵核的真正来历",
+      "不能让零觉醒正式职业（Lv.10 才觉醒斩波者）",
+      "不能让容小满入队（第 9 章才入队）",
+      "不能出现天梭城、公会、高级地图与势力",
+      "不能让吞噬能力毫无代价地使用（吞噬后短暂眩晕/饥饿感）"
+    ],
+    "conflicts": {
+      "external": [
+        "腐化潮与静电史莱姆群袭击废渣镇"
+      ],
+      "internal": [
+        "废灵自卑 vs 保护容小满的冲动"
+      ],
+      "interpersonal": [
+        "镇民对废灵的嘲笑与容小满的善意"
+      ]
+    },
+    "information": {
+      "reveal": [
+        "零是废渣镇零级废灵",
+        "他觉醒了从未见过的吞噬能力",
+        "破铁条来历不明（剑身断口有旧纹）"
+      ],
+      "hide": [
+        "空白灵核真相",
+        "裂变剑的真实身份",
+        "腐化信号来源"
+      ],
+      "misunderstandings": [
+        "零以为吞噬能力只是'能吃'，还不知道它的代价与上限"
+      ]
+    },
+    "character_arc": {
+      "before": "自卑、嘴硬、认命当废物的拾荒少年。",
+      "change": "为保护他人第一次拼命战斗，吞噬灵核觉醒力量。",
+      "after": "第一次相信'我可能不是废物'，握紧裂变剑。"
+    },
+    "foreshadowing": {
+      "plant": [
+        "空白灵核",
+        "裂变剑断口旧纹",
+        "吞噬后的饥饿感（代价伏笔）"
+      ],
+      "advance": [],
+      "resolve": []
+    },
+    "theme": {
+      "silicon_polishing": "力量来自愿意保护他人的瞬间，而不是身份标签。",
+      "subjective_elevation": "从认命的废物到第一次主动选择战斗。",
+      "daoist_dimension": "有：被嘲笑的身份；无：还没有被定义的自己。",
+      "implicit_question": "如果所有人都说你是废物，你还能相信自己的选择吗？"
+    },
+    "emotional_curve": [
+      "压抑",
+      "惊慌",
+      "绝境",
+      "拼命",
+      "觉醒后的狂喜"
+    ],
+    "ending_hook": "零握着裂变剑，看着掌心暗紫灵核纹，饿得肚子咕咕叫——远处脉冲林方向，腐化潮的余波还在翻涌。",
+    "target_words": 4000,
+    "chapter_length": {
+      "length_class": "STANDARD",
+      "min_chinese_chars": 3800,
+      "target_chinese_chars": 4500,
+      "preferred_max_chinese_chars": 5000
+    },
+    "scenes": [
+      {
+        "scene_id": "scene_01",
+        "purpose": "建立废渣镇与零的废灵身份，埋空白灵核伏笔。",
+        "entering_state": "零在废料堆翻找可换灵核碎片的废料，被镇民嘲笑。",
+        "event": "他捡到一根断口带旧纹的破铁条（裂变剑），同时腐化潮警报响起。",
+        "conflict": "镇民只顾逃命，没人管灵核空白的他；他也不想管别人。",
+        "character_action": "嘴上说着关我屁事，脚下却往镇里跑。",
+        "choice": "",
+        "reveal": [
+          "零是Lv.0废灵",
+          "裂变剑破铁条来历不明"
+        ],
+        "hide": [
+          "空白灵核真相",
+          "腐化信号来源"
+        ],
+        "state_change": "从认命捡废料，到第一次被腐化潮逼着面对选择。",
+        "exit_state": "破铁条在手，容小满的身影被史莱姆围住。",
+        "estimated_chars": 1000,
+        "environment_role": {
+          "hazard": [],
+          "opportunity": [],
+          "information": [],
+          "pressure": [],
+          "foreshadow": []
+        },
+        "subjective_chain": {
+          "stimulus": "",
+          "bodily_or_system_sensation": "",
+          "primitive_emotion": "",
+          "interpretation": "",
+          "choice": "",
+          "result": ""
+        },
+        "reader_grab_points": []
+      },
+      {
+        "scene_id": "scene_02",
+        "purpose": "腐化潮中的首次战斗压力：零被迫迎战静电史莱姆。",
+        "entering_state": "静电史莱姆群涌入镇口，容小满被围。",
+        "event": "零挥着破铁条冲上去，第一击被弹开，自己摔了个跟头。",
+        "conflict": "废灵没有技能没有灵能，只能靠蛮力乱砍。",
+        "character_action": "一边骂骂咧咧一边爬起来再砍，把容小满护在身后。",
+        "choice": "没有丢下容小满自己跑。",
+        "reveal": [
+          "主角嘴硬心软",
+          "静电史莱姆怕钝击"
+        ],
+        "hide": [
+          "吞噬能力"
+        ],
+        "state_change": "从被保护者心态，第一次主动保护别人。",
+        "exit_state": "被三只史莱姆逼到墙角，灵核空白处忽然发烫。",
+        "estimated_chars": 1200,
+        "environment_role": {
+          "hazard": [],
+          "opportunity": [],
+          "information": [],
+          "pressure": [],
+          "foreshadow": []
+        },
+        "subjective_chain": {
+          "stimulus": "",
+          "bodily_or_system_sensation": "",
+          "primitive_emotion": "",
+          "interpretation": "",
+          "choice": "",
+          "result": ""
+        },
+        "reader_grab_points": []
+      },
+      {
+        "scene_id": "scene_03",
+        "purpose": "吞噬觉醒：绝境中吞噬灵核，Lv.0→1。",
+        "entering_state": "墙角绝境，一只史莱姆的灵核碎片滚到脚边。",
+        "event": "零本能捡起灵核碎片吞下，体内爆发出从未有过的暖流。",
+        "conflict": "吞噬过程剧痛，他差点把灵核吐出来。",
+        "character_action": "死死咬住牙，把灵核咽下去。",
+        "choice": "",
+        "reveal": [
+          "隐藏能力【吞噬】觉醒",
+          "等级Lv.0→Lv.1"
+        ],
+        "hide": [
+          "吞噬的代价（饥饿/腐化）"
+        ],
+        "state_change": "废灵第一次拥有力量。",
+        "exit_state": "掌心浮现暗紫灵核纹，破铁条泛起微光。",
+        "estimated_chars": 1200,
+        "environment_role": {
+          "hazard": [],
+          "opportunity": [],
+          "information": [],
+          "pressure": [],
+          "foreshadow": []
+        },
+        "subjective_chain": {
+          "stimulus": "",
+          "bodily_or_system_sensation": "",
+          "primitive_emotion": "",
+          "interpretation": "",
+          "choice": "",
+          "result": ""
+        },
+        "reader_grab_points": []
+      },
+      {
+        "scene_id": "scene_04",
+        "purpose": "觉醒后反杀与卷末钩子：第一场小胜+离开废渣镇的念头。",
+        "entering_state": "吞噬觉醒后的零挥剑劈开史莱姆。",
+        "event": "一剑一只，三只史莱姆清空；容小满目瞪口呆。",
+        "conflict": "力量来得太容易，零心里发慌——这能力从没见过。",
+        "character_action": "强撑着狂笑掩饰心虚，肚子饿得咕咕叫。",
+        "choice": "",
+        "reveal": [
+          "吞噬的饥饿代价初现",
+          "天梭城方向是变强的路"
+        ],
+        "hide": [
+          "灵核空白之谜"
+        ],
+        "state_change": "从废灵到Lv.1，第一次想离开废渣镇。",
+        "exit_state": "掌心的暗紫灵核纹与破铁条旧纹微微共鸣。",
+        "estimated_chars": 1100,
+        "environment_role": {
+          "hazard": [],
+          "opportunity": [],
+          "information": [],
+          "pressure": [],
+          "foreshadow": []
+        },
+        "subjective_chain": {
+          "stimulus": "",
+          "bodily_or_system_sensation": "",
+          "primitive_emotion": "",
+          "interpretation": "",
+          "choice": "",
+          "result": ""
+        },
+        "reader_grab_points": []
+      }
+    ],
+    "reader_questions": []
+  },
+  "current_arc_summary": "# 《硅基升维》卷一《废灵崛起》精细章纲（第 1-15 章）\n# 依据：volume_01.yaml / master_story.yaml / worldview.yaml / world_rules.yaml / premise.md / style_guide.md\n# protagonist.yaml / major_character_arcs.yaml / levels.yaml / classes.yaml / equipment.yaml / drops.yaml\n# maps.yaml / bestiary.yaml / bosses.yaml / factions.yaml / novel_constitution.json\n# 节奏锚点：ch2-3 觉醒吞噬（Lv.0→3）；ch6 获得闪步技能书；ch8 打脸村霸赖三；ch9 容小满入队；\n#           ch11-12 静电洞穴初战惨败；ch14 静电史莱姆王首杀（团子宠物蛋+雷纹护臂）；ch15 Lv.10 职业觉醒（斩波者）离开新手区\n# 等级曲线：Lv.0（ch1）→ Lv.1（ch2）→ Lv.3（ch3）→ Lv.4（ch4）→ Lv.5（ch5-7 蓄力）→ Lv.7（ch8）→ Lv.8（ch9-11）→ Lv.9（ch12-13）→ Lv.10（ch14-15）\n# 队伍：零（ch1）→ 零+容小满（ch9）→ 零+容小满+团子（ch14-15）\n# 爽点节奏：小爽（ch2 觉醒反杀 / ch5 惨胜狼王）→ 中爽（ch8 打脸赖三）→ 虐点蓄力（ch11-12 惨败）→ 大爽（ch14 Boss 首杀）→ 爆点（ch15 职业觉醒+离村）\n\nchapters:\n  - chapter: 1\n    title: 废渣镇的零\n    goal: 开局立人设：空白灵核的零级废灵少年在废渣镇拾荒求生，从废料堆捡到断刃裂变剑；铺垫腐化潮将至；赖三欺压、容小满缝补、村长善意三条人物线同时立住\n    map: 碎屑平原·废渣镇（废料堆、镇口、记忆仓广场）\n    characters: 零、村长、容小满、赖三、赖三打手（阿肥、瘦猴）、镇民\n    task_type: 主线（开篇铺垫）\n    conflict: 废灵身份被全镇歧视；赖三带打手收保护费、抢废料，零护住破铁条挨打；镇口出现怪物残骸，腐化潮的传言让全镇不安\n    monsters: 无正面打怪（镇边远观静电史莱姆蹦跳的影子；赖三牵的一条瘦野狗——后文伏笔）\n    battle: 无打怪战，有一场小冲突：赖三打手抢废料，零护剑被推倒在地挨了两下，靠嘴硬和跑得快脱身，怀里死死抱着破铁条（动作场面+憋屈感）\n    skills: 无\n    equipment: 获得：裂变剑（灰白·破铁条，剑身断口有一道旧纹）；废灵护甲（灰白，容小满缝补，记在赊账本上）\n    rewards: 裂变剑；灵核碎片×2（捡的，未吸收）\n    relationship: 与镇民（轻视）；与村长（全镇唯一善意，啰嗦地叮嘱他别出镇）；与容小满（欠她补衣钱，被她记进账本）；与赖三（结怨起步）\n    reveal: 零是全书唯一零级空白灵核的废灵；废渣镇是碎屑平原最穷的镇；腐化潮近日将临的传言；破铁条断口的旧纹不寻常，贴着额角芯片纹会微微发烫\n    satisfaction: 憋屈开局蓄力打脸——破铁条被嘲笑\"想当剑想疯了吧\"，零攥紧拳头不服气；读者期待感拉满\n    fun: 拾荒吐槽：\"捡废料不丢人，饿死才丢人\"；容小满算账：\"补三针，记你账上，两块碎片，利滚利\"；村长啰嗦：\"小零啊，听叔说，明天别出镇，听见没？\"\n    suspense: 破铁条上的旧纹到底是什么？为什么空白灵核会发烫？\n    hook: 腐化潮夜：镇外火光冲天，狗群嘶吼逼近，零握着破铁条被堵在巷子尽头\n    word_count: 3800\n  - chapter: 2\n    title: 第一次吞噬\n    goal: 腐化潮夜绝境中吞噬第一枚怪物灵核，觉醒隐藏能力【吞噬】并反杀野狗群，Lv.0→Lv.1；确立吞噬金手指的第一条规则与代价悬念\n    map: 碎屑平原·废渣镇外围（巷子、镇口野地）\n    characters: 零、容小满、村长、赖三（趁乱抢货逃命，丑态毕露）、镇民\n    task_type: 主线（觉醒）\n    conflict: 腐化潮爆发的怪物扑进镇子，零为护住容小满和半镇老小被狗群围住；吞灵核前的犹豫——吞下去可能死，不吞必死；吞噬后发现自己\"能吃\"怪物\n    monsters: 腐化野狗（Lv.3，潮夜变异成群）、静电史莱姆小群（Lv.2）\n    battle: 绝境战：零先被狗群放倒（冷汗、发抖、脸色惨白），摸到濒死怪物掉出的灵核——\"饿得发疯，脑子一热吞了下去\"——觉醒反杀；吞噬强化后的蛮力加破铁条劈砍\n    skills: 觉醒【吞噬】（隐藏能力）；吞噬灵核获得临时强化（力量大增）\n    equipment: 裂变剑灰白首次见血；无新装备\n    rewards: Lv.0→Lv.1（【等级提升：Lv.0 → Lv.1】）；灵核碎片×3；吞噬能力面板（短提示，不刷屏）\n    relationship: 与容小满（生死共患难，她还惦记记账）；与镇长镇民（被救的改观萌芽）；零与自己（第一次有力气，不再任人宰割）\n    reveal: 【吞噬】初规则：可吞灵核、临时强化、越级杀怪经验翻倍；全镇都说空白灵核是废的，自己的灵核却能\"消化\"怪物灵核——为什么？伏笔加深\n    satisfaction: 小爽点：绝境反杀加全书唯一零级破壳升级，读者见证废灵第一次站直腰",
+  "recent_chapter_summaries": [],
+  "current_pov_state": {
+    "name": "未命名",
+    "role": "protagonist",
+    "current_state": "尚未命名的半透明硅基微粒，仅有17秒稳定意识，尚未形成稳定自我。",
+    "knowledge_state": [
+      "不知道自身来源",
+      "稳定意识最多持续17秒",
+      "体内存在比17秒更早存在的未知通路"
+    ],
+    "cognition": {
+      "stage": 1,
+      "current_framework": {
+        "name": "本能觉醒"
+      },
+      "beliefs": {
+        "外部信息不是答案，选择才构成判断": 0.6,
+        "旧规律可被现实推翻": 0.7,
+        "我只是某个系统的容器": 0.3
+      },
+      "unresolved_questions": [
+        "我是谁",
+        "体内旧痕迹是什么"
+      ],
+      "next_breakpoint": {
+        "target": "旧规律可被现实推翻"
+      }
+    }
+  },
+  "involved_character_states": [
+    {
+      "name": "未命名",
+      "role": "protagonist",
+      "current_state": "尚未命名的半透明硅基微粒，仅有17秒稳定意识，尚未形成稳定自我。",
+      "knowledge_state": [
+        "不知道自身来源",
+        "稳定意识最多持续17秒",
+        "体内存在比17秒更早存在的未知通路"
+      ],
+      "cognition": {
+        "stage": 1,
+        "current_framework": {
+          "name": "本能觉醒"
+        },
+        "beliefs": {
+          "外部信息不是答案，选择才构成判断": 0.6,
+          "旧规律可被现实推翻": 0.7,
+          "我只是某个系统的容器": 0.3
+        },
+        "unresolved_questions": [
+          "我是谁",
+          "体内旧痕迹是什么"
+        ],
+        "next_breakpoint": {
+          "target": "旧规律可被现实推翻"
+        }
+      }
+    }
+  ],
+  "relevant_world_rules": [],
+  "relevant_foreshadowing": [],
+  "relevant_locations": [],
+  "relevant_items": [],
+  "canon_memory": [],
+  "narrative_memory": [],
+  "author_intent_visible": [],
+  "excluded_author_intent_ids": [],
+  "writer_brief": "写第0001章《废渣镇的零》。正式章节长度：正文汉字不少于3800，目标4500，建议不超过5000；只计算小说正文汉字，标题、标点、空格、元数据不计入。场景计划：scene_01:建立废渣镇与零的废灵身份，埋空白灵核伏笔。；scene_02:腐化潮中的首次战斗压力：零被迫迎战静电史莱姆。；scene_03:吞噬觉醒：绝境中吞噬灵核，Lv.0→1。；scene_04:觉醒后反杀与卷末钩子：第一场小胜+离开废渣镇的念头。。必须发生：零在废料堆捡到一根破铁条（裂变剑）；腐化潮爆发，镇民逃散；零为救被史莱姆围住的容小满，被迫挥剑迎战；绝境中零本能吞噬了一枚静电史莱姆灵核，觉醒【吞噬】；等级 Lv.0 → Lv.1，掌心浮现暗紫灵核纹。不得发生：不能揭示空白灵核的真正来历；不能让零觉醒正式职业（Lv.10 才觉醒斩波者）；不能让容小满入队（第 9 章才入队）；不能出现天梭城、公会、高级地图与势力；不能让吞噬能力毫无代价地使用（吞噬后短暂眩晕/饥饿感）。作者可见意图："
+}

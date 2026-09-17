@@ -1,0 +1,157 @@
+{
+  "chapter_id": "0051",
+  "committed_at": "20260831215821",
+  "state_delta": {
+    "chapter_id": "0051",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260831214950_d5517a20:candidate",
+    "source_draft_hash": "af945567a8385d980b428315051a936a5df029ef9ec6172cf6e7a62c68647efd",
+    "timeline_delta": {
+      "source_chapter": "0050",
+      "title": "虫腹",
+      "time": "CH050落闸后立即",
+      "location": "锈蚀地牢中层牢房区下方蠕虫巢·记忆仓笼室"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0051_zero",
+        "subject": "人物变化",
+        "change": "零维持Lv.33与腐化值16，左臂仍几乎不能抬；以右手和闪步强行突破虫巢，救援过程没有治疗或恢复",
+        "source": "chapter_0051_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0051_team",
+        "subject": "人物变化",
+        "change": "闸门以重损壁垒持续开路并再受酸液腐蚀；容小满透支加重并流鼻血；频闪无箭、弯弓未修，以短刃作战且肩部被撞伤",
+        "source": "chapter_0051_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0051_tuanzi",
+        "subject": "人物变化",
+        "change": "团子在空能昏睡中受巢内静电刺激短暂醒来，完整吞下三条地牢幼虫后打嗝冒锈烟，体表出现会随静电发亮的锈色纹路，随后再度困倦；仍不会说人类语言",
+        "source": "chapter_0051_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0051_yiling",
+        "subject": "人物变化",
+        "change": "忆灵被找到时已被接入记忆仓笼并持续融化；她确认不能拆笼，必须拆开封存其记忆的锁",
+        "source": "chapter_0051_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0051_rescue",
+        "subject": "关系变化",
+        "change": "全队无一人考虑撤退，在残血与零补给状态下追入虫巢；零抵达仓笼后停止硬拆并听从忆灵的解锁判断",
+        "source": "chapter_0051_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0051_cages",
+        "subject": "知识变化",
+        "change": "蠕虫巢内部利用旧地牢机关与记忆仓笼收集缓存幽灵；仓笼会抽取幽灵的记忆而非单纯灵能，暴力拆笼会使记忆散失",
+        "source": "chapter_0051_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0051_lock",
+        "subject": "知识变化",
+        "change": "忆灵的影子与仓底黑纹相连；正确救援路径是启开记忆锁，让封存记忆归还，而不是拆毁仓笼",
+        "source": "chapter_0051_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0051_location",
+        "subject": "地点变化",
+        "change": "零、容小满、闸门、频闪与团子已从锈潮闸道安全侧进入蠕虫巢记忆仓笼室；忆灵位于其中一只仓笼内",
+        "source": "chapter_0051_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0051_inventory",
+        "subject": "物品变化",
+        "change": "本章无药品、箭、雷纹粉补给；临时战弓仍被捏弯但未折断；击杀巡逻蠕虫只出现青白残响且被记忆仓吸走，没有获得实体灵核",
+        "source": "chapter_0051_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0051_level",
+        "subject": "能力变化",
+        "change": "零维持Lv.33，无升级；腐化值维持16",
+        "source": "chapter_0051_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0051_memory_food",
+        "subject": "世界变化",
+        "change": "锈王控制的巢内仓笼把幽灵记忆当作可收集、可食用的资源；仓笼依旧沿用旧地牢的记忆归仓规则",
+        "source": "chapter_0051_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0051_tuanzi_rust",
+          "subject": "伏笔埋设",
+          "change": "团子吞食三条幼虫后出现锈色纹路，异变原因未知",
+          "source": "chapter_0051_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0051_memory_core",
+          "subject": "伏笔推进",
+          "change": "记忆被仓笼抽取并结成可食光团，灵核与记忆容器暗线获得实体化证据",
+          "source": "chapter_0051_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0051_rescue_location",
+          "subject": "伏笔回收",
+          "change": "CH050忆灵被掳方向确认通往牢房区正下方的蠕虫巢记忆仓笼室",
+          "source": "chapter_0051_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0051_lock_memory",
+        "subject": "新谜题",
+        "change": "忆灵被封在锁里的具体记忆是什么，为何与记忆仓规则匹配",
+        "source": "chapter_0051_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0051_goal",
+        "subject": "第0051章主要目标",
+        "change": "队伍带伤突破蠕虫巢并找到忆灵，确认救援必须拆记忆锁而不能拆仓笼",
+        "source": "chapter_0051_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

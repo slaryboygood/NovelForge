@@ -1,0 +1,170 @@
+{
+  "chapter_id": "0005",
+  "committed_at": "20260827004121",
+  "state_delta": {
+    "chapter_id": "0005",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260827003625_10904789:candidate",
+    "source_draft_hash": "9d54aa6b5fc9059337d211b6ad99c995f9ed90fb4a9004dc17c2290c6f9f69b2",
+    "timeline_delta": {
+      "source_chapter": "0004",
+      "title": "废铁狼的獠牙",
+      "time": "新历300纪·春，潮后数日（委托日白天→夜）",
+      "location": "碎屑平原·西废线（废弃运输带遗迹、废铁狼领地、狼窝）"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0005_character",
+        "subject": "人物变化",
+        "change": "零：Lv.4→Lv.5；猎废铁狼群（借'狼之意'的速度、隔空勾动狼核）；被废铁狼王（Lv.7 精英）伏击，左臂被獠牙对穿留下两圈疤，反咬狼王咽喉惨胜；获得完整狼王灵核（未吞未喂剑，抉择悬置）；狼窝捡到半张'锈铁神龛'旧地图碎片；察觉容小满有商会没教过的治疗术（乳白光，能治能伤人）",
+        "source": "chapter_0005_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0005_rel_rong",
+        "subject": "关系变化",
+        "change": "容小满：为救石墩暴露乳白治疗术（非商会手段），又耗尽气力为零治伤（'你这手不能废'），被问来源只答'别问'——秘密与信任交织",
+        "source": "chapter_0005_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0005_rel_partners",
+        "subject": "关系变化",
+        "change": "豁牙/石墩：共过狼群生死；石墩见到地图时眼神躲闪（'知道些什么没说'）；狼崽处置上容小满拦下石墩",
+        "source": "chapter_0005_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0005_knowledge",
+        "subject": "知识变化",
+        "change": "废铁狼习性：成群包夹、专挑弱者下口、放哨头狼、耗人战术，狼王享用最虚弱的猎物；借狼之意可短暂获得狼的速度与狠劲；狼王（Lv.7 精英）灵核完整、内里赤红光点；狼窝旧箱里半张旧地图指向'锈铁神龛'（字迹：……锈铁神……龛，奉……勿近……）；容小满的乳白光不是商会教的",
+        "source": "chapter_0005_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0005_location",
+        "subject": "地点变化",
+        "change": "西废线（废弃运输带遗迹：金属轨道、车壳、铁丝棘）、狼窝（车壳下洞穴，狼崽+旧铁箱）",
+        "source": "chapter_0005_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0005_item_core",
+        "subject": "物品变化",
+        "change": "完整狼王灵核×1（破布裹好收进包——喂剑还是吞核，抉择悬置）；废铁狼灵核若干（按耳计数交委托）",
+        "source": "chapter_0005_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0005_item_map",
+        "subject": "物品变化",
+        "change": "半张旧地图碎片（锈铁神龛方向，焦黑残破，收进怀里）",
+        "source": "chapter_0005_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0005_item_sword",
+        "subject": "物品变化",
+        "change": "裂变剑：剑刃对狼王灵核'馋'（锈光一明一灭、磨磨蹭蹭不肯暗），刃口新增细纹",
+        "source": "chapter_0005_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0005_item_scar",
+        "subject": "物品变化",
+        "change": "左臂两圈对穿狼咬疤（人物标志伤疤，容小满术法收拢结痂）",
+        "source": "chapter_0005_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0005_ability",
+        "subject": "能力变化",
+        "change": "【吞噬】新用法：借'意'（狼的速度与狠劲）、隔空勾动活狼核、捏碎狼核狂暴化、以血肉之躯撕咬吞噬（反咬狼王）",
+        "source": "chapter_0005_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0005_world",
+        "subject": "世界变化",
+        "change": "西废线废铁狼群被清（狼王毙命），委托按耳计数；狼窝藏有指向'锈铁神龛'的旧地图（隐藏地点线索）",
+        "source": "chapter_0005_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0005_fs_shrine",
+          "subject": "伏笔埋设",
+          "change": "锈铁神龛：半张旧地图碎片（'……锈铁神……龛，奉……勿近……'）——隐藏遗迹",
+          "source": "chapter_0005_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0005_fs_feeding",
+          "subject": "伏笔埋设",
+          "change": "喂剑还是吞核：裂变剑'馋'灵核、剑刃新纹——成长武器规则展示",
+          "source": "chapter_0005_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0005_fs_rong",
+          "subject": "伏笔埋设",
+          "change": "容小满的乳白光：商会没教过的治疗术，能治能伤人——来历成谜（储能族血脉伏笔）",
+          "source": "chapter_0005_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0005_fs_cave_adv",
+          "subject": "伏笔推进",
+          "change": "静电洞穴：咕噜声'像在等他'；狼王灵核的烫与地底闷雷呼应；石墩看地图时眼神飘向洞穴方向",
+          "source": "chapter_0005_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": []
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0005_my_shrine",
+        "subject": "新谜题",
+        "change": "锈铁神龛在哪？里面有什么？",
+        "source": "chapter_0005_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0005_my_rong",
+        "subject": "新谜题",
+        "change": "容小满的治疗术哪来的？她隐瞒了什么？",
+        "source": "chapter_0005_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0005_goal",
+        "subject": "第0005章主要目标",
+        "change": "升级期第一场硬仗：猎杀废铁狼群，Lv.4→Lv.5；遭废铁狼王伏击惨胜，左臂留下狼咬疤；狼窝里捡到半张旧地图碎片（锈铁神龛隐藏地点线索）；容小满暴露非商会治疗术",
+        "source": "chapter_0005_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

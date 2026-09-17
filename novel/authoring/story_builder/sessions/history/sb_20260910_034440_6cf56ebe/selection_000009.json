@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "session": {
+    "session_id": "sb_20260910_034440_6cf56ebe",
+    "project_id": "novel_project",
+    "status": "CONFIGURING",
+    "current_step": "author_boundaries",
+    "completed_steps": [
+      "reader_experience",
+      "worldview",
+      "background",
+      "protagonist",
+      "core_characters",
+      "factions_locations",
+      "major_events",
+      "progression",
+      "style"
+    ],
+    "selections": [
+      {
+        "selection_id": "sel_000001_b2088873",
+        "step": "reader_experience",
+        "option_id": "experience_growth_adventure",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 1,
+        "selected_at": "2026-09-10T03:47:06.405932Z"
+      },
+      {
+        "selection_id": "sel_000002_9c735dd0",
+        "step": "worldview",
+        "option_id": "world_silicon_mmo",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 2,
+        "selected_at": "2026-09-10T03:47:22.650692Z"
+      },
+      {
+        "selection_id": "sel_000003_cb2e365a",
+        "step": "background",
+        "option_id": "background_ruined_board",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 3,
+        "selected_at": "2026-09-10T03:47:26.585168Z"
+      },
+      {
+        "selection_id": "sel_000004_c0d4cfe3",
+        "step": "protagonist",
+        "option_id": "protagonist_nonhuman_awakening",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 4,
+        "selected_at": "2026-09-10T03:47:30.284931Z"
+      },
+      {
+        "selection_id": "sel_000005_92098c30",
+        "step": "core_characters",
+        "option_id": "cast_found_family",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 5,
+        "selected_at": "2026-09-10T03:47:41.412024Z"
+      },
+      {
+        "selection_id": "sel_000006_c073e7b7",
+        "step": "factions_locations",
+        "option_id": "setting_roaming_world",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 6,
+        "selected_at": "2026-09-10T03:47:44.802953Z"
+      },
+      {
+        "selection_id": "sel_000007_c78c6710",
+        "step": "major_events",
+        "option_id": "events_survival_to_world",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 7,
+        "selected_at": "2026-09-10T03:47:55.022778Z"
+      },
+      {
+        "selection_id": "sel_000007_caa8031a",
+        "step": "major_events",
+        "option_id": "events_disaster_rebuild",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 7,
+        "selected_at": "2026-09-10T03:47:55.022778Z"
+      },
+      {
+        "selection_id": "sel_000008_1f3ab7e9",
+        "step": "progression",
+        "option_id": "progression_cultivation_breakthrough",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 8,
+        "selected_at": "2026-09-10T03:48:02.231496Z"
+      },
+      {
+        "selection_id": "sel_000009_f4c567ff",
+        "step": "style",
+        "option_id": "style_light_fast_webnovel",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 9,
+        "selected_at": "2026-09-10T03:48:07.801837Z"
+      }
+    ],
+    "needs_review_steps": [],
+    "selection_version": 9,
+    "recommendation_version": 9,
+    "created_at": "2026-09-10T03:44:40.582384Z",
+    "updated_at": "2026-09-10T03:48:07.845719Z"
+  }
+}

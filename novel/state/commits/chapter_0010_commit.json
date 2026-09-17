@@ -1,0 +1,163 @@
+{
+  "chapter_id": "0010",
+  "committed_at": "20260827010735",
+  "state_delta": {
+    "chapter_id": "0010",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260827010324_7d02341d:candidate",
+    "source_draft_hash": "108706fc83fef7cd67769a9dc9c7fdcc5596387783db6b43faf7fc3ecbfc6832",
+    "timeline_delta": {
+      "source_chapter": "0009",
+      "title": "洞中一日",
+      "time": "新历300纪·春，入洞次日（晨→午，一整日）",
+      "location": "碎屑平原·静电洞穴（水蛭巢区、电苔区、蓝息菇丛、史莱姆王巢穴入口）"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0010_character",
+        "subject": "人物变化",
+        "change": "零：Lv.8 维持；学会洞内环境规则（积水带电/电苔孢子/水蛭吸灵）；清剿电苔怪与深水蛭巢；与容小满配合从生涩到默契（她看水他看怪、她数灵能他出剑）；采得蓝息菇二十朵（商会要的货）；发现旧冒险者留言（'别往深处去''压扁我们的不是虫'）；在史莱姆王巢穴入口看见满地压扁的遗物——一块护甲片被看不见的力道又压沉一分（本章止步于此）",
+        "source": "chapter_0010_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0010_character_rong",
+        "subject": "人物变化",
+        "change": "容小满：第一次主动冲进战圈（'别乱动，伤口会崩！'）；用青光倒灌逼退大水蛭；负责灵能预算与采菇（'大核值钱，小核给它当零嘴'）——正式成为队伍的'算账的'",
+        "source": "chapter_0010_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0010_rel_rong",
+        "subject": "关系变化",
+        "change": "容小满：'灵能归你算账'——从治疗到后勤总管；'赔命太贵，先记你欠我三次治疗、一次救命、半双鞋'（记账式深情）",
+        "source": "chapter_0010_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0010_knowledge",
+        "subject": "知识变化",
+        "change": "洞内环境规则：积水带电（'这破洞会咬人'）、电苔怪喷孢子麻人、水蛭巢在水里（斩巢可清群）；电苔怪/水蛭灵核均可吞用；蓝息菇=商会要的'会发蓝光的东西'（喜雷喜湿、不能用铁器硬挖）；旧冒险者留言：'王不在潭里''水会偷力，苔会吐麻，虫只吸灵''蓝菇能卖命，也能买路''铁牌不是拦人，是喂它''它醒了''商会知道''压扁我们的不是虫'；史莱姆王巢穴=雷声源头（溶洞最深处）；压扁遗物的力量不是砍/烧/吸",
+        "source": "chapter_0010_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0010_location",
+        "subject": "地点变化",
+        "change": "静电洞穴：水蛭巢区→电苔区→蓝息菇丛→史莱姆王巢穴入口（溶洞，遗物满地）",
+        "source": "chapter_0010_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0010_item_blue",
+        "subject": "物品变化",
+        "change": "蓝息菇×20（湿布包好——商会要的货）；电苔核×17、水蛭核×12（大核留用、小核喂剑）",
+        "source": "chapter_0010_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0010_item_sword",
+        "subject": "物品变化",
+        "change": "裂变剑：被喂小灵核（'七分饱'的野兽——戾气仍在但不再躁动）",
+        "source": "chapter_0010_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0010_ability",
+        "subject": "能力变化",
+        "change": "吞噬：吞电苔/水蛭灵核（静电感知强化——哪片水带电更凶、哪片苔会喷孢子）；Lv.8 灵流稳住",
+        "source": "chapter_0010_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0010_ability_rong",
+        "subject": "能力变化",
+        "change": "容小满：青光治疗线可'抽麻意''倒灌逼虫'（回灵术实战扩展）；手背青纹一闪即隐（血脉细节）",
+        "source": "chapter_0010_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0010_world",
+        "subject": "世界变化",
+        "change": "静电洞穴中层（水蛭巢/电苔区）被'一队'清理并收获蓝息菇；旧冒险者留言揭示洞穴异变线索（'商会知道'）",
+        "source": "chapter_0010_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0010_fs_press",
+          "subject": "伏笔埋设",
+          "change": "压扁的力量：遗物'不是砍、不是烧、不是吸，是被压扁的'——巢穴入口的护甲片被看不见的力道压沉（Boss 机制伏笔）",
+          "source": "chapter_0010_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0010_fs_letters",
+          "subject": "伏笔埋设",
+          "change": "旧冒险者留言：'铁牌不是拦人，是喂它''商会知道'——商会与洞穴的隐秘联系",
+          "source": "chapter_0010_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0010_fs_king_adv",
+          "subject": "伏笔推进",
+          "change": "史莱姆王：'王不在潭里'——雷声源头在巢穴；潭里青眼与巢穴黑影'气息相连'",
+          "source": "chapter_0010_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0010_fs_rong_adv",
+          "subject": "伏笔推进",
+          "change": "容小满手背青纹在令牌发烫时同亮——她与洞穴/令牌的隐秘关联",
+          "source": "chapter_0010_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": []
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0010_my_press",
+        "subject": "新谜题",
+        "change": "压扁遗物的是什么力量？'压扁我们的不是虫'——那是什么？",
+        "source": "chapter_0010_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0010_my_feed",
+        "subject": "新谜题",
+        "change": "'铁牌不是拦人，是喂它'——商会'止步'铁牌的真实用途？",
+        "source": "chapter_0010_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0010_goal",
+        "subject": "第0010章主要目标",
+        "change": "深入静电洞穴：清理电苔怪与水蛭巢，收集材料灵核；学习洞内环境规则；发现史莱姆王巢穴外围与旧冒险者留言（'别往深处去'）；Lv.8 维持——为 Boss 战蓄力",
+        "source": "chapter_0010_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

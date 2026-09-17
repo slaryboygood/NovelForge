@@ -1,0 +1,96 @@
+{
+  "$defs": {
+    "FactChange": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "enum": [
+            "event",
+            "character_choice",
+            "equipment",
+            "ability",
+            "knowledge",
+            "mystery",
+            "foreshadow",
+            "outcome"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "b_evidence": {
+          "title": "B Evidence",
+          "type": "string"
+        },
+        "c_evidence": {
+          "title": "C Evidence",
+          "type": "string"
+        }
+      },
+      "required": [
+        "category",
+        "description",
+        "b_evidence",
+        "c_evidence"
+      ],
+      "title": "FactChange",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "chapter_id": {
+      "pattern": "^\\d{4}$",
+      "title": "Chapter Id",
+      "type": "string"
+    },
+    "b_hash": {
+      "title": "B Hash",
+      "type": "string"
+    },
+    "c_hash": {
+      "title": "C Hash",
+      "type": "string"
+    },
+    "factual_changes": {
+      "items": {
+        "$ref": "#/$defs/FactChange"
+      },
+      "title": "Factual Changes",
+      "type": "array"
+    },
+    "line_edit_only": {
+      "title": "Line Edit Only",
+      "type": "boolean"
+    },
+    "verdict": {
+      "enum": [
+        "PASS",
+        "POLISH_SCOPE_VIOLATION"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    },
+    "promoted_artifact": {
+      "enum": [
+        "B",
+        "C"
+      ],
+      "title": "Promoted Artifact",
+      "type": "string"
+    }
+  },
+  "required": [
+    "chapter_id",
+    "b_hash",
+    "c_hash",
+    "line_edit_only",
+    "verdict",
+    "promoted_artifact"
+  ],
+  "title": "FactDiffReport",
+  "type": "object"
+}

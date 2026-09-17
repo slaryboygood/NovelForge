@@ -1,0 +1,210 @@
+{
+  "$defs": {
+    "CanonLevel": {
+      "enum": [
+        "HARD_CANON",
+        "HARD_PLOT",
+        "RESTRICTED_TRUTH",
+        "SOFT_PLAN"
+      ],
+      "title": "CanonLevel",
+      "type": "string"
+    },
+    "HardPlotNode": {
+      "additionalProperties": false,
+      "properties": {
+        "node_id": {
+          "title": "Node Id",
+          "type": "string"
+        },
+        "summary": {
+          "title": "Summary",
+          "type": "string"
+        },
+        "volume_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Volume Id"
+        },
+        "chapter_window": {
+          "anyOf": [
+            {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Chapter Window"
+        },
+        "source_refs": {
+          "items": {
+            "$ref": "#/$defs/SourceReference"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "node_id",
+        "summary"
+      ],
+      "title": "HardPlotNode",
+      "type": "object"
+    },
+    "SourceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "section": {
+          "title": "Section",
+          "type": "string"
+        },
+        "canon_level": {
+          "$ref": "#/$defs/CanonLevel"
+        },
+        "writer_visible": {
+          "default": false,
+          "title": "Writer Visible",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "section",
+        "canon_level"
+      ],
+      "title": "SourceReference",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "work_id": {
+      "title": "Work Id",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "target_chinese_chars": {
+      "minimum": 1,
+      "title": "Target Chinese Chars",
+      "type": "integer"
+    },
+    "target_chapters": {
+      "minimum": 1,
+      "title": "Target Chapters",
+      "type": "integer"
+    },
+    "world_rules": {
+      "items": {
+        "type": "string"
+      },
+      "title": "World Rules",
+      "type": "array"
+    },
+    "main_story": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Main Story",
+      "type": "array"
+    },
+    "endgame": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Endgame",
+      "type": "array"
+    },
+    "core_character_arcs": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Core Character Arcs",
+      "type": "object"
+    },
+    "seven_fragments_truth": {
+      "title": "Seven Fragments Truth",
+      "type": "string"
+    },
+    "taiyi_truth": {
+      "title": "Taiyi Truth",
+      "type": "string"
+    },
+    "blank_protocol_truth": {
+      "title": "Blank Protocol Truth",
+      "type": "string"
+    },
+    "core_mysteries": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Core Mysteries",
+      "type": "array"
+    },
+    "forbidden_mutations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Forbidden Mutations",
+      "type": "array"
+    },
+    "hard_plot_nodes": {
+      "items": {
+        "$ref": "#/$defs/HardPlotNode"
+      },
+      "title": "Hard Plot Nodes",
+      "type": "array"
+    },
+    "source_refs": {
+      "items": {
+        "$ref": "#/$defs/SourceReference"
+      },
+      "title": "Source Refs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "work_id",
+    "title",
+    "target_chinese_chars",
+    "target_chapters",
+    "world_rules",
+    "main_story",
+    "endgame",
+    "core_character_arcs",
+    "seven_fragments_truth",
+    "taiyi_truth",
+    "blank_protocol_truth",
+    "core_mysteries",
+    "forbidden_mutations",
+    "hard_plot_nodes",
+    "source_refs"
+  ],
+  "title": "NovelConstitution",
+  "type": "object"
+}

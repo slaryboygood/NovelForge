@@ -1,0 +1,118 @@
+{
+  "chapter_id": "0031",
+  "committed_at": "20260828083459",
+  "state_delta": {
+    "chapter_id": "0031",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260828083020_d0950e10:candidate",
+    "source_draft_hash": "e61671d33514be74c155a68b0858d68d577e1de295c81b5e194c91edeeb004fc",
+    "timeline_delta": {
+      "source_chapter": "0030",
+      "title": "热浪之门",
+      "location": "天梭城西侧→过载荒原南缘入口",
+      "time": "赌斗次日白天至入夜"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0031_character",
+        "subject": "人物变化",
+        "change": "零带队进入过载荒原，掌握白天热浪耗状态、夜晚烧蚀犬群出没、深入怪物更凶三条规则；试吞焦土蜥灵核后确认过载腐化风险",
+        "source": "chapter_0031_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0031_knowledge",
+        "subject": "知识变化",
+        "change": "焦土蜥灵核可提供更强力量，但携带过载余温并加重腐化；容小满徽记金纹可压制部分躁气",
+        "source": "chapter_0031_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0031_location",
+        "subject": "地点变化",
+        "change": "队伍由天梭城抵达过载荒原南缘入口石台",
+        "source": "chapter_0031_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0031_core_obtain",
+        "subject": "物品变化",
+        "change": "零从三只焦土蜥尸体剖出并获得焦土蜥灵核×3",
+        "source": "chapter_0031_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0031_core_consume",
+        "subject": "物品变化",
+        "change": "零吞噬焦土蜥灵核×1，实体完全消失并留下核印",
+        "source": "chapter_0031_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0031_core_residue",
+        "subject": "物品变化",
+        "change": "零吸收三只焦土蜥死亡逸散灵能，不修改实体灵核数量",
+        "source": "chapter_0031_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0031_core_remaining",
+        "subject": "物品变化",
+        "change": "焦土蜥灵核剩余×2，由零分包携带",
+        "source": "chapter_0031_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [],
+    "organization_changes": [],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0031_world",
+        "subject": "世界变化",
+        "change": "过载荒原南缘白天热浪消耗状态，夜晚烧蚀犬群清场；荒原灵核带过载余温",
+        "source": "chapter_0031_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0031_fs_core",
+          "subject": "伏笔埋设",
+          "change": "过载灵核的腐化风险与容小满徽记的压制作用",
+          "source": "chapter_0031_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0031_fs_waste",
+          "subject": "伏笔推进",
+          "change": "过载荒原入口与犬群威胁正式落地",
+          "source": "chapter_0031_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": []
+    },
+    "new_mysteries": [],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0031_goal",
+        "subject": "第0031章主要目标",
+        "change": "首次进入过载荒原，击杀三只焦土蜥并摸清荒原三规则，入夜遭烧蚀犬群包围",
+        "source": "chapter_0031_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

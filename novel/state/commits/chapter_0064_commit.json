@@ -1,0 +1,179 @@
+{
+  "chapter_id": "0064",
+  "committed_at": "20260906000802",
+  "state_delta": {
+    "chapter_id": "0064",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260906000147_0f7eaee2:candidate",
+    "source_draft_hash": "516a6d11303af161ebc95e079610b40e888ea30fbe6e572af7b0bec4a64d88c6",
+    "timeline_delta": {
+      "source_chapter": "0063",
+      "title": "符文封印：打不出去的技能",
+      "time": "CH063阵灵退入深处后，队伍短歇并正面进入符文回廊",
+      "location": "远古门阵·符文回廊→外城高阶"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0064_zero",
+        "subject": "人物变化",
+        "change": "零在雷弧斩被封时与容小满完成净化同拍，越级首杀Lv.48阵灵后Lv.44→Lv.45；腐化值仍为24，旧伤因强战加重",
+        "source": "chapter_0064_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0064_party",
+        "subject": "人物变化",
+        "change": "闸门挣脱金链但甲盾添损；频闪在无短箭状态下以穿云箭虚瞄牵制且未射失；团子与容小满共同打破空拍封印；忆灵拼出第二重记忆库路线",
+        "source": "chapter_0064_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0064_same_beat",
+        "subject": "关系变化",
+        "change": "零与容小满首次以净化术和雷弧斩同拍破封，建立可复用的战斗默契",
+        "source": "chapter_0064_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0064_seal",
+        "subject": "知识变化",
+        "change": "阵灵封印符文按可变节律运转，空拍仅有半息；净化术先洗开金印、雷弧斩趁隙可斩断封印",
+        "source": "chapter_0064_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0064_permission",
+        "subject": "知识变化",
+        "change": "阵灵确认持令者能斩封；封印属于门控权限的残影而非怪物腐化",
+        "source": "chapter_0064_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0064_memory_route",
+        "subject": "知识变化",
+        "change": "三页符文书页与读仓残页拼出绕过内门的第二重记忆库路线",
+        "source": "chapter_0064_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0064_location",
+        "subject": "地点变化",
+        "change": "阵灵已在符文回廊崩散，队伍退至外城高阶；门控议会车队正沿灵能回路抵达",
+        "source": "chapter_0064_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0064_cloak",
+        "subject": "物品变化",
+        "change": "获得并由零装备紫装·符文披风1，可使周围残留封印气息退开",
+        "source": "chapter_0064_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0064_pages",
+        "subject": "物品变化",
+        "change": "获得符文书页3，与读仓深解残页共同拼出第二重记忆库路线",
+        "source": "chapter_0064_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0064_arrows",
+        "subject": "物品变化",
+        "change": "短箭仍为0；穿云箭仅作虚瞄牵制，没有离弦，实体仍由频闪携带",
+        "source": "chapter_0064_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0064_cores",
+        "subject": "物品变化",
+        "change": "阵灵无实体怪物灵核掉落；升级吸收的是阵灵崩散后的逸散灵能，既有实体库存不变",
+        "source": "chapter_0064_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0064_level",
+        "subject": "能力变化",
+        "change": "零Lv.44→Lv.45；掌握净化术先开缝、雷弧斩同拍斩封的配合",
+        "source": "chapter_0064_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0064_council",
+        "subject": "组织变化",
+        "change": "门控议会长老率灰银车队抵达远古门阵，银发门衍随行并持门中门令牌",
+        "source": "chapter_0064_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0064_seal_core",
+        "subject": "世界变化",
+        "change": "符文封印被确认是门阵守卫核心能力和门控权限残影；阵灵崩散后不产生实体怪物灵核",
+        "source": "chapter_0064_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0064_menyan",
+          "subject": "伏笔埋设",
+          "change": "银发少年门衍随议会车队抵达，手持门控令牌并扬言五分钟搬空宝库",
+          "source": "chapter_0064_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0064_memory_library",
+          "subject": "伏笔推进",
+          "change": "第二重记忆库路线已由书页拼出",
+          "source": "chapter_0064_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0064_array_spirit",
+          "subject": "伏笔回收",
+          "change": "CH063退去的Lv.48阵灵被正面首杀，封印空拍机制破解",
+          "source": "chapter_0064_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0064_council_intent",
+        "subject": "新谜题",
+        "change": "门控议会为何此时抵达，门衍与门阵权限是什么关系",
+        "source": "chapter_0064_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0064_goal",
+        "subject": "第0064章主要目标",
+        "change": "队伍破解可变节律封印并越级首杀阵灵；零升Lv.45，获符文披风和三页书页，第二重记忆库路线出现，门控议会车队抵达",
+        "source": "chapter_0064_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

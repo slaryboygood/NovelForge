@@ -1,0 +1,51 @@
+{
+  "directory": "F:\\AI_小说\\硅基升维\\skills\\writing",
+  "scanned_at": "20260826224551",
+  "items": [
+    {
+      "id": "writing:7ec542a3ee81",
+      "name": "少解释",
+      "source_path": "少解释.md",
+      "path": "F:\\AI_小说\\硅基升维\\skills\\writing\\少解释.md",
+      "source_format": "md",
+      "raw_content": "# 少解释\n\n- 能用动作、对白或感知呈现的内容，不直接写成作者说明。\n- 解释只回答当前行动必须知道的问题，连续解释不得超过一个自然段。\n- 不使用“真正的……”“这一刻……”“他忽然明白……”等模板化升华句收束场景。\n- 把判断留给读者：写清证据、代价和选择，不替读者宣布主题结论。\n",
+      "description": "把背景说明压进动作、选择和结果里，减少作者替人物总结。",
+      "category": "叙事",
+      "tags": "少解释,动作先行,留白",
+      "enabled": true,
+      "skill_scope": "WRITING_SKILL",
+      "content_hash": "25f5daf51a8006268bddd09ada7664538e376ed5da2d3e5fb31ff6cca9b5d45b",
+      "updated_at": "20260826224551"
+    },
+    {
+      "id": "writing:9396facded3c",
+      "name": "强钩子",
+      "source_path": "强钩子.md",
+      "path": "F:\\AI_小说\\硅基升维\\skills\\writing\\强钩子.md",
+      "source_format": "md",
+      "raw_content": "# 强钩子\n\n- 结尾钩子必须来自本章已经发生的动作或信息，不凭空制造灾难。\n- 钩子要具体到对象、位置、信号或倒计时，并让主角下一章必须作出选择。\n- 不用泛泛的“更大的危机正在到来”代替新事实；至少留下一个可追踪的异常。\n- 本章问题可以暂时解决，但结尾要改变主角的下一步目标或代价。\n",
+      "description": "让每章结尾留下具体、带代价且必须在下一章回应的压力。",
+      "category": "节奏",
+      "tags": "钩子,节奏,章节结尾",
+      "enabled": true,
+      "skill_scope": "WRITING_SKILL",
+      "content_hash": "8ae83285e7b0c278390c8d97e297550d64d85ca27925ffb7ad6b5c0ce3bf765a",
+      "updated_at": "20260826224551"
+    },
+    {
+      "id": "writing:e0a873db2226",
+      "name": "探索感",
+      "source_path": "探索感.md",
+      "path": "F:\\AI_小说\\硅基升维\\skills\\writing\\探索感.md",
+      "source_format": "md",
+      "raw_content": "# 探索感\n\n- 先让主角根据当前信号形成一个暂时判断，再用移动、读取、测量或维修进行试探。\n- 现实反馈至少有一处偏离预想，迫使主角修正判断或改变行动；避免连续“扫描—得到正确答案—执行”。\n- 一次重要探索最好改变地图认知、身体状态、目标、风险或可操作规则中的至少一项，但不把它当成逐章硬指标。\n- 新信息必须由行动获得并影响后续选择，不为展示数据而读取，不把探索写成资源或移动日志。\n- 保留局部未知：本章只确认行动所需的层级，不提前解释谜题来源和篇章终局。\n",
+      "description": "用可观察的空间、信号和行动制造未知感，让读者跟着主角一起发现。",
+      "category": "场景",
+      "tags": "探索,感知,发现",
+      "enabled": true,
+      "skill_scope": "WRITING_SKILL",
+      "content_hash": "b679206a21fc8e844d1d308b19acacb40c022571f78485a8fdbce8f856d12e91",
+      "updated_at": "20260826224551"
+    }
+  ]
+}

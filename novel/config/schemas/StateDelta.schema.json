@@ -1,0 +1,153 @@
+{
+  "$defs": {
+    "ChangeRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "subject": {
+          "title": "Subject",
+          "type": "string"
+        },
+        "change": {
+          "title": "Change",
+          "type": "string"
+        },
+        "source": {
+          "title": "Source",
+          "type": "string"
+        },
+        "confidence": {
+          "default": "confirmed",
+          "enum": [
+            "confirmed",
+            "inferred",
+            "needs_author_decision"
+          ],
+          "title": "Confidence",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "subject",
+        "change",
+        "source"
+      ],
+      "title": "ChangeRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "chapter_id": {
+      "pattern": "^\\d{4}$",
+      "title": "Chapter Id",
+      "type": "string"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    },
+    "timeline_delta": {
+      "additionalProperties": true,
+      "title": "Timeline Delta",
+      "type": "object"
+    },
+    "character_changes": {
+      "items": {
+        "$ref": "#/$defs/ChangeRecord"
+      },
+      "title": "Character Changes",
+      "type": "array"
+    },
+    "relationship_changes": {
+      "items": {
+        "$ref": "#/$defs/ChangeRecord"
+      },
+      "title": "Relationship Changes",
+      "type": "array"
+    },
+    "knowledge_changes": {
+      "items": {
+        "$ref": "#/$defs/ChangeRecord"
+      },
+      "title": "Knowledge Changes",
+      "type": "array"
+    },
+    "location_changes": {
+      "items": {
+        "$ref": "#/$defs/ChangeRecord"
+      },
+      "title": "Location Changes",
+      "type": "array"
+    },
+    "item_changes": {
+      "items": {
+        "$ref": "#/$defs/ChangeRecord"
+      },
+      "title": "Item Changes",
+      "type": "array"
+    },
+    "ability_changes": {
+      "items": {
+        "$ref": "#/$defs/ChangeRecord"
+      },
+      "title": "Ability Changes",
+      "type": "array"
+    },
+    "organization_changes": {
+      "items": {
+        "$ref": "#/$defs/ChangeRecord"
+      },
+      "title": "Organization Changes",
+      "type": "array"
+    },
+    "world_fact_changes": {
+      "items": {
+        "$ref": "#/$defs/ChangeRecord"
+      },
+      "title": "World Fact Changes",
+      "type": "array"
+    },
+    "foreshadowing": {
+      "additionalProperties": {
+        "items": {
+          "$ref": "#/$defs/ChangeRecord"
+        },
+        "type": "array"
+      },
+      "title": "Foreshadowing",
+      "type": "object"
+    },
+    "new_mysteries": {
+      "items": {
+        "$ref": "#/$defs/ChangeRecord"
+      },
+      "title": "New Mysteries",
+      "type": "array"
+    },
+    "resolved_mysteries": {
+      "items": {
+        "$ref": "#/$defs/ChangeRecord"
+      },
+      "title": "Resolved Mysteries",
+      "type": "array"
+    },
+    "canon_candidates": {
+      "items": {
+        "$ref": "#/$defs/ChangeRecord"
+      },
+      "title": "Canon Candidates",
+      "type": "array"
+    }
+  },
+  "required": [
+    "chapter_id",
+    "version"
+  ],
+  "title": "StateDelta",
+  "type": "object"
+}

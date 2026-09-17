@@ -1,0 +1,320 @@
+{
+ "note": "Full Migration Semantic Golden Set：人工确认的结构标签 + must_not 不变量（不硬编码进 core）。",
+ "chapters": {
+  "ch001": {
+   "expect": {
+    "dog_role": "supportive"
+   },
+   "must_not": [
+    "DECISION_WRONG_ACTOR"
+   ]
+  },
+  "ch003": {
+   "expect": {},
+   "must_not": [
+    "DECISION_WRONG_ACTOR"
+   ]
+  },
+  "ch004": {
+   "expect": {},
+   "must_not": [
+    "DECISION_WRONG_ACTOR"
+   ]
+  },
+  "ch012": {
+   "expect": {
+    "dog_presence": false
+   },
+   "must_not": [
+    "DOG_WRONG_ACTOR",
+    "DOG_MENTION_AS_ACTION"
+   ]
+  },
+  "ch053": {
+   "expect": {},
+   "must_not": []
+  },
+  "ch145": {
+   "expect": {
+    "dog_presence": false
+   },
+   "must_not": [
+    "DOG_WRONG_ACTOR",
+    "DOG_MENTION_AS_ACTION"
+   ]
+  },
+  "ch195": {
+   "expect": {},
+   "must_not": [
+    "DECISION_WRONG_ACTOR"
+   ]
+  },
+  "ch239": {
+   "expect": {},
+   "must_not": [
+    "DOG_PASSIVE_AS_SUPPORTIVE"
+   ]
+  },
+  "ch374": {
+   "expect": {},
+   "must_not": [
+    "TURN_FROM_ORDINARY_LOSS"
+   ]
+  },
+  "ch431": {
+   "expect": {
+    "decision_owner": "ENTITY_PROTAGONIST"
+   },
+   "must_not": [
+    "DECISION_WRONG_ACTOR"
+   ]
+  },
+  "ch503": {
+   "expect": {},
+   "must_not": [
+    "DOG_WRONG_ACTOR",
+    "DECISION_WRONG_ACTOR"
+   ]
+  },
+  "ch506": {
+   "expect": {
+    "primary_transition": null
+   },
+   "must_not": [
+    "AUTHORITATIVE_BINDING_CONFLICT"
+   ]
+  },
+  "ch107": {
+   "expect": {
+    "primary_transition": [
+     "salt_route_control",
+     "contested"
+    ],
+    "assertion_mode": "transition"
+   },
+   "must_not": [
+    "AUTHORITATIVE_BINDING_CONFLICT"
+   ]
+  },
+  "ch133": {
+   "expect": {
+    "primary_transition": [
+     "salt_route_control",
+     "controlled_by_rust_settlement"
+    ]
+   },
+   "must_not": [
+    "AUTHORITATIVE_BINDING_CONFLICT"
+   ]
+  },
+  "ch271": {
+   "expect": {
+    "primary_transition": [
+     "gray_wall_observation_status",
+     "observed_on_page"
+    ]
+   },
+   "must_not": [
+    "AUTHORITATIVE_BINDING_CONFLICT"
+   ]
+  },
+  "ch325": {
+   "expect": {
+    "primary_transition": [
+     "zero_layer_access",
+     "first_opened"
+    ],
+    "dog_role": "involved",
+    "assertion_mode": "transition"
+   },
+   "must_not": [
+    "AUTHORITATIVE_BINDING_CONFLICT"
+   ]
+  },
+  "ch350": {
+   "expect": {
+    "primary_transition": [
+     "zero_layer_access",
+     "emergency_locked"
+    ]
+   },
+   "must_not": [
+    "AUTHORITATIVE_BINDING_CONFLICT"
+   ]
+  },
+  "ch379": {
+   "expect": {
+    "primary_transition": [
+     "zero_layer_access",
+     "permanently_sealed"
+    ]
+   },
+   "must_not": [
+    "AUTHORITATIVE_BINDING_CONFLICT"
+   ]
+  },
+  "ch436": {
+   "expect": {
+    "primary_transition": [
+     "dog_departure_status",
+     "voluntarily_departed"
+    ],
+    "dog_role": "independent",
+    "dog_presence": true
+   },
+   "must_not": [
+    "DOG_WRONG_ACTOR",
+    "AUTHORITATIVE_BINDING_CONFLICT"
+   ]
+  },
+  "ch437": {
+   "expect": {
+    "primary_transition": [
+     "dog_departure_status",
+     "absent_waiting"
+    ],
+    "dog_role": "offscreen_effect",
+    "dog_presence": false
+   },
+   "must_not": [
+    "DOG_WRONG_ACTOR"
+   ]
+  },
+  "ch438": {
+   "expect": {
+    "primary_transition": [
+     "dog_departure_status",
+     "voluntarily_returned"
+    ],
+    "dog_role": "independent"
+   },
+   "must_not": [
+    "DOG_WRONG_ACTOR"
+   ]
+  },
+  "ch449": {
+   "expect": {
+    "primary_transition": [
+     "archive_publication_level",
+     "partial_release"
+    ]
+   },
+   "must_not": [
+    "AUTHORITATIVE_BINDING_CONFLICT"
+   ]
+  },
+  "ch502": {
+   "expect": {
+    "primary_transition": [
+     "archive_publication_level",
+     "second_archive_verified"
+    ]
+   },
+   "must_not": [
+    "AUTHORITATIVE_BINDING_CONFLICT"
+   ]
+  },
+  "ch504": {
+   "expect": {
+    "primary_transition": [
+     "archive_publication_level",
+     "third_archive_released"
+    ]
+   },
+   "must_not": [
+    "AUTHORITATIVE_BINDING_CONFLICT"
+   ]
+  },
+  "ch515": {
+   "expect": {
+    "primary_transition": [
+     "common_rules_status",
+     "consulted"
+    ]
+   },
+   "must_not": [
+    "AUTHORITATIVE_BINDING_CONFLICT"
+   ]
+  },
+  "ch526": {
+   "expect": {
+    "primary_transition": [
+     "common_rules_status",
+     "voted"
+    ]
+   },
+   "must_not": [
+    "AUTHORITATIVE_BINDING_CONFLICT"
+   ]
+  },
+  "ch559": {
+   "expect": {
+    "primary_transition": [
+     "common_rules_status",
+     "signed"
+    ],
+    "dog_role": "independent"
+   },
+   "must_not": [
+    "DOG_WRONG_ACTOR",
+    "AUTHORITATIVE_BINDING_CONFLICT"
+   ]
+  },
+  "ch092": {
+   "expect": {
+    "dog_presence": false
+   },
+   "must_not": [
+    "DOG_WRONG_ACTOR"
+   ]
+  },
+  "ch202": {
+   "expect": {
+    "dog_presence": false
+   },
+   "must_not": [
+    "DOG_WRONG_ACTOR"
+   ]
+  },
+  "ch260": {
+   "expect": {},
+   "must_not": [
+    "DOG_PASSIVE_AS_SUPPORTIVE"
+   ]
+  },
+  "ch361": {
+   "expect": {},
+   "must_not": [
+    "DOG_WRONG_ACTOR"
+   ]
+  },
+  "ch398": {
+   "expect": {},
+   "must_not": [
+    "DOG_WRONG_ACTOR"
+   ]
+  },
+  "ch411": {
+   "expect": {},
+   "must_not": [
+    "DOG_WRONG_ACTOR"
+   ]
+  },
+  "ch534": {
+   "expect": {
+    "dog_presence": false
+   },
+   "must_not": [
+    "DOG_WRONG_ACTOR"
+   ]
+  },
+  "ch569": {
+   "expect": {
+    "dog_presence": false
+   },
+   "must_not": [
+    "DOG_WRONG_ACTOR"
+   ]
+  }
+ }
+}

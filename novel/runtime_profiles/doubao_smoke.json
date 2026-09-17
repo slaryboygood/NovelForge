@@ -1,0 +1,23 @@
+{
+  "provider": "volcengine_ark",
+  "protocol": "openai_chat",
+  "api_key_env": "ARK_API_KEY",
+  "base_url_env": "ARK_BASE_URL",
+  "base_url": "https://ark.cn-beijing.volces.com/api/v3",
+  "model_env": "ARK_MODEL",
+  "model": "doubao-seed-evolving",
+  "streaming": true,
+  "task_type": "smoke",
+  "thinking": false,
+  "max_completion_tokens": 1024,
+  "timeouts": {
+    "connect_timeout_seconds": 15,
+    "first_activity_timeout_seconds": 30,
+    "first_content_timeout_seconds": 45,
+    "idle_token_timeout_seconds": 20,
+    "total_timeout_seconds": 90
+  },
+  "retry_policy": {
+    "max_attempts": 1
+  }
+}

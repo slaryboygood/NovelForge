@@ -1,0 +1,284 @@
+{
+  "chapter_id": "0028",
+  "committed_at": "20260827205058",
+  "state_delta": {
+    "chapter_id": "0028",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260827203819_9f5ca4a6:candidate",
+    "source_draft_hash": "4f37511b801e143ab49fdc23a3ce5ed65b14f3f0d4e6901d001ae97be0932d7a",
+    "timeline_delta": {
+      "source_chapter": "0027",
+      "title": "比武场上的战书",
+      "time": "新历300纪·春，钟楼之次日（破晓忆灵读仓→清晨战书→白日公开训练→傍晚金算盘情报→深夜赵璃报信）",
+      "location": "旧钟楼 → 天梭城大比武场（擂台/靶场/热身台）→ 公会大厅 → 南区小院"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0028_character",
+        "subject": "人物变化",
+        "change": "零：接战书（三局两胜/赢则地窖开）；签名应战；公开训练铁球阵（闪步，硬核酸麻——公开场不能暴露吞噬）；金算盘情报（贺翎怕影/裁判赵七/监场午时爱喝酒/地窖=三十年前储能商会旧库）；赵璃报信（地窖三道门/水井入口/贺翎条件/散灵红渣/裁判规则）；'不接，地窖就是贼窝；接了，它才是赌注'；'先练，三天，把每个人的位置练成不用想'",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0028_character_zhaoqi",
+        "subject": "人物变化",
+        "change": "赵启：公开下战书（红绸三局两胜/输者当众跪罪滚出天梭城/赢则开地窖任查）；白绸先泼脏水（冒用商会名义/夜闯旧钟楼/觊觎私宅——把地窖探访打成贼）；后手：裁判赵七（母系表亲，出界/援助/禁物三条都在他嘴里）+赌庄一赔七+监场午时喝酒；与贺翎交易（一整盒干净灵核+灰巷一间铺，台上赢不杀人，打断零的手射频闪的眼让药师救不回）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0028_character_pinshan",
+        "subject": "人物变化",
+        "change": "频闪：拍桌应战（我做我自己的主）；公开训练 29/30 铁靶（无声弓温养未足偏一靶，它自己偏的）；金算盘点破贺翎怕影（幻巢旧案同伴背后中刀）；夜温弓",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0028_character_rong",
+        "subject": "人物变化",
+        "change": "容小满：算赔率算到脸绿（一赔七/伤药换人禁物裁判偏判——我们输不起）；公开训练救伤演示+当众验赵家药（灰布泛黄烧布——赵家药有问题实锤）；配护心散醒灵粉；识破红渣=散灵之物（沾伤口灵息会乱）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0028_character_zhamen",
+        "subject": "人物变化",
+        "change": "闸门：一眼吓退赵家护卫（像在看木桩该从哪一斧劈下去——重剑）；炭笔掌书（贺翎强/护卫弱/裁判怪；我备棺——备两副；他压我——十三）；训练场半寸剑柄裂木栏",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0028_character_yiling2",
+        "subject": "人物变化",
+        "change": "忆灵：夜读旧钟楼记忆仓（赵家地窖三层门/铁柜半张烧焦地图/石匣会发光，像被关住的鱼；那个光不脏，也不暖。它认得我）；赵启称妖童忆灵；与大黄互动（入队后第一次集体活动）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0028_character_zhaoli2",
+        "subject": "人物变化",
+        "change": "赵璃（赵启之妹，我哥叫得不亲）：偷听赵启祠堂发火（灰线设伏等零队夜闯地窖）；深夜带大黄报信（地窖三道门/水井真口/二管事钥匙；贺翎条件；散灵红渣；裁判赵七规则）；因为上次你们没把我当贼——报信动机+狗粮线（酱肉包/大黄与忆灵）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0028_character_helin",
+        "subject": "人物变化",
+        "change": "贺翎（新登场）：猎手公会三连冠（连续三届大比第一），灰褐长甲三枚银环，旧疤脸；你的剑，吃过王核；我懂死人——压迫感；弱点：幻影分身一多心就乱（幻巢旧案同伴背后中刀）；接赵家条件（台上赢不杀人）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0028_character_jinsuanpan",
+        "subject": "人物变化",
+        "change": "金算盘（天梭城商会外账房，铁算盘之侄）：情报贩子（贺翎底细/裁判赵七/地窖旧闻=三十年前储能商会旧库）；这半袋算我借你们的。别死，死人不还账",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0028_rel_zhao",
+        "subject": "关系变化",
+        "change": "赵启：公开战书（赌斗三局两胜/输者跪罪滚出城/赢则开地窖）——正面决裂；不接，地窖就是贼窝；接了，它才是赌注",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0028_rel_zhaoli",
+        "subject": "关系变化",
+        "change": "赵璃：正式站队零队（深夜报信/地窖入口/贺翎条件/散灵红渣）——'因为上次你们没把我当贼'；狗粮线（大黄/酱肉包）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0028_rel_helin",
+        "subject": "关系变化",
+        "change": "贺翎：外援高手（压迫感/弱点=怕影）——赌斗第二局对手（CH030 频闪 vs 贺翎）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0028_rel_jinsuanpan",
+        "subject": "关系变化",
+        "change": "金算盘：情报合作（半袋铜钱借贷——'别死，死人不还账'）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0028_knowledge",
+        "subject": "知识变化",
+        "change": "赌斗规则：三局两胜，斗器斗身斗灵各出三人，输者当众跪罪滚出天梭城；赵启赢则地窖开任查；裁判赵七（赵启母系表亲）：出界算输/外援也算输/台上递药也算输；公会监场一位午时爱喝酒；贺翎：三连冠，正面压杀强，怕影（幻巢旧案同伴背后中刀）；赵家地窖：三层门/铁柜半张烧焦地图/石匣发光物/水井真口（二管事钥匙）；三十年前=储能商会旧库（一夜换主）；赵启灰线设伏（等零队夜闯拿人）；赵家药（十瓶）验出问题——散灵红渣（沾伤口灵息会乱）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0028_location",
+        "subject": "地点变化",
+        "change": "大比武场（擂台/靶场/热身台/裁判席）、公会大厅（金算盘柜台）、赵家地窖（三层门/水井入口，口头）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0028_item_yinqi",
+        "subject": "物品变化",
+        "change": "铜钥匙（忆灵从旧钟楼记忆仓捡的一小截——赵家地窖相关？）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0028_item_suobu",
+        "subject": "物品变化",
+        "change": "赵璃的碎布图（柴房/酒窖/夹墙/水井——水井旁小叉=真口线索）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0028_item_hongzha",
+        "subject": "物品变化",
+        "change": "散灵红渣纸包（赵璃偷出——赵启新熬一批药的锅底灰）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0028_item_zhaoyao",
+        "subject": "物品变化",
+        "change": "赵家十瓶药（容小满留着当证据；当众验出烧布）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0028_item_banqian",
+        "subject": "物品变化",
+        "change": "半袋铜钱（金算盘借的——'死人不还账'）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0028_ability_heke2",
+        "subject": "能力变化",
+        "change": "无等级变化（零保持 Lv.18）；贺翎：三连冠刀法（正面压杀）；频闪：无声弓温养中（29/30）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0028_org",
+        "subject": "组织变化",
+        "change": "猎手公会（贺翎外援）；赌庄（一赔七）；公会监场（午时喝酒）；零队五人备战（三日后赌斗）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0028_world",
+        "subject": "世界变化",
+        "change": "赌斗公告全城（红绸白绸双挂）；赵家地窖=三十年前储能商会旧库（历史线）；赵启灰线设伏（地窖探访=贼）——'接了战书，地窖才是赌注'",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0028_fs_dijiao2",
+          "subject": "伏笔埋设",
+          "change": "地窖：三层门/铁柜碎片/石匣发光（'光不脏也不暖，它认得我'）——储能商会旧库史",
+          "source": "chapter_0028_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0028_fs_helin2",
+          "subject": "伏笔埋设",
+          "change": "贺翎怕影（幻巢旧案）——CH030 频闪点破幻影分身的伏笔",
+          "source": "chapter_0028_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0028_fs_jianshou",
+          "subject": "伏笔埋设",
+          "change": "公会监场'午时爱喝酒'——CH030 裁判换人的伏笔（CH029 收买裁判）",
+          "source": "chapter_0028_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0028_fs_sanling",
+          "subject": "伏笔埋设",
+          "change": "散灵红渣（赵启新熬的药）——赌斗做手脚的材料",
+          "source": "chapter_0028_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0028_fs_zhaoli3",
+          "subject": "伏笔埋设",
+          "change": "赵璃站队（'你们别输，输了他们会把忆灵抓走，也会把我抓走'）",
+          "source": "chapter_0028_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0028_fs_duel2",
+          "subject": "伏笔推进",
+          "change": "战书已立（三日后/三局两胜/跪罪滚出城/赢则地窖开）——CH030 舞台就绪",
+          "source": "chapter_0028_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0028_fs_zhaoyao2",
+          "subject": "伏笔推进",
+          "change": "赵家药验出问题（烧布）——散灵红渣呼应",
+          "source": "chapter_0028_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0028_fs_duijiao",
+          "subject": "伏笔解决",
+          "change": "地窖探访路径明确（水井真口/三道门/二管事钥匙）——但赵启灰线设伏，暂缓夜闯（金算盘警告）",
+          "source": "chapter_0028_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0028_my_shixia",
+        "subject": "新谜题",
+        "change": "赵家地窖石匣里'会发光的东西'是什么？为什么'认得忆灵'？",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0028_my_dijiao3",
+        "subject": "新谜题",
+        "change": "地窖为何三十年前从储能商会一夜换主？（与储能族灭族旧事的关系）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0028_goal",
+        "subject": "第0028章主要目标",
+        "change": "赵启公开下战书（三局两胜/输者跪罪滚出城/赢则开地窖）全城围观；零队应战+公开训练（频闪 29/30 铁靶/容小满验药/零铁球阵）；外援贺翎登场（三连冠/吃过王核/怕影弱点）；赵璃深夜报信（地窖三道门/水井真口/散灵红渣/裁判赵七规则）；金算盘情报（裁判/监场/地窖=储能商会旧库）；忆灵读仓首尾呼应（石匣发光物）",
+        "source": "chapter_0028_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

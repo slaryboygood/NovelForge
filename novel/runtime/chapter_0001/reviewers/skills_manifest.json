@@ -1,0 +1,14 @@
+{
+  "policy": "Reference the single model-independent skills source in place. Do not copy or fork skill contents.",
+  "customSkillDirs": [
+    "F:\\AI_小说\\硅基升维\\skills"
+  ],
+  "skills": [
+    {
+      "name": "silicon-review-committee",
+      "description": "以多种编辑视角审读《硅基升维》章节，输出结构化问题、修订计划、通过/失败门禁和连续性风险。",
+      "skill_path": "F:\\AI_小说\\硅基升维\\skills\\silicon-review-committee\\SKILL.md",
+      "content_hash": "1688454aadd5def1792f9703b362beed11a433533ae6f157add54fc51e82f870"
+    }
+  ]
+}

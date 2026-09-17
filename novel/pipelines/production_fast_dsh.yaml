@@ -1,0 +1,62 @@
+pipeline_id: production_fast_dsh
+version: 1.0.0
+auto_commit: false
+stages:
+  - id: plan
+    plugin: deepseek_planner
+    runtime:
+      provider: dsh
+  - id: capacity_gate
+    kernel_gate: capacity
+    depends_on:
+      - plan
+  - id: context
+    kernel_gate: context_builder
+    depends_on:
+      - capacity_gate
+  - id: draft
+    plugin: deepseek_writer
+    runtime:
+      provider: dsh
+    depends_on:
+      - context
+  - id: draft_quality_gate
+    kernel_gate: draft_quality
+    depends_on:
+      - draft
+  - id: review_main
+    plugin: deepseek_continuity_reviewer
+    runtime:
+      provider: dsh
+    depends_on:
+      - draft_quality_gate
+  - id: verified_review_claims
+    plugin: deterministic_claim_verifier
+    depends_on:
+      - review_main
+  - id: revision_plan
+    plugin: deepseek_revision_planner
+    runtime:
+      provider: dsh
+    depends_on:
+      - verified_review_claims
+  - id: rewrite
+    plugin: deepseek_rewriter
+    runtime:
+      provider: dsh
+    depends_on:
+      - revision_plan
+  - id: revision_delta
+    plugin: deterministic_revision_delta
+    depends_on:
+      - rewrite
+  - id: final_quality_gate
+    kernel_gate: final_quality
+    depends_on:
+      - revision_delta
+  - id: state_delta
+    plugin: deepseek_state_extractor
+    runtime:
+      provider: dsh
+    depends_on:
+      - final_quality_gate

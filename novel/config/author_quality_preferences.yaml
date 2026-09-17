@@ -1,0 +1,23 @@
+# 作者质量偏好（Novel Reboot v2）
+
+## 优先级（高→低）
+
+1. 爽感与节奏（战斗/升级/掉落密度）
+2. 人物鲜活度（拟人化/语言差异/情绪）
+3. 画面感（动作/场景/怪物视觉）
+4. 悬念与追读钩子
+5. 世界一致性（新版 Canon 内）
+6. 文字简洁度（小白可读）
+
+## 硬性偏好
+
+- 单章 3000-4500 汉字；章尾必有钩子。
+- 禁止技术报告式段落；禁止连续解释性旁白。
+- 允许并鼓励：吐槽、打脸、装逼、贪财、暧昧、玩笑。
+- 系统提示【】短促；升级/装备/任务关键节点使用。
+
+## 质量维度权重（与 quality.py 对应）
+
+- 高权重：plot_attraction / pacing / curiosity / desire_to_read_next_chapter
+- 中权重：protagonist / scene_simplicity / exploration / reader_reward
+- 低权重：visualization / mmo_feel / humanization / ending_hook / human_naturalness

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "session": {
+    "session_id": "sb_20260910_141220_3ca300a8",
+    "project_id": "novel_project",
+    "status": "CONFIGURING",
+    "current_step": "core_characters",
+    "completed_steps": [
+      "reader_experience",
+      "worldview",
+      "background",
+      "protagonist"
+    ],
+    "selections": [
+      {
+        "selection_id": "sel_000001_ab047a12",
+        "step": "reader_experience",
+        "option_id": "experience_growth_adventure",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 1,
+        "selected_at": "2026-09-10T14:13:16.327988Z"
+      },
+      {
+        "selection_id": "sel_000002_2ece7167",
+        "step": "worldview",
+        "option_id": "world_cultivation_realms",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 2,
+        "selected_at": "2026-09-10T14:13:18.237208Z"
+      },
+      {
+        "selection_id": "sel_000003_56948902",
+        "step": "background",
+        "option_id": "background_frontier_sect",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 3,
+        "selected_at": "2026-09-10T14:13:21.446108Z"
+      },
+      {
+        "selection_id": "sel_000004_660bc1ca",
+        "step": "protagonist",
+        "option_id": "protagonist_underdog_disciple",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 4,
+        "selected_at": "2026-09-10T14:13:26.973610Z"
+      }
+    ],
+    "design_choices": {},
+    "needs_review_steps": [],
+    "selection_version": 4,
+    "recommendation_version": 0,
+    "created_at": "2026-09-10T14:12:20.239611Z",
+    "updated_at": "2026-09-10T14:13:26.974608Z"
+  }
+}

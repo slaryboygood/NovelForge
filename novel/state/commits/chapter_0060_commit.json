@@ -1,0 +1,170 @@
+{
+  "chapter_id": "0060",
+  "committed_at": "20260905211635",
+  "state_delta": {
+    "chapter_id": "0060",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260905210729_ff420f63:candidate",
+    "source_draft_hash": "5ac67952de92f3220df3e7502b81d24b601e101d33c182cd9b63db6a34599768",
+    "timeline_delta": {
+      "source_chapter": "0059",
+      "title": "雷弧剑士：Lv.40 觉醒",
+      "time": "CH059力量关开局后，队伍仍在锈王决战后的短歇期",
+      "location": "锈蚀地牢·试炼井力量关、意志关与井口大厅"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0060_zero",
+        "subject": "人物变化",
+        "change": "零借力击败重枪灵，在意志关承认废灵过去与失控恐惧并决定带着它们继续前行；由Lv.38升至Lv.40，职业由斩波者转为雷弧剑士，腐化值仍为24",
+        "source": "chapter_0060_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0060_party",
+        "subject": "人物变化",
+        "change": "队友在井口见证转职；闸门仍带伤且壁垒重甲未完成换装，容小满灵能仍近空，频闪仍右肩带伤且无箭，团子仍无可用能量，忆灵仍保管锈王灵核",
+        "source": "chapter_0060_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0060_trust",
+        "subject": "关系变化",
+        "change": "零在意志关正面承认自己害怕伤及队友，对容小满与整支队伍的信任从默认转为自觉承担",
+        "source": "chapter_0060_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0060_gun_force",
+        "subject": "知识变化",
+        "change": "零理解力量关的‘借’：不与力量硬撞，而是顺势导引并将对方的力量还回去",
+        "source": "chapter_0060_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0060_will_trial",
+        "subject": "知识变化",
+        "change": "意志关无需击败持枪灵，通关条件是直面并承认自己的恐惧，而非用吞噬压掉它",
+        "source": "chapter_0060_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0060_ancient_gate",
+        "subject": "知识变化",
+        "change": "隐藏任务卷在零到达Lv.40后显示远古门阵轮廓，并确认Lv.40门槛已满足",
+        "source": "chapter_0060_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0060_location",
+        "subject": "地点变化",
+        "change": "零完成试炼井三关并返回崩解的黑铁王座下方井口，队伍即将离开锈蚀地牢",
+        "source": "chapter_0060_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0060_sword",
+        "subject": "物品变化",
+        "change": "试炼井解锁并归还裂变剑，剑由蓝形态进化为紫形态，可与雷弧剑士的力量响应",
+        "source": "chapter_0060_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0060_trial_spear",
+        "subject": "物品变化",
+        "change": "力量关中临时夺取的重枪在三关结束后归还试炼井，不进入队伍库存",
+        "source": "chapter_0060_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0060_quest_scroll",
+        "subject": "物品变化",
+        "change": "隐藏任务卷·远古门阵正式显示门阵轮廓与Lv.40门槛已满足",
+        "source": "chapter_0060_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0060_class",
+        "subject": "能力变化",
+        "change": "零由斩波者转职雷弧剑士，Lv.38升至Lv.40，习得雷弧斩；枪意·拦与借保留为试炼心得，不增加实体试炼枪",
+        "source": "chapter_0060_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0060_trial_complete",
+        "subject": "世界变化",
+        "change": "试炼井的速度、力量、意志三关全部完成，井中枪意散去后重新沉睡",
+        "source": "chapter_0060_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0060_gate_threshold",
+        "subject": "世界变化",
+        "change": "远古门阵隐藏任务的Lv.40进入门槛已满足，但门后真相仍未证实",
+        "source": "chapter_0060_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [],
+      "advanced": [
+        {
+          "id": "chapter_0060_ancient_gate",
+          "subject": "伏笔推进",
+          "change": "过载荒原地图、旧井路图、试心井线图、雷弧兽王灵核紫纹与石门共同指向远古门阵",
+          "source": "chapter_0060_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0060_sword_origin",
+          "subject": "伏笔推进",
+          "change": "裂变剑紫化后古老纹路与任务卷上的门阵纹路呈现相似性，但来历尚未揭示",
+          "source": "chapter_0060_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0060_trial",
+          "subject": "伏笔回收",
+          "change": "试炼井三关与Lv.40转职任务完整收束",
+          "source": "chapter_0060_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0060_gate_destination",
+        "subject": "新谜题",
+        "change": "远古门阵通往何处，与腐化、裂变剑及雷弧兽王灵核紫纹有何关系",
+        "source": "chapter_0060_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0060_goal",
+        "subject": "第0060章主要目标",
+        "change": "零完成力量与意志试炼，转职Lv.40雷弧剑士，习得雷弧斩并使裂变剑进化为紫形态，远古门阵任务开启下一阶段",
+        "source": "chapter_0060_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

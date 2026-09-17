@@ -1,0 +1,47 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "committed_chars": {
+      "minimum": 0,
+      "title": "Committed Chars",
+      "type": "integer"
+    },
+    "average_chapter_chars": {
+      "minimum": 0,
+      "title": "Average Chapter Chars",
+      "type": "number"
+    },
+    "current_chapter": {
+      "minimum": 0,
+      "title": "Current Chapter",
+      "type": "integer"
+    },
+    "projected_final_chars": {
+      "minimum": 0,
+      "title": "Projected Final Chars",
+      "type": "integer"
+    },
+    "target_deviation": {
+      "title": "Target Deviation",
+      "type": "integer"
+    },
+    "status": {
+      "enum": [
+        "ON_TRACK",
+        "BOOK_LENGTH_DRIFT"
+      ],
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "committed_chars",
+    "average_chapter_chars",
+    "current_chapter",
+    "projected_final_chars",
+    "target_deviation",
+    "status"
+  ],
+  "title": "BookLengthProjection",
+  "type": "object"
+}

@@ -1,0 +1,51 @@
+[
+  {
+    "id": "chapter_0001_goal",
+    "summary": "第0001章主要目标: 开局立人设：空白灵核零级废灵少年在废渣镇拾荒求生，从废料堆捡到断刃裂变剑；铺垫腐化潮将至；赖三欺压、容小满缝补、村长善意三条人物线立住",
+    "source": "chapter_0001_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0001_character",
+    "summary": "人物变化: 零：护断剑被赖三打手追打受伤；发现断口旧纹与额角芯片纹呼应发烫；腐化潮夜被赖三栽赃堵在巷子尽头，骨头深处第一次睁开眼的异动（吞噬觉醒前兆）",
+    "source": "chapter_0001_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0001_knowledge",
+    "summary": "知识变化: 镇口展出黑鳞怪物残骸（平原西边，离镇不到十里）；腐化潮将至的传言；腐化潮夜爆发",
+    "source": "chapter_0001_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0002_goal",
+    "summary": "第0002章主要目标: 腐化潮夜绝境中吞噬第一枚怪物灵核，觉醒隐藏能力【吞噬】并反杀野狗群，Lv.0→Lv.1；确立吞噬金手指的第一条规则（可吞灵核/临时强化/越级翻倍）与代价悬念",
+    "source": "chapter_0002_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0002_character",
+    "summary": "人物变化: 零：Lv.0→Lv.1；绝境吞下第一枚生灵核，觉醒隐藏能力【吞噬】；反杀腐化野狗群救下镇民；被镇民恐惧、被赖三指为邪祟；村长放行并单独警告他保密；体内留下暗灰纹路与硬核（代价前兆）；得知'越级杀怪收获翻倍'的直觉规则",
+    "source": "chapter_0002_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0002_knowledge",
+    "summary": "知识变化: 吞噬规则初探：可吞灵核、临时强化、越级杀怪收获翻倍；灵核带着腐化，普通人不能直接吞；身体'满了'不能再吞；吞核后体内留硬核、皮肤下闪过暗灰纹路（代价悬念）",
+    "source": "chapter_0002_final",
+    "visibility": "global",
+    "weight": 1.0
+  },
+  {
+    "id": "chapter_0002_ability",
+    "summary": "能力变化: 【吞噬】觉醒（隐藏能力）：可吞灵核、临时强化、越级击杀收获翻倍；吞噬带来饥饿本能与代价悬念",
+    "source": "chapter_0002_final",
+    "visibility": "global",
+    "weight": 1.0
+  }
+]

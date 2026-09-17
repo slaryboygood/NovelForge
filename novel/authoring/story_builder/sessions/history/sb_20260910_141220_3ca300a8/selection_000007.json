@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "session": {
+    "session_id": "sb_20260910_141220_3ca300a8",
+    "project_id": "novel_project",
+    "status": "CONFIGURING",
+    "current_step": "progression",
+    "completed_steps": [
+      "reader_experience",
+      "worldview",
+      "background",
+      "protagonist",
+      "core_characters",
+      "factions_locations",
+      "major_events"
+    ],
+    "selections": [
+      {
+        "selection_id": "sel_000001_ab047a12",
+        "step": "reader_experience",
+        "option_id": "experience_growth_adventure",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 1,
+        "selected_at": "2026-09-10T14:13:16.327988Z"
+      },
+      {
+        "selection_id": "sel_000002_2ece7167",
+        "step": "worldview",
+        "option_id": "world_cultivation_realms",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 2,
+        "selected_at": "2026-09-10T14:13:18.237208Z"
+      },
+      {
+        "selection_id": "sel_000003_56948902",
+        "step": "background",
+        "option_id": "background_frontier_sect",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 3,
+        "selected_at": "2026-09-10T14:13:21.446108Z"
+      },
+      {
+        "selection_id": "sel_000004_660bc1ca",
+        "step": "protagonist",
+        "option_id": "protagonist_underdog_disciple",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 4,
+        "selected_at": "2026-09-10T14:13:26.973610Z"
+      },
+      {
+        "selection_id": "sel_000005_a4ef3737",
+        "step": "core_characters",
+        "option_id": "cast_mentor_secret",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 5,
+        "selected_at": "2026-09-10T14:13:30.557582Z"
+      },
+      {
+        "selection_id": "sel_000006_b66b1327",
+        "step": "factions_locations",
+        "option_id": "setting_roaming_world",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 6,
+        "selected_at": "2026-09-10T14:13:32.885084Z"
+      },
+      {
+        "selection_id": "sel_000007_5b32062b",
+        "step": "major_events",
+        "option_id": "events_disaster_rebuild",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 7,
+        "selected_at": "2026-09-10T14:13:40.719344Z"
+      }
+    ],
+    "design_choices": {},
+    "needs_review_steps": [],
+    "selection_version": 7,
+    "recommendation_version": 0,
+    "created_at": "2026-09-10T14:12:20.239611Z",
+    "updated_at": "2026-09-10T14:13:40.719867Z"
+  }
+}

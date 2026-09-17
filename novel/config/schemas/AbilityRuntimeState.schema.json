@@ -1,0 +1,65 @@
+{
+  "$defs": {
+    "AbilityStatus": {
+      "enum": [
+        "LOCKED",
+        "AVAILABLE",
+        "ACTIVE",
+        "DAMAGED",
+        "DISABLED"
+      ],
+      "title": "AbilityStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "ability_id": {
+      "title": "Ability Id",
+      "type": "string"
+    },
+    "owner": {
+      "title": "Owner",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/AbilityStatus"
+    },
+    "current_level": {
+      "minimum": 0,
+      "title": "Current Level",
+      "type": "integer"
+    },
+    "unlock_node_reached": {
+      "default": false,
+      "title": "Unlock Node Reached",
+      "type": "boolean"
+    },
+    "current_damage": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Current Damage"
+    },
+    "updated_through_chapter": {
+      "minimum": 0,
+      "title": "Updated Through Chapter",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "ability_id",
+    "owner",
+    "status",
+    "current_level",
+    "updated_through_chapter"
+  ],
+  "title": "AbilityRuntimeState",
+  "type": "object"
+}

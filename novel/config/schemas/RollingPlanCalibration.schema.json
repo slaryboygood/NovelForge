@@ -1,0 +1,172 @@
+{
+  "$defs": {
+    "PlanningPrecision": {
+      "enum": [
+        "HIGH",
+        "DETAILED",
+        "MEDIUM"
+      ],
+      "title": "PlanningPrecision",
+      "type": "string"
+    },
+    "RollingChapterIntent": {
+      "additionalProperties": false,
+      "properties": {
+        "chapter_id": {
+          "pattern": "^\\d{4}$",
+          "title": "Chapter Id",
+          "type": "string"
+        },
+        "precision": {
+          "$ref": "#/$defs/PlanningPrecision"
+        },
+        "goal": {
+          "title": "Goal",
+          "type": "string"
+        },
+        "required_events": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Events",
+          "type": "array"
+        },
+        "hard_plot_node_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Hard Plot Node Ids",
+          "type": "array"
+        },
+        "soft_options": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Soft Options",
+          "type": "array"
+        },
+        "target_end_state": {
+          "title": "Target End State",
+          "type": "string"
+        }
+      },
+      "required": [
+        "chapter_id",
+        "precision",
+        "goal",
+        "required_events",
+        "target_end_state"
+      ],
+      "title": "RollingChapterIntent",
+      "type": "object"
+    },
+    "RollingOutline": {
+      "additionalProperties": false,
+      "properties": {
+        "outline_id": {
+          "title": "Outline Id",
+          "type": "string"
+        },
+        "volume_id": {
+          "title": "Volume Id",
+          "type": "string"
+        },
+        "generated_after_chapter": {
+          "minimum": 0,
+          "title": "Generated After Chapter",
+          "type": "integer"
+        },
+        "chapter_start": {
+          "minimum": 1,
+          "title": "Chapter Start",
+          "type": "integer"
+        },
+        "chapter_end": {
+          "minimum": 1,
+          "title": "Chapter End",
+          "type": "integer"
+        },
+        "constitution_fingerprint": {
+          "title": "Constitution Fingerprint",
+          "type": "string"
+        },
+        "chapters": {
+          "items": {
+            "$ref": "#/$defs/RollingChapterIntent"
+          },
+          "title": "Chapters",
+          "type": "array"
+        },
+        "hard_plot_node_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Hard Plot Node Ids",
+          "type": "array"
+        },
+        "state_fingerprint": {
+          "title": "State Fingerprint",
+          "type": "string"
+        }
+      },
+      "required": [
+        "outline_id",
+        "volume_id",
+        "generated_after_chapter",
+        "chapter_start",
+        "chapter_end",
+        "constitution_fingerprint",
+        "chapters",
+        "state_fingerprint"
+      ],
+      "title": "RollingOutline",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "old_outline_id": {
+      "title": "Old Outline Id",
+      "type": "string"
+    },
+    "new_outline": {
+      "$ref": "#/$defs/RollingOutline"
+    },
+    "reasons": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Reasons",
+      "type": "array"
+    },
+    "adjusted_soft_nodes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Adjusted Soft Nodes",
+      "type": "array"
+    },
+    "preserved_hard_plot_node_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Preserved Hard Plot Node Ids",
+      "type": "array"
+    },
+    "hard_spine_unchanged": {
+      "const": true,
+      "default": true,
+      "title": "Hard Spine Unchanged",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "old_outline_id",
+    "new_outline",
+    "reasons",
+    "adjusted_soft_nodes",
+    "preserved_hard_plot_node_ids"
+  ],
+  "title": "RollingPlanCalibration",
+  "type": "object"
+}

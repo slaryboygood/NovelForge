@@ -1,0 +1,179 @@
+{
+  "chapter_id": "0068",
+  "committed_at": "20260906133933",
+  "state_delta": {
+    "chapter_id": "0068",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260906133408_4bf18e78:candidate",
+    "source_draft_hash": "d53c068b47c2a4c8a220672bb2e9301badd0f56efca599d51f7d3b3517e98fac",
+    "timeline_delta": {
+      "source_chapter": "0067",
+      "title": "门不是锁，是选择",
+      "time": "CH067忆灵认出寻芯者印记后紧接",
+      "location": "远古门阵·第三重封锁通道与断桥→第四重门阵长廊入口"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0068_zero",
+        "subject": "人物变化",
+        "change": "零以橙色裂变剑和雷弧斩突破石兵枪阵、协同门衍反封双阵灵，Lv.46→Lv.48，腐化值仍为24，旧伤继续承压",
+        "source": "chapter_0068_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0068_menyan",
+        "subject": "人物变化",
+        "change": "门衍确认为Lv.47门控者；失去议会公令后用父亲旧铜盒中的门氏私令和半扇位移门反制封印，正式加入队伍",
+        "source": "chapter_0068_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0068_party",
+        "subject": "人物变化",
+        "change": "频闪在短箭为0时以门钉与碎铁片远攻，穿云箭仍未消耗；铸鸣随队修盾；团子耗尽最后电浪；其余队员伤势与资源均未无因恢复",
+        "source": "chapter_0068_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0068_menyan_join",
+        "subject": "关系变化",
+        "change": "门衍以‘只是顺路、不听蠢命令’的方式正式入队，并与零形成互怼式认可",
+        "source": "chapter_0068_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0068_back_to_back",
+        "subject": "关系变化",
+        "change": "零被封印时由门衍半扇位移门拉走，两人首次背靠背协作并共同反封双阵灵",
+        "source": "chapter_0068_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0068_reverse_seal",
+        "subject": "知识变化",
+        "change": "门衍可用位移门把封印门缝倒转并还给阵灵，但未认证状态下只能开半扇且消耗很大",
+        "source": "chapter_0068_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0068_father",
+        "subject": "知识变化",
+        "change": "门衍父亲当年走完第四重入口后的幽深长廊，此后再未回来",
+        "source": "chapter_0068_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0068_location",
+        "subject": "地点变化",
+        "change": "队伍已突破议会封阵并打开第四重门阵大门，抵达幽深长廊入口",
+        "source": "chapter_0068_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0068_private_token",
+        "subject": "物品变化",
+        "change": "门衍保留并使用父亲旧铜盒中的门氏家族私令；议会公令仍已归还",
+        "source": "chapter_0068_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0068_arrow",
+        "subject": "物品变化",
+        "change": "短箭仍为0；穿云箭全章未射，仍由频闪携带；临时战弓继续使用门钉和碎铁片作为临时弹体",
+        "source": "chapter_0068_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0068_constructs",
+        "subject": "物品变化",
+        "change": "通道石兵被击倒但队伍为抢在封阵合拢前通过，没有拆取阵芯，实体库存不变",
+        "source": "chapter_0068_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0068_level",
+        "subject": "能力变化",
+        "change": "零Lv.46→Lv.48；门衍展示半扇位移门、封印倒转与私令开门能力",
+        "source": "chapter_0068_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0068_menyan_leave",
+        "subject": "组织变化",
+        "change": "门衍越过议会封锁进入第四重，被门衡认定为门氏叛逃者并转为零队正式成员",
+        "source": "chapter_0068_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0068_fourth_gate",
+        "subject": "世界变化",
+        "change": "第四重入口需要门氏私令与持令者之剑共同响应；阵灵封印可以被位移门改变出口反制",
+        "source": "chapter_0068_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0068_father_corridor",
+          "subject": "伏笔埋设",
+          "change": "门衍父亲在走完第四重长廊后失踪",
+          "source": "chapter_0068_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0068_gate_choice",
+          "subject": "伏笔推进",
+          "change": "‘门不是锁，是选择’被门衍用于主动选择归还封印与离开议会",
+          "source": "chapter_0068_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0068_menyan_join",
+          "subject": "伏笔回收",
+          "change": "CH067门衍站队后正式加入零的队伍",
+          "source": "chapter_0068_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0068_father_fate",
+        "subject": "新谜题",
+        "change": "门衍父亲在第四重长廊后遭遇了什么",
+        "source": "chapter_0068_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0068_goal",
+        "subject": "第0068章主要目标",
+        "change": "队伍突破石兵与双阵灵封锁进入第四重；零升Lv.48，Lv.47门控者门衍正式入队并与零首次背靠背配合",
+        "source": "chapter_0068_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

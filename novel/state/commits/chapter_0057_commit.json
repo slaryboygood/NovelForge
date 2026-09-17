@@ -1,0 +1,178 @@
+{
+  "chapter_id": "0057",
+  "committed_at": "20260902221007",
+  "state_delta": {
+    "chapter_id": "0057",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260902215719_5b51d617:candidate",
+    "source_draft_hash": "0fe087858d2c88d38e164734b7b619b68c1129ccc0b512adddd3146b886b8dd0",
+    "timeline_delta": {
+      "source_chapter": "0056",
+      "title": "反噬",
+      "time": "CH056补给与作战会后当日",
+      "location": "锈蚀地牢第三层王座大厅至中层巡守室"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0057_zero",
+        "subject": "人物变化",
+        "change": "零吸收锈蚀甲虫死亡逸散灵能并获得破坏记忆炉奖励，Lv.35升至Lv.37；完整吞噬锈王核屑后腐化值16升至24，暗紫吞噬纹蔓延至肘下，短暂失控并差点伤到容小满；清醒后立下非万不得已不再吞核的自戒",
+        "source": "chapter_0057_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0057_gate",
+        "subject": "人物变化",
+        "change": "闸门带重伤完成卡位并用盾挡下失控的零；重盾与反锈层彻底报废，重甲继续开裂",
+        "source": "chapter_0057_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0057_rong",
+        "subject": "人物变化",
+        "change": "容小满耗尽两团净化膏并强行压制零的反噬，灵能几乎耗空，只能暂时阻止暗紫纹向心口蔓延",
+        "source": "chapter_0057_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0057_pinshan",
+        "subject": "人物变化",
+        "change": "频闪射尽短箭12支，右肩伤势加重；反噬时以身体协助压住零",
+        "source": "chapter_0057_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0057_tuanzi",
+        "subject": "人物变化",
+        "change": "团子放出刚恢复的最后一点电流打断零的失控动作，能量再次彻底耗空",
+        "source": "chapter_0057_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0057_yiling",
+        "subject": "人物变化",
+        "change": "忆灵强行读走核屑中部分旧记忆协助零苏醒，灵体更近透明，但保留了井边、白光之门和典狱长喂炉的记忆片段",
+        "source": "chapter_0057_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0057_team",
+        "subject": "关系变化",
+        "change": "闸门、容小满、频闪、忆灵与团子共同制止零的反噬；零承认差点伤及队友并将不再随意吞核的承诺交给众人监督",
+        "source": "chapter_0057_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0057_throne",
+        "subject": "知识变化",
+        "change": "王座三条供能黑线被斩断后，记忆炉与虫群召唤失效，锈王失去稳定力量来源",
+        "source": "chapter_0057_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0057_backlash",
+        "subject": "知识变化",
+        "change": "锈王核屑内含大量囚徒与典狱长旧记忆，完整吞噬会造成强烈记忆反噬和杀意混淆",
+        "source": "chapter_0057_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0057_location",
+        "subject": "地点变化",
+        "change": "队伍毁掉第三层王座后退回中层半塌巡守室；重伤锈王退入王座后方的深层窄门",
+        "source": "chapter_0057_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0057_supplies",
+        "subject": "物品变化",
+        "change": "短箭×12全部耗尽，净化膏×2全部耗尽；闸门重盾与全部反锈层报废",
+        "source": "chapter_0057_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0057_core_shard",
+        "subject": "物品变化",
+        "change": "零从锈王胸甲缝扯出锈王核屑×1并当场完整吞噬；核屑实体消失，未进入章末库存，仅留核印、记忆与腐化",
+        "source": "chapter_0057_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0057_level",
+        "subject": "能力变化",
+        "change": "零由Lv.35升至Lv.37，无新技能；腐化值由16升至24，锈王核屑留下新核印",
+        "source": "chapter_0057_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0057_memory_furnace",
+        "subject": "世界变化",
+        "change": "第三层黑铁王座记忆炉已彻底毁坏，锈王无法再借它召唤锈蚀甲虫",
+        "source": "chapter_0057_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0057_white_door",
+          "subject": "伏笔埋设",
+          "change": "核屑记忆出现井下白光之门与和容小满徽记相似的闭眼图腾",
+          "source": "chapter_0057_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0057_rust_king",
+          "subject": "伏笔推进",
+          "change": "锈王丧失王座与部分核屑，带伤退入地牢深层",
+          "source": "chapter_0057_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0057_destroy_throne",
+          "subject": "伏笔回收",
+          "change": "拆王座计划执行成功，虫群召唤已停止",
+          "source": "chapter_0057_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0057_memory_door",
+        "subject": "新谜题",
+        "change": "井下白光之门、闭眼图腾与锈王旧记忆的关系不明",
+        "source": "chapter_0057_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0057_goal",
+        "subject": "第0057章主要目标",
+        "change": "队伍毁掉黑铁王座并重伤锈王；零吞噬核屑遭反噬，在队友协力下清醒并立下吞核自戒",
+        "source": "chapter_0057_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

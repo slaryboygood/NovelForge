@@ -1,0 +1,171 @@
+{
+  "chapter_id": "0041",
+  "committed_at": "20260830202451",
+  "state_delta": {
+    "chapter_id": "0041",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260830202031_2ac393e8:candidate",
+    "source_draft_hash": "8062b59495ad1dc7cfe8afea8aca747bc7477decba385c134becdd794a8ba71d",
+    "timeline_delta": {
+      "source_chapter": "0040",
+      "title": "壁垒",
+      "time": "撤出北谷当夜至次日",
+      "location": "过载荒原·旧防线哨站临时营地"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0041_zhamen",
+        "subject": "人物变化",
+        "change": "闸门碎骨暂时归位并保住性命，但灵核根基已有旧裂；次日强练壁垒后根基再裂一道，仍不能视为痊愈",
+        "source": "chapter_0041_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0041_zero",
+        "subject": "人物变化",
+        "change": "零的灼伤与震伤经一夜休整略缓，但未完全恢复；以完整荒原地图和惨败经验制定连环井阵战术",
+        "source": "chapter_0041_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0041_pinshan",
+        "subject": "人物变化",
+        "change": "频闪无声弓仍折断待修，临时借用阻流战弓",
+        "source": "chapter_0041_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0041_tuanzi",
+        "subject": "人物变化",
+        "change": "团子伤势稍缓，仍只用叫声、动作与蓝光表达",
+        "source": "chapter_0041_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0041_clan",
+        "subject": "关系变化",
+        "change": "阻流族长没有公开治闸门抗令之罪，以传承验心和留下物资的方式古板默许其选择",
+        "source": "chapter_0041_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0041_team",
+        "subject": "关系变化",
+        "change": "零与闸门明确下一战由零引怪、闸门在井口以壁垒护队",
+        "source": "chapter_0041_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0041_plan",
+        "subject": "知识变化",
+        "change": "队伍确认巨人并非单纯怕井，而是过热后受井汽冷却会停顿；单井不足，需连环井阵",
+        "source": "chapter_0041_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0041_location",
+        "subject": "地点变化",
+        "change": "队伍在旧防线哨站临时营地完成救治、传承与战术规划",
+        "source": "chapter_0041_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0041_scroll",
+        "subject": "物品变化",
+        "change": "壁垒技能书残卷完成传承后墨纹褪尽并碎成灰，实体消耗",
+        "source": "chapter_0041_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0041_bow",
+        "subject": "物品变化",
+        "change": "频闪获得一张临时阻流战弓；折断的无声弓仍保留待修",
+        "source": "chapter_0041_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0041_level",
+        "subject": "能力变化",
+        "change": "荒原完整地图与战术任务结算使零【等级提升：Lv.26 → Lv.27】",
+        "source": "chapter_0041_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0041_wall",
+        "subject": "能力变化",
+        "change": "闸门正式习得【壁垒】雏形：护人意志越强，减伤与反震越强，但灵核根基受损会加重代价",
+        "source": "chapter_0041_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0041_tribe",
+        "subject": "组织变化",
+        "change": "阻流族对闸门抗令由强押转为不公开记过，并提供族医、临时战弓和传承验心",
+        "source": "chapter_0041_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0041_boss",
+        "subject": "世界变化",
+        "change": "过载巨人仍存活；下一战将执行连环散热井战术，本章无怪物死亡与灵核掉落",
+        "source": "chapter_0041_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0041_root",
+          "subject": "伏笔埋设",
+          "change": "闸门灵核根基受损，往后每次硬接重击都可能继续开裂",
+          "source": "chapter_0041_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0041_well",
+          "subject": "伏笔推进",
+          "change": "第37号井的单点弱点被升级为多井连环冷却战术",
+          "source": "chapter_0041_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0041_wall",
+          "subject": "伏笔回收",
+          "change": "CH039取得的壁垒残卷完成传承，闸门正式习得壁垒",
+          "source": "chapter_0041_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0041_goal",
+        "subject": "第0041章主要目标",
+        "change": "承接CH040重伤完成救治、族长默许、壁垒传承与连环井阵规划",
+        "source": "chapter_0041_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

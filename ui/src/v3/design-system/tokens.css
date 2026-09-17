@@ -1,0 +1,99 @@
+/*
+ * NovelForge V3 Design Tokens
+ *
+ * 唯一颜色 / 间距 / 圆角 / 字号来源。任何 V3 组件都只能引用这里的变量，
+ * 不允许在组件里硬编码颜色或间距。
+ *
+ * 视觉来源：项目根目录 UI 视觉标准（深色电影感、低噪声、暖金强调 + 青绿进度）。
+ * 颜色不是唯一状态信号：状态同时由图标、文案与图形表达。
+ */
+:root {
+  /* ---- surfaces ------------------------------------------------------- */
+  --color-bg-root: #070b13;
+  --color-bg-nav: #0b1018;
+  --color-bg-surface: #101725;
+  --color-bg-surface-alt: #141d2e;
+  --color-bg-elevated: #1a2334;
+  --color-bg-hover: #1e2942;
+  --color-bg-scrim: rgba(4, 7, 13, 0.72);
+
+  /* ---- borders -------------------------------------------------------- */
+  --color-border-subtle: #1d2740;
+  --color-border-strong: #2a3552;
+  --color-border-active: #d8a83f;
+  --color-border-warning: #d1773a;
+  --color-border-danger: #c2504b;
+
+  /* ---- text ----------------------------------------------------------- */
+  --color-text-primary: #e8edf7;
+  --color-text-secondary: #a9b6cd;
+  --color-text-muted: #6f7d95;
+  --color-text-inverse: #10151f;
+
+  /* ---- accents -------------------------------------------------------- */
+  --color-accent-primary: #e2b451;
+  --color-accent-primary-strong: #f0c667;
+  --color-accent-primary-dim: rgba(226, 180, 81, 0.16);
+  --color-accent-progress: #35c9a0;
+  --color-accent-progress-dim: rgba(53, 201, 160, 0.18);
+  --color-accent-success: #3ecf8e;
+  --color-accent-warning: #e0913f;
+  --color-accent-danger: #dc5a54;
+  --color-accent-info: #6f9bd8;
+
+  /* ---- stage states --------------------------------------------------- */
+  --color-stage-complete: #35c9a0;
+  --color-stage-current: #e2b451;
+  --color-stage-available: #8fa5c8;
+  --color-stage-locked: #45516a;
+  --color-stage-warning: #e0913f;
+  --color-stage-blocked: #dc5a54;
+
+  /* ---- spacing -------------------------------------------------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* ---- radii ---------------------------------------------------------- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* ---- typography ----------------------------------------------------- */
+  --font-ui: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-display: Georgia, "Songti SC", "STZhongsong", "Microsoft YaHei", serif;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-md: 15px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 28px;
+  --text-hero: 34px;
+  --leading-tight: 1.25;
+  --leading-normal: 1.55;
+
+  /* ---- elevation / motion --------------------------------------------- */
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.02), 0 8px 24px rgba(3, 6, 12, 0.35);
+  --shadow-pop: 0 24px 60px rgba(3, 6, 12, 0.55);
+  --motion-fast: 120ms;
+  --motion-normal: 200ms;
+  --motion-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* ---- layout --------------------------------------------------------- */
+  --layout-nav: 224px;
+  --layout-nav-compact: 76px;
+  --layout-rail: 348px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0ms;
+    --motion-normal: 0ms;
+  }
+}

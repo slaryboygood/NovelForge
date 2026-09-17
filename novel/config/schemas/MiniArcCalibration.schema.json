@@ -1,0 +1,83 @@
+{
+  "$defs": {
+    "CalibrationFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "observation": {
+          "title": "Observation",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "recommendation": {
+          "title": "Recommendation",
+          "type": "string"
+        },
+        "hard_spine_change_allowed": {
+          "const": false,
+          "default": false,
+          "title": "Hard Spine Change Allowed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "category",
+        "observation",
+        "evidence",
+        "recommendation"
+      ],
+      "title": "CalibrationFinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "chapter_start": {
+      "minimum": 1,
+      "title": "Chapter Start",
+      "type": "integer"
+    },
+    "chapter_end": {
+      "minimum": 1,
+      "title": "Chapter End",
+      "type": "integer"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/CalibrationFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "categories_checked": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Categories Checked",
+      "type": "array"
+    },
+    "hard_spine_unchanged": {
+      "const": true,
+      "default": true,
+      "title": "Hard Spine Unchanged",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "chapter_start",
+    "chapter_end",
+    "findings",
+    "categories_checked"
+  ],
+  "title": "MiniArcCalibration",
+  "type": "object"
+}

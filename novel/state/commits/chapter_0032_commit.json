@@ -1,0 +1,141 @@
+{
+  "chapter_id": "0032",
+  "committed_at": "20260828084122",
+  "state_delta": {
+    "chapter_id": "0032",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260828083508_1ef0e7ff:candidate",
+    "source_draft_hash": "042a117ab30e8a8c4dcc7ecaef67e154630bddf9b1b9bf7a1baa5be3799f4b32",
+    "timeline_delta": {
+      "source_chapter": "0031",
+      "title": "犬群清场",
+      "time": "进入荒原第一夜",
+      "location": "过载荒原南缘犬巢坡"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0032_character",
+        "subject": "人物变化",
+        "change": "零小队正面清掉三十余只烧蚀犬和犬王；频闪弓弦被咬断；容小满以光钟接住连环自爆；裂变剑完整吞噬犬王灵核并形成火咬残影",
+        "source": "chapter_0032_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0032_knowledge",
+        "subject": "知识变化",
+        "change": "烧蚀犬受犬王指挥，会用残血同伴自爆破阵；灰袍车队收购犬王齿并携暗紫木匣，路线指向阻流关方向",
+        "source": "chapter_0032_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0032_location",
+        "subject": "地点变化",
+        "change": "队伍清空过载荒原南缘犬巢坡，准备前往阻流关",
+        "source": "chapter_0032_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0032_core_obtain",
+        "subject": "物品变化",
+        "change": "裂变剑刺入犬王胸腔并接触获得烧蚀犬王灵核×1",
+        "source": "chapter_0032_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0032_core_feed",
+        "subject": "物品变化",
+        "change": "裂变剑完整吞噬烧蚀犬王灵核×1，实体完全消失，形成火咬残影",
+        "source": "chapter_0032_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0032_core_residue",
+        "subject": "物品变化",
+        "change": "队伍吸收烧蚀犬群死亡逸散灵能，不修改实体灵核数量",
+        "source": "chapter_0032_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0032_core_remaining",
+        "subject": "物品变化",
+        "change": "烧蚀犬王灵核剩余×0",
+        "source": "chapter_0032_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0032_materials",
+        "subject": "物品变化",
+        "change": "获得火星牙×7、烧蚀腺×5；频闪无声弓弦断裂",
+        "source": "chapter_0032_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0032_sword",
+        "subject": "能力变化",
+        "change": "裂变剑新增火咬残影；静电束缚仍来自雷纹护臂满功率释放",
+        "source": "chapter_0032_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0032_world",
+        "subject": "世界变化",
+        "change": "灰袍车队在荒原暗中收购犬王材料，携暗紫木匣向阻流关方向移动",
+        "source": "chapter_0032_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0032_fs_gray",
+          "subject": "伏笔埋设",
+          "change": "灰袍车队、暗紫木匣与半开白门木牌",
+          "source": "chapter_0032_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0032_fs_sword",
+          "subject": "伏笔推进",
+          "change": "裂变剑完整吞核后形成火咬残影",
+          "source": "chapter_0032_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": []
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0032_mystery",
+        "subject": "新谜题",
+        "change": "灰袍车队真正收购的是什么，暗紫木匣运往何处",
+        "source": "chapter_0032_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0032_goal",
+        "subject": "第0032章主要目标",
+        "change": "清掉烧蚀犬群与犬王，取得荒原首战胜利，并发现灰袍暗线",
+        "source": "chapter_0032_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

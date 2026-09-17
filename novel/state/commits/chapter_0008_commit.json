@@ -1,0 +1,199 @@
+{
+  "chapter_id": "0008",
+  "committed_at": "20260827005452",
+  "state_delta": {
+    "chapter_id": "0008",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260827005018_1f9a49e1:candidate",
+    "source_draft_hash": "56f2e525fa4fbf2290dec899b353a6302a67ee3d50741a0b33878c522048043e",
+    "timeline_delta": {
+      "source_chapter": "0007",
+      "title": "废渣镇里说了算",
+      "time": "新历300纪·春，焦脊沟后一日（白天药摊→夜铁算盘上门）",
+      "location": "碎屑平原·废渣镇（镇口空地药摊、断墙、棚屋）"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0008_character",
+        "subject": "人物变化",
+        "change": "零：Lv.5→Lv.7（吞三犬'井满了一回'+当众碾压）；赖三掀容小满药摊、当众辱骂'废灵'，零忍无可忍当众单挑赖三与麻杆/墩子——肩撞、借力、握拳、单膝摁跪，碾压立威（'摊子，给她摆好'）；野狗扑咬被一剑拍晕；手背暗纹一闪被淘铁人看见，立刻收敛吞噬本能（'不能在这儿——明天传开的就不是'零不是废物'，而是'零是个吃人的怪物'）；得知'天梭城的贵人'；铁算盘深夜上门送商会令牌（静电洞穴外围清剿+进洞取一样东西）",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0008_character_rong",
+        "subject": "人物变化",
+        "change": "容小满：药摊被掀、被辱'净化婊子'；零立威后眼眶泛红地笑（'箱子裂了，回头你帮我钉一钉'）——关系升温",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0008_rel_laisan",
+        "subject": "关系变化",
+        "change": "赖三：当众被摁跪、狼狈逃窜，色厉内荏喊'天梭城的贵人不会放过你'——彻底压制但记仇更深",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0008_rel_rong",
+        "subject": "关系变化",
+        "change": "容小满：'她没哭。她在笑'——第一次眼眶泛红，关系升温",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0008_rel_villagers",
+        "subject": "关系变化",
+        "change": "镇民：从'废灵'到'零小哥'——'零不是废物'开始外传；镇民主动捡药、换新灰布",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0008_rel_head",
+        "subject": "关系变化",
+        "change": "村长：从劝和到'零小哥，你这身手，藏得可真深啊'——改观",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0008_rel_suanpan",
+        "subject": "关系变化",
+        "change": "铁算盘：深夜上门，商会令牌（黑铁铸多足虫）——'商会真正想请你做的，是进洞里去，帮我们取一样东西'",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0008_knowledge",
+        "subject": "知识变化",
+        "change": "赖三的底牌是拾荒者商会（份子钱是商会要收）；赖三两次失口提到'天梭城的贵人'（'要镇子有个干净样子'）；商会令牌可开静电洞穴外围；铁算盘要零进洞取'一样东西'",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0008_location",
+        "subject": "地点变化",
+        "change": "废渣镇镇口空地（药摊/断墙/土路）——立威现场",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0008_item_token",
+        "subject": "物品变化",
+        "change": "商会令牌×1（黑铁铸多足虫，铁算盘所赠——静电洞穴外围开放）",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0008_item_gland",
+        "subject": "物品变化",
+        "change": "烧蚀腺×2（陶碗盛着，'这个有用'）",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0008_item_box",
+        "subject": "物品变化",
+        "change": "容小满药箱盖被赖三踩裂（零答应钉好）",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0008_ability",
+        "subject": "能力变化",
+        "change": "吞噬本能再进一步：能感知活人体内的灵韵（赖三那团'浑浊的灵韵'），差一点当众施展——被自己压回井底",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0008_org",
+        "subject": "组织变化",
+        "change": "拾荒者商会：令牌+翻倍赏金+进洞取物委托（铁算盘正式下场）；赖三自称商会跑腿",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0008_world",
+        "subject": "世界变化",
+        "change": "废渣镇势力洗牌：赖三立威三年被当众打垮；'零不是废物'的消息开始外传；天梭城贵人介入镇子的传闻浮出",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0008_fs_tiansuo",
+          "subject": "伏笔埋设",
+          "change": "天梭城的贵人：赖三失口两次——'要镇子有个干净样子'（卷二引子）",
+          "source": "chapter_0008_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0008_fs_token",
+          "subject": "伏笔埋设",
+          "change": "商会令牌上的多足虫：裂变剑灵纹'像两只骤然睁开的眼睛'死死盯着——令牌与剑的隐秘联系",
+          "source": "chapter_0008_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0008_fs_laisan_adv",
+          "subject": "伏笔推进",
+          "change": "赖三的账：'焦脊沟那半袋火星牙，我也天天记着'——已当面还击一半，商会层面未了",
+          "source": "chapter_0008_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0008_fs_rong_adv",
+          "subject": "伏笔推进",
+          "change": "容小满净化：手背青光一闪、后颈'像藏了一条很浅的河'——血脉细节",
+          "source": "chapter_0008_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": []
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0008_my_tiansuo",
+        "subject": "新谜题",
+        "change": "天梭城的贵人是谁？为什么要在废渣镇'干净样子'？",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0008_my_token",
+        "subject": "新谜题",
+        "change": "商会令牌上的多足虫是什么？裂变剑为什么盯着它？",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0008_goal",
+        "subject": "第0008章主要目标",
+        "change": "中爽点：赖三当众掀容小满药摊逼交保护费，并拿'废灵'羞辱零；零忍无可忍当众单挑赖三加两打手，Lv.5→Lv.7 碾压式打脸，立威废渣镇；铁算盘深夜上门送上商会令牌（静电洞穴外围清剿+进洞取物委托）",
+        "source": "chapter_0008_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

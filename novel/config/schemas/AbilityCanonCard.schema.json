@@ -1,0 +1,99 @@
+{
+  "$defs": {
+    "CanonLevel": {
+      "enum": [
+        "HARD_CANON",
+        "HARD_PLOT",
+        "RESTRICTED_TRUTH",
+        "SOFT_PLAN"
+      ],
+      "title": "CanonLevel",
+      "type": "string"
+    },
+    "SourceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "section": {
+          "title": "Section",
+          "type": "string"
+        },
+        "canon_level": {
+          "$ref": "#/$defs/CanonLevel"
+        },
+        "writer_visible": {
+          "default": false,
+          "title": "Writer Visible",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "section",
+        "canon_level"
+      ],
+      "title": "SourceReference",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "ability_id": {
+      "title": "Ability Id",
+      "type": "string"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "definition": {
+      "title": "Definition",
+      "type": "string"
+    },
+    "unlock_node": {
+      "title": "Unlock Node",
+      "type": "string"
+    },
+    "cost": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Cost",
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "maximum_level": {
+      "minimum": 1,
+      "title": "Maximum Level",
+      "type": "integer"
+    },
+    "source_refs": {
+      "items": {
+        "$ref": "#/$defs/SourceReference"
+      },
+      "title": "Source Refs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "ability_id",
+    "name",
+    "definition",
+    "unlock_node",
+    "cost",
+    "limitations",
+    "maximum_level",
+    "source_refs"
+  ],
+  "title": "AbilityCanonCard",
+  "type": "object"
+}

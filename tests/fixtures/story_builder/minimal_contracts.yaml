@@ -1,0 +1,49 @@
+session:
+  session_id: session_example_001
+  project_id: silicon_rise
+  status: CONFIGURING
+  current_step: worldview
+  completed_steps:
+    - reader_experience
+  selections:
+    - selection_id: selection_experience_001
+      step: reader_experience
+      option_id: experience_exploration
+      source: author
+      revision: 1
+  needs_review_steps: []
+  selection_version: 1
+  recommendation_version: 1
+
+blueprint:
+  blueprint_id: blueprint_example_001
+  project_id: silicon_rise
+  source_session_id: session_example_001
+  source_selection_version: 1
+  version: 1
+  status: DRAFT
+  premise: 一粒硅尘在废墟中醒来，并通过选择获得真正的自我。
+  sections:
+    - step: reader_experience
+      summary: 非人主角的探索成长故事
+      selected_option_ids:
+        - experience_exploration
+      source_selection_ids:
+        - selection_experience_001
+  unresolved_conflicts: []
+  confirmed_by_author: false
+
+outline:
+  package_id: outline_book_example_001
+  project_id: silicon_rise
+  blueprint_id: blueprint_example_001
+  blueprint_version: 1
+  level: BOOK
+  status: DRAFT
+  version: 1
+  items:
+    - item_id: book_main_story
+      title: 全书主线
+      summary: 主角从被环境推动走向能够自主选择。
+  source_package_versions: {}
+  confirmed_by_author: false

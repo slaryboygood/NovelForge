@@ -1,0 +1,101 @@
+{
+  "$defs": {
+    "ForeshadowStatus": {
+      "enum": [
+        "PLANNED",
+        "PLANTED",
+        "REINFORCED",
+        "PARTIALLY_REVEALED",
+        "PAID_OFF",
+        "ABANDONED"
+      ],
+      "title": "ForeshadowStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "foreshadow_id": {
+      "title": "Foreshadow Id",
+      "type": "string"
+    },
+    "public_description": {
+      "title": "Public Description",
+      "type": "string"
+    },
+    "restricted_meaning": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Restricted Meaning"
+    },
+    "status": {
+      "$ref": "#/$defs/ForeshadowStatus"
+    },
+    "plant_window": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "integer"
+        }
+      ],
+      "title": "Plant Window",
+      "type": "array"
+    },
+    "reinforce_window": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "integer"
+        }
+      ],
+      "title": "Reinforce Window",
+      "type": "array"
+    },
+    "payoff_window": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "integer"
+        }
+      ],
+      "title": "Payoff Window",
+      "type": "array"
+    },
+    "evidence_chapters": {
+      "items": {
+        "type": "integer"
+      },
+      "title": "Evidence Chapters",
+      "type": "array"
+    }
+  },
+  "required": [
+    "foreshadow_id",
+    "public_description",
+    "status",
+    "plant_window",
+    "reinforce_window",
+    "payoff_window"
+  ],
+  "title": "ForeshadowLedgerEntry",
+  "type": "object"
+}

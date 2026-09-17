@@ -1,0 +1,1539 @@
+{
+  "$defs": {
+    "AbilityRuntimeState": {
+      "additionalProperties": false,
+      "properties": {
+        "ability_id": {
+          "title": "Ability Id",
+          "type": "string"
+        },
+        "owner": {
+          "title": "Owner",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/AbilityStatus"
+        },
+        "current_level": {
+          "minimum": 0,
+          "title": "Current Level",
+          "type": "integer"
+        },
+        "unlock_node_reached": {
+          "default": false,
+          "title": "Unlock Node Reached",
+          "type": "boolean"
+        },
+        "current_damage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Current Damage"
+        },
+        "updated_through_chapter": {
+          "minimum": 0,
+          "title": "Updated Through Chapter",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "ability_id",
+        "owner",
+        "status",
+        "current_level",
+        "updated_through_chapter"
+      ],
+      "title": "AbilityRuntimeState",
+      "type": "object"
+    },
+    "AbilityStatus": {
+      "enum": [
+        "LOCKED",
+        "AVAILABLE",
+        "ACTIVE",
+        "DAMAGED",
+        "DISABLED"
+      ],
+      "title": "AbilityStatus",
+      "type": "string"
+    },
+    "AuthorBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary_id": {
+          "title": "Boundary Id",
+          "type": "string"
+        },
+        "level": {
+          "$ref": "#/$defs/BoundaryLevel"
+        },
+        "rule": {
+          "title": "Rule",
+          "type": "string"
+        },
+        "detection_terms": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Detection Terms",
+          "type": "array"
+        },
+        "source_refs": {
+          "items": {
+            "$ref": "#/$defs/SourceReference"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "boundary_id",
+        "level",
+        "rule",
+        "source_refs"
+      ],
+      "title": "AuthorBoundary",
+      "type": "object"
+    },
+    "BoundaryLevel": {
+      "enum": [
+        "HARD_FORBIDDEN",
+        "SOFT_AVOID",
+        "STYLE_WARNING"
+      ],
+      "title": "BoundaryLevel",
+      "type": "string"
+    },
+    "CanonLevel": {
+      "enum": [
+        "HARD_CANON",
+        "HARD_PLOT",
+        "RESTRICTED_TRUTH",
+        "SOFT_PLAN"
+      ],
+      "title": "CanonLevel",
+      "type": "string"
+    },
+    "ChapterCard": {
+      "additionalProperties": false,
+      "properties": {
+        "chapter_id": {
+          "pattern": "^\\d{4}$",
+          "title": "Chapter Id",
+          "type": "string"
+        },
+        "volume": {
+          "title": "Volume",
+          "type": "string"
+        },
+        "arc": {
+          "title": "Arc",
+          "type": "string"
+        },
+        "chapter_goal": {
+          "title": "Chapter Goal",
+          "type": "string"
+        },
+        "characters": {
+          "items": {
+            "$ref": "#/$defs/CharacterParticipation"
+          },
+          "title": "Characters",
+          "type": "array"
+        },
+        "relationship_target": {
+          "items": {
+            "$ref": "#/$defs/RelationshipTarget"
+          },
+          "title": "Relationship Target",
+          "type": "array"
+        },
+        "plot_nodes": {
+          "$ref": "#/$defs/PlotNodePermissions"
+        },
+        "equipment": {
+          "$ref": "#/$defs/ResourcePermissions"
+        },
+        "abilities": {
+          "$ref": "#/$defs/ResourcePermissions"
+        },
+        "knowledge": {
+          "$ref": "#/$defs/KnowledgePermissions"
+        },
+        "mysteries": {
+          "$ref": "#/$defs/MysteryPermissions"
+        },
+        "foreshadow": {
+          "$ref": "#/$defs/ForeshadowInstructions"
+        },
+        "must_happen": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Must Happen",
+          "type": "array"
+        },
+        "must_not_happen": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Must Not Happen",
+          "type": "array"
+        },
+        "start_state": {
+          "additionalProperties": true,
+          "title": "Start State",
+          "type": "object"
+        },
+        "target_end_state": {
+          "additionalProperties": true,
+          "title": "Target End State",
+          "type": "object"
+        },
+        "ending_hook": {
+          "title": "Ending Hook",
+          "type": "string"
+        },
+        "length_class": {
+          "$ref": "#/$defs/ChapterLengthClass",
+          "default": "STANDARD"
+        },
+        "length": {
+          "$ref": "#/$defs/ChapterLength"
+        },
+        "source_refs": {
+          "items": {
+            "$ref": "#/$defs/SourceReference"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "style_profile": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ProfileSelection"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "character_voice_profile_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Character Voice Profile Ids",
+          "type": "array"
+        },
+        "character_schedule_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Character Schedule Ids",
+          "type": "array"
+        },
+        "location_constraint_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Location Constraint Ids",
+          "type": "array"
+        },
+        "historical_event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Historical Event Ids",
+          "type": "array"
+        },
+        "author_boundary_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Author Boundary Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "chapter_id",
+        "volume",
+        "arc",
+        "chapter_goal",
+        "characters",
+        "plot_nodes",
+        "must_happen",
+        "must_not_happen",
+        "start_state",
+        "target_end_state",
+        "ending_hook",
+        "source_refs"
+      ],
+      "title": "ChapterCard",
+      "type": "object"
+    },
+    "ChapterLength": {
+      "additionalProperties": false,
+      "properties": {
+        "length_class": {
+          "$ref": "#/$defs/ChapterLengthClass",
+          "default": "STANDARD"
+        },
+        "min_chinese_chars": {
+          "default": 2600,
+          "minimum": 1,
+          "title": "Min Chinese Chars",
+          "type": "integer"
+        },
+        "target_chinese_chars": {
+          "default": 3200,
+          "minimum": 1,
+          "title": "Target Chinese Chars",
+          "type": "integer"
+        },
+        "preferred_max_chinese_chars": {
+          "default": 4000,
+          "minimum": 1,
+          "title": "Preferred Max Chinese Chars",
+          "type": "integer"
+        }
+      },
+      "title": "ChapterLength",
+      "type": "object"
+    },
+    "ChapterLengthClass": {
+      "enum": [
+        "STANDARD",
+        "KEY",
+        "CLIMAX"
+      ],
+      "title": "ChapterLengthClass",
+      "type": "string"
+    },
+    "ChapterWindow": {
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "minimum": 1,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "minimum": 1,
+          "title": "End",
+          "type": "integer"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "reason"
+      ],
+      "title": "ChapterWindow",
+      "type": "object"
+    },
+    "CharacterParticipation": {
+      "additionalProperties": false,
+      "properties": {
+        "character_id": {
+          "title": "Character Id",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "reason_present": {
+          "title": "Reason Present",
+          "type": "string"
+        },
+        "personal_goal": {
+          "title": "Personal Goal",
+          "type": "string"
+        }
+      },
+      "required": [
+        "character_id",
+        "reason_present",
+        "personal_goal"
+      ],
+      "title": "CharacterParticipation",
+      "type": "object"
+    },
+    "CharacterRuntimeState": {
+      "additionalProperties": false,
+      "properties": {
+        "character_id": {
+          "title": "Character Id",
+          "type": "string"
+        },
+        "location": {
+          "title": "Location",
+          "type": "string"
+        },
+        "physical_state": {
+          "title": "Physical State",
+          "type": "string"
+        },
+        "psychological_state": {
+          "title": "Psychological State",
+          "type": "string"
+        },
+        "current_goal": {
+          "title": "Current Goal",
+          "type": "string"
+        },
+        "current_stance": {
+          "title": "Current Stance",
+          "type": "string"
+        },
+        "current_abilities": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Current Abilities",
+          "type": "array"
+        },
+        "recent_major_events": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Recent Major Events",
+          "type": "array"
+        },
+        "current_arc_stage": {
+          "title": "Current Arc Stage",
+          "type": "string"
+        },
+        "updated_through_chapter": {
+          "minimum": 0,
+          "title": "Updated Through Chapter",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "character_id",
+        "location",
+        "physical_state",
+        "psychological_state",
+        "current_goal",
+        "current_stance",
+        "current_arc_stage",
+        "updated_through_chapter"
+      ],
+      "title": "CharacterRuntimeState",
+      "type": "object"
+    },
+    "CharacterSchedule": {
+      "additionalProperties": false,
+      "properties": {
+        "schedule_id": {
+          "title": "Schedule Id",
+          "type": "string"
+        },
+        "character_id": {
+          "title": "Character Id",
+          "type": "string"
+        },
+        "volume_role": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Volume Role",
+          "type": "object"
+        },
+        "active_windows": {
+          "items": {
+            "$ref": "#/$defs/ChapterWindow"
+          },
+          "title": "Active Windows",
+          "type": "array"
+        },
+        "absence_windows": {
+          "items": {
+            "$ref": "#/$defs/ChapterWindow"
+          },
+          "title": "Absence Windows",
+          "type": "array"
+        },
+        "required_return_nodes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Return Nodes",
+          "type": "array"
+        },
+        "relationship_milestones": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Relationship Milestones",
+          "type": "array"
+        },
+        "plot_milestones": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Plot Milestones",
+          "type": "array"
+        },
+        "mystery_milestones": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Mystery Milestones",
+          "type": "array"
+        },
+        "required_presence": {
+          "items": {
+            "$ref": "#/$defs/ChapterWindow"
+          },
+          "title": "Required Presence",
+          "type": "array"
+        },
+        "forbidden_presence": {
+          "items": {
+            "$ref": "#/$defs/ChapterWindow"
+          },
+          "title": "Forbidden Presence",
+          "type": "array"
+        },
+        "source_refs": {
+          "items": {
+            "$ref": "#/$defs/SourceReference"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "schedule_id",
+        "character_id",
+        "source_refs"
+      ],
+      "title": "CharacterSchedule",
+      "type": "object"
+    },
+    "CharacterVoiceProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "character_id": {
+          "title": "Character Id",
+          "type": "string"
+        },
+        "sentence_pattern": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Sentence Pattern",
+          "type": "array"
+        },
+        "vocabulary": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Vocabulary",
+          "type": "array"
+        },
+        "tone": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Tone",
+          "type": "array"
+        },
+        "emotional_expression": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Emotional Expression",
+          "type": "array"
+        },
+        "humor_sarcasm": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Humor Sarcasm",
+          "type": "array"
+        },
+        "speech_taboo": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Speech Taboo",
+          "type": "array"
+        },
+        "silence_pattern": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Silence Pattern",
+          "type": "array"
+        },
+        "relationship_specific_voice": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Relationship Specific Voice",
+          "type": "object"
+        },
+        "example_intent": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Example Intent",
+          "type": "array"
+        },
+        "source_refs": {
+          "items": {
+            "$ref": "#/$defs/SourceReference"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "character_id",
+        "sentence_pattern",
+        "vocabulary",
+        "tone",
+        "emotional_expression",
+        "humor_sarcasm",
+        "speech_taboo",
+        "silence_pattern",
+        "source_refs"
+      ],
+      "title": "CharacterVoiceProfile",
+      "type": "object"
+    },
+    "CharacterWriterView": {
+      "additionalProperties": false,
+      "properties": {
+        "character_id": {
+          "title": "Character Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "identity": {
+          "title": "Identity",
+          "type": "string"
+        },
+        "core_desire": {
+          "title": "Core Desire",
+          "type": "string"
+        },
+        "core_fear": {
+          "title": "Core Fear",
+          "type": "string"
+        },
+        "values": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Values",
+          "type": "array"
+        },
+        "narrative_function": {
+          "title": "Narrative Function",
+          "type": "string"
+        }
+      },
+      "required": [
+        "character_id",
+        "name",
+        "identity",
+        "core_desire",
+        "core_fear",
+        "values",
+        "narrative_function"
+      ],
+      "title": "CharacterWriterView",
+      "type": "object"
+    },
+    "DirectiveStrength": {
+      "enum": [
+        "HARD_STYLE",
+        "SOFT_STYLE"
+      ],
+      "title": "DirectiveStrength",
+      "type": "string"
+    },
+    "EquipmentRuntimeState": {
+      "additionalProperties": false,
+      "properties": {
+        "equipment_id": {
+          "title": "Equipment Id",
+          "type": "string"
+        },
+        "owner": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Owner"
+        },
+        "location": {
+          "title": "Location",
+          "type": "string"
+        },
+        "condition": {
+          "title": "Condition",
+          "type": "string"
+        },
+        "acquired": {
+          "default": false,
+          "title": "Acquired",
+          "type": "boolean"
+        },
+        "upgraded": {
+          "default": false,
+          "title": "Upgraded",
+          "type": "boolean"
+        },
+        "lost": {
+          "default": false,
+          "title": "Lost",
+          "type": "boolean"
+        },
+        "destroyed": {
+          "default": false,
+          "title": "Destroyed",
+          "type": "boolean"
+        },
+        "available_to_use": {
+          "default": false,
+          "title": "Available To Use",
+          "type": "boolean"
+        },
+        "updated_through_chapter": {
+          "minimum": 0,
+          "title": "Updated Through Chapter",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "equipment_id",
+        "location",
+        "condition",
+        "updated_through_chapter"
+      ],
+      "title": "EquipmentRuntimeState",
+      "type": "object"
+    },
+    "ForeshadowInstructions": {
+      "additionalProperties": false,
+      "properties": {
+        "plant": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Plant",
+          "type": "array"
+        },
+        "reinforce": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reinforce",
+          "type": "array"
+        },
+        "payoff": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Payoff",
+          "type": "array"
+        }
+      },
+      "title": "ForeshadowInstructions",
+      "type": "object"
+    },
+    "HistoricalEventView": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "title": "Event Id",
+          "type": "string"
+        },
+        "time": {
+          "title": "Time",
+          "type": "string"
+        },
+        "public_knowledge": {
+          "title": "Public Knowledge",
+          "type": "string"
+        }
+      },
+      "required": [
+        "event_id",
+        "time",
+        "public_knowledge"
+      ],
+      "title": "HistoricalEventView",
+      "type": "object"
+    },
+    "KnowledgePermissions": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Allowed",
+          "type": "array"
+        },
+        "forbidden": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Forbidden",
+          "type": "array"
+        }
+      },
+      "title": "KnowledgePermissions",
+      "type": "object"
+    },
+    "LocationConnection": {
+      "additionalProperties": false,
+      "properties": {
+        "to_location_id": {
+          "title": "To Location Id",
+          "type": "string"
+        },
+        "min_hours": {
+          "minimum": 0,
+          "title": "Min Hours",
+          "type": "number"
+        },
+        "max_hours": {
+          "minimum": 0,
+          "title": "Max Hours",
+          "type": "number"
+        },
+        "travel_methods": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Travel Methods",
+          "type": "array"
+        },
+        "access_requirement": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Access Requirement",
+          "type": "array"
+        },
+        "danger": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Danger",
+          "type": "array"
+        },
+        "special_rules": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Special Rules",
+          "type": "array"
+        }
+      },
+      "required": [
+        "to_location_id",
+        "min_hours",
+        "max_hours",
+        "travel_methods"
+      ],
+      "title": "LocationConnection",
+      "type": "object"
+    },
+    "LocationNode": {
+      "additionalProperties": false,
+      "properties": {
+        "location_id": {
+          "title": "Location Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "region": {
+          "title": "Region",
+          "type": "string"
+        },
+        "connections": {
+          "items": {
+            "$ref": "#/$defs/LocationConnection"
+          },
+          "title": "Connections",
+          "type": "array"
+        },
+        "special_rules": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Special Rules",
+          "type": "array"
+        },
+        "source_refs": {
+          "items": {
+            "$ref": "#/$defs/SourceReference"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "location_id",
+        "name",
+        "region",
+        "connections",
+        "source_refs"
+      ],
+      "title": "LocationNode",
+      "type": "object"
+    },
+    "LockedChapterIntent": {
+      "additionalProperties": false,
+      "properties": {
+        "chapter_id": {
+          "pattern": "^\\d{4}$",
+          "title": "Chapter Id",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "raw_intent": {
+          "title": "Raw Intent",
+          "type": "string"
+        },
+        "key_events": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Key Events",
+          "type": "array"
+        },
+        "key_characters": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Key Characters",
+          "type": "array"
+        },
+        "hard_plot_node_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Hard Plot Node Ids",
+          "type": "array"
+        },
+        "required_results": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Results",
+          "type": "array"
+        },
+        "key_foreshadowing": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Key Foreshadowing",
+          "type": "array"
+        },
+        "soft_freedoms": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Soft Freedoms",
+          "type": "array"
+        },
+        "source_refs": {
+          "items": {
+            "$ref": "#/$defs/SourceReference"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "chapter_id",
+        "title",
+        "raw_intent",
+        "key_events",
+        "source_refs"
+      ],
+      "title": "LockedChapterIntent",
+      "type": "object"
+    },
+    "MysteryPermissions": {
+      "additionalProperties": false,
+      "properties": {
+        "advance": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Advance",
+          "type": "array"
+        },
+        "keep_hidden": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Keep Hidden",
+          "type": "array"
+        }
+      },
+      "title": "MysteryPermissions",
+      "type": "object"
+    },
+    "PlanningPrecision": {
+      "enum": [
+        "HIGH",
+        "DETAILED",
+        "MEDIUM"
+      ],
+      "title": "PlanningPrecision",
+      "type": "string"
+    },
+    "PlotNodePermissions": {
+      "additionalProperties": false,
+      "properties": {
+        "required": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required",
+          "type": "array"
+        },
+        "advance": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Advance",
+          "type": "array"
+        },
+        "optional": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Optional",
+          "type": "array"
+        },
+        "forbidden": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Forbidden",
+          "type": "array"
+        }
+      },
+      "required": [
+        "required"
+      ],
+      "title": "PlotNodePermissions",
+      "type": "object"
+    },
+    "ProfileSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "fields": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fields",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "fields"
+      ],
+      "title": "ProfileSelection",
+      "type": "object"
+    },
+    "RelationshipState": {
+      "additionalProperties": false,
+      "properties": {
+        "relation_id": {
+          "title": "Relation Id",
+          "type": "string"
+        },
+        "participants": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Participants",
+          "type": "array"
+        },
+        "surface_relation": {
+          "title": "Surface Relation",
+          "type": "string"
+        },
+        "trust": {
+          "maximum": 100,
+          "minimum": -100,
+          "title": "Trust",
+          "type": "integer"
+        },
+        "respect": {
+          "maximum": 100,
+          "minimum": -100,
+          "title": "Respect",
+          "type": "integer"
+        },
+        "fear": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Fear",
+          "type": "integer"
+        },
+        "emotional_debt": {
+          "default": 0,
+          "title": "Emotional Debt",
+          "type": "integer"
+        },
+        "shared_secrets": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Shared Secrets",
+          "type": "array"
+        },
+        "unresolved_conflicts": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Unresolved Conflicts",
+          "type": "array"
+        },
+        "current_stage": {
+          "title": "Current Stage",
+          "type": "string"
+        },
+        "next_target_stage": {
+          "title": "Next Target Stage",
+          "type": "string"
+        },
+        "evidence_chapters": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Evidence Chapters",
+          "type": "array"
+        }
+      },
+      "required": [
+        "relation_id",
+        "participants",
+        "surface_relation",
+        "trust",
+        "respect",
+        "fear",
+        "current_stage",
+        "next_target_stage"
+      ],
+      "title": "RelationshipState",
+      "type": "object"
+    },
+    "RelationshipTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "relation_id": {
+          "title": "Relation Id",
+          "type": "string"
+        },
+        "before": {
+          "title": "Before",
+          "type": "string"
+        },
+        "target_after": {
+          "title": "Target After",
+          "type": "string"
+        },
+        "permitted_change": {
+          "title": "Permitted Change",
+          "type": "string"
+        }
+      },
+      "required": [
+        "relation_id",
+        "before",
+        "target_after",
+        "permitted_change"
+      ],
+      "title": "RelationshipTarget",
+      "type": "object"
+    },
+    "ResourcePermissions": {
+      "additionalProperties": false,
+      "properties": {
+        "available": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Available",
+          "type": "array"
+        },
+        "required": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required",
+          "type": "array"
+        },
+        "forbidden": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Forbidden",
+          "type": "array"
+        }
+      },
+      "title": "ResourcePermissions",
+      "type": "object"
+    },
+    "RollingChapterIntent": {
+      "additionalProperties": false,
+      "properties": {
+        "chapter_id": {
+          "pattern": "^\\d{4}$",
+          "title": "Chapter Id",
+          "type": "string"
+        },
+        "precision": {
+          "$ref": "#/$defs/PlanningPrecision"
+        },
+        "goal": {
+          "title": "Goal",
+          "type": "string"
+        },
+        "required_events": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Events",
+          "type": "array"
+        },
+        "hard_plot_node_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Hard Plot Node Ids",
+          "type": "array"
+        },
+        "soft_options": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Soft Options",
+          "type": "array"
+        },
+        "target_end_state": {
+          "title": "Target End State",
+          "type": "string"
+        }
+      },
+      "required": [
+        "chapter_id",
+        "precision",
+        "goal",
+        "required_events",
+        "target_end_state"
+      ],
+      "title": "RollingChapterIntent",
+      "type": "object"
+    },
+    "SourceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "section": {
+          "title": "Section",
+          "type": "string"
+        },
+        "canon_level": {
+          "$ref": "#/$defs/CanonLevel"
+        },
+        "writer_visible": {
+          "default": false,
+          "title": "Writer Visible",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "section",
+        "canon_level"
+      ],
+      "title": "SourceReference",
+      "type": "object"
+    },
+    "StyleDirective": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "strength": {
+          "$ref": "#/$defs/DirectiveStrength"
+        }
+      },
+      "required": [
+        "text",
+        "strength"
+      ],
+      "title": "StyleDirective",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "chapter_id": {
+      "pattern": "^\\d{4}$",
+      "title": "Chapter Id",
+      "type": "string"
+    },
+    "constitution_summary": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Constitution Summary",
+      "type": "array"
+    },
+    "volume_arc_summary": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Volume Arc Summary",
+      "type": "array"
+    },
+    "rolling_intent": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RollingChapterIntent"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "locked_intent": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/LockedChapterIntent"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "chapter_card": {
+      "$ref": "#/$defs/ChapterCard"
+    },
+    "character_canon": {
+      "items": {
+        "$ref": "#/$defs/CharacterWriterView"
+      },
+      "title": "Character Canon",
+      "type": "array"
+    },
+    "character_states": {
+      "items": {
+        "$ref": "#/$defs/CharacterRuntimeState"
+      },
+      "title": "Character States",
+      "type": "array"
+    },
+    "relationship_states": {
+      "items": {
+        "$ref": "#/$defs/RelationshipState"
+      },
+      "title": "Relationship States",
+      "type": "array"
+    },
+    "knowledge_visible": {
+      "additionalProperties": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "type": "object"
+      },
+      "title": "Knowledge Visible",
+      "type": "object"
+    },
+    "equipment_states": {
+      "items": {
+        "$ref": "#/$defs/EquipmentRuntimeState"
+      },
+      "title": "Equipment States",
+      "type": "array"
+    },
+    "ability_states": {
+      "items": {
+        "$ref": "#/$defs/AbilityRuntimeState"
+      },
+      "title": "Ability States",
+      "type": "array"
+    },
+    "mystery_visible": {
+      "additionalProperties": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "type": "object"
+      },
+      "title": "Mystery Visible",
+      "type": "object"
+    },
+    "foreshadow_visible": {
+      "additionalProperties": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "type": "object"
+      },
+      "title": "Foreshadow Visible",
+      "type": "object"
+    },
+    "style_profile": {
+      "additionalProperties": {
+        "items": {
+          "$ref": "#/$defs/StyleDirective"
+        },
+        "type": "array"
+      },
+      "title": "Style Profile",
+      "type": "object"
+    },
+    "character_voice_profiles": {
+      "items": {
+        "$ref": "#/$defs/CharacterVoiceProfile"
+      },
+      "title": "Character Voice Profiles",
+      "type": "array"
+    },
+    "character_schedule_constraints": {
+      "items": {
+        "$ref": "#/$defs/CharacterSchedule"
+      },
+      "title": "Character Schedule Constraints",
+      "type": "array"
+    },
+    "location_constraints": {
+      "items": {
+        "$ref": "#/$defs/LocationNode"
+      },
+      "title": "Location Constraints",
+      "type": "array"
+    },
+    "historical_context": {
+      "items": {
+        "$ref": "#/$defs/HistoricalEventView"
+      },
+      "title": "Historical Context",
+      "type": "array"
+    },
+    "author_boundaries": {
+      "items": {
+        "$ref": "#/$defs/AuthorBoundary"
+      },
+      "title": "Author Boundaries",
+      "type": "array"
+    },
+    "recent_chapter_summaries": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Recent Chapter Summaries",
+      "type": "array"
+    },
+    "source_manifest": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Source Manifest",
+      "type": "array"
+    },
+    "excluded_paths": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Excluded Paths",
+      "type": "array"
+    },
+    "full_history_files_read": {
+      "default": 0,
+      "title": "Full History Files Read",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "chapter_id",
+    "constitution_summary",
+    "volume_arc_summary",
+    "chapter_card",
+    "character_canon",
+    "character_states",
+    "relationship_states",
+    "knowledge_visible",
+    "equipment_states",
+    "ability_states",
+    "mystery_visible",
+    "foreshadow_visible",
+    "recent_chapter_summaries",
+    "source_manifest",
+    "excluded_paths"
+  ],
+  "title": "ChapterProductionContext",
+  "type": "object"
+}

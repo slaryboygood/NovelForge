@@ -1,0 +1,85 @@
+{
+  "artifact": "V3_FULL_PRODUCT_ACCEPTANCE",
+  "product": "NovelForge",
+  "release_name": "NovelForge Product V3.0",
+  "verified_at": "2026-09-16",
+  "candidate_base_head": "56350b11d2703afe8b6d737488578104bf001777",
+  "candidate_staged_files": 59,
+  "verification_environment": "clean release-candidate checkout（base HEAD + staged snapshot，逐 blob 校验；测试数据根另行 provision，不进 release）",
+  "phase_results": {
+    "V3-P0 Stabilize Product Shell": "PASS",
+    "V3-P1 Creation Journey": "PASS（P6 已完整 replay，非引用历史 PASS）",
+    "V3-P2 World & Character Workspace": "PASS",
+    "V3-P3 Story Simulation Workspace": "PASS（含 CLOSEOUT：Native Route Comparison + 世界影响真实引用）",
+    "V3-P4 Outline & Chapter Workspace": "PASS",
+    "V3-P5 Review / Repair / Export": "PASS",
+    "V3-P6 Full Product Acceptance": "PASS"
+  },
+  "acceptance_dimensions": {
+    "FUNCTIONAL": "PASS（P6 replay：Landing → 新建作品 → Command Center → Creation 主链 → 9 工作区 → 推演/大纲/检查/导出 → Refresh/Deep-link/Back/Switch Novel → 高级工具 19 页签）",
+    "VISUAL": "PASS（V3 Visual Asset Gate：6/6 required 默认资源真实渲染，尺寸 / object-fit / 透明通道 / broken-asset 回退全部通过）",
+    "RESPONSIVE": "PASS（1440 / 1280 / 1024 / 390；0 横向溢出）",
+    "ACCESSIBILITY": "PASS（ContextPanel role=dialog / aria-modal / aria-labelledby / Esc / focus trap / focus return；按钮语义与 aria-label 检查）",
+    "FIRST_TIME_USER": "PASS（每个工作区 5 秒内可回答「这是什么 / 该做什么 / 下一步」，主界面 0 内部概念与 0 引擎 id 泄漏）",
+    "ARCHITECTURE": "PASS（无第二套 Domain；URL 解析单入口；EntityVisual / Objective / NextAction / EmptyState / ContextPanel 各单一实现；风险模型统一 INFO/WARNING/BLOCKING）",
+    "V2_FROZEN_GUARD": "PASS（v2 tag object 与 commit 未变；novel/authoring 相对 V2 release 无差异；list_branches 只读放宽有边界回归）"
+  },
+  "test_evidence": {
+    "pytest": "1559 passed / 1 skipped（release candidate checkout，与当前工作区一致）",
+    "validate_project": "PASS",
+    "frontend_typecheck": "PASS（tsc --noEmit）",
+    "frontend_build": "PASS（vite build；6 个默认美术指纹化进入 dist/assets）",
+    "application_tests": "tests/test_v3_*.py = 49 条（projection / chapter / entity / simulation / review-export / frozen-guard / visual-contract）",
+    "browser_acceptance": {
+      "browser_v3_p0_acceptance.cjs": "PASS",
+      "browser_v3_p2_acceptance.cjs": "PASS",
+      "browser_v3_p3_acceptance.cjs": "PASS",
+      "browser_v3_p4_acceptance.cjs": "PASS",
+      "browser_v3_p5_acceptance.cjs": "PASS",
+      "browser_v3_p6_acceptance.cjs": "PASS",
+      "browser_v3_visual_asset_gate.cjs": "PASS",
+      "browser_advanced_tools.cjs": "PASS"
+    },
+    "browser_noise": {
+      "pageerror": 0,
+      "requestfailed": 0,
+      "unexpected_console_error": 0,
+      "unexpected_http_4xx_5xx": 0,
+      "horizontal_overflow": 0,
+      "broken_image": 0
+    }
+  },
+  "visual_assets_in_release": [
+    "ui/src/assets/defaults/default_novel_cover.webp（800x1200, sha256 14c0b8621920409b0aaca5223d079c3e771f17b4de36cd49777eb883601f53aa）",
+    "ui/src/assets/defaults/default_hero_banner.webp（1600x900, sha256 b6c7f1efa6c41a483508201462577920b1e6956caf60e29be67db3626c33fd2e）",
+    "ui/src/assets/defaults/default_character.webp（800x1000, sha256 9c8fbcebea9e6681136a1ea99dd0dd2ce464f314ffb2bbd283b9d75291378dbc）",
+    "ui/src/assets/defaults/default_location.webp（1200x675, sha256 d1a15436926431acc8d3ac8bebb061e59717016d0c0116617ea3f3b7f9875ae4）",
+    "ui/src/assets/defaults/default_faction.png（512x512 RGBA, sha256 7fdbf43a3bc433c3b148f67c17abb21fc15591bb3081b0066b93903c245a962d）",
+    "ui/src/assets/defaults/default_chapter.webp（960x540, sha256 fce4e04f58eb45a13f5ed5a399a8e7409431467a2773c7ad6247cf236b35fa83）"
+  ],
+  "final_candidate_file_count": {
+    "total": 59,
+    "new": 44,
+    "modified": 15,
+    "deleted": 0
+  },
+  "known_debts": [
+    "V3-DEBT-01 V2 里程碑验收（M11–M18 / wasteland）依赖本机历史数据，默认不运行（pytest -m historical_acceptance）",
+    "V3-DEBT-02 默认美术整体偏 Dark Fantasy；建议后续按题材提供 fallback pack",
+    "V3-DEBT-03 Character / World 完整编辑仍通过既有面板（accepted bridge）",
+    "V3-DEBT-04 relationship change history 尚未进入 Primary UI",
+    "V3-DEBT-05 合成 id（core_record / 资源 / 身份）的展示名由应用层显式表提供",
+    "V3-DEBT-06 Story-specific artwork generation 尚未实现（Domain 尚无 artwork 字段）"
+  ],
+  "conclusion": {
+    "V3_FUNCTIONAL_COMPLETE": "YES",
+    "V3_VISUAL_COMPLETE": "YES",
+    "V3_PRODUCT_ACCEPTANCE": "PASS",
+    "V3_PRODUCT_COMPLETE": "YES"
+  },
+  "notes": [
+    "所有数字均为本次真实运行结果，没有伪造时间或结论。",
+    "release candidate 的完整文件清单以 git diff --cached --name-status 为准（59 条）。",
+    "候选环境与开发者工作区的差异只有：git 目录位置、测试数据根（gitignored）、node_modules（同一 package-lock）。"
+  ]
+}

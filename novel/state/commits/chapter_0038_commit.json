@@ -1,0 +1,157 @@
+{
+  "chapter_id": "0038",
+  "committed_at": "20260828221213",
+  "state_delta": {
+    "chapter_id": "0038",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260828220659_4a3e08de:candidate",
+    "source_draft_hash": "2c89d65d3b3e0cbdbfec7cb738c752576f89e574dea67c6b029b1440c1eff057",
+    "timeline_delta": {
+      "source_chapter": "0037",
+      "title": "巨人领地",
+      "time": "截获密信后的白天至第37号井异动",
+      "location": "过载荒原·北谷巨人领地边缘/第37号井"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0038_zero",
+        "subject": "人物变化",
+        "change": "零与队友击杀三只Lv.27巨蝎残部并吸收死亡逸散灵能，连续升至Lv.25",
+        "source": "chapter_0038_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0038_zhamen",
+        "subject": "人物变化",
+        "change": "闸门拒绝族长召回与作为诱饵的命令，确认关内灰袍与荒原教团暗桩同源",
+        "source": "chapter_0038_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0038_guards",
+        "subject": "关系变化",
+        "change": "零小队与阻流族卫因闸门回关令形成武力对峙",
+        "source": "chapter_0038_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0038_giant",
+        "subject": "知识变化",
+        "change": "过载巨人胸口越亮越暴躁；会绕开凉水井，年轻时曾被井口白汽重创",
+        "source": "chapter_0038_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0038_plot",
+        "subject": "知识变化",
+        "change": "关内灰袍建议用闸门血味引巨人入关，与第37号井等待巨人过热的密信构成同一计划",
+        "source": "chapter_0038_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0038_location",
+        "subject": "地点变化",
+        "change": "队伍穿过井口迷宫抵达北谷第37号井，过载巨人正返回",
+        "source": "chapter_0038_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0038_residue",
+        "subject": "物品变化",
+        "change": "队伍吸收三只荒原巨蝎死亡逸散灵能，不修改实体灵核库存",
+        "source": "chapter_0038_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0038_token",
+        "subject": "物品变化",
+        "change": "闸门接过并攥裂染血的族长黑木令牌",
+        "source": "chapter_0038_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0038_level",
+        "subject": "能力变化",
+        "change": "零等级提升：Lv.23→Lv.24→Lv.25",
+        "source": "chapter_0038_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0038_guard",
+        "subject": "组织变化",
+        "change": "阻流族长已接纳灰袍建议，族卫奉命召回闸门并准备以其为饵",
+        "source": "chapter_0038_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0038_drops",
+        "subject": "世界变化",
+        "change": "三只巨蝎核腔在战斗中震碎，只产生死亡逸散灵能，无完整实体灵核掉落",
+        "source": "chapter_0038_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0038_well",
+        "subject": "世界变化",
+        "change": "第37号井正异常升温，与巨人过热同步",
+        "source": "chapter_0038_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0038_fs_well",
+          "subject": "伏笔埋设",
+          "change": "第37号井地下传出心跳并开始透出暗红热光",
+          "source": "chapter_0038_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0038_fs_cult",
+          "subject": "伏笔推进",
+          "change": "关内灰袍与荒原密信计划形成闭环，族卫身上带同种灰味",
+          "source": "chapter_0038_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": []
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0038_mystery",
+        "subject": "新谜题",
+        "change": "第37号井下心跳与灰袍引热计划的具体装置",
+        "source": "chapter_0038_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0038_goal",
+        "subject": "第0038章主要目标",
+        "change": "首次遭遇过载巨人，确认凉水井行为规律并揭露闸门诱饵计划",
+        "source": "chapter_0038_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

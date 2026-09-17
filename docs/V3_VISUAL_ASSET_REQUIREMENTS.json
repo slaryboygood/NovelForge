@@ -1,0 +1,174 @@
+{
+  "artifact": "V3_VISUAL_ASSET_REQUIREMENTS",
+  "product": "NovelForge",
+  "version_scope": "Product V3",
+  "generated_for": "V3 Visual Asset Gate CLOSEOUT（6/6 required 资源已接入）",
+  "notes": [
+    "机器可读的资源需求清单；不污染 V2 artifact。",
+    "资源就位后只需在 artworkManifest.ts 填 url（或改成 import），全产品同时生效；组件不得各自保存路径。",
+    "Story Assets 必须来自真实数据引用；禁止按角色名/作品名 hardcode 图片，禁止把 UI标准 mock 当真实作品资源。",
+    "P6 复核（2026-09-16）：空态插画已经真实接线——EmptyState 的 artwork 槽位通过 resolveEmptyArtwork() 解析，资源就位即渲染，缺资源仍走语义图标（不再有「写了但没人用」的 DTO）。",
+    "Visual Asset Gate（2026-09-16）：6 个 required 资源由作者放入仓库并接入 Manifest；解析顺序固定为 real story asset → product default artwork → semantic icon。",
+    "当前 Domain 仍没有任何 artwork 字段（NovelProfile / 内容包不含 cover / portrait / emblem），因此实际展示的是产品默认美术；一旦投影给出真实资源 URL，resolver 会自动优先使用。"
+  ],
+  "p6_visual_gate": {
+    "checked_at": "2026-09-16",
+    "required_assets_present": 6,
+    "required_assets_total": 6,
+    "visual_complete": true,
+    "evidence": "tests/browser_v3_visual_asset_gate.cjs（尺寸 / object-fit / 透明通道 / broken asset 回退）+ tests/test_v3_visual_asset_contract.py",
+    "unblock": ""
+  },
+  "fallback_chain": ["story_asset", "product_default_artwork", "semantic_icon"],
+  "style_direction": {
+    "tone": "dark cinematic / premium / literary",
+    "palette": "deep navy-charcoal + warm gold highlight, low saturation",
+    "avoid": ["cyberpunk neon", "cheap RPG", "mobile gacha banner", "embedded text in image", "over-specific character identity"]
+  },
+  "assets": [
+    {
+      "asset_id": "default_novel_cover",
+      "kind": "product_default",
+      "usage": "Novel Landing 作品卡封面 / 未来 Command Center 作品名片",
+      "recommended_ratio": "2:3",
+      "recommended_size": "800x1200",
+      "format": "WebP",
+      "transparent": false,
+      "required_for_final_visual_acceptance": true,
+      "current_status": "available",
+      "target_path": "ui/src/assets/defaults/default_novel_cover.webp"
+    },
+    {
+      "asset_id": "default_hero_banner",
+      "kind": "product_default",
+      "usage": "Command Center Hero 主视觉",
+      "recommended_ratio": "16:9",
+      "recommended_size": "1600x900",
+      "format": "WebP",
+      "transparent": false,
+      "required_for_final_visual_acceptance": true,
+      "current_status": "available",
+      "target_path": "ui/src/assets/defaults/default_hero_banner.webp"
+    },
+    {
+      "asset_id": "default_character",
+      "kind": "product_default",
+      "usage": "Character Workspace 角色视觉 fallback（身份中性，不冒充具体角色）",
+      "recommended_ratio": "4:5",
+      "recommended_size": "800x1000",
+      "format": "WebP",
+      "transparent": false,
+      "required_for_final_visual_acceptance": true,
+      "current_status": "available",
+      "target_path": "ui/src/assets/defaults/default_character.webp"
+    },
+    {
+      "asset_id": "default_location",
+      "kind": "product_default",
+      "usage": "World Workspace 地点视觉 fallback（genre-flexible，不绑定单一题材）",
+      "recommended_ratio": "16:9",
+      "recommended_size": "1200x675",
+      "format": "WebP",
+      "transparent": false,
+      "required_for_final_visual_acceptance": true,
+      "current_status": "available",
+      "target_path": "ui/src/assets/defaults/default_location.webp"
+    },
+    {
+      "asset_id": "default_faction",
+      "kind": "product_default",
+      "usage": "World Workspace 势力徽记 fallback",
+      "recommended_ratio": "1:1",
+      "recommended_size": "512x512",
+      "format": "WebP or PNG",
+      "transparent": true,
+      "required_for_final_visual_acceptance": true,
+      "current_status": "available",
+      "target_path": "ui/src/assets/defaults/default_faction.png"
+    },
+    {
+      "asset_id": "default_chapter",
+      "kind": "product_default",
+      "usage": "Chapter Visual Entity（P4 章节卡）",
+      "recommended_ratio": "16:9",
+      "recommended_size": "960x540",
+      "format": "WebP",
+      "transparent": false,
+      "required_for_final_visual_acceptance": true,
+      "current_status": "available",
+      "target_path": "ui/src/assets/defaults/default_chapter.webp"
+    },
+    {
+      "asset_id": "default_route",
+      "kind": "product_default",
+      "usage": "Simulation Workspace 路线视觉 fallback（abstract / directional，不含具体人物）",
+      "recommended_ratio": "16:9",
+      "recommended_size": "960x540",
+      "format": "WebP",
+      "transparent": false,
+      "required_for_final_visual_acceptance": false,
+      "current_status": "missing",
+      "target_path": "ui/src/assets/defaults/default_route.webp"
+    },
+    {
+      "asset_id": "empty_characters",
+      "kind": "empty_state",
+      "usage": "Character Workspace 空态插画",
+      "recommended_ratio": "4:3",
+      "recommended_size": "800x600",
+      "format": "WebP",
+      "transparent": false,
+      "required_for_final_visual_acceptance": false,
+      "current_status": "missing",
+      "target_path": "ui/src/assets/empty-states/empty_characters.webp"
+    },
+    {
+      "asset_id": "empty_world",
+      "kind": "empty_state",
+      "usage": "World Workspace 空态插画",
+      "recommended_ratio": "4:3",
+      "recommended_size": "800x600",
+      "format": "WebP",
+      "transparent": false,
+      "required_for_final_visual_acceptance": false,
+      "current_status": "missing",
+      "target_path": "ui/src/assets/empty-states/empty_world.webp"
+    },
+    {
+      "asset_id": "empty_simulation",
+      "kind": "empty_state",
+      "usage": "Simulation Workspace 空态插画",
+      "recommended_ratio": "4:3",
+      "recommended_size": "800x600",
+      "format": "WebP",
+      "transparent": false,
+      "required_for_final_visual_acceptance": false,
+      "current_status": "missing",
+      "target_path": "ui/src/assets/empty-states/empty_simulation.webp"
+    },
+    {
+      "asset_id": "empty_outline",
+      "kind": "empty_state",
+      "usage": "Outline Workspace 空态插画（章节尚未锻造）",
+      "recommended_ratio": "4:3",
+      "recommended_size": "800x600",
+      "format": "WebP",
+      "transparent": false,
+      "required_for_final_visual_acceptance": false,
+      "current_status": "missing",
+      "target_path": "ui/src/assets/empty-states/empty_outline.webp"
+    },
+    {
+      "asset_id": "empty_review",
+      "kind": "empty_state",
+      "usage": "Review Workspace 空态插画（没有需要检查的问题）",
+      "recommended_ratio": "4:3",
+      "recommended_size": "800x600",
+      "format": "WebP",
+      "transparent": false,
+      "required_for_final_visual_acceptance": false,
+      "current_status": "missing",
+      "target_path": "ui/src/assets/empty-states/empty_review.webp"
+    }
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "chapter_id": "0021",
+  "committed_at": "20260827193752",
+  "state_delta": {
+    "chapter_id": "0021",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260827192321_cf350f94:candidate",
+    "source_draft_hash": "246aa1691ec27b952c0f8b257be3232f4378a7059fd23d2bad645110358aae7b",
+    "timeline_delta": {
+      "source_chapter": "0020",
+      "title": "挡在我身后",
+      "time": "新历300纪·春，接单后第三日出发（林家坳辰时出发→午后林边伏击→连夜北上→次午穿窄口→第三日晌午到天梭城）",
+      "location": "林家坳 → 脉冲林边陲商道（歪脖子驿/窄口）→ 天梭城"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0021_character",
+        "subject": "人物变化",
+        "change": "零：识破假雷弧兽（蓝弧乱闪/肩膀晃/佣兵三环结绑腿），拆穿赵启雇凶灭队（绸缎号衣+铜牌+筹码+俘虏招供）；绕后收割四人、审问反杀推理（'你们不是来抢货的，是来让我们死的'）；Lv.13→14（吞十人凶悍，芯片纹发烫门开一道缝）；邀闸门入队（'跟着我'）；护送完成拿尾款+赏钱",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0021_character_zhamen",
+        "subject": "人物变化",
+        "change": "闸门（新登场入队）：阻流族重甲守门一脉，族规百里除名（已离要塞一百零三里）；城西佣兵棚救小贩孩子被零捡到；'骂一句顶十张弓'嘲讽拉稳十人；壁垒盾卸三成力、一人扛十人只退半步；为护商车以左肩硬接闷棍后反手拍飞一人；'盾在车前，车在盾后。这是命'——随队入城",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0021_character_rong",
+        "subject": "人物变化",
+        "change": "容小满：白霜铺地减速辅助（乳白光应用）；按篷布听见后两辆车里有'很轻的……心跳'；给老车夫止血、查看闸门肩伤（'你肩骨在响'）",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0021_character_pinshan",
+        "subject": "人物变化",
+        "change": "频闪：发现三拨尾巴（挑担/赶羊/马掌钉反）；长弓点名射眼窝蓝石、钉脚后跟放倒首领；'我就喜欢你这股子不认命的劲儿'",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0021_character_qin",
+        "subject": "人物变化",
+        "change": "秦掌柜（新登场）：储能商会押车管事，独眼黑皮罩（早年脉冲林雷弧兽伤）；遇袭后连夜赶路，尾款+赏钱（'往后储能商会的货，你说了算'）",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0021_rel_zhamen",
+        "subject": "关系变化",
+        "change": "闸门：加入零队（第五人）——'这趟护完，你要是没地方去——跟着我'；水囊之交",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0021_rel_zhao",
+        "subject": "关系变化",
+        "change": "赵启：雇凶假扮雷弧兽灭队未遂（绸缎/铜牌/筹码/俘虏招供四证）——梁子升级为买凶",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0021_rel_chuneng",
+        "subject": "关系变化",
+        "change": "储能商会：三倍护送完成，尾款+赏钱，商会押车管事亲口'往后储能商会的货，你说了算'",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0021_knowledge",
+        "subject": "知识变化",
+        "change": "阻流族：居北地、要塞重甲一脉世代守门；族规守卫不得离要塞百里，违者除名三代不得归乡（闸门已离一百零三里）；假雷弧兽破绽：真兽蓝弧顺脊椎一条线走、发力从后腿起，假兽蓝弧乱闪肩膀晃、兽皮下是佣兵三环结绑腿；赵家商行号衣衬里绸缎（月白暗纹深青压边，赵记绸缎庄样品）；赵家车马行车行筹码；铜牌'赵'字记号；火漆信验货规矩（到地方拆封）；商队后两辆货车的'心跳'（货之谜加深）",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0021_location",
+        "subject": "地点变化",
+        "change": "林家坳（新：商队起点）、脉冲林边陲商道（歪脖子驿/窄口）、天梭城（交接）",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0021_item_cloth",
+        "subject": "物品变化",
+        "change": "月白绸缎（赵家号衣证据，从兽皮上撕下，收进怀里与地图/委托单同放）",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0021_item_evidence",
+        "subject": "物品变化",
+        "change": "铜牌（'赵'字记号）+红绳车行筹码（频闪捡获的证物）；俘虏交商会发落",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0021_item_pay",
+        "subject": "物品变化",
+        "change": "护送尾款+额外赏钱一袋（秦掌柜）",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0021_ability_level",
+        "subject": "能力变化",
+        "change": "零 Lv.13 → Lv.14（【吞噬】表现：砍倒一人剑身亮一分，十人凶悍沉入四肢百骸；无新技能）",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0021_ability_zhamen",
+        "subject": "能力变化",
+        "change": "闸门：壁垒盾（受击灰白光晕卸三成力）、重剑反手拍击、无声步（重甲踩碎石几乎无响动）",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0021_org",
+        "subject": "组织变化",
+        "change": "储能商会（护送完成、信任建立）；赵家（买凶未遂，四证在手）",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0021_world",
+        "subject": "世界变化",
+        "change": "赵启对零队的暗手从'抢功'升级为'买凶灭队'；脉冲林边陲商道出过'雷弧兽群吃人'的幌子",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0021_fs_goods5",
+          "subject": "伏笔埋设",
+          "change": "后两辆货车里的'心跳'——商队运的活物之谜（呼应 CH020 乳白光，赵家也想要的货）",
+          "source": "chapter_0021_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0021_fs_cloth",
+          "subject": "伏笔埋设",
+          "change": "月白绸缎证据——赵启买凶的铁证（等赵启自己找上门来）",
+          "source": "chapter_0021_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0021_fs_zhamen2",
+          "subject": "伏笔埋设",
+          "change": "闸门的代价：'除名的文书，走得比我快'——要塞里'一道闸没守住，死了人'的旧事",
+          "source": "chapter_0021_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0021_fs_zhao7",
+          "subject": "伏笔推进",
+          "change": "赵启第一手暗棋（假怪物劫道灭队）被拆穿——下一手会更急（'急了，才会露脸'）",
+          "source": "chapter_0021_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0021_fs_escort_done",
+          "subject": "伏笔解决",
+          "change": "三倍护送委托完成（林家坳→天梭城，火漆封验货，尾款+赏钱）",
+          "source": "chapter_0021_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0021_my_goods6",
+        "subject": "新谜题",
+        "change": "商队后两辆车里'像心跳'的东西是什么？",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0021_my_zhamen",
+        "subject": "新谜题",
+        "change": "闸门在要塞里出的岔子：一道闸没守住死了人——他为什么被除名还要自流放？",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0021_my_zhao8",
+        "subject": "新谜题",
+        "change": "赵启为什么急着让整支队伍'在天梭城消失'——货？梁子？还是别的？",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0021_goal",
+        "subject": "第0021章主要目标",
+        "change": "护送储能商会商队（林家坳→天梭城）穿越脉冲林边陲；阻流族重甲守卫闸门登场入队（族规百里除名伏笔）；赵启雇佣兵假扮雷弧兽劫道被零拆穿（绸缎/铜牌/筹码/招供四证）；零 Lv.13→14；章末护送完成回城，绸缎证据在手",
+        "source": "chapter_0021_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

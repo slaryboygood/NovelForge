@@ -1,0 +1,36 @@
+{
+  "blueprint_id": "bp_a81eb0bb8793e905efec",
+  "blueprint_version": 1,
+  "revision": 3,
+  "rules_version": 1,
+  "branch_id": "main",
+  "parent_branch": null,
+  "fork_revision": null,
+  "supplies": 1,
+  "ally": true,
+  "clue": false,
+  "trust": 0,
+  "debt": 0,
+  "facts": [],
+  "arc_finished": false,
+  "history": [
+    {
+      "scene": "第一关 · 岔路",
+      "choice_id": "help",
+      "choice": "搬开碎石，救出引路人",
+      "result": "你消耗一份补给，救出了被困者。他愿意带你去侧门，那里还没有封死。"
+    },
+    {
+      "scene": "第二关 · 门前",
+      "choice_id": "ally",
+      "choice": "相信同行者，走侧门",
+      "result": "引路人替你打开侧门。你们约定互相接应。"
+    },
+    {
+      "scene": "第三关 · 代价",
+      "choice_id": "leave",
+      "choice": "保住现有收获，先撤离",
+      "result": "你及时撤出遗址，保住了收获。封锁者仍在，下一次必须准备得更充分。"
+    }
+  ]
+}

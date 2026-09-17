@@ -1,0 +1,91 @@
+pipeline_id: production_doubao_deepseek
+version: 6.2.0
+auto_commit: false
+stages:
+  - id: plan
+    plugin: deepseek_planner
+    runtime:
+      provider: deepseek_api_stream
+      profile: planner
+  - id: capacity_gate
+    kernel_gate: capacity
+    depends_on:
+      - plan
+  - id: context
+    kernel_gate: context_builder
+    depends_on:
+      - capacity_gate
+  - id: draft
+    plugin: prose_writer
+    runtime:
+      provider: volcengine_ark
+      profile: doubao_pro_writer
+    depends_on:
+      - context
+  - id: draft_quality_gate
+    kernel_gate: draft_quality
+    depends_on:
+      - draft
+  - id: story_safety_review
+    plugin: deepseek_story_safety_reviewer
+    runtime:
+      provider: deepseek_api_stream
+      profile: reviewer
+    depends_on:
+      - draft_quality_gate
+  - id: webnovel_editorial_review
+    plugin: deepseek_webnovel_editorial_reviewer
+    runtime:
+      provider: deepseek_api_stream
+      profile: reviewer
+    depends_on:
+      - draft_quality_gate
+  - id: verified_review_claims
+    plugin: deterministic_claim_verifier
+    depends_on:
+      - story_safety_review
+      - webnovel_editorial_review
+  - id: revision_plan
+    plugin: deepseek_revision_planner
+    runtime:
+      provider: deepseek_api_stream
+      profile: revision_planner
+    depends_on:
+      - verified_review_claims
+  - id: B_doubao_revised
+    plugin: revision_rewriter
+    runtime:
+      provider: volcengine_ark
+      profile: doubao_pro_rewriter
+    depends_on:
+      - revision_plan
+  - id: final_quality_gate
+    kernel_gate: final_quality
+    depends_on:
+      - B_doubao_revised
+  - id: regression_audit
+    plugin: deepseek_regression_auditor
+    runtime:
+      provider: deepseek_api_stream
+      profile: reviewer
+      thinking: false
+    depends_on:
+      - final_quality_gate
+  - id: revision_delta
+    plugin: deterministic_revision_delta
+    depends_on:
+      - regression_audit
+  - id: final_story_safety
+    plugin: deepseek_story_safety_reviewer
+    runtime:
+      provider: deepseek_api_stream
+      profile: reviewer
+    depends_on:
+      - revision_delta
+  - id: candidate_state_delta
+    plugin: deepseek_state_extractor
+    runtime:
+      provider: deepseek_api_stream
+      profile: state_extractor
+    depends_on:
+      - final_story_safety

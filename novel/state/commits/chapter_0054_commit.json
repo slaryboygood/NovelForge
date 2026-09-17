@@ -1,0 +1,192 @@
+{
+  "chapter_id": "0054",
+  "committed_at": "20260901221120",
+  "state_delta": {
+    "chapter_id": "0054",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260831221408_9ded570d:candidate",
+    "source_draft_hash": "f756fdca6edaffc62884370bcc3383a052ece8ced759fb68c7cbabef1d011694",
+    "timeline_delta": {
+      "source_chapter": "0053",
+      "title": "灵核里的身世",
+      "time": "CH053锈王开口后立即",
+      "location": "锈蚀地牢第三层王座侧廊·被污染的管理仓室"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0054_zero",
+        "subject": "人物变化",
+        "change": "零维持Lv.35与腐化值16，左臂仍抬不过肩；尝试接触被污染管理仓后确认吞噬不能读取仓内记忆，改为保护忆灵完成读仓",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0054_rong",
+        "subject": "人物变化",
+        "change": "容小满在灵能见底、净化膏为0的情况下以自身净化术护读，掌心首次显出白金族纹并能拆分锈王污染中的混杂残响；施术后彻底脱力昏厥",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0054_yiling",
+        "subject": "人物变化",
+        "change": "忆灵冒消散风险读完管理仓，确认自己是记忆废库后裔，并取得身世第二层信息；读仓后灵体淡至近乎只剩轮廓",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0054_defense",
+        "subject": "人物变化",
+        "change": "闸门以重损盾和壁垒独守窄门，章末壁垒正式碎裂；频闪右肩伤势不变，使用箭4、剩余8；团子仍接近空能",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0054_support",
+        "subject": "关系变化",
+        "change": "容小满不顾自身透支替忆灵净化护读，确认‘下次读脏仓要一起扛’的队友关系；零在揭秘与队友生命冲突时两次要求停止继续读取",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0054_core_memory",
+        "subject": "知识变化",
+        "change": "灵核记忆秘密第一层：旧世界曾把生命最重要、未散尽的记忆封入灵核，使本能与过去得以留存；这解释了零吞噬后取得的核印与怪物本能，但不等于每枚怪物灵核都保存完整人格",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0054_rust_king",
+        "subject": "知识变化",
+        "change": "锈王原是管理记忆废库与旧世界门的典狱长；腐化后把囚犯、守卫和自身记忆吞入体内，以‘吃掉就不会忘’维持记忆聚合体",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0054_yiling_origin",
+        "subject": "知识变化",
+        "change": "忆灵来自堆放无主、破损与不能轮回记忆的记忆废库；她能读仓与此血统/来源直接相关，封存者与被丢弃原因仍未知",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0054_keeper_token",
+        "subject": "知识变化",
+        "change": "管理仓残片显示旧世界门曾滑出一枚刻有裂变剑同源纹路的保管者令牌；灰手套拾走令牌，但本章只看到影像，没有取得实体",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0054_location",
+        "subject": "地点变化",
+        "change": "队伍退入王座侧廊管理仓室完成读仓；章末窄门壁垒被甲虫撞碎，即将被迫迎战",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0054_arrows",
+        "subject": "物品变化",
+        "change": "频闪消耗箭杆×4，当前剩余箭杆×8",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0054_energy",
+        "subject": "物品变化",
+        "change": "门外甲虫死亡仅逸散灰蓝灵能且被零吸收或被仓内净化光搅散；没有取得实体灵核",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0054_token",
+        "subject": "物品变化",
+        "change": "保管者令牌只存在于读仓残影中，未进入队伍物品栏",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0054_rong_cleanse",
+        "subject": "能力变化",
+        "change": "容小满净化术首次显出白金纹路，对锈王污染的记忆残响具有异常强的拆分净化效果；代价为灵能彻底耗空并昏厥",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0054_level",
+        "subject": "能力变化",
+        "change": "零维持Lv.35，无升级；腐化值维持16",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0054_memory_system",
+        "subject": "世界变化",
+        "change": "旧世界存在灵核记忆封存、记忆废库、管理仓与典狱长体系；腐化使该体系从保存记忆扭曲为吞食与归仓",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0054_rong_blood",
+          "subject": "伏笔埋设",
+          "change": "容小满白金净化纹与储能族徽记同源，血脉为何克制锈王污染尚未解释",
+          "source": "chapter_0054_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0054_keeper",
+          "subject": "伏笔推进",
+          "change": "保管者令牌纹路与裂变剑完全一致，灰手套封存者线与旧断刃线开始交叠",
+          "source": "chapter_0054_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0054_rust_identity",
+          "subject": "伏笔回收",
+          "change": "锈王被确认是被腐化的旧世界典狱长与多重记忆聚合体",
+          "source": "chapter_0054_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0054_keeper_identity",
+        "subject": "新谜题",
+        "change": "拾走保管者令牌的灰手套是谁，与封存忆灵者是否为同一人",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0054_goal",
+        "subject": "第0054章主要目标",
+        "change": "忆灵读管理仓揭开灵核记忆、锈王身份与自身来源第一层；容小满血脉净化异常显影；章末壁垒碎裂",
+        "source": "chapter_0054_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

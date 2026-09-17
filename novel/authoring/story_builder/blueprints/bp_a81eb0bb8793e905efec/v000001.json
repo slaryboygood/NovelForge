@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "blueprint": {
+    "blueprint_id": "bp_a81eb0bb8793e905efec",
+    "project_id": "novel_project",
+    "source_session_id": "sb_20260910_141220_3ca300a8",
+    "source_selection_version": 10,
+    "version": 1,
+    "status": "CONFIRMED",
+    "premise": "以“成长冒险”为阅读承诺，在“多境修仙世界”与“边陲宗门与秘境”中，让“底层求道者”经历“灾变与重建”，并通过“境界突破与认知重构”完成成长的长篇故事。",
+    "sections": [
+      {
+        "step": "reader_experience",
+        "summary": "选定：成长冒险。让读者持续看到主角解决难题、获得成长，并主动进入更大的世界。对故事的影响：pacing：行动目标清晰，阶段成果可见；promise：每次成长都会带来新的选择与代价。",
+        "selected_option_ids": [
+          "experience_growth_adventure"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000001_ab047a12"
+        ]
+      },
+      {
+        "step": "worldview",
+        "summary": "选定：多境修仙世界。宗门、秘境和文明层级并存，修行既是力量提升，也是认识世界的过程。对故事的影响：world_logic：境界、资源和因果共同决定行动边界；conflict：个人道路与宗门秩序彼此拉扯。",
+        "selected_option_ids": [
+          "world_cultivation_realms"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000002_2ece7167"
+        ]
+      },
+      {
+        "step": "background",
+        "summary": "选定：边陲宗门与秘境。从资源有限的小宗门起步，在试炼、秘境和外部竞争中扩展舞台。对故事的影响：opening：身份低位与资源门槛同时出现；expansion：宗门竞争逐步连到更大文明冲突。",
+        "selected_option_ids": [
+          "background_frontier_sect"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000003_56948902"
+        ]
+      },
+      {
+        "step": "protagonist",
+        "summary": "选定：底层求道者。主角资质或身份受限，但善于从被忽视的规则与资源中找到自己的道路。对故事的影响：agency：用选择和理解弥补初始资源不足；arc：从争取资格走向定义自己的道路。",
+        "selected_option_ids": [
+          "protagonist_underdog_disciple"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000004_660bc1ca"
+        ]
+      },
+      {
+        "step": "core_characters",
+        "summary": "选定：带秘密的引路人。引路人能提供有限帮助，但其隐瞒的信息会在关键时刻成为关系冲突。对故事的影响：relationship：帮助与控制必须同时存在；risk：不允许引路人替主角解决核心选择。",
+        "selected_option_ids": [
+          "cast_mentor_secret"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000005_a4ef3737"
+        ]
+      },
+      {
+        "step": "factions_locations",
+        "summary": "选定：漂泊式广域世界。主角沿遗迹、商路或秘境持续移动，每个地点解决一层问题并留下长期线索。对故事的影响：structure：地点单元服务同一条长期主线；risk：需要稳定角色关系防止故事碎片化。",
+        "selected_option_ids": [
+          "setting_roaming_world"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000006_b66b1327"
+        ]
+      },
+      {
+        "step": "major_events",
+        "summary": "选定：灾变与重建。旧秩序在灾变中失效，角色必须决定保留什么、放弃什么，并参与建立新规则。对故事的影响：event_chain：灾变揭露旧秩序的真实代价；theme：重建结果体现主角最终价值选择。",
+        "selected_option_ids": [
+          "events_disaster_rebuild"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000007_5b32062b"
+        ]
+      },
+      {
+        "step": "progression",
+        "summary": "选定：境界突破与认知重构。境界变化来自修行、事件压力与认知突破，不把升级写成无来源的数字增长。对故事的影响：growth：每次突破必须改变主角理解问题的方式；payoff：境界提升与人物选择互相验证。",
+        "selected_option_ids": [
+          "progression_cultivation_breakthrough"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000008_1750dbfe"
+        ]
+      },
+      {
+        "step": "style",
+        "summary": "选定：厚重史诗叙事。强调文明变迁、群体代价和长期抉择，以人物命运承载宏大主题。对故事的影响：prose：宏观变化必须落回具体人物和现场；pacing：大事件之间保留关系积累与后果。",
+        "selected_option_ids": [
+          "style_epic_serious"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000009_30bb0500"
+        ]
+      },
+      {
+        "step": "author_boundaries",
+        "summary": "选定：角色事实与声音一致。角色身份、能力、关系、经历和语言习惯必须连续，变化需要在剧情中发生。对故事的影响：must_avoid：性别漂移、重复初见、无来源能力和语言风格突变；must_keep：允许角色犯错，但错误必须符合其已知信息。",
+        "selected_option_ids": [
+          "boundary_character_consistency"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000010_cd58dd76"
+        ]
+      }
+    ],
+    "design_choices": {},
+    "design_summaries": {},
+    "design_effects": {},
+    "unresolved_conflicts": [],
+    "confirmed_by_author": true,
+    "created_at": "2026-09-10T14:14:14.098951Z"
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "chapter_id": "0040",
+  "committed_at": "20260829221720",
+  "state_delta": {
+    "chapter_id": "0040",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260828222034_f48cbb1f:candidate",
+    "source_draft_hash": "2a07e3fbdd12f212bc559d4ddc7037ca13cd549eb66a6937e87cb576ebd1eac9",
+    "timeline_delta": {
+      "source_chapter": "0039",
+      "title": "他们是我兄弟",
+      "time": "七井同时轰鸣后的正面遭遇战",
+      "location": "过载荒原·北谷第37号井附近至谷外撤退线"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0040_zhamen",
+        "subject": "人物变化",
+        "change": "闸门违抗族令替零和队友正面承受巨人重锤，焦盾与胸甲粉碎，肩骨和胸骨重创，仅被回灵术、净化术与零输送灵能暂时吊住性命",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0040_zero",
+        "subject": "人物变化",
+        "change": "零正面束缚与斩击均无法伤及过载巨人，遭震飞并轻中度灼伤；公开认定闸门及队友都是兄弟，抱闸门撤退",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0040_pinshan",
+        "subject": "人物变化",
+        "change": "频闪无声弓在巨人重锤冲击下折断，改用弯背刀断后",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0040_tuanzi",
+        "subject": "人物变化",
+        "change": "团子被巨人掌风拍飞受伤，仍未获得人类语言能力",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0040_brothers",
+        "subject": "关系变化",
+        "change": "零以‘他们是我兄弟’拒绝把重伤闸门交给族卫，队伍关系完成一次公开确认",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0040_guard",
+        "subject": "关系变化",
+        "change": "族卫长停止强押闸门，率残存族卫为零小队断后撤离",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0040_giant",
+        "subject": "知识变化",
+        "change": "过载巨人正面不可敌，过热能挣脱静电束缚并造成熔岩喷发；第37号井白汽能令其停步、降亮并后退",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0040_location",
+        "subject": "地点变化",
+        "change": "队伍从第37号井战场向北谷外撤退，巨人停在井汽前",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0040_shield",
+        "subject": "物品变化",
+        "change": "闸门半片焦盾与赤蝎加固甲在重锤下粉碎，仅余被他紧握的焦黑盾沿",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0040_bow",
+        "subject": "物品变化",
+        "change": "频闪无声弓再次完全折断，只余半截弓臂",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0040_maps",
+        "subject": "物品变化",
+        "change": "完整散热井分布图与壁垒技能书残卷仍由队伍携带，未遗失",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0040_level",
+        "subject": "能力变化",
+        "change": "零维持Lv.26，惨败战无经验升级",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0040_wall",
+        "subject": "能力变化",
+        "change": "闸门尚未正式习得完整壁垒，仅能在生死压力下短暂引出不稳定卸力微光",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0040_cult",
+        "subject": "组织变化",
+        "change": "教团暗桩在第37号井点燃带暗紫纹火药，成功激怒巨人后未现身接战",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0040_boss",
+        "subject": "世界变化",
+        "change": "过载巨人仍存活，本章无Boss击杀、无怪物灵核掉落、无经验结算",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0040_well",
+        "subject": "世界变化",
+        "change": "第37号井的白汽可压低巨人胸口亮度并令其停止追击，是已验证的硬直/冷却窗口",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0040_fs_injury",
+          "subject": "伏笔埋设",
+          "change": "闸门重伤后的救治、族规处置与壁垒传承待下一章处理",
+          "source": "chapter_0040_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0040_fs_well",
+          "subject": "伏笔推进",
+          "change": "冷却井战术由推测升级为实战验证",
+          "source": "chapter_0040_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0040_resolve_brother",
+          "subject": "伏笔回收",
+          "change": "闸门‘挡在我前面’的承诺付出重伤代价，零公开回应‘他们是我兄弟’",
+          "source": "chapter_0040_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0040_goal",
+        "subject": "第0040章主要目标",
+        "change": "正面遭遇过载巨人惨败，完成闸门违抗族规与兄弟弧光，并验证巨人怕井",
+        "source": "chapter_0040_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

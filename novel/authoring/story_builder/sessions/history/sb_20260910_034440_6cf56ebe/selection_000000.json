@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "session": {
+    "session_id": "sb_20260910_034440_6cf56ebe",
+    "project_id": "novel_project",
+    "status": "CREATED",
+    "current_step": "reader_experience",
+    "completed_steps": [],
+    "selections": [],
+    "needs_review_steps": [],
+    "selection_version": 0,
+    "recommendation_version": 0,
+    "created_at": "2026-09-10T03:44:40.582384Z",
+    "updated_at": "2026-09-10T03:44:40.582384Z"
+  }
+}

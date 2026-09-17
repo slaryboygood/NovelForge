@@ -1,0 +1,242 @@
+{
+  "chapter_id": "0022",
+  "committed_at": "20260827194335",
+  "state_delta": {
+    "chapter_id": "0022",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260827193842_696c7a0e:candidate",
+    "source_draft_hash": "56b4867eb114a8d2d7332d796326206212cd79192b7781ea986dc7a7082eaf5d",
+    "timeline_delta": {
+      "source_chapter": "0021",
+      "title": "能量仓里的一抹金纹",
+      "time": "新历300纪·春，护送回城后两日（储能商会后堂→当夜城外三号能量仓→天明前收尾）",
+      "location": "天梭城·储能商会后堂 → 城外三号能量仓 → 灰巷线索（口头）"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0022_character",
+        "subject": "人物变化",
+        "change": "零：接储能商会调查委托（铜牌通行证）；识破失智守卫影子里的黑气；仓内三对一用剑脊击昏不杀；追盗灵贼凭记忆踹膝弯；捡到鹰头'赵'字铜牌（灰巷线证据）；以'门是给人挡东西的'回敬闸门之理；全程守密（老掌柜支开众人时微不可察点头）",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0022_character_rong",
+        "subject": "人物变化",
+        "change": "容小满：指尖首现淡金纹（净化黑液/封黑核/逼退黑气，金线所过黑核裂纹封死）；被老掌柜认出储能族血脉；得知'储能族在天梭城是忌讳'（30 年前一夜全没）；娘的事指向灰巷——出身线推进",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0022_character_pinshan",
+        "subject": "人物变化",
+        "change": "频闪：守外头放哨，长弓一箭射穿盗灵贼腰包（三缕红绳箭）；认出污染灵核'我在灰巷见过'（收货的没敢往下说——黑市旧识伏笔）",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0022_character_zhamen",
+        "subject": "人物变化",
+        "change": "闸门：随队到能量仓，仓门窄进不去，立在坡口守外路（铁盾拄地）",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0022_character_laozhang",
+        "subject": "人物变化",
+        "change": "老掌柜（周掌柜）：储能商会实权人物（徒弟带队第二拨储能师）；认出金纹=储能族之光，支开众人，警告'这话出了这扇门我不认'；指路灰巷（鹰镖队也在收货）",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0022_rel_laozhang2",
+        "subject": "关系变化",
+        "change": "储能商会：调查委托建立信任（先付一半定金；'秦掌柜荐的人，能信'）；老掌柜成为容小满出身线的引路人（30 年前旧事知情者）",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0022_rel_zhao",
+        "subject": "关系变化",
+        "change": "赵启：商会地盘下黑手证据浮出（鹰头'赵'字铜牌+灰巷收脏灵能+鹰镖队收货）",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0022_knowledge",
+        "subject": "知识变化",
+        "change": "储能族：血脉之光带淡金纹；30 年前天梭城储能族人一夜全没（官面称私通腐化，实为忌讳）；普通储能师光为白色；脏灵能：污染灵核炼的黑灵能，黑市高价收（灰巷）；能量仓暗槽偷灵能+倒灌黑液手法；储能商会铜牌（闭眼虫纹与锈铁神龛图腾有几分像——旧世界线索）；老掌柜徒弟'仓里有人喂它喝脏东西'",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0022_location",
+        "subject": "地点变化",
+        "change": "储能商会后堂（老掌柜账房）、城外三号能量仓（缓坡下青石仓+能量池+暗槽小门）、灰巷（黑市，口头提及）",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0022_item_pass",
+        "subject": "物品变化",
+        "change": "储能商会铜牌（闭眼虫+能字，通行证，未归还——老掌柜借出）",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0022_item_ying",
+        "subject": "物品变化",
+        "change": "鹰头'赵'字铜牌（盗灵贼腰包掉出——赵家/鹰镖队经手脏灵能证据）",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0022_item_blackcore",
+        "subject": "物品变化",
+        "change": "污染灵核数十颗+炼化黑渣（频闪收拾交老掌柜；黑核在金光里被封印封死）",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0022_item_paid",
+        "subject": "物品变化",
+        "change": "储能商会定金半袋（先付一半）",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0022_ability_gold",
+        "subject": "能力变化",
+        "change": "容小满：金纹净化（储能族血脉闪光首现——本能，非学来的；黑气遇金线退避、黑核裂纹封死）；代价未明（CH026 才显）",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0022_org",
+        "subject": "组织变化",
+        "change": "储能商会（能量仓异常线）；赵家鹰镖队（灰巷收脏灵能实锤）；黑市灰巷（脏灵能流向）",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0022_world",
+        "subject": "世界变化",
+        "change": "储能族 30 年前灭族旧事（官面说辞=私通腐化）；天梭城对金纹血脉的忌讳；能量仓被'喂脏东西'（黑市倒灌黑灵能手法）",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0022_fs_gold",
+          "subject": "伏笔埋设",
+          "change": "容小满淡金纹=储能族血脉（老掌柜亲证；'你的光只能是白的'）——净化觉醒引子",
+          "source": "chapter_0022_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0022_fs_hui",
+          "subject": "伏笔埋设",
+          "change": "灰巷黑市：脏灵能流向+赵家鹰镖队收货+白袍客线索（CH023 承接）",
+          "source": "chapter_0022_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0022_fs_ying",
+          "subject": "伏笔埋设",
+          "change": "鹰头'赵'字铜牌——赵启经手脏灵能的物证链起点",
+          "source": "chapter_0022_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0022_fs_pass",
+          "subject": "伏笔埋设",
+          "change": "储能商会铜牌闭眼虫纹与锈铁神龛闭合眼图腾'有几分像'（旧世界关联线）",
+          "source": "chapter_0022_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0022_fs_pinshan2",
+          "subject": "伏笔埋设",
+          "change": "频闪在灰巷见过脏核/收脏灵能的没敢往下说（黑市旧识伏笔）",
+          "source": "chapter_0022_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0022_fs_rong_line",
+          "subject": "伏笔推进",
+          "change": "容小满出身线：娘是 30 年前逃出来的储能族人？发簪/徽记/金纹三证归一",
+          "source": "chapter_0022_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0022_fs_escort2",
+          "subject": "伏笔解决",
+          "change": "能量仓异常调查完成（裂缝封合/暗槽封死/守卫救回/盗灵贼逃但证据落袋）",
+          "source": "chapter_0022_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0022_my_gold2",
+        "subject": "新谜题",
+        "change": "容小满金纹的代价？净化为什么是'本能'？",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0022_my_rongmother",
+        "subject": "新谜题",
+        "change": "容小满娘是不是 30 年前逃出来的？她'能看见光的地方'是不是储能族据点？",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0022_my_blackmarket",
+        "subject": "新谜题",
+        "change": "灰巷收脏灵能的神秘买家（白袍客？）是谁？赵家在里面扮演什么角色？",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0022_my_pass",
+        "subject": "新谜题",
+        "change": "储能商会铜牌闭眼虫纹与锈铁神龛图腾为何相似？",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0022_goal",
+        "subject": "第0022章主要目标",
+        "change": "储能商会调查委托（城外三号能量仓）：失智守卫/倒灌黑灵能/暗槽盗灵；容小满指尖淡金纹首现（储能族血脉，老掌柜认出）；30 年前储能族灭族旧事（忌讳）；鹰头'赵'字铜牌=赵启商会地盘下黑手证据；灰巷线索落袋（鹰镖队也在收货）",
+        "source": "chapter_0022_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

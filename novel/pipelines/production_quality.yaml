@@ -1,0 +1,90 @@
+pipeline_id: production_quality
+version: 1.0.0
+auto_commit: false
+stages:
+  - id: plan
+    plugin: deepseek_planner
+  - id: capacity_gate
+    kernel_gate: capacity
+    depends_on:
+      - plan
+  - id: context
+    kernel_gate: context_builder
+    depends_on:
+      - capacity_gate
+  - id: draft
+    plugin: deepseek_writer
+    depends_on:
+      - context
+  - id: draft_quality_gate
+    kernel_gate: draft_quality
+    depends_on:
+      - draft
+  - id: review_main
+    plugin: deepseek_plot_reviewer
+    depends_on:
+      - draft_quality_gate
+  - id: review_character
+    plugin: deepseek_character_reviewer
+    depends_on:
+      - draft_quality_gate
+  - id: review_continuity
+    plugin: deepseek_continuity_reviewer
+    depends_on:
+      - draft_quality_gate
+  - id: review_philosophy
+    plugin: deepseek_philosophy_reviewer
+    depends_on:
+      - draft_quality_gate
+  - id: review_prose
+    plugin: deepseek_prose_reviewer
+    depends_on:
+      - draft_quality_gate
+  - id: review_ai_style
+    plugin: deepseek_ai_style_reviewer
+    depends_on:
+      - draft_quality_gate
+  - id: review_retention
+    plugin: deepseek_retention_reviewer
+    depends_on:
+      - draft_quality_gate
+  - id: verified_review_claims
+    plugin: deterministic_claim_verifier
+    depends_on:
+      - review_main
+      - review_character
+      - review_continuity
+      - review_philosophy
+      - review_prose
+      - review_ai_style
+      - review_retention
+  - id: revision_plan
+    plugin: deepseek_revision_planner
+    depends_on:
+      - verified_review_claims
+  - id: rewrite
+    plugin: deepseek_rewriter
+    depends_on:
+      - revision_plan
+  - id: revision_delta
+    plugin: deterministic_revision_delta
+    depends_on:
+      - rewrite
+  - id: final_review_codex
+    plugin: mock_codex_final_reviewer
+    depends_on:
+      - revision_delta
+    optional: true
+  - id: final_edit_codex
+    plugin: mock_codex_final_editor
+    depends_on:
+      - final_review_codex
+    optional: true
+  - id: final_quality_gate
+    kernel_gate: final_quality
+    depends_on:
+      - final_edit_codex
+  - id: state_delta
+    plugin: deepseek_state_extractor
+    depends_on:
+      - final_quality_gate

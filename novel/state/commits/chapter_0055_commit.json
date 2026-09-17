@@ -1,0 +1,191 @@
+{
+  "chapter_id": "0055",
+  "committed_at": "20260901221914",
+  "state_delta": {
+    "chapter_id": "0055",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260901221134_5fe6dc27:candidate",
+    "source_draft_hash": "4c6881cec07e2db2a4cb81eb21f517f2710ca89c5b7e10e9450da468b275cdfd",
+    "timeline_delta": {
+      "source_chapter": "0054",
+      "title": "铁锈领域",
+      "time": "CH054壁垒碎裂后立即",
+      "location": "锈蚀地牢第三层王座大厅至中层半塌巡守室"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0055_zero",
+        "subject": "人物变化",
+        "change": "零维持Lv.35与腐化值16，左臂伤势未愈；雷弧战甲替他承受锈剑余波后大片刮伤、紫弧不稳；铁锈领域诱发他吞噬锈王的冲动，他主动压住并立下自戒",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0055_rong",
+        "subject": "人物变化",
+        "change": "容小满在昏厥中被迫再次唤醒白金净化，以最后力量在铁锈领域中烧出逃生光缝，随后再次彻底昏迷",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0055_pinshan",
+        "subject": "人物变化",
+        "change": "频闪带伤射尽剩余八支箭，箭杆库存归零；右肩肿伤加重，撤退时背负忆灵",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0055_tuanzi",
+        "subject": "人物变化",
+        "change": "团子释放最后一记静电为队伍清出退路，能量彻底耗空，退化为仅能轻微颤动的半透明黏液",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0055_gate",
+        "subject": "人物变化",
+        "change": "闸门以重盾和自身封住中层铁闸，盾面弯曲并遭锈王第二剑重击；门后仍有稳定撞击声，确认尚存活但与队伍隔绝",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0055_yiling",
+        "subject": "人物变化",
+        "change": "忆灵维持近乎透明的虚弱状态，被频闪背离王座大厅；未发生位置或身份漂移",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0055_team",
+        "subject": "关系变化",
+        "change": "闸门以断后换全队撤离，零拒绝无意义回头并明确下一步要拆毁王座救回闸门；队伍首次以惨败后的共同债务凝结",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0055_rust_king_mechanics",
+        "subject": "知识变化",
+        "change": "锈王Lv.45、正面锈甲几乎无法破防；锈剑余波会使物体加速锈蚀，铁锈领域能压制闪步、斩波斩、频闪之眼与重甲关节",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0055_throne",
+        "subject": "知识变化",
+        "change": "黑铁王座会消耗锈液持续孵出锈蚀甲虫，是锈王召唤与领域的重要支点；锈王目前没有离开王座大厅",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0055_devour_boundary",
+        "subject": "知识变化",
+        "change": "吞噬本能会对高阶污染聚合体产生饥饿反应，但锈王并非可直接计入库存的实体怪物灵核；零已主动拒绝该冲动",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0055_party_location",
+        "subject": "地点变化",
+        "change": "零、容小满、频闪、忆灵与团子撤至锈蚀地牢中层半塌巡守室；闸门被隔在通往王座大厅的闭合铁闸另一侧",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0055_arrows",
+        "subject": "物品变化",
+        "change": "频闪消耗箭杆×8，当前箭杆库存为0",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0055_armor",
+        "subject": "物品变化",
+        "change": "雷弧战甲胸甲被锈剑余波刮出大片伤痕，紫色电弧输出变得不稳定；临时战弓仍是铸鸣矫直后的弓，没有折断",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0055_loot",
+        "subject": "物品变化",
+        "change": "本章未取得任何实体战利品；甲虫死亡散出的灰蓝能量被铁锈领域搅碎，零没有吸收",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0055_level",
+        "subject": "能力变化",
+        "change": "零维持Lv.35，无升级、无新技能；腐化值维持16",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0055_suppression",
+        "subject": "能力变化",
+        "change": "铁锈领域可短暂锈滞队伍技能回路，但不构成永久失去能力",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0055_rust_domain",
+        "subject": "世界变化",
+        "change": "锈王依托王座可展开覆盖大厅的铁锈领域，并从王座持续生成锈蚀甲虫；破局目标转为先拆王座",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0055_devour_rust",
+          "subject": "伏笔埋设",
+          "change": "零的吞噬本能第一次把锈王这样的高阶污染聚合体当作目标，预示能力边界与失控风险",
+          "source": "chapter_0055_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0055_throne_weakness",
+          "subject": "伏笔推进",
+          "change": "忆灵指出虫群由王座供给，零在败退后确定拆王座为再战方案",
+          "source": "chapter_0055_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": []
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0055_gate_survival",
+        "subject": "新谜题",
+        "change": "闸门在闭合铁闸后的具体伤势与脱困方式未知",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0055_goal",
+        "subject": "第0055章主要目标",
+        "change": "队伍初战Lv.45锈王惨败，确认王座召唤和领域压制机制；容小满开缝、团子耗尽、闸门断后，余众撤至中层准备拆王座救人",
+        "source": "chapter_0055_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

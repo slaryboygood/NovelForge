@@ -1,0 +1,882 @@
+schema_version: 1
+design_fields:
+  - id: story_scope
+    step: reader_experience
+    title: 故事规模
+    prompt: 这次设计希望覆盖多大的故事？
+    depends_on: [reader_experience]
+    options:
+      - {id: scope_short, name: 单次完整故事, summary: 围绕一个核心问题推进并收束，不强行扩成长篇。, effects: {planning: 优先回收当前目标与主要关系；未决支线不自动延长故事}}
+      - {id: scope_serial, name: 长篇连载, summary: 每段解决当前问题，同时保留更长期的目标。, effects: {planning: 当前路线仅作为首阶段；另列后续阶段目标与回收计划，不虚构已经发生的事件}}
+      - {id: scope_ensemble, name: 群像长篇, summary: 多名角色有独立目标，并在关键事件中相互影响。, effects: {planning: 补齐其他主角的独立目标和交汇节点，不能仅把配角改称主角}}
+  - id: theme_question
+    step: reader_experience
+    title: 核心价值冲突
+    prompt: 你希望人物在什么两难中作出选择？
+    depends_on: [reader_experience]
+    options:
+      - {id: theme_freedom, name: 自由与责任, summary: 自己想走的路可能让依赖自己的人付出代价。, effects: {planning: 检查关键选择是否同时呈现个人愿望与关系责任，不安排作者宣讲结论}}
+      - {id: theme_truth, name: 真相与安稳, summary: 揭开事实可能破坏原本维持生活的秩序。, effects: {planning: 揭露前交代信息来源和受影响的人，让隐瞒与公开都具有具体代价}}
+      - {id: theme_belonging, name: 归属与自我, summary: 获得接纳是否意味着放弃自己真正看重的事？, effects: {planning: 用一次获得接纳的机会检验人物底线，不把融入集体当成唯一正确答案}}
+  - id: society
+    step: background
+    title: 社会秩序
+    prompt: 谁掌握资源，你需要遵守什么规则？
+    depends_on: [worldview]
+    options:
+      - {id: society_sect, name: 宗门配给, summary: 修炼资源按身份发放，私自交换可能失去资格。, requires_all: [world_cultivation_realms], effects: {rule: 资格决定资源，越界交易会招来调查}}
+      - {id: society_frontier, name: 边地互市, summary: 城镇各自为政，行会信用比远方律令更有效。, requires_all: [world_cultivation_realms], effects: {rule: 信用与担保决定能否获得援助}}
+      - {id: society_grid, name: 能源配额城, summary: 能源网络统一配给，未登记者只能在断供区谋生。, requires_all: [world_silicon_mmo], effects: {rule: 登记与电量限制行动}}
+      - {id: society_salvage, name: 废墟自治联盟, summary: 聚落共享回收路线，获得物资的人也要承担维护责任。, requires_all: [world_silicon_mmo], effects: {rule: 贡献和责任决定分配}}
+      - {id: society_local, name: 地方共同体, summary: 居民靠约定和人情维持日常秩序。, effects: {rule: 公开失信会影响后续求助}}
+  - id: home_region
+    step: background
+    title: 生活地域
+    prompt: 故事开始前，主角在哪里生活？
+    depends_on: [society]
+    options:
+      - {id: region_medicine, name: 边地药村, summary: 山道通往药田，村人需要按季缴纳药材。, requires_any: [society_sect, society_frontier], effects: {place: 药村渡口, resource: 药材}}
+      - {id: region_ferry, name: 河谷渡市, summary: 商旅汇聚，渡口封闭一天就会断掉许多人的生计。, requires_any: [society_sect, society_frontier], effects: {place: 河谷渡口, resource: 通行凭证}}
+      - {id: region_cooling, name: 冷却塔聚落, summary: 聚落依赖一条老化冷却回路，居民轮流值守。, requires_any: [society_grid, society_salvage], effects: {place: 冷却塔闸口, resource: 冷却剂}}
+      - {id: region_scrap, name: 旧板回收带, summary: 废弃板基中埋着可用元件，也有尚未断开的危险线路。, requires_any: [society_grid, society_salvage], effects: {place: 回收站入口, resource: 备用元件}}
+      - {id: region_neighborhood, name: 街区小店, summary: 熟悉的街区与一间小店构成主角的生活范围。, requires_all: [society_local], effects: {place: 老街入口, resource: 周转金}}
+  - id: social_position
+    step: background
+    title: 社会位置
+    prompt: 主角凭什么谋生，又受什么约束？
+    depends_on: [home_region]
+    options:
+      - {id: position_worker, name: 被配额约束的学徒, summary: 有基础技艺，但成果需要先交给管理者。, effects: {duty: 先完成份内任务，才能支配剩余收益}}
+      - {id: position_keeper, name: 承担生计的小店主, summary: 能自行作主，却要承担租金、欠款和家人的日常开销。, effects: {duty: 保住稳定生活，不能轻易弃店远行}}
+      - {id: position_outsider, name: 暂住的外来者, summary: 不受旧关系保护，需要证明自己才能留下。, effects: {duty: 先获得可信的担保}}
+  - id: present_crisis
+    step: background
+    title: 当前危机
+    prompt: 什么变化让主角无法继续原来的生活？
+    depends_on: [home_region, social_position]
+    options:
+      - {id: crisis_quota, name: 配额突然被收回, summary: 原本应当发放的物资被扣住，申诉期限只剩一天。, effects: {event: 物资扣押, goal: 找出扣押理由并保住生计, cost: 与管理者公开冲突}}
+      - {id: crisis_missing, name: 重要的引路人失踪, summary: 对方在熟悉的路线上留下不寻常的求助记号。, effects: {event: 追查失踪, goal: 在封路前确定去向, cost: 耽误份内责任}}
+      - {id: crisis_failure, name: 维生设施即将停摆, summary: 旧设施出现异常，官方维修队迟迟未到。, effects: {event: 设施故障, goal: 保住住处与居民, cost: 消耗自己的物资}}
+  - id: hero_history
+    step: protagonist
+    title: 主角 · 关键经历
+    prompt: 哪段经历塑造了现在的主角？
+    depends_on: [protagonist]
+    options:
+      - {id: hero_failed_rescue, name: 曾经救援失败, summary: 因贸然行动让同伴受伤，至今仍在寻找弥补的机会。, effects: {history: 失误造成同伴受伤, tension: 保护他人也可能变成控制}}
+      - {id: hero_lone_survivor, name: 长期独自谋生, summary: 曾经无人可靠，学会自己判断交易和风险。, effects: {history: 独自维持生活, tension: 渴望归属却不愿开口求助}}
+      - {id: hero_sheltered, name: 受庇护后离开, summary: 第一次离开熟悉的保护，旧常识未必适用于外界。, effects: {history: 有安全的成长环境, tension: 善意和判断力需要接受现实检验}}
+  - id: hero_motive
+    step: protagonist
+    title: 主角 · 欲望与恐惧
+    prompt: 主角眼下最想要什么，最怕失去什么？
+    depends_on: [hero_history]
+    options:
+      - {id: hero_protect, name: 保住身边的人, summary: 希望不再失去重要的人，害怕自己的选择再次伤害同伴。, recommended_by: [hero_failed_rescue], effects: {goal: 保住同伴, fear: 重演失去, need: 学会尊重同伴的选择}}
+      - {id: hero_belong, name: 获得稳定归属, summary: 想拥有可以回去的地方，怕付出的信任被当成弱点。, recommended_by: [hero_lone_survivor], effects: {goal: 获得归属, fear: 被抛下, need: 接受互相依赖}}
+      - {id: hero_prove, name: 证明自己的判断, summary: 希望不再被安排人生，担心离开保护后什么都做不好。, recommended_by: [hero_sheltered], effects: {goal: 争取自主, fear: 证明自己无能, need: 不把认错等同于失败}}
+  - id: hero_temperament
+    step: protagonist
+    title: 主角 · 压力反应
+    prompt: 平时的性格遇到危险会发生什么变化？
+    depends_on: [hero_history, hero_motive]
+    options:
+      - {id: hero_cautious, name: 先确认退路, summary: 日常克制；出事时倾向检查和准备，但危及重要的人时可能打破习惯。, recommended_by: [hero_failed_rescue, hero_protect], effects: {pressure: 先确认退路, flaw: 容易错过行动时机, voice: 短句提问，不轻易承诺}}
+      - {id: hero_bargainer, name: 嘴硬，先谈条件, summary: 习惯把请求说成交易，真正得到善意时反而不知如何回应。, recommended_by: [hero_lone_survivor, hero_belong], effects: {pressure: 先提出交换条件, flaw: 让关心显得冷漠, voice: 用反问和玩笑掩饰在意}}
+      - {id: hero_impulsive, name: 先行动再承担, summary: 容易被眼前不公激怒，事后愿意弥补冲动带来的损失。, recommended_by: [hero_prove], effects: {pressure: 先介入眼前冲突, flaw: 低估后续责任, voice: 直接表达，认错时不善修饰}}
+  - id: companion_history
+    step: core_characters
+    title: 同伴 · 关系来由
+    prompt: 为什么这个人愿意留在主角身边？
+    depends_on: [core_characters]
+    options:
+      - {id: companion_old_friend, name: 共同经历过失败, summary: 彼此熟悉，也各自记得当年没有说清的一句话。, effects: {history: 已认识主角, relation: 信任中藏着旧误解}}
+      - {id: companion_partner, name: 临时利益伙伴, summary: 各自缺少对方掌握的资源，合作还不是友情。, effects: {history: 已谈妥暂时合作, relation: 互相试探}}
+      - {id: companion_creditor, name: 欠着一份恩情, summary: 曾被主角帮助，愿意回报但不愿一直被当成需要保护的人。, effects: {history: 曾受主角帮助, relation: 感激与自主之间有张力}}
+  - id: companion_motive
+    step: core_characters
+    title: 同伴 · 自己的目标
+    prompt: 没有主角，这个人仍会去做什么？
+    depends_on: [companion_history]
+    options:
+      - {id: companion_restore, name: 修复旧日损失, summary: 想补回当年的过失，对重蹈覆辙尤其敏感。, recommended_by: [companion_old_friend], effects: {goal: 弥补旧损失}}
+      - {id: companion_gain, name: 完成自己的委托, summary: 愿意帮忙，但不能无限推迟已经答应别人的事。, recommended_by: [companion_partner], effects: {goal: 兑现另一份承诺}}
+      - {id: companion_independent, name: 不再被安排, summary: 希望拥有独立作决定的机会，而非永远跟随主角。, recommended_by: [companion_creditor], effects: {goal: 争取独立行动}}
+  - id: companion_temperament
+    step: core_characters
+    title: 同伴 · 性格与声音
+    prompt: 这个人会怎样表达分歧？
+    depends_on: [companion_motive]
+    options:
+      - {id: companion_blunt, name: 当面直说, summary: 对事不对人，但措辞常常过于直接。, recommended_by: [companion_independent], effects: {voice: 直接反驳，事后仍会帮忙, pressure: 公开要求说明理由}}
+      - {id: companion_joking, name: 用玩笑试探, summary: 看起来随和，真正的担忧往往藏在调侃里。, recommended_by: [companion_restore], effects: {voice: 先开玩笑再问关键问题, pressure: 把恐惧藏起来}}
+      - {id: companion_reserved, name: 留有余地, summary: 谈合作时清楚划定边界，不轻易透露私人经历。, recommended_by: [companion_gain], effects: {voice: 措辞礼貌但有条件, pressure: 先核对原来的约定}}
+  - id: opponent_history
+    step: core_characters
+    title: 对手 · 来历
+    prompt: 对手的立场从哪里来？
+    depends_on: [core_characters]
+    options:
+      - {id: opponent_order, name: 曾在混乱中失去家园, summary: 相信严格秩序比个人意愿更能保护多数人。, effects: {history: 经历秩序崩溃, belief: 不受控的例外会伤害多数人}}
+      - {id: opponent_climber, name: 从底层争得位置, summary: 太清楚失去资源的滋味，难以接受别人绕过自己付出的代价。, effects: {history: 艰难获得地位, belief: 人人都该付出同样代价}}
+      - {id: opponent_bound, name: 被旧承诺约束, summary: 执行的命令未必符合本意，但背后牵涉必须保护的人。, effects: {history: 有未偿还的责任, belief: 背弃承诺会失去一切}}
+  - id: opponent_motive
+    step: core_characters
+    title: 对手 · 当前目标
+    prompt: 什么利益让对手与主角发生冲突？
+    depends_on: [opponent_history]
+    options:
+      - {id: opponent_control, name: 阻止规则被破坏, summary: 把主角当成危险的先例，而非私人仇敌。, recommended_by: [opponent_order], effects: {goal: 控制局面，不许例外扩散}}
+      - {id: opponent_monopoly, name: 保住资源控制权, summary: 主角想拿回的东西恰好动摇了对手的位置。, recommended_by: [opponent_climber], effects: {goal: 保住控制权}}
+      - {id: opponent_deadline, name: 在期限前完成命令, summary: 只要找到另一种履约方式，就可能出现谈判空间。, recommended_by: [opponent_bound], effects: {goal: 完成限时任务}}
+  - id: opponent_temperament
+    step: core_characters
+    title: 对手 · 行事方式
+    prompt: 对手用什么方式施压，有什么弱点？
+    depends_on: [opponent_motive]
+    options:
+      - {id: opponent_procedure, name: 程序与证据, summary: 不轻易越过明文规则，因此也可能被证据约束。, recommended_by: [opponent_control], effects: {pressure: 用程序限制行动, weakness: 不能公然违背自己的规则}}
+      - {id: opponent_trade, name: 交换与分化, summary: 习惯提出单独的好处，把互相信任的人拆开。, recommended_by: [opponent_monopoly], effects: {pressure: 私下开价, weakness: 低估非利益关系}}
+      - {id: opponent_force, name: 先封路再谈判, summary: 先制造时间压力，逼对方在有限选项里选择。, recommended_by: [opponent_deadline], effects: {pressure: 封锁与限时要求, weakness: 无法长期维持封锁}}
+  - id: opening_pattern
+    step: major_events
+    title: 开篇 · 第一个故事问题
+    prompt: 从哪种事件开始？例子仅供预览，采用后才会进入故事设计。
+    depends_on: [worldview, protagonist, major_events]
+    options:
+      - id: opening_survival
+        name: 危机求生
+        summary: 安全环境突然失效，先做一个有代价的求生决定，再显露更大的问题。
+        recommended_by: [crisis_failure]
+        examples:
+          - 修仙：药窖里的灯一盏盏熄灭，门外却有人说里面没有活人。学徒攥住最后一张避毒符，听见隔墙又响起三声敲击。
+          - 硅基：冷却管的温度还在上升，检修员只够接通一扇门。左边是备用电源，右边传来同伴已经失真的呼叫。
+        effects: {goal: 找到安全出口, cost: 消耗物资或放弃眼前收益, hook: 安全失效并非偶然, next_a: 救人后得到引路者, next_b: 保存补给独自寻找出口, risk: 不要只用倒计时播报代替行动}
+      - id: opening_awakening
+        name: 陌生环境苏醒
+        summary: 主角先处理现实的不便，通过行动逐步发现自己所处环境与预期不符。
+        examples:
+          - 修仙：他醒在一座已经封山的驿亭，手里攥着昨天才发出的请帖。守亭人说，发帖的宗门三年前就不在了。
+          - 硅基：新载体第一次回应了移动指令，门上的登记记录却把它列为报废。门外的回收车正按编号一间间核对。
+        effects: {goal: 确认处境并离开危险地点, cost: 暴露身份或错过线索, hook: 记录与现实不一致, next_a: 向知情人求助, next_b: 自行核对现场证据, risk: 不要在开头集中解释全部世界设定}
+      - id: opening_reversal
+        name: 受辱反击
+        summary: 主角面对具体的不公，选择如何争回利益，反击后必须承担关系后果。
+        recommended_by: [hero_prove]
+        examples:
+          - 修仙：名册把她半年采药所得记在了管事侄子的名下。她没有掀桌，只把那本沾着雨水的交接账放到众人面前。
+          - 硅基：维修队宣布他的成果属于上级工程师。他接回被拔掉的故障记录，问谁愿意当场重启那条线路。
+        effects: {goal: 夺回被侵占的成果, cost: 得罪掌权者, hook: 侵占背后还有受益人, next_a: 找到证人公开质疑, next_b: 保存记录暂缓对抗, risk: 对手需要动机，不靠全员降智制造反击}
+      - id: opening_trial
+        name: 资格测试
+        summary: 一场有明确规则的测试暴露公平性或能力使用的代价。
+        examples:
+          - 修仙：入门测试要求把水送上山顶，分给他的桶底却有一道新裂口。他看了看修补工具，又看向已经出发的队伍。
+          - 硅基：通行考核给每位申请者相同电量，却没告诉外来者路上有付费接口。他停在接口前，发现旧维护道仍在运行。
+        effects: {goal: 获得资格或证明规则有误, cost: 时间和资源损失, hook: 测试在筛选什么人, next_a: 利用规则寻找替代路线, next_b: 联合其他参与者申诉, risk: 不必每次以隐藏天赋震惊所有人收场}
+      - id: opening_mission
+        name: 任务失控
+        summary: 原本清楚的委托出现新事实，主角需要在原承诺与现实后果之间选择。
+        examples:
+          - 修仙：送药途中，封条从箱内被轻轻顶开。随队的账房说别看，按时送到就能抵掉全村的欠额。
+          - 硅基：押运清单只有废旧核心，运输舱却传来完整的求助协议。车队要求清除缓存后继续前进。
+        effects: {goal: 弄清任务变化后决定是否继续, cost: 失约或伤害无辜, hook: 委托人隐瞒了什么, next_a: 暂停任务核对真相, next_b: 保留证据继续接近目的地, risk: 不把所有委托都写成同一种背叛}
+      - id: opening_chance
+        name: 意外获得机缘
+        summary: 得到一种机会，同时遇到使用条件和不得不承担的义务。
+        examples:
+          - 修仙：旧药炉第一次炼出了合格丹药，炉壁同时浮出一张取货单。日期是明早，买家写着师父从不肯提起的名字。
+          - 硅基：废弃工具能修复断路，却每次都请求接入一处陌生坐标。检修员停止了第三次调用，查起工具的来源。
+        effects: {goal: 判断如何使用新机会, cost: 承担未知义务, hook: 谁留下了机会, next_a: 小范围试用并保留代价, next_b: 寻找了解来源的人, risk: 机会不能无条件解决所有困难}
+      - id: opening_debt
+        name: 交易欠债
+        summary: 一笔必须处理的债务迫使主角进入新关系，交易双方都各有所求。
+        recommended_by: [position_keeper, hero_bargainer]
+        examples:
+          - 修仙：药铺房契被送回来了，债主只要她代收一位客人的包裹。她翻到契纸背面，发现欠款并没有被划掉。
+          - 硅基：聚落同意续供三天，条件是修好一条没人愿意靠近的支路。维修者问完报酬，又问上一个接单者去了哪里。
+        effects: {goal: 在期限前解决债务, cost: 付出劳动或承担新责任, hook: 对方为何提出这种交换, next_a: 谈清条款再接任务, next_b: 寻找其他履约方式, risk: 交易不能只有主角一方聪明}
+      - id: opening_mystery
+        name: 悬案发现
+        summary: 一个可验证的异常打破日常，追查会影响主角当前的生活。
+        recommended_by: [crisis_missing]
+        examples:
+          - 修仙：失踪客人的房间已经退租，晚饭却仍每天少一份。店主顺着账本查下去，发现扣饭钱的人正是自己。
+          - 硅基：回收站每日多出一个未登记元件。所有入库记录都完整，唯独负责清点的终端没有昨夜的日志。
+        effects: {goal: 验证异常是否真实, cost: 耽误职责并暴露调查, hook: 谁能修改记录, next_a: 留存物证寻找知情者, next_b: 对照独立记录排除误判, risk: 线索必须可追溯，不靠临时揭晓新事实反转}
+      - id: opening_escape
+        name: 逃亡追捕
+        summary: 主角被迫移动，逃跑方式决定能保留什么、又会牵连谁。
+        examples:
+          - 修仙：城门封闭前，她发现通缉画上的脸还没画完。画师只见过她的背影，却知道她下一站要去哪里。
+          - 硅基：巡检器正在逐个验证身份。逃亡者可以更换登记号，但那会把同伴的担保记录一起标成伪造。
+        effects: {goal: 离开封锁区域, cost: 丢失身份或牵连关系, hook: 追捕者掌握了多少信息, next_a: 求助旧关系绕行, next_b: 留下误导并承担暴露风险, risk: 追捕不能靠无穷无尽的新敌人延长}
+      - id: opening_homecoming
+        name: 归乡遇变
+        summary: 熟悉的地方变了，旧关系要求主角重新决定自己属于哪里。
+        examples:
+          - 修仙：他带着第一份工钱回村，老宅门前却挂上了陌生宗门的牌。邻居认出了他，仍坚持叫他外乡人。
+          - 硅基：归来的维修员发现聚落改用了新协议，旧同伴都能认出它，却不肯替它打开公共接口。
+        effects: {goal: 理解旧地变化并恢复联系, cost: 面对过去的选择, hook: 众人为何隐瞒变化, next_a: 找旧友私下询问, next_b: 从公共规则查明缘由, risk: 旧角色不能每次都被重新当成陌生人}
+      - id: opening_disruption
+        name: 日常秩序破裂
+        summary: 从小愿望和熟悉的工作开始，让一个具体变化显出更大的矛盾。
+        recommended_by: [position_keeper, crisis_quota]
+        examples:
+          - 修仙：她原本只想在雨季前修好药铺屋顶。早市忽然禁止买卖止血草，昨天交订金的病人却已经到了门口。
+          - 硅基：小店今天准备换掉吱响的门轴。配额通知先到了，所有备用元件必须上交，门外排着预约维修的邻居。
+        effects: {goal: 保住日常责任, cost: 在规则和承诺间取舍, hook: 新规则为何此刻发布, next_a: 集合受影响的人问清规则, next_b: 寻找不违约的替代办法, risk: 不必靠灾难才能让日常故事有吸引力}
+      - id: opening_rescue
+        name: 救人卷入冲突
+        summary: 一次帮助带来关系和责任，救下的人有自己的目的，不只是报恩工具。
+        recommended_by: [hero_protect]
+        examples:
+          - 修仙：她把伤者拖进药棚时，没有问姓名。伤口缝好后，那人第一件事却是请求她不要通知正在找人的师兄。
+          - 硅基：维修者替陌生载体接上了备用电源。对方恢复后拔掉定位线，说追来的不是盗匪，而是自己的队伍。
+        effects: {goal: 完成救援并决定是否继续帮助, cost: 消耗物资和卷入关系冲突, hook: 被救者为什么隐瞒身份, next_a: 确认对方意愿后合作, next_b: 划定帮助边界并寻找第三方, risk: 帮助行为不自动换来绝对忠诚}
+  - id: hero_false_belief
+    step: protagonist
+    title: 主角 · 需要被挑战的信念
+    prompt: 主角相信什么，而现实会怎样动摇它？
+    depends_on: [hero_history, hero_motive]
+    options:
+      - {id: belief_control, name: 只要安排周全就不会失去, summary: 保护欲可能变成控制，主角必须学会让别人选择。, effects: {planning: 安排旧方法奏效后的局限；改变信念需要具体反例，不能一句顿悟完成}}
+      - {id: belief_alone, name: 依赖别人就会受伤, summary: 独自解决问题能保护自己，也会让求助变得困难。, effects: {planning: 检查合作是否包含可以拒绝的请求和可承担的风险，不用一次救命立刻消除戒心}}
+      - {id: belief_merit, name: 只要做得好就会被承认, summary: 主角会遇到能力之外的利益和身份门槛。, effects: {planning: 让努力有真实成果，同时呈现评价规则的局限，不把所有失败都归因于不够努力}}
+  - id: narrative_pov
+    step: style
+    title: 叙述视角
+    prompt: 读者通过谁的感知了解故事？
+    depends_on: [style]
+    options:
+      - {id: pov_first, name: 第一人称限知, summary: 叙述者只能陈述自己经历、获知或推测的内容。, effects: {pov: 第一人称限知；他人的动机需要观察或求证}}
+      - {id: pov_close, name: 第三人称贴近主角, summary: 跟随主角的感知，不直接揭示他人的内心秘密。, effects: {pov: 第三人称主角限知；保持角色知识边界}}
+      - {id: pov_multiple, name: 多视角分场, summary: 可在场景边界切换角色，每场仍有明确视角。, effects: {pov: 多视角分场；本场视角人选待作者指定，不混用不同角色的知识}}
+  - id: narrative_order
+    step: style
+    title: 叙述顺序
+    prompt: 事件实际发生的顺序与读者看到的顺序如何安排？
+    depends_on: [style]
+    options:
+      - {id: order_linear, name: 顺叙, summary: 按事件因果推进，必要背景在当下行动中补充。, effects: {planning: 保持所选路线的时间顺序，背景说明不打断关键选择}}
+      - {id: order_flashforward, name: 结果前置再回溯, summary: 从已经发生的阶段结果切入，再回到原因。, effects: {planning: 只从当前路线已有结果选前置片段；标明回溯边界，不编造未来高潮}}
+      - {id: order_memory, name: 当下穿插回忆, summary: 当前事件触发有依据的往事，回忆改变当下理解。, effects: {planning: 回忆只能来自确认经历；区分回忆与当前现场，不把未知秘密当回忆补入}}
+  - id: ending_direction
+    step: major_events
+    title: 结局方向
+    prompt: 故事收束时，你希望目标和代价形成怎样的关系？
+    depends_on: [major_events]
+    options:
+      - {id: ending_costly, name: 得偿所愿但付出代价, summary: 主目标实现，过程中失去的东西仍然算数。, effects: {planning: 检查目标达成的证据与不可撤销代价；未达成时列为后续计划，不改写路线结果}}
+      - {id: ending_reframe, name: 放下原目标，重新选择, summary: 主角认清原目标的局限，主动决定新的生活方向。, effects: {planning: 结局转向需要前文反例与主动决定；不能把失败直接包装为领悟}}
+      - {id: ending_open, name: 阶段完成，未来开放, summary: 当前问题有答复，更远的路保留选择空间。, effects: {planning: 回收当前阶段的行动问题，留下长期问题而非中途突然截断}}
+  - id: world_rule
+    step: worldview
+    title: 世界 · 共同约束
+    prompt: 无论主角还是对手，都不能轻易绕过什么？
+    depends_on: [worldview]
+    options:
+      - {id: rule_exchange, name: 获得必有交换, summary: 资源与服务有来源，付钱之外还可能欠下责任。, effects: {planning: 每次关键获得说明来源与交换，主角和对手遵守同一规则}}
+      - {id: rule_access, name: 信息与资格不均等, summary: 资源并非完全消失，而是只有部分身份能接近。, effects: {planning: 明确谁有访问资格、资格如何改变，以及越界的社会后果}}
+      - {id: rule_environment, name: 环境有承载极限, summary: 局部成功可能改变他人使用同一资源的条件。, effects: {planning: 检查资源利用对场所和他人的影响，不能离开现场就取消代价}}
+  - id: livelihood
+    step: background
+    title: 日常 · 生计与责任
+    prompt: 进入故事前，主角靠什么生活，又不能轻易丢下什么？
+    depends_on: [social_position]
+    options:
+      - {id: living_craft, name: 靠手艺接活, summary: 收入来自交付具体成果，远行意味着错过约定。, effects: {planning: 开篇保留一项可见工作及未交付责任，不把职业只写成头衔}}
+      - {id: living_support, name: 受共同体供养, summary: 获得基本资源，也被期待回报劳动或遵守安排。, effects: {planning: 分清个人拥有与共同体借用，离开时处理归还或未尽义务}}
+      - {id: living_unstable, name: 靠零工勉强维持, summary: 没有稳定收入，一次耽搁就会影响下一顿或住所。, effects: {planning: 紧迫感来自具体生活缺口，不自动添加绝望性格或犯罪经历}}
+  - id: location_access
+    step: factions_locations
+    title: 场所 · 通行条件
+    prompt: 主要场所为什么不能随时自由进出？
+    depends_on: [factions_locations]
+    options:
+      - {id: access_sponsor, name: 需要担保, summary: 本地关系可以开门，也需要承担放行风险。, effects: {planning: 求助前确认担保人意愿，通行产生关系后果，担保不等于永久自由通行}}
+      - {id: access_window, name: 有开放时段, summary: 交通、轮值或环境让可通行的窗口有限。, effects: {planning: 明确错过窗口的后果；具体时刻待设定，不给历史添加未经记录的倒计时}}
+      - {id: access_public, name: 公开进入但有责任, summary: 不靠隐藏门槛卡住所有人，使用设施需要维护秩序。, effects: {planning: 区分公共空间与受限区域，冲突来自使用方式而非突然凭空加守卫}}
+  - id: ability_learning
+    step: progression
+    title: 成长 · 获得途径
+    prompt: 主角如何从不会变成会？
+    depends_on: [progression]
+    options:
+      - {id: learn_practice, name: 观察与练习, summary: 通过具体失败和调整掌握方法。, effects: {planning: 展示改变做法的关键尝试即可，不逐项播放所有练习步骤}}
+      - {id: learn_mentor, name: 指导与传承, summary: 有人给出方法，主角仍需理解并承担使用后果。, effects: {planning: 指导者有传授理由和知识边界，获得说明不等于立即精通}}
+      - {id: learn_collaboration, name: 分工与组合, summary: 成长来自协作、组织和组合已有手段，不必升级境界。, effects: {planning: 列明谁提供了哪项能力，不把队伍共同成果变成主角独有技能}}
+  - id: ability_cost
+    step: progression
+    title: 成长 · 使用边界
+    prompt: 手段有效，但为什么不能无条件重复使用？
+    depends_on: [ability_learning]
+    options:
+      - {id: cost_fatigue, name: 消耗体力或专注, summary: 越连续使用越容易失误，需要有过程地恢复。, effects: {planning: 恢复要有休息或补给来源；本设计不是已经获得的新能力}}
+      - {id: cost_material, name: 消耗材料或工具, summary: 手段依赖有限物资，选择何时使用会改变后续余地。, effects: {planning: 材料获得、携带和消耗须有来由；未确认数量不编成现成库存}}
+      - {id: cost_exposure, name: 暴露信息或立场, summary: 使用手段会让别人了解自己并作出回应。, effects: {planning: 指明谁能够观察到什么，不能让未在场者凭空得知行动}}
+  - id: companion_boundary
+    step: core_characters
+    title: 同伴 · 合作边界
+    prompt: 同伴愿意帮助，但不愿被怎样对待？
+    depends_on: [companion_motive]
+    options:
+      - {id: boundary_consent, name: 必须自己决定风险, summary: 关心不等于替对方决定，危险需要事先说清。, effects: {planning: 合作行动前保留同伴同意或拒绝的机会, scene: 对方把话说清：可以商量，但不能替自己答应风险。}}
+      - {id: boundary_limited, name: 只承诺当前这件事, summary: 有自己的生活安排，帮完不能被默认永久跟随。, effects: {planning: 新目标要重新征求合作，不把一次帮助变成终身忠诚, scene: 对方先划清范围：眼前这件事可以一起做，之后的安排另谈。}}
+      - {id: boundary_credit, name: 付出必须被承认, summary: 可以共同承担，但不愿成果和责任只记在一人名下。, effects: {planning: 分清个人与共同成果，让争执源于真实分工, scene: 对方提醒你，谁承担了哪一段，最后都要说清楚。}}
+  - id: relationship_tension
+    step: core_characters
+    title: 关系 · 当前摩擦
+    prompt: 双方为什么愿意同行，却仍会意见不同？
+    depends_on: [companion_history, companion_motive]
+    options:
+      - {id: tension_methods, name: 目标相同，方法不同, summary: 都想解决问题，一方求快，一方要保留退路。, effects: {planning: 让两种方法各有依据和成本，不把不同意见的人写成拖累}}
+      - {id: tension_priorities, name: 都有不能失约的人, summary: 同一段时间被两份承诺争夺，合作需要重新排序。, effects: {planning: 支线承诺影响主线安排，不能换章就忘记另一个目标}}
+      - {id: tension_trust, name: 旧交情不能解释所有疑点, summary: 信任依然存在，但当前信息需要重新核实。, effects: {planning: 区分不理解与背叛，不凭一次沉默就宣告关系破裂}}
+  - id: opponent_boundary
+    step: core_characters
+    title: 对手 · 不愿付出的代价
+    prompt: 对手想达成目标，但什么会让其改变手段？
+    depends_on: [opponent_motive]
+    options:
+      - {id: opponent_legitimacy, name: 不能失去公开认可, summary: 依赖规则带来的权力，不愿被证明破坏规则。, effects: {planning: 证据与公开程序可以形成压力，对手不能每次都无视社会后果}}
+      - {id: opponent_allies, name: 不能失去支持者, summary: 手中资源来自他人的配合，内部分歧会限制行动。, effects: {planning: 给支持者各自利益，不把整个势力写成一个人的分身}}
+      - {id: opponent_limits, name: 不能无限消耗资源, summary: 对手也要选择投入多少，不能凭空不断派出更强的人。, effects: {planning: 升级冲突交代动员来源，允许对手谈判、撤回或改变计划}}
+  - id: information_release
+    step: major_events
+    title: 信息 · 揭露方式
+    prompt: 主角与读者怎样逐步接近答案？
+    depends_on: [opening_pattern]
+    options:
+      - {id: reveal_verify, name: 独立来源交叉核验, summary: 单条线索提出疑问，第二来源检验它。, effects: {planning: 先列线索来源，再列验证动作；没有核验就保留不确定措辞}}
+      - {id: reveal_layers, name: 每次回答推进一层, summary: 先解释操作规则，再谈动机，不一次揭穿全部来源。, effects: {planning: 区分当前层答案和长期秘密，后者仍是作者安排而非角色知识}}
+      - {id: reveal_reinterpret, name: 旧线索获得新解释, summary: 读者先看到真实细节，后续信息改变其意义。, effects: {planning: 反转不能改写旧细节，写明此前可成立的误读及排除证据}}
+  - id: main_thread
+    step: major_events
+    title: 长期 · 主线推进
+    prompt: 当前问题解决后，什么后果会把故事推向下一阶段？
+    depends_on: [major_events, story_scope]
+    options:
+      - id: thread_consequences
+        name: 解决问题引出更大责任
+        summary: 成功改变局面，主角必须面对自己行动带来的新后果。
+        effects:
+          planning: 阶段之间以结果连接，不靠随机增加敌人续命
+          phase_1: 明确眼前问题与第一次主动选择，核对所选路线实际完成到哪里
+          phase_2: 从已有成功的代价中选择一个尚未解决的责任，补齐受影响的人与新目标
+          phase_3: 让主角决定如何承担后果，回收最初承诺；具体事件待作者安排
+      - id: thread_inquiry
+        name: 线索改变问题本身
+        summary: 从一个局部异常入手，答案迫使主角重新理解原来的目标。
+        effects:
+          planning: 每阶段回答一个可验证问题，不用永远保密代替推进
+          phase_1: 区分异常、猜测与已验证事实，保留当前证据来源
+          phase_2: 从已验证答案提出下一层问题，明确缺少什么证据及为何值得追查
+          phase_3: 安排真相与人物选择相遇，结果取决于行动，不只靠最后一段解释
+      - id: thread_relationship
+        name: 从合作走向共同选择
+        summary: 不同目标让人物相遇，关系改变他们愿意承担的事情。
+        effects:
+          planning: 关系转折需要共同经历，不能只用称呼变化表示亲近
+          phase_1: 建立合作的具体条件，保留各自目标和可拒绝的边界
+          phase_2: 让一次目标冲突检验约定，补齐沟通、分歧及行动后果
+          phase_3: 安排自愿留下或有理由分开，回应开篇关系问题而非强制团圆
+  - id: subplot_role
+    step: major_events
+    title: 长期 · 支线职责
+    prompt: 支线怎样影响主线，而不是拖延它？
+    depends_on: [main_thread]
+    options:
+      - {id: subplot_resource, name: 改变行动条件, summary: 支线提供方法、关系或资源，也带来新的义务。, effects: {planning: 写明支线成果在主线何处使用；无影响时合并或删除支线}}
+      - {id: subplot_character, name: 检验人物信念, summary: 较小的困境让人物尝试与主线不同的做法。, effects: {planning: 支线改变下一次主线选择，避免结束后人物恢复原样}}
+      - {id: subplot_counterpoint, name: 展示另一种答案, summary: 配角面对相似问题，作出不同但有依据的选择。, effects: {planning: 配角有自己的得失，不只承担衬托主角正确的任务}}
+  - id: payoff_schedule
+    step: major_events
+    title: 长期 · 伏笔回收
+    prompt: 细节埋下后，什么时候兑现其意义？
+    depends_on: [main_thread, information_release]
+    options:
+      - {id: payoff_stage, name: 阶段内完成小回收, summary: 让读者看到投入有回报，再留下下一层疑问。, effects: {planning: 列出已出现细节、当前解释和阶段回收条件；未出现的只列计划}}
+      - {id: payoff_echo, name: 先兑现用途，后改变意义, summary: 同一细节先参与行动，后续再揭示更深来由。, effects: {planning: 第二次解释须与首次用途兼容，不能把前文真实事实改成作者失误}}
+      - {id: payoff_end, name: 少量长线留到结局, summary: 大部分当前问题照常解决，只保留少数核心承诺。, effects: {planning: 标出长期未决问题与中途推进点，不能把所有答案都拖到最后}}
+catalog_id: novel_story_choices_v1
+language: zh-CN
+
+steps:
+  - step: reader_experience
+    title: 阅读体验
+    prompt: 你希望读者翻开这本书时，最先获得什么感受？
+    selection_mode: single
+    min_selections: 1
+    max_selections: 1
+    skippable: false
+    next_steps: [worldview]
+
+  - step: worldview
+    title: 世界观
+    prompt: 选择承载故事的世界运行方式。
+    selection_mode: single
+    min_selections: 1
+    max_selections: 1
+    skippable: false
+    next_steps: [background]
+
+  - step: background
+    title: 故事背景
+    prompt: 选择主线开始时最适合制造行动压力的舞台。
+    selection_mode: single
+    min_selections: 1
+    max_selections: 1
+    skippable: false
+    next_steps: [protagonist]
+
+  - step: protagonist
+    title: 主角原型
+    prompt: 选择主角最初的处境、缺口与行动方式。
+    selection_mode: single
+    min_selections: 1
+    max_selections: 1
+    skippable: false
+    next_steps: [core_characters]
+
+  - step: core_characters
+    title: 核心角色
+    prompt: 选择最能迫使主角改变的关系类型，可组合一至三项。
+    selection_mode: multiple
+    min_selections: 1
+    max_selections: 3
+    skippable: false
+    next_steps: [factions_locations]
+
+  - step: factions_locations
+    title: 势力与地点
+    prompt: 选择主要活动空间及其社会结构，可组合一至两项。
+    selection_mode: multiple
+    min_selections: 1
+    max_selections: 2
+    skippable: false
+    next_steps: [major_events]
+
+  - step: major_events
+    title: 大事件
+    prompt: 选择推动全书升级、转折和终局的事件骨架，可组合一至三项。
+    selection_mode: multiple
+    min_selections: 1
+    max_selections: 3
+    skippable: false
+    next_steps: [progression]
+
+  - step: progression
+    title: 成长方式
+    prompt: 选择主角获得力量、认知和地位的主要方式。
+    selection_mode: single
+    min_selections: 1
+    max_selections: 1
+    skippable: false
+    next_steps: [style]
+
+  - step: style
+    title: 叙事风格
+    prompt: 选择正文的主要节奏和气质，可组合一至两项。
+    selection_mode: multiple
+    min_selections: 1
+    max_selections: 2
+    skippable: false
+    next_steps: [author_boundaries]
+
+  - step: author_boundaries
+    title: 作者边界
+    prompt: 选择写作时必须长期遵守的底线，可组合一至四项。
+    selection_mode: multiple
+    min_selections: 1
+    max_selections: 4
+    skippable: false
+    next_steps: []
+
+options:
+  - id: experience_growth_adventure
+    step: reader_experience
+    name: 成长冒险
+    summary: 让读者持续看到主角解决难题、获得成长，并主动进入更大的世界。
+    tags: [成长, 冒险, 爽感]
+    unlocks: [world_silicon_mmo, world_cultivation_realms]
+    unlocks_steps: [worldview]
+    effects:
+      pacing: 行动目标清晰，阶段成果可见
+      promise: 每次成长都会带来新的选择与代价
+    priority: 30
+
+  - id: experience_mystery_exploration
+    step: reader_experience
+    name: 谜题探索
+    summary: 让读者跟随有限视角逐层认识陌生世界，用发现不断推动下一步行动。
+    tags: [探索, 谜题, 陌生感]
+    unlocks: [world_silicon_mmo, world_modern_supernatural]
+    unlocks_steps: [worldview]
+    effects:
+      pacing: 每个答案打开更深一层问题
+      promise: 谜题必须通过行动推进而非集中讲解
+    priority: 20
+
+  - id: experience_relationship_drama
+    step: reader_experience
+    name: 关系抉择
+    summary: 用同伴、对手和阵营选择推动剧情，让成长最终落到人与关系的变化上。
+    tags: [关系, 抉择, 群像]
+    unlocks: [world_cultivation_realms, world_modern_supernatural]
+    unlocks_steps: [worldview]
+    effects:
+      pacing: 关键转折由关系选择引爆
+      promise: 角色冲突必须改变后续行动
+    priority: 10
+
+  - id: world_silicon_mmo
+    step: worldview
+    name: 硅基拟人冒险世界
+    summary: 硅基生命组成城镇、职业与势力，以规则探索和装备成长进入广阔世界。
+    tags: [硅基生命, MMO, 非人文明]
+    unlocks: [background_ruined_board, protagonist_nonhuman_awakening, progression_rule_discovery]
+    unlocks_steps: [background, protagonist, progression]
+    effects:
+      world_logic: 物理规则、职业体系与社会规则共同约束行动
+      visual_identity: 微观材料结构与拟人社会并存
+    source_refs: [novel/config/story_builder/catalog_sources.md]
+    priority: 50
+
+  - id: world_cultivation_realms
+    step: worldview
+    name: 多境修仙世界
+    summary: 宗门、秘境和文明层级并存，修行既是力量提升，也是认识世界的过程。
+    tags: [修仙, 境界, 宗门]
+    unlocks: [background_frontier_sect, progression_cultivation_breakthrough]
+    unlocks_steps: [background, progression]
+    effects:
+      world_logic: 境界、资源和因果共同决定行动边界
+      conflict: 个人道路与宗门秩序彼此拉扯
+    priority: 20
+
+  - id: world_modern_supernatural
+    step: worldview
+    name: 都市隐秘世界
+    summary: 表面秩序与超常社会重叠，角色必须在日常身份和隐藏规则之间行动。
+    tags: [都市, 超常, 双层社会]
+    unlocks: [background_hidden_city]
+    unlocks_steps: [background]
+    effects:
+      world_logic: 公开秩序掩盖真实力量结构
+      conflict: 暴露身份会改变角色的社会处境
+    priority: 10
+
+  - id: background_ruined_board
+    step: background
+    name: 废墟板基边境
+    summary: 主角从资源稀缺、危险密集的废墟醒来，由求生逐步接触城镇和文明。
+    tags: [废墟, 求生, 边境]
+    requires_all: [world_silicon_mmo]
+    unlocks: [protagonist_nonhuman_awakening, setting_multi_faction_frontier]
+    unlocks_steps: [protagonist, factions_locations]
+    effects:
+      opening: 用具体生存问题代替世界观讲解
+      expansion: 从小尺度环境自然扩张到社会空间
+    source_refs: [novel/config/story_builder/catalog_sources.md]
+    priority: 50
+
+  - id: background_frontier_sect
+    step: background
+    name: 边陲宗门与秘境
+    summary: 从资源有限的小宗门起步，在试炼、秘境和外部竞争中扩展舞台。
+    tags: [宗门, 秘境, 竞争]
+    requires_all: [world_cultivation_realms]
+    unlocks: [protagonist_underdog_disciple, setting_multi_faction_frontier]
+    unlocks_steps: [protagonist, factions_locations]
+    effects:
+      opening: 身份低位与资源门槛同时出现
+      expansion: 宗门竞争逐步连到更大文明冲突
+    priority: 20
+
+  - id: background_hidden_city
+    step: background
+    name: 表里双城
+    summary: 同一座城市存在公开生活与隐秘秩序，地点切换会改变规则和人物身份。
+    tags: [城市, 隐秘层, 身份]
+    requires_all: [world_modern_supernatural]
+    unlocks: [protagonist_fallen_genius, setting_single_city_layers]
+    unlocks_steps: [protagonist, factions_locations]
+    effects:
+      opening: 由一次异常事件揭开隐藏层
+      expansion: 熟悉地点在不同规则下产生新危险
+    priority: 10
+
+  - id: protagonist_nonhuman_awakening
+    step: protagonist
+    name: 非人微观觉醒者
+    summary: 主角从没有人类常识的弱小非人生命起步，通过观察、试错和选择建立自我。
+    tags: [非人, 觉醒, 有限认知]
+    requires_all: [world_silicon_mmo]
+    unlocks: [cast_found_family, progression_rule_discovery]
+    unlocks_steps: [core_characters, progression]
+    effects:
+      viewpoint: 先写感知和判断，再逐步获得社会语言
+      arc: 从被环境推动走向自主定义目标
+    source_refs: [novel/config/story_builder/catalog_sources.md]
+    priority: 50
+
+  - id: protagonist_underdog_disciple
+    step: protagonist
+    name: 底层求道者
+    summary: 主角资质或身份受限，但善于从被忽视的规则与资源中找到自己的道路。
+    tags: [底层, 求道, 逆袭]
+    requires_all: [world_cultivation_realms]
+    unlocks: [cast_rival_mirror, progression_cultivation_breakthrough]
+    unlocks_steps: [core_characters, progression]
+    effects:
+      agency: 用选择和理解弥补初始资源不足
+      arc: 从争取资格走向定义自己的道路
+    priority: 20
+
+  - id: protagonist_fallen_genius
+    step: protagonist
+    name: 失势的知情者
+    summary: 主角曾接触上层规则却失去身份或能力，必须在旧认知和新现实之间重建自己。
+    tags: [失势, 秘密, 重建]
+    requires_all: [world_modern_supernatural]
+    unlocks: [cast_mentor_secret, progression_resource_upgrade]
+    unlocks_steps: [core_characters, progression]
+    effects:
+      agency: 主角拥有部分答案但缺少执行条件
+      arc: 从恢复旧位置转向选择新立场
+    priority: 10
+
+  - id: cast_found_family
+    step: core_characters
+    name: 利益起步的同行者
+    summary: 同伴最初因资源或任务结伴，在共同承担代价后形成真正信任。
+    tags: [队伍, 信任, 日常互动]
+    unlocks: [setting_multi_faction_frontier, events_survival_to_world]
+    unlocks_steps: [factions_locations, major_events]
+    effects:
+      relationship: 信任必须通过共同选择积累
+      scene_value: 提供对白、分歧和战斗配合
+    priority: 30
+
+  - id: cast_rival_mirror
+    step: core_characters
+    name: 镜像对手
+    summary: 对手与主角追求相近目标，却采用另一套方法，持续迫使主角证明自己的选择。
+    tags: [对手, 镜像, 竞争]
+    unlocks: [events_tournament_conspiracy]
+    unlocks_steps: [major_events]
+    effects:
+      relationship: 对抗不只比较力量，也比较道路
+      scene_value: 阶段性胜负持续改变双方判断
+    priority: 20
+
+  - id: cast_mentor_secret
+    step: core_characters
+    name: 带秘密的引路人
+    summary: 引路人能提供有限帮助，但其隐瞒的信息会在关键时刻成为关系冲突。
+    tags: [导师, 秘密, 信任危机]
+    unlocks: [events_disaster_rebuild]
+    unlocks_steps: [major_events]
+    effects:
+      relationship: 帮助与控制必须同时存在
+      risk: 不允许引路人替主角解决核心选择
+    priority: 10
+
+  - id: setting_multi_faction_frontier
+    step: factions_locations
+    name: 多势力边境
+    summary: 城镇、商队、地方势力与外来组织争夺有限资源，立场会随事件改变。
+    tags: [边境, 多势力, 资源竞争]
+    requires_any: [background_ruined_board, background_frontier_sect]
+    unlocks: [events_survival_to_world, events_tournament_conspiracy]
+    unlocks_steps: [major_events]
+    effects:
+      conflict: 资源问题自然升级为阵营问题
+      mobility: 地点推进伴随规则和身份变化
+    source_refs: [novel/config/story_builder/catalog_sources.md]
+    priority: 30
+
+  - id: setting_single_city_layers
+    step: factions_locations
+    name: 单城多层秩序
+    summary: 故事集中在一座城市，不同区域、阶层和隐秘层拥有互相冲突的规则。
+    tags: [城市, 阶层, 空间谜题]
+    requires_all: [background_hidden_city]
+    unlocks: [events_disaster_rebuild, events_tournament_conspiracy]
+    unlocks_steps: [major_events]
+    effects:
+      conflict: 同一事件在不同阶层产生不同后果
+      mobility: 深挖单一地点而非频繁换地图
+    priority: 20
+
+  - id: setting_roaming_world
+    step: factions_locations
+    name: 漂泊式广域世界
+    summary: 主角沿遗迹、商路或秘境持续移动，每个地点解决一层问题并留下长期线索。
+    tags: [旅途, 多地图, 单元事件]
+    unlocks: [events_survival_to_world, events_disaster_rebuild]
+    unlocks_steps: [major_events]
+    effects:
+      structure: 地点单元服务同一条长期主线
+      risk: 需要稳定角色关系防止故事碎片化
+    priority: 10
+
+  - id: events_survival_to_world
+    step: major_events
+    name: 从求生到文明冲突
+    summary: 一次局部求生暴露更大的资源或规则危机，主角被迫从个人问题进入世界主线。
+    tags: [求生, 扩图, 文明冲突]
+    requires_any: [cast_found_family, setting_multi_faction_frontier, setting_roaming_world]
+    unlocks: [progression_rule_discovery, style_light_fast_webnovel]
+    unlocks_steps: [progression, style]
+    effects:
+      event_chain: 解决眼前问题同时制造更大的行动问题
+      escalation: 危机规模扩大但保留具体人物代价
+    source_refs: [novel/config/story_builder/catalog_sources.md]
+    priority: 30
+
+  - id: events_tournament_conspiracy
+    step: major_events
+    name: 竞赛背后的规则争夺
+    summary: 公开竞赛提供阶段爽点，隐藏规则与利益交换则推动阵营冲突和认知反转。
+    tags: [竞赛, 阴谋, 阵营]
+    requires_any: [cast_rival_mirror, setting_multi_faction_frontier, setting_single_city_layers]
+    unlocks: [progression_resource_upgrade, style_light_fast_webnovel]
+    unlocks_steps: [progression, style]
+    effects:
+      event_chain: 公开胜负改变隐藏博弈的筹码
+      escalation: 每轮竞赛必须推进关系或主线秘密
+    priority: 20
+
+  - id: events_disaster_rebuild
+    step: major_events
+    name: 灾变与重建
+    summary: 旧秩序在灾变中失效，角色必须决定保留什么、放弃什么，并参与建立新规则。
+    tags: [灾变, 重建, 抉择]
+    requires_any: [cast_mentor_secret, setting_single_city_layers, setting_roaming_world]
+    unlocks: [progression_cultivation_breakthrough, style_epic_serious]
+    unlocks_steps: [progression, style]
+    effects:
+      event_chain: 灾变揭露旧秩序的真实代价
+      theme: 重建结果体现主角最终价值选择
+    priority: 10
+
+  - id: progression_rule_discovery
+    step: progression
+    name: 发现并组合规则
+    summary: 主角通过观察、试错和复盘理解世界规则，再把规则组合成独有能力。
+    tags: [规则, 试错, 创造]
+    requires_any: [world_silicon_mmo, protagonist_nonhuman_awakening, events_survival_to_world]
+    unlocks: [style_mystery_slow_burn, boundary_no_free_power]
+    unlocks_steps: [style, author_boundaries]
+    effects:
+      growth: 能力成长必须有发现、验证与代价
+      payoff: 早期小规则可以在后期形成组合解法
+    source_refs: [novel/config/story_builder/catalog_sources.md]
+    priority: 40
+
+  - id: progression_resource_upgrade
+    step: progression
+    name: 资源与装备成长
+    summary: 用任务、交易、制造和装备迭代形成稳定成长反馈，同时让资源选择推动剧情。
+    tags: [资源, 装备, 任务]
+    requires_any: [protagonist_fallen_genius, events_tournament_conspiracy]
+    unlocks: [style_light_fast_webnovel, boundary_character_consistency]
+    unlocks_steps: [style, author_boundaries]
+    effects:
+      growth: 每次获得都要改变行动能力或关系处境
+      risk: 避免成长退化为重复刷取
+    source_refs: [novel/config/story_builder/catalog_sources.md]
+    priority: 30
+
+  - id: progression_cultivation_breakthrough
+    step: progression
+    name: 境界突破与认知重构
+    summary: 境界变化来自修行、事件压力与认知突破，不把升级写成无来源的数字增长。
+    tags: [境界, 修行, 认知]
+    requires_any: [world_cultivation_realms, protagonist_underdog_disciple, events_disaster_rebuild]
+    unlocks: [style_epic_serious, boundary_no_free_power]
+    unlocks_steps: [style, author_boundaries]
+    effects:
+      growth: 每次突破必须改变主角理解问题的方式
+      payoff: 境界提升与人物选择互相验证
+    priority: 20
+
+  - id: style_light_fast_webnovel
+    step: style
+    name: 轻快行动型网文
+    summary: 用动作、对白、阶段目标和多样爽点维持追读，不用工程说明替代场景。
+    tags: [轻快, 行动, 追读]
+    requires_any: [events_survival_to_world, events_tournament_conspiracy, progression_resource_upgrade]
+    unlocks: [boundary_no_lecturing, boundary_character_consistency]
+    unlocks_steps: [author_boundaries]
+    effects:
+      prose: 句子清晰，信息随行动出现
+      pacing: 每章完成一项变化并留下下一步行动
+    source_refs: [novel/config/story_builder/catalog_sources.md]
+    priority: 30
+
+  - id: style_mystery_slow_burn
+    step: style
+    name: 克制悬疑探索
+    summary: 用有限信息、异常细节和逐层验证积累悬念，答案释放慢但每章都有实质推进。
+    tags: [悬疑, 克制, 逐层揭示]
+    requires_any: [experience_mystery_exploration, progression_rule_discovery]
+    unlocks: [boundary_no_lecturing, boundary_character_consistency]
+    unlocks_steps: [author_boundaries]
+    effects:
+      prose: 少解释结论，多呈现可验证细节
+      pacing: 慢揭谜不等于缺少行动目标
+    source_refs: [novel/config/story_builder/catalog_sources.md]
+    priority: 20
+
+  - id: style_epic_serious
+    step: style
+    name: 厚重史诗叙事
+    summary: 强调文明变迁、群体代价和长期抉择，以人物命运承载宏大主题。
+    tags: [史诗, 文明, 群像]
+    requires_any: [events_disaster_rebuild, progression_cultivation_breakthrough]
+    unlocks: [boundary_no_free_power, boundary_character_consistency]
+    unlocks_steps: [author_boundaries]
+    effects:
+      prose: 宏观变化必须落回具体人物和现场
+      pacing: 大事件之间保留关系积累与后果
+    priority: 10
+
+  - id: boundary_no_lecturing
+    step: author_boundaries
+    name: 禁止用说教代替剧情
+    summary: 主题通过人物选择、代价和结果呈现，不用大段总结替读者下结论。
+    tags: [自然表达, 主题, 禁区]
+    requires_any: [style_light_fast_webnovel, style_mystery_slow_burn]
+    effects:
+      must_avoid: 连续抽象议论、强行升华和作者代言
+      must_keep: 让角色在具体处境中证明观点
+    source_refs: [novel/config/story_builder/catalog_sources.md]
+    priority: 30
+
+  - id: boundary_no_free_power
+    step: author_boundaries
+    name: 禁止无代价成长
+    summary: 能力、资源和地位变化必须有来源、过程与后果，不能为爽点凭空增加。
+    tags: [成长守恒, 代价, 禁区]
+    requires_any: [progression_rule_discovery, progression_cultivation_breakthrough]
+    effects:
+      must_avoid: 无来源升级、临时新能力和用后即忘的装备
+      must_keep: 让获得改变后续选择而不只改变数值
+    source_refs: [novel/config/story_builder/catalog_sources.md]
+    priority: 30
+
+  - id: boundary_character_consistency
+    step: author_boundaries
+    name: 角色事实与声音一致
+    summary: 角色身份、能力、关系、经历和语言习惯必须连续，变化需要在剧情中发生。
+    tags: [角色一致性, 连续性, 禁区]
+    requires_any: [style_light_fast_webnovel, style_mystery_slow_burn, style_epic_serious]
+    effects:
+      must_avoid: 性别漂移、重复初见、无来源能力和语言风格突变
+      must_keep: 允许角色犯错，但错误必须符合其已知信息
+    source_refs: [novel/config/story_builder/catalog_sources.md]
+    priority: 30

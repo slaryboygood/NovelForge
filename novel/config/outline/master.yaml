@@ -1,0 +1,27 @@
+# Master Outline（Novel Reboot v2）
+
+## 作品信息
+- 书名：硅基升维
+- 定位：硅基拟人世界 + MMO 升级冒险爽文
+- 规模：8 卷 / 120 章起（可续） / 目标 240 万字级连载
+- 主线：废灵零 → 吞噬觉醒 → 打怪升级开图 → 万芯残片 → 万芯之巅决战 → 记忆解放
+
+## SSOT 层级（最高解释权自上而下）
+
+1. novel/config/spec/novel_constitution.json（宪法：世界规则/主线/终局/秘密/硬节点）
+2. novel/config/bible/*（世界观/世界规则/文风/禁写）
+3. novel/config/outline/master_story.yaml（总主线/终局/终极秘密/最终敌人/伏笔）
+4. novel/config/progression/*（等级/职业/技能/装备/掉落）
+5. novel/config/characters/*（主角卡/队伍弧光）
+6. novel/config/factions/factions.yaml（势力）
+7. novel/config/maps/maps.yaml（地图）
+8. novel/config/monsters/*（怪物/Boss 图鉴）
+9. novel/config/outline/volumes/*（分卷纲）
+10. novel/config/outline/chapters/*（120 章精细章纲）
+11. novel/state/current_state.yaml（当前状态，第 0 章初始）
+
+冲突时：上层覆盖下层；constitution 为最终裁决。
+
+## 工程映射
+- 生产程序引用 bible/outline 的方式保持不变（worldview.py 读 config/bible/worldview.yaml 等）。
+- 旧版专名一律禁止（见 legacy_worldview_denylist.yaml）。

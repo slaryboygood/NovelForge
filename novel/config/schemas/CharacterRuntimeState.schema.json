@@ -1,0 +1,64 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "character_id": {
+      "title": "Character Id",
+      "type": "string"
+    },
+    "location": {
+      "title": "Location",
+      "type": "string"
+    },
+    "physical_state": {
+      "title": "Physical State",
+      "type": "string"
+    },
+    "psychological_state": {
+      "title": "Psychological State",
+      "type": "string"
+    },
+    "current_goal": {
+      "title": "Current Goal",
+      "type": "string"
+    },
+    "current_stance": {
+      "title": "Current Stance",
+      "type": "string"
+    },
+    "current_abilities": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Current Abilities",
+      "type": "array"
+    },
+    "recent_major_events": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Recent Major Events",
+      "type": "array"
+    },
+    "current_arc_stage": {
+      "title": "Current Arc Stage",
+      "type": "string"
+    },
+    "updated_through_chapter": {
+      "minimum": 0,
+      "title": "Updated Through Chapter",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "character_id",
+    "location",
+    "physical_state",
+    "psychological_state",
+    "current_goal",
+    "current_stance",
+    "current_arc_stage",
+    "updated_through_chapter"
+  ],
+  "title": "CharacterRuntimeState",
+  "type": "object"
+}

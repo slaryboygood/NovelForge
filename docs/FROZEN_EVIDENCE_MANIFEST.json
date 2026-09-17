@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "manifest_id": "NOVELFORGE_FROZEN_EVIDENCE_MANIFEST_V1",
+  "generated_at": "2026-09-17",
+  "freeze_authority": {
+    "model": "tracked frozen evidence + cryptographic digest manifest",
+    "supersedes": "git tag / historical commit must remain resolvable",
+    "reason": "NovelForge V3 Final 是 V4 的全新单 root 基线；V1 / V2 / V3 开发历史保存在经过完整恢复验证的外部 bundle 中，活动 Git 仓库不再承担旧历史在线寻址职责。",
+    "decision": "Architecture Exception Decision = 选择 B（用户授权，2026-09-17）"
+  },
+  "active_release": {
+    "name": "novelforge-product-v3-final",
+    "kind": "annotated_tag",
+    "subject": "NovelForge V3 Final — Functional Closure",
+    "branch": "main",
+    "note": "活动仓库唯一的活动 release ref；main 与 v4 指向同一个单一 root commit。"
+  },
+  "active_history_shape": {
+    "root_commit_count": 1,
+    "requirement": "git rev-list --count HEAD == 1",
+    "note": "V3 Final 之后的新历史从这一个 root commit 开始，不继承 V1 / V2 / V3 开发历史。"
+  },
+  "historical_releases": [
+    {
+      "name": "novelforge-product-v2.0",
+      "commit": "56cda829d812d95f65cb282e0c85328792f6d9cd",
+      "tag_object": "474f3ec63d3ac1bc8d0f444a2133d68d8f18635f",
+      "status": "historical / archived / not an active Git ref"
+    },
+    {
+      "name": "novelforge-product-v3.0",
+      "commit": "20d03cfa78b458e18e385fdaf58a04e3f2bde1c3",
+      "tag_object": "d6bf763e6aa4ea77ff84d379d76cee158b489ccc",
+      "status": "historical / archived / not an active Git ref"
+    },
+    {
+      "name": "story-engine-v2.0",
+      "commit": "fbe99cd2092cb03a4f8ffa480b453ab9e33aa53d",
+      "tag_object": "d8b31c6a11215caf83ce086fa64d0cd5289fc37f",
+      "status": "historical / archived / not an active Git ref"
+    },
+    {
+      "name": "novelforge-final-v1.0",
+      "commit": "4fb02d151b7d99c2a9d3581f13089f30681a5dc9",
+      "tag_object": "04cbc87e2de9b854bac65b8bba8985c055a62434",
+      "status": "historical / archived / not an active Git ref"
+    },
+    {
+      "name": "novelforge-minimal-product-baseline",
+      "commit": "8dcf019cbdce04ba75d9de7730efc9bb6259feab",
+      "tag_object": "54fd67c761cfd9eecc44f39b29947531e030599a",
+      "status": "historical / archived / not an active Git ref"
+    },
+    {
+      "name": "phase6.2-baseline",
+      "commit": "19215b7bf892b7f420632200b238d66fa114d91c",
+      "tag_object": "3179e398a6eddbbe5fa4fa3e2ab2ac1b56132317",
+      "status": "historical / archived / not an active Git ref"
+    },
+    {
+      "name": "phase9-before-minimal-reset",
+      "commit": "e834ca4ee979981afc38809dc93af582de5900ec",
+      "tag_object": null,
+      "status": "historical / archived / not an active Git ref"
+    },
+    {
+      "name": "phase9-pre-product-cleanup",
+      "commit": "dbccc639892e3612f778bbea94214a9248231c87",
+      "tag_object": null,
+      "status": "historical / archived / not an active Git ref"
+    }
+  ],
+  "external_archive": {
+    "history_bundle": "F:/AI_小说/NovelForge_pre_V4_full_history.bundle",
+    "history_bundle_contents": "git bundle create --all（全部分支 / tag / HEAD）",
+    "history_bundle_verified": true,
+    "history_bundle_verification": "git bundle verify → \"records a complete history\" / \"is okay\"；并在独立目录 clone 成功（7 分支 / 8 tag / 文件可读）",
+    "qa_evidence_archive": "F:/AI_小说/NovelForge_V3_qa_evidence_archive.zip",
+    "freeze_log": "F:/AI_小说/NovelForge_V3_final_freeze_log.txt",
+    "responsibility": "旧 release 的字节级在线寻址、完整历史恢复与审计，由这些外部归档承担。"
+  },
+  "frozen_evidence": [
+    {
+      "evidence_id": "v2_frozen_tracked_authoring_data",
+      "protects": "已跟踪的作者数据相对 V2 release 不得漂移（原 guard 的第三条不变式）",
+      "paths": [
+        "novel/authoring"
+      ],
+      "file_source": "tracked files（novel/authoring 下的全部已跟踪文件）",
+      "algorithm": "sha256(join(sorted(\"<path>:<sha256(file bytes)>\"))) - 逐文件 sha256，再对 `路径:摘要` 行做整体 sha256",
+      "normalization": "CRLF -> LF（统一换行后再计算，使 digest 不受 core.autocrlf / 操作系统影响）",
+      "file_count": 242,
+      "digest": "a368deb9f3ce0c6000364547b6e0cede8c6c0c92fa6713344cc2ab94e6ff54ca"
+    }
+  ],
+  "evidence_verification": {
+    "how_to_recompute": "按 frozen_evidence[0].algorithm + normalization 重新计算 novel/authoring 的摘要，与 digest 比较",
+    "enforced_by": "tests/test_v2_frozen_guard.py（默认 suite 运行，不依赖 Git）",
+    "on_drift": "摘要不一致即视为冻结资产被改动：应先说明原因并显式更新本 manifest，而不是修改断言"
+  },
+  "historical_reference_policy": {
+    "marker": "not an active Git ref",
+    "requirement": "任何仍然把旧 release 名称当作活动指针引用的 tracked 文档，必须同时标注 historical / archived / not an active Git ref 语义。",
+    "checked_documents": [
+      "README.md",
+      "AGENTS.md",
+      "novelforge.project.yaml",
+      "docs/CHANGELOG.md",
+      "docs/LEGACY_COMPAT.md",
+      "docs/NOVELFORGE_PRODUCT_V2_RELEASE.md",
+      "docs/NOVELFORGE_REAL_NOVEL_PRODUCTION_GUIDE.md"
+    ],
+    "point_in_time_records_exempt": [
+      "docs/CURRENT_PRODUCT_ACCEPTANCE_REVIEW.md",
+      "docs/CURRENT_PRODUCT_ACCEPTANCE_REPAIR_REPORT.md",
+      "docs/CURRENT_PRODUCT_FINAL_REREVIEW.md",
+      "docs/V3_FINAL_REPOSITORY_FREEZE_REPORT.md"
+    ],
+    "point_in_time_reason": "这些文件是某个时间点的验收 / 冻结记录，描述当时观察到的 ref 状态，不承担活动指针职责。"
+  },
+  "invariants": [
+    "活动仓库只保留一个活动 release ref：novelforge-product-v3-final。",
+    "历史 release 名称与 commit hash 只作为 metadata 保留；任何测试 / 工具都不得要求当前 Git 能 resolve 它们。",
+    "冻结资产的完整性由本 manifest 的摘要承担；摘要不匹配必须失败，不得放宽断言。",
+    "旧历史的完整恢复由 external_archive 承担。",
+    "V3 Final 保持单一 root commit：git rev-list --count HEAD == 1。"
+  ]
+}

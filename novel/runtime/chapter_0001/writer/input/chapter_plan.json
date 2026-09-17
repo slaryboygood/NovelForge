@@ -1,0 +1,251 @@
+{
+  "chapter_id": "0001",
+  "title": "废渣镇的零",
+  "source_title": "卷一 · 废灵崛起",
+  "source_file": "novel/config/outline/chapters/volume_01_chapters.yaml",
+  "timeline": {
+    "date": null,
+    "time": "腐化潮来临前的碎屑平原",
+    "elapsed_from_previous": null
+  },
+  "pov": {
+    "character": "未命名",
+    "perspective": "近距离第三人称，跟随人形少年主角"
+  },
+  "location": [
+    "碎屑平原",
+    "废渣镇",
+    "镇外废料堆"
+  ],
+  "chapter_purpose": {
+    "main": "零（Lv.0 废灵）在腐化潮中为救容小满被迫迎战静电史莱姆，意外吞噬灵核觉醒隐藏能力【吞噬】。",
+    "secondary": [
+      "建立废灵身份与打脸期待",
+      "埋下空白灵核与裂变剑来历伏笔",
+      "展示拟人化主角的性格（嘴硬/贪吃/讲义气）"
+    ]
+  },
+  "opening_state": {
+    "protagonist": "废渣镇孤儿少年零，Lv.0 废灵，灵核空白，全镇公认的废物；银灰短发琥珀眼，破旧灰布衣。",
+    "world": "碎屑平原腐化潮将至，镇外静电史莱姆数量暴增。"
+  },
+  "must_happen": [
+    "零在废料堆捡到一根破铁条（裂变剑）",
+    "腐化潮爆发，镇民逃散",
+    "零为救被史莱姆围住的容小满，被迫挥剑迎战",
+    "绝境中零本能吞噬了一枚静电史莱姆灵核，觉醒【吞噬】",
+    "等级 Lv.0 → Lv.1，掌心浮现暗紫灵核纹"
+  ],
+  "must_not_happen": [
+    "不能揭示空白灵核的真正来历",
+    "不能让零觉醒正式职业（Lv.10 才觉醒斩波者）",
+    "不能让容小满入队（第 9 章才入队）",
+    "不能出现天梭城、公会、高级地图与势力",
+    "不能让吞噬能力毫无代价地使用（吞噬后短暂眩晕/饥饿感）"
+  ],
+  "conflicts": {
+    "external": [
+      "腐化潮与静电史莱姆群袭击废渣镇"
+    ],
+    "internal": [
+      "废灵自卑 vs 保护容小满的冲动"
+    ],
+    "interpersonal": [
+      "镇民对废灵的嘲笑与容小满的善意"
+    ]
+  },
+  "information": {
+    "reveal": [
+      "零是废渣镇零级废灵",
+      "他觉醒了从未见过的吞噬能力",
+      "破铁条来历不明（剑身断口有旧纹）"
+    ],
+    "hide": [
+      "空白灵核真相",
+      "裂变剑的真实身份",
+      "腐化信号来源"
+    ],
+    "misunderstandings": [
+      "零以为吞噬能力只是'能吃'，还不知道它的代价与上限"
+    ]
+  },
+  "character_arc": {
+    "before": "自卑、嘴硬、认命当废物的拾荒少年。",
+    "change": "为保护他人第一次拼命战斗，吞噬灵核觉醒力量。",
+    "after": "第一次相信'我可能不是废物'，握紧裂变剑。"
+  },
+  "foreshadowing": {
+    "plant": [
+      "空白灵核",
+      "裂变剑断口旧纹",
+      "吞噬后的饥饿感（代价伏笔）"
+    ],
+    "advance": [],
+    "resolve": []
+  },
+  "theme": {
+    "silicon_polishing": "力量来自愿意保护他人的瞬间，而不是身份标签。",
+    "subjective_elevation": "从认命的废物到第一次主动选择战斗。",
+    "daoist_dimension": "有：被嘲笑的身份；无：还没有被定义的自己。",
+    "implicit_question": "如果所有人都说你是废物，你还能相信自己的选择吗？"
+  },
+  "emotional_curve": [
+    "压抑",
+    "惊慌",
+    "绝境",
+    "拼命",
+    "觉醒后的狂喜"
+  ],
+  "ending_hook": "零握着裂变剑，看着掌心暗紫灵核纹，饿得肚子咕咕叫——远处脉冲林方向，腐化潮的余波还在翻涌。",
+  "target_words": 4000,
+  "chapter_length": {
+    "length_class": "STANDARD",
+    "min_chinese_chars": 3800,
+    "target_chinese_chars": 4500,
+    "preferred_max_chinese_chars": 5000
+  },
+  "scenes": [
+    {
+      "scene_id": "scene_01",
+      "purpose": "建立废渣镇与零的废灵身份，埋空白灵核伏笔。",
+      "entering_state": "零在废料堆翻找可换灵核碎片的废料，被镇民嘲笑。",
+      "event": "他捡到一根断口带旧纹的破铁条（裂变剑），同时腐化潮警报响起。",
+      "conflict": "镇民只顾逃命，没人管灵核空白的他；他也不想管别人。",
+      "character_action": "嘴上说着关我屁事，脚下却往镇里跑。",
+      "choice": "",
+      "reveal": [
+        "零是Lv.0废灵",
+        "裂变剑破铁条来历不明"
+      ],
+      "hide": [
+        "空白灵核真相",
+        "腐化信号来源"
+      ],
+      "state_change": "从认命捡废料，到第一次被腐化潮逼着面对选择。",
+      "exit_state": "破铁条在手，容小满的身影被史莱姆围住。",
+      "estimated_chars": 1000,
+      "environment_role": {
+        "hazard": [],
+        "opportunity": [],
+        "information": [],
+        "pressure": [],
+        "foreshadow": []
+      },
+      "subjective_chain": {
+        "stimulus": "",
+        "bodily_or_system_sensation": "",
+        "primitive_emotion": "",
+        "interpretation": "",
+        "choice": "",
+        "result": ""
+      },
+      "reader_grab_points": []
+    },
+    {
+      "scene_id": "scene_02",
+      "purpose": "腐化潮中的首次战斗压力：零被迫迎战静电史莱姆。",
+      "entering_state": "静电史莱姆群涌入镇口，容小满被围。",
+      "event": "零挥着破铁条冲上去，第一击被弹开，自己摔了个跟头。",
+      "conflict": "废灵没有技能没有灵能，只能靠蛮力乱砍。",
+      "character_action": "一边骂骂咧咧一边爬起来再砍，把容小满护在身后。",
+      "choice": "没有丢下容小满自己跑。",
+      "reveal": [
+        "主角嘴硬心软",
+        "静电史莱姆怕钝击"
+      ],
+      "hide": [
+        "吞噬能力"
+      ],
+      "state_change": "从被保护者心态，第一次主动保护别人。",
+      "exit_state": "被三只史莱姆逼到墙角，灵核空白处忽然发烫。",
+      "estimated_chars": 1200,
+      "environment_role": {
+        "hazard": [],
+        "opportunity": [],
+        "information": [],
+        "pressure": [],
+        "foreshadow": []
+      },
+      "subjective_chain": {
+        "stimulus": "",
+        "bodily_or_system_sensation": "",
+        "primitive_emotion": "",
+        "interpretation": "",
+        "choice": "",
+        "result": ""
+      },
+      "reader_grab_points": []
+    },
+    {
+      "scene_id": "scene_03",
+      "purpose": "吞噬觉醒：绝境中吞噬灵核，Lv.0→1。",
+      "entering_state": "墙角绝境，一只史莱姆的灵核碎片滚到脚边。",
+      "event": "零本能捡起灵核碎片吞下，体内爆发出从未有过的暖流。",
+      "conflict": "吞噬过程剧痛，他差点把灵核吐出来。",
+      "character_action": "死死咬住牙，把灵核咽下去。",
+      "choice": "",
+      "reveal": [
+        "隐藏能力【吞噬】觉醒",
+        "等级Lv.0→Lv.1"
+      ],
+      "hide": [
+        "吞噬的代价（饥饿/腐化）"
+      ],
+      "state_change": "废灵第一次拥有力量。",
+      "exit_state": "掌心浮现暗紫灵核纹，破铁条泛起微光。",
+      "estimated_chars": 1200,
+      "environment_role": {
+        "hazard": [],
+        "opportunity": [],
+        "information": [],
+        "pressure": [],
+        "foreshadow": []
+      },
+      "subjective_chain": {
+        "stimulus": "",
+        "bodily_or_system_sensation": "",
+        "primitive_emotion": "",
+        "interpretation": "",
+        "choice": "",
+        "result": ""
+      },
+      "reader_grab_points": []
+    },
+    {
+      "scene_id": "scene_04",
+      "purpose": "觉醒后反杀与卷末钩子：第一场小胜+离开废渣镇的念头。",
+      "entering_state": "吞噬觉醒后的零挥剑劈开史莱姆。",
+      "event": "一剑一只，三只史莱姆清空；容小满目瞪口呆。",
+      "conflict": "力量来得太容易，零心里发慌——这能力从没见过。",
+      "character_action": "强撑着狂笑掩饰心虚，肚子饿得咕咕叫。",
+      "choice": "",
+      "reveal": [
+        "吞噬的饥饿代价初现",
+        "天梭城方向是变强的路"
+      ],
+      "hide": [
+        "灵核空白之谜"
+      ],
+      "state_change": "从废灵到Lv.1，第一次想离开废渣镇。",
+      "exit_state": "掌心的暗紫灵核纹与破铁条旧纹微微共鸣。",
+      "estimated_chars": 1100,
+      "environment_role": {
+        "hazard": [],
+        "opportunity": [],
+        "information": [],
+        "pressure": [],
+        "foreshadow": []
+      },
+      "subjective_chain": {
+        "stimulus": "",
+        "bodily_or_system_sensation": "",
+        "primitive_emotion": "",
+        "interpretation": "",
+        "choice": "",
+        "result": ""
+      },
+      "reader_grab_points": []
+    }
+  ],
+  "reader_questions": []
+}

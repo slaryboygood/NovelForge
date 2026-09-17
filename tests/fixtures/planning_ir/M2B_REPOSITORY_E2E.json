@@ -1,0 +1,229 @@
+{
+ "planning_id": "PLAN_DEMO",
+ "novel_id": "demo_001",
+ "schema_id": "novelforge.story_planning_ir.v1",
+ "fixture": "ONE_SENTENCE_EXAMPLE.json",
+ "fixture_digest": "4c7063c5ea582354",
+ "canon_snapshot_digest": "deadbeefdeadbeef",
+ "branches": {
+  "main": "PREV_E2E00000R1",
+  "experiment-a": "PREV_E2E00000R3"
+ },
+ "revisions": [
+  {
+   "revision_id": "PREV_E2E00000R1",
+   "revision": 1,
+   "parent_revision_id": "",
+   "source_revision": "",
+   "branch_id": "main",
+   "status": "proposed",
+   "content_digest": "4c7063c5ea582354",
+   "note": "R1 初始规划"
+  },
+  {
+   "revision_id": "PREV_E2E00000R2",
+   "revision": 2,
+   "parent_revision_id": "PREV_E2E00000R1",
+   "source_revision": "PREV_E2E00000R1",
+   "branch_id": "experiment-a",
+   "status": "superseded",
+   "content_digest": "29178b086d653d0a",
+   "note": "R2 实验线：改 future 字段"
+  },
+  {
+   "revision_id": "PREV_E2E00000R3",
+   "revision": 3,
+   "parent_revision_id": "PREV_E2E00000R2",
+   "source_revision": "PREV_E2E00000R1",
+   "branch_id": "experiment-a",
+   "status": "rolled_back",
+   "content_digest": "4c7063c5ea582354",
+   "note": "回到 R1"
+  }
+ ],
+ "diff_r1_r2": {
+  "rows": 2,
+  "by_domain": {
+   "arc": 1,
+   "plot": 1
+  },
+  "by_change": {
+   "modified": 2
+  },
+  "domains": [
+   "arc",
+   "plot"
+  ],
+  "sample": [
+   "modified:arc:arcs[0].turns[0]",
+   "modified:plot:plot_nodes[1].payoff"
+  ]
+ },
+ "rollback": {
+  "revision_id": "PREV_E2E00000R3",
+  "restored_digest": "4c7063c5ea582354",
+  "superseded": "PREV_E2E00000R2"
+ },
+ "context": {
+  "chapter_planning": {
+   "included_ids": [
+    "ARC_BRIDGE",
+    "FSP_LOAD",
+    "INTENT_DEMO",
+    "NODE_ACCEPT",
+    "NODE_CLIMAX",
+    "NODE_FAIL",
+    "PACE_DEMO",
+    "THEME_DEMO",
+    "TRACK_LICENSE",
+    "TRUTH_LOAD"
+   ],
+   "excluded_domains": [
+    "autonomous",
+    "base",
+    "character",
+    "conflict",
+    "equipment",
+    "faction",
+    "location",
+    "map",
+    "outline",
+    "relationship",
+    "resource",
+    "reward",
+    "spine",
+    "timeline",
+    "volume",
+    "world"
+   ],
+   "boundary": "planning_future_not_happened",
+   "gaps": 5
+  },
+  "plot": {
+   "included_ids": [
+    "INTENT_DEMO",
+    "NODE_ACCEPT",
+    "NODE_CLIMAX",
+    "NODE_FAIL",
+    "SPINE_DEMO",
+    "THEME_DEMO"
+   ],
+   "excluded_domains": [
+    "arc",
+    "autonomous",
+    "base",
+    "character",
+    "conflict",
+    "equipment",
+    "faction",
+    "foreshadow",
+    "information",
+    "location",
+    "map",
+    "outline",
+    "pacing",
+    "progression",
+    "relationship",
+    "resource",
+    "reward",
+    "spine",
+    "timeline",
+    "volume",
+    "world"
+   ]
+  }
+ },
+ "projection": {
+  "coverage": {
+   "characters": 2,
+   "character_arcs": 1,
+   "relationship_arcs": 1,
+   "factions": 1,
+   "locations": 2,
+   "plot_nodes": 3,
+   "scheduled_nodes": 0,
+   "volumes": 1,
+   "arcs": 1,
+   "chapter_ready_arcs": 0,
+   "information_arcs": 1,
+   "foreshadow_plans": 1,
+   "progression_tracks": 1,
+   "timeline_entries": 4
+  },
+  "completeness": {
+   "volume_arc_linked": 1.0,
+   "arc_budgeted": 1.0,
+   "arc_chapter_ready": 0.0,
+   "node_scheduled": 0.0,
+   "spine_causal": 1.0
+  },
+  "read_only": true
+ },
+ "proposals": {
+  "canon_bootstrap": {
+   "proposal_id": "PLANBOOT_PLAN_DEMO",
+   "entities": 1,
+   "facts": 0,
+   "relationships": 1,
+   "locations": 2,
+   "excluded_non_baseline": [
+    "CHAR_MA",
+    "FACTION_TOWN",
+    "RULE_BRIDGE",
+    "RULE_RUMOR"
+   ],
+   "future_refs_excluded": [
+    "ARC_BRIDGE",
+    "FSMOVE_MISDIRECT",
+    "FSMOVE_PAYOFF",
+    "FSMOVE_PLANT",
+    "IMOVE_PLANT",
+    "IMOVE_REVEAL",
+    "NODE_ACCEPT",
+    "NODE_CLIMAX",
+    "NODE_FAIL",
+    "TRACKMILE_SIGN",
+    "VOL_BRIDGE"
+   ],
+   "require_confirmation": true,
+   "applied": false
+  },
+  "story_state_init": {
+   "proposal_id": "PLANINIT_PLAN_DEMO",
+   "characters": [
+    "CHAR_LIN",
+    "CHAR_MA"
+   ],
+   "location_ids": [
+    "LOC_TOWN"
+   ],
+   "knowledge": 0,
+   "resources": [],
+   "future_refs_excluded": [
+    "ARC_BRIDGE",
+    "FSMOVE_MISDIRECT",
+    "FSMOVE_PAYOFF",
+    "FSMOVE_PLANT",
+    "IMOVE_PLANT",
+    "IMOVE_REVEAL",
+    "NODE_ACCEPT",
+    "NODE_CLIMAX",
+    "NODE_FAIL",
+    "TRACKMILE_SIGN",
+    "VOL_BRIDGE"
+   ],
+   "require_confirmation": true,
+   "applied": false
+  }
+ },
+ "gates": {
+  "strict_schema": "PASS",
+  "validation_r1": "PASS",
+  "validation_r2": "PASS",
+  "validation_r3": "PASS",
+  "immutable_r2_after_rollback": "PASS",
+  "diff_domains": "PASS",
+  "context_boundary_declared": "PASS",
+  "proposal_no_future": "PASS"
+ }
+}

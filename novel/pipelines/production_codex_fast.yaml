@@ -1,0 +1,43 @@
+pipeline_id: production_codex_fast
+version: 5.0.0-planned
+auto_commit: false
+stages:
+  - id: chapter_resolver
+    plugin: locked_or_rolling_chapter_resolver
+  - id: chapter_card
+    plugin: chapter_card_compiler
+    depends_on:
+      - chapter_resolver
+  - id: A_codex_raw
+    plugin: codex_chapter_writer
+    depends_on:
+      - chapter_card
+  - id: outline_review
+    plugin: deepseek_outline_reviewer
+    depends_on:
+      - A_codex_raw
+  - id: continuity_review
+    plugin: deepseek_continuity_reviewer
+    depends_on:
+      - A_codex_raw
+  - id: verified_review_claims
+    plugin: deterministic_claim_verifier
+    depends_on:
+      - outline_review
+      - continuity_review
+  - id: revision_plan
+    plugin: deepseek_revision_planner
+    depends_on:
+      - verified_review_claims
+  - id: B_codex_revised
+    plugin: codex_chapter_rewriter
+    depends_on:
+      - revision_plan
+  - id: state_delta
+    plugin: deepseek_state_extractor
+    depends_on:
+      - B_codex_revised
+  - id: author_approval
+    kernel_gate: author_approval
+    depends_on:
+      - state_delta

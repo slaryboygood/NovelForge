@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "blueprint": {
+    "blueprint_id": "bp_9824640e6450bec77fcb",
+    "project_id": "novel_project",
+    "source_session_id": "sb_20260910_034440_6cf56ebe",
+    "source_selection_version": 10,
+    "version": 1,
+    "status": "CONFIRMED",
+    "premise": "以“成长冒险”为阅读承诺，在“硅基拟人冒险世界”与“废墟板基边境”中，让“非人微观觉醒者”经历“从求生到文明冲突、灾变与重建”，并通过“境界突破与认知重构”完成成长的长篇故事。",
+    "sections": [
+      {
+        "step": "reader_experience",
+        "summary": "选定：成长冒险。让读者持续看到主角解决难题、获得成长，并主动进入更大的世界。对故事的影响：pacing：行动目标清晰，阶段成果可见；promise：每次成长都会带来新的选择与代价。",
+        "selected_option_ids": [
+          "experience_growth_adventure"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000001_b2088873"
+        ]
+      },
+      {
+        "step": "worldview",
+        "summary": "选定：硅基拟人冒险世界。硅基生命组成城镇、职业与势力，以规则探索和装备成长进入广阔世界。对故事的影响：world_logic：物理规则、职业体系与社会规则共同约束行动；visual_identity：微观材料结构与拟人社会并存。",
+        "selected_option_ids": [
+          "world_silicon_mmo"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000002_9c735dd0"
+        ]
+      },
+      {
+        "step": "background",
+        "summary": "选定：废墟板基边境。主角从资源稀缺、危险密集的废墟醒来，由求生逐步接触城镇和文明。对故事的影响：opening：用具体生存问题代替世界观讲解；expansion：从小尺度环境自然扩张到社会空间。",
+        "selected_option_ids": [
+          "background_ruined_board"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000003_cb2e365a"
+        ]
+      },
+      {
+        "step": "protagonist",
+        "summary": "选定：非人微观觉醒者。主角从没有人类常识的弱小非人生命起步，通过观察、试错和选择建立自我。对故事的影响：viewpoint：先写感知和判断，再逐步获得社会语言；arc：从被环境推动走向自主定义目标。",
+        "selected_option_ids": [
+          "protagonist_nonhuman_awakening"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000004_c0d4cfe3"
+        ]
+      },
+      {
+        "step": "core_characters",
+        "summary": "选定：利益起步的同行者。同伴最初因资源或任务结伴，在共同承担代价后形成真正信任。对故事的影响：relationship：信任必须通过共同选择积累；scene_value：提供对白、分歧和战斗配合。",
+        "selected_option_ids": [
+          "cast_found_family"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000005_92098c30"
+        ]
+      },
+      {
+        "step": "factions_locations",
+        "summary": "选定：漂泊式广域世界。主角沿遗迹、商路或秘境持续移动，每个地点解决一层问题并留下长期线索。对故事的影响：structure：地点单元服务同一条长期主线；risk：需要稳定角色关系防止故事碎片化。",
+        "selected_option_ids": [
+          "setting_roaming_world"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000006_c073e7b7"
+        ]
+      },
+      {
+        "step": "major_events",
+        "summary": "选定：从求生到文明冲突、灾变与重建。一次局部求生暴露更大的资源或规则危机，主角被迫从个人问题进入世界主线。旧秩序在灾变中失效，角色必须决定保留什么、放弃什么，并参与建立新规则。对故事的影响：event_chain：解决眼前问题同时制造更大的行动问题；escalation：危机规模扩大但保留具体人物代价；event_chain：灾变揭露旧秩序的真实代价；theme：重建结果体现主角最终价值选择。",
+        "selected_option_ids": [
+          "events_survival_to_world",
+          "events_disaster_rebuild"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000007_c78c6710",
+          "sel_000007_caa8031a"
+        ]
+      },
+      {
+        "step": "progression",
+        "summary": "选定：境界突破与认知重构。境界变化来自修行、事件压力与认知突破，不把升级写成无来源的数字增长。对故事的影响：growth：每次突破必须改变主角理解问题的方式；payoff：境界提升与人物选择互相验证。",
+        "selected_option_ids": [
+          "progression_cultivation_breakthrough"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000008_1f3ab7e9"
+        ]
+      },
+      {
+        "step": "style",
+        "summary": "选定：轻快行动型网文。用动作、对白、阶段目标和多样爽点维持追读，不用工程说明替代场景。对故事的影响：prose：句子清晰，信息随行动出现；pacing：每章完成一项变化并留下下一步行动。",
+        "selected_option_ids": [
+          "style_light_fast_webnovel"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000009_f4c567ff"
+        ]
+      },
+      {
+        "step": "author_boundaries",
+        "summary": "选定：禁止用说教代替剧情、角色事实与声音一致。主题通过人物选择、代价和结果呈现，不用大段总结替读者下结论。角色身份、能力、关系、经历和语言习惯必须连续，变化需要在剧情中发生。对故事的影响：must_avoid：连续抽象议论、强行升华和作者代言；must_keep：让角色在具体处境中证明观点；must_avoid：性别漂移、重复初见、无来源能力和语言风格突变；must_keep：允许角色犯错，但错误必须符合其已知信息。",
+        "selected_option_ids": [
+          "boundary_no_lecturing",
+          "boundary_character_consistency"
+        ],
+        "custom_inputs": [],
+        "source_selection_ids": [
+          "sel_000010_7b436a9e",
+          "sel_000010_ebd6c89b"
+        ]
+      }
+    ],
+    "unresolved_conflicts": [],
+    "confirmed_by_author": true,
+    "created_at": "2026-09-10T03:48:26.096063Z"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "volume_id": "vol_03",
+  "title": "过载荒原",
+  "zone": "# 卷三《过载荒原》（第 31-45 章）\n\n- 卷名：过载荒原\n- 大玩法：势力委托（每卷核心玩法不同，避免八卷同质化）\n- 阶段Boss：关外巨兽；卷中Boss：熔渊蝎王；卷末Boss：过载巨人\n- 升级节点：进入等级→关键突破→离开等级（曲线见 progression/levels.yaml）\n- 核心地图：过载荒原、阻流关\n- 当前等级：Lv.20 → Lv.30\n- 主要任务：主线（阻流",
+  "status": "PLANNED",
+  "origin": "NOVEL_REBOOT_VOLUME_OUTLINE"
+}

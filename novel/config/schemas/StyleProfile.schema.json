@@ -1,0 +1,184 @@
+{
+  "$defs": {
+    "CanonLevel": {
+      "enum": [
+        "HARD_CANON",
+        "HARD_PLOT",
+        "RESTRICTED_TRUTH",
+        "SOFT_PLAN"
+      ],
+      "title": "CanonLevel",
+      "type": "string"
+    },
+    "DirectiveStrength": {
+      "enum": [
+        "HARD_STYLE",
+        "SOFT_STYLE"
+      ],
+      "title": "DirectiveStrength",
+      "type": "string"
+    },
+    "SourceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "section": {
+          "title": "Section",
+          "type": "string"
+        },
+        "canon_level": {
+          "$ref": "#/$defs/CanonLevel"
+        },
+        "writer_visible": {
+          "default": false,
+          "title": "Writer Visible",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "section",
+        "canon_level"
+      ],
+      "title": "SourceReference",
+      "type": "object"
+    },
+    "StyleDirective": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "strength": {
+          "$ref": "#/$defs/DirectiveStrength"
+        }
+      },
+      "required": [
+        "text",
+        "strength"
+      ],
+      "title": "StyleDirective",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "narrative_voice": {
+      "items": {
+        "$ref": "#/$defs/StyleDirective"
+      },
+      "title": "Narrative Voice",
+      "type": "array"
+    },
+    "paragraph_rhythm": {
+      "items": {
+        "$ref": "#/$defs/StyleDirective"
+      },
+      "title": "Paragraph Rhythm",
+      "type": "array"
+    },
+    "action_style": {
+      "items": {
+        "$ref": "#/$defs/StyleDirective"
+      },
+      "title": "Action Style",
+      "type": "array"
+    },
+    "description_density": {
+      "items": {
+        "$ref": "#/$defs/StyleDirective"
+      },
+      "title": "Description Density",
+      "type": "array"
+    },
+    "dialogue_ratio": {
+      "items": {
+        "$ref": "#/$defs/StyleDirective"
+      },
+      "title": "Dialogue Ratio",
+      "type": "array"
+    },
+    "technical_description_style": {
+      "items": {
+        "$ref": "#/$defs/StyleDirective"
+      },
+      "title": "Technical Description Style",
+      "type": "array"
+    },
+    "humor": {
+      "items": {
+        "$ref": "#/$defs/StyleDirective"
+      },
+      "title": "Humor",
+      "type": "array"
+    },
+    "emotion": {
+      "items": {
+        "$ref": "#/$defs/StyleDirective"
+      },
+      "title": "Emotion",
+      "type": "array"
+    },
+    "philosophy_expression": {
+      "items": {
+        "$ref": "#/$defs/StyleDirective"
+      },
+      "title": "Philosophy Expression",
+      "type": "array"
+    },
+    "forbidden_ai_patterns": {
+      "items": {
+        "$ref": "#/$defs/StyleDirective"
+      },
+      "title": "Forbidden Ai Patterns",
+      "type": "array"
+    },
+    "chapter_opening_style": {
+      "items": {
+        "$ref": "#/$defs/StyleDirective"
+      },
+      "title": "Chapter Opening Style",
+      "type": "array"
+    },
+    "chapter_ending_style": {
+      "items": {
+        "$ref": "#/$defs/StyleDirective"
+      },
+      "title": "Chapter Ending Style",
+      "type": "array"
+    },
+    "source_refs": {
+      "items": {
+        "$ref": "#/$defs/SourceReference"
+      },
+      "title": "Source Refs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "narrative_voice",
+    "paragraph_rhythm",
+    "action_style",
+    "description_density",
+    "dialogue_ratio",
+    "technical_description_style",
+    "humor",
+    "emotion",
+    "philosophy_expression",
+    "forbidden_ai_patterns",
+    "chapter_opening_style",
+    "chapter_ending_style",
+    "source_refs"
+  ],
+  "title": "StyleProfile",
+  "type": "object"
+}

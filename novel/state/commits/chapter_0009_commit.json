@@ -1,0 +1,178 @@
+{
+  "chapter_id": "0009",
+  "committed_at": "20260827010323",
+  "state_delta": {
+    "chapter_id": "0009",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260827005453_0b36bd48:candidate",
+    "source_draft_hash": "e0819969c4339159d385e42767344b07ec8e4056c9d6bfbe01f83776174a1edd",
+    "timeline_delta": {
+      "source_chapter": "0008",
+      "title": "一队的价钱",
+      "time": "新历300纪·春，立威次日（晨入洞→外围清剿→黄昏前）",
+      "location": "碎屑平原·静电洞穴（入口黑铁桩、外围弯道、止步铁牌、黑水潭边缘）"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0009_character",
+        "subject": "人物变化",
+        "change": "零：Lv.7→Lv.8；接下商会静电洞穴外围清剿委托，与容小满组成'一队'（两人）；首次体会洞内灵压压制（'外头七分本事，里头只剩五分'）；水蛭群战中被吸灵、吞水蛭灵核反制（获得静电感知与吸灵抗性）；在'止步'铁牌后第一次亲眼看见黑水潭上的庞然大物——一双青色眼睛（静电史莱姆王，位阶差距：像一粒火星面对暴雨前的雷云）",
+        "source": "chapter_0009_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0009_character_rong",
+        "subject": "人物变化",
+        "change": "容小满：正式入队（'一队，两人'）——'我只会这个，你负责砍'；回灵术实战（七次回灵+银针定虫+避雷钉配合），证明'治疗学徒不是拖油瓶'；手背青纹暴露一瞬（'擦伤'，藏住）",
+        "source": "chapter_0009_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0009_rel_rong",
+        "subject": "关系变化",
+        "change": "容小满正式入队——'那我以后就站你后面''你砍怪，我回灵'；零的直白认可（'没有你，我要受伤。也可能被吸干'）",
+        "source": "chapter_0009_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0009_rel_suanpan",
+        "subject": "关系变化",
+        "change": "铁算盘：嘲讽'治疗学徒进洞找死'，被'她是我队里的'顶回；'好一个一队。名字贱，命最好也硬点'",
+        "source": "chapter_0009_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0009_knowledge",
+        "subject": "知识变化",
+        "change": "静电洞穴灵压规则：进洞后实力打折（七分变五分），水蛭吸灵先于吸血；静电水蛭（Lv.11 首次越级怪）：藏水/绕后/吸灵，导电——避雷钉+水导电可反制；残骸'不是商会杀的——孔很小，一圈牙印，像虫'（洞穴异变）；'止步'铁牌后的黑水潭有庞大生物（青色眼睛，史莱姆王第一层信息）；商会令牌的虫纹会发烫、剑不喜欢它",
+        "source": "chapter_0009_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0009_location",
+        "subject": "地点变化",
+        "change": "静电洞穴：入口黑铁桩→外围弯道（水蛭区）→'止步'红漆铁牌→黑水潭边缘（庞然大物现身）",
+        "source": "chapter_0009_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0009_item_supply",
+        "subject": "物品变化",
+        "change": "商会补给一份（黑麦饼/止血粉/避雷钉×3/水囊）——两人分着用",
+        "source": "chapter_0009_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0009_item_cores",
+        "subject": "物品变化",
+        "change": "静电水蛭灵核×16（越级猎杀，当场全部吞噬；实体库存+0，留下核印/灵能）",
+        "source": "chapter_0009_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0009_item_token",
+        "subject": "物品变化",
+        "change": "商会令牌：入洞后挂腰间，虫纹发烫——'剑不喜欢它'",
+        "source": "chapter_0009_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0009_ability",
+        "subject": "能力变化",
+        "change": "吞噬：吞水蛭灵核获得静电感知（湿暗石缝/积水/成群细影的记忆）+吸灵抗性；Lv.8 灵流更稳",
+        "source": "chapter_0009_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0009_ability_rong",
+        "subject": "能力变化",
+        "change": "容小满：回灵术实战小成（第七次回灵+银针定虫+自我透支术式）——手背青纹初显（血脉细节）",
+        "source": "chapter_0009_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0009_org",
+        "subject": "组织变化",
+        "change": "拾荒者商会：静电洞穴外围清剿委托正式开启（黑铁桩/名册/黑木牌'一队'）；铁算盘进洞取物委托待议",
+        "source": "chapter_0009_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0009_world",
+        "subject": "世界变化",
+        "change": "静电洞穴外围水蛭区被'一队'清空；洞穴深处黑水潭的庞然大物（静电史莱姆王）第一次现身",
+        "source": "chapter_0009_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0009_fs_king",
+          "subject": "伏笔埋设",
+          "change": "静电史莱姆王：黑水潭上小山似的黑影、青色眼睛、'整座静电洞穴随之心跳'——副本 Boss",
+          "source": "chapter_0009_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0009_fs_dielectric",
+          "subject": "伏笔埋设",
+          "change": "残骸'不是商会杀的——像虫'：洞穴里还有别的东西（异变一角）",
+          "source": "chapter_0009_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0009_fs_token_adv",
+          "subject": "伏笔推进",
+          "change": "商会令牌虫纹发烫、裂变剑警惕——令牌与洞穴/剑的关联加深",
+          "source": "chapter_0009_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": []
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0009_my_king",
+        "subject": "新谜题",
+        "change": "黑水潭上的庞然大物是什么？商会要取的'东西'和它有关吗？",
+        "source": "chapter_0009_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0009_my_eater",
+        "subject": "新谜题",
+        "change": "洞穴残骸是谁吸干的？",
+        "source": "chapter_0009_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0009_goal",
+        "subject": "第0009章主要目标",
+        "change": "静电洞穴副本线开启（商会委托）；容小满正式入队——她决定跟零进洞，第一次被人护在身后；Lv.7→Lv.8；洞穴外围初探（水蛭越级首战+黑水潭史莱姆王现身）",
+        "source": "chapter_0009_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

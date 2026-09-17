@@ -1,0 +1,33 @@
+project:
+  name: NovelForge
+  schema_version: 1
+  product_version: 3.0.0
+product:
+  # 唯一活动 release ref（V3 Final）
+  release_tag: novelforge-product-v3-final
+  # 已归档：historical / archived / not an active Git ref
+  historical_release_tags:
+    - novelforge-product-v3.0
+    - novelforge-product-v2.0
+    - story-engine-v2.0
+  health_check: scripts/validate_project.py
+sources:
+  catalog: novel/config/story_builder
+  authoring: novel/authoring/story_builder
+ui:
+  root: ui
+  build_output: ui/dist
+  backend_entrypoint: scripts/start_novelforge_ui.py
+protected_paths:
+  - novel/authoring/story_builder
+  - novel/config/story_builder
+  - novel/final
+  - novel/state
+  - .env.local
+generated_paths:
+  - ui/dist
+local_only_paths:
+  # 真实作者数据：运行时生成，永不进入版本控制
+  - novel/authoring/story_engine
+  - novel/config/story_engine/wasteland_001_pack.json
+  - workspace

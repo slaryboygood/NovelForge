@@ -1,0 +1,242 @@
+{
+  "chapter_id": "0024",
+  "committed_at": "20260827195546",
+  "state_delta": {
+    "chapter_id": "0024",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260827194915_f683d51c:candidate",
+    "source_draft_hash": "0b2f6deda7427e3aceacdcb8b7df47392a5676767524db5f2e25805f31b18f4f",
+    "timeline_delta": {
+      "source_chapter": "0023",
+      "title": "夜袭与反夜袭",
+      "time": "新历300纪·春，灰巷当日深夜至次日黎明（夜袭小院→反杀→天亮前定计比武场）",
+      "location": "天梭城南区租住小院（老更夫旧房，歪脖子枣树）→ 院外屋脊（忆灵）"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0024_character",
+        "subject": "人物变化",
+        "change": "零：预判赵启趁今夜动手（'码头那桩是今晚的事'）；布防（毒囊口器地图挪地窖盖湿土/虚掩门/房檐/电网）；数人与布阵后反杀八人（断刀/闪步/剑柄砸耳后/剑压咽喉吸精气）；Lv.14→15（剑'咬合'、井满过线）；搜出鹰镖令+私印'启'字买凶信；察觉忆灵（后颈目光/屋脊微光/蓝布包被挪走）；定计'下月初一比武场，当众把脸送上来'；'不送官'（明的规则护不住，就用明的规则护不住的法子）",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0024_character_zhamen",
+        "subject": "人物变化",
+        "change": "闸门：堵院门反杀战（黑铁盾/壁垒灰光卸刀/'就这？''都冲我来'）；徒手按翻两人+搜出鹰镖令与私印信；结尾'明早，送官？——不送官'，问一次信了就不问（阻流族沉默人设）",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0024_character_pinshan",
+        "subject": "人物变化",
+        "change": "频闪：频闪之眼夜视预警（西墙外八人/油罐/镖）；房檐三箭+墙头一箭（钉手背/射断火折子/钉放风者/踹回首领）；目睹蓝布包被塞进院角又凭空消失（'我真看见了！'）——忆灵伏笔见证人",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0024_character_rong",
+        "subject": "人物变化",
+        "change": "容小满：挪毒囊等证据下地窖盖湿土；确认'人证、鹰镖令、盖私印的信，毒囊也没烧着，他赖不掉了'；察觉零望向空屋脊，'有些好意，不露面，未必不是好意'（忆灵感知）",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0024_character_tuanzi",
+        "subject": "人物变化",
+        "change": "团子：电网控场（枣树下蓝光网麻倒三人，静电洞穴电苔学来的本事）；灰巷回来蔫蔫的状态延续到开打前",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0024_character_yiling",
+        "subject": "人物变化",
+        "change": "忆灵（首次现身·影子）：夜袭尾声立于屋脊远观，抢先挪走赵启栽赃的蓝布包（伪证），瓦上留'像霜又不是霜'的半透明微光，无杀气（剑不亮）；零回头前退走",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0024_character_zhaoqi",
+        "subject": "人物变化",
+        "change": "赵启：买凶信亲笔压私印（'启'字，印泥崭新）——'蠢得堂堂正正'；夜袭队八人全灭被俘；栽赃包被忆灵挪走",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0024_rel_zhao",
+        "subject": "关系变化",
+        "change": "赵启：雇凶夜袭实锤（鹰镖令/私印信/八活口）——赌斗的引信；零定下'下月初一比武场'",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0024_rel_yiling",
+        "subject": "关系变化",
+        "change": "忆灵：首次出手相助（挪走伪证包）——零感知到'不是敌人，只是看着'",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0024_knowledge",
+        "subject": "知识变化",
+        "change": "赵家私印（'启'字）与办事流程（凭信至赵家车马行取办事费三百铜/许清剿牌优先之利）；鹰镖令（展翅鹰胸口'赵'字，与怀中铜牌同一字号）；天梭城官面'家奴犯事与主家无干'的把戏；比武场明斗（每月初一开'明斗'，立生死状，全城觉醒者/开拓队可上，押注看客如山）；忆灵存在（屋脊目光/挪走伪证/无杀气）；容小满腰间幽蓝结晶随身",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0024_location",
+        "subject": "地点变化",
+        "change": "南区小院（零队驻地：老更夫旧房/歪脖子枣树/地窖）、比武场（北城，口头提及）",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0024_item_yingling",
+        "subject": "物品变化",
+        "change": "鹰镖令（夜袭队长身上搜出，与怀中铜牌同一字号）",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0024_item_letter",
+        "subject": "物品变化",
+        "change": "买凶信（赵家私印'启'字，'惩戒斩波者一伙/烧毁虫王毒囊口器/凭信取三百铜'——零收进怀里）",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0024_item_zang",
+        "subject": "物品变化",
+        "change": "蓝布包（赵启栽赃伪证，被忆灵挪走——不在院里）",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0024_item_wu",
+        "subject": "物品变化",
+        "change": "毒囊/口器等物证（挪地窖盖湿土，安然无恙）；八名俘虏（捆柴房待天亮处置）",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0024_ability_level2",
+        "subject": "能力变化",
+        "change": "零 Lv.14 → Lv.15（剑在进食/满院杀伐精气/井满过线——【吞噬】吸收表现）",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0024_ability_tuanzi",
+        "subject": "能力变化",
+        "change": "团子：电网（静电洞穴电苔学来的本事，贴砖缝铺网麻人）",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0024_ability_zhamen",
+        "subject": "能力变化",
+        "change": "闸门：壁垒盾挡刀（灰白光晕）",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0024_org",
+        "subject": "组织变化",
+        "change": "赵家（雇凶夜袭实锤）；鹰镖队（夜袭队八人全被俘）；忆灵（暗中相助）",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0024_world",
+        "subject": "世界变化",
+        "change": "天梭城官面规则护着赵家（送官无用）；比武场明斗初一开市（赌斗舞台就绪）",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0024_fs_yiling1",
+          "subject": "伏笔埋设",
+          "change": "忆灵首次现身：屋脊远观/挪伪证/霜样微光/无杀意——'有些好意，不露面'（卷四记忆废库线轻伏笔）",
+          "source": "chapter_0024_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0024_fs_duel",
+          "subject": "伏笔埋设",
+          "change": "下月初一比武场赌斗（'当众把脸送上来'）——CH030 舞台",
+          "source": "chapter_0024_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0024_fs_zhao8",
+          "subject": "伏笔推进",
+          "change": "赵启暗手链：押委托→送药→买鹰镖→夜袭放火栽赃——'阴的玩了个遍'，私印买凶信落零手",
+          "source": "chapter_0024_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0024_fs_goods6",
+          "subject": "伏笔推进",
+          "change": "毒囊/口器/地图=院里'全部家当和证据'——夜袭目标",
+          "source": "chapter_0024_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0024_fs_zhaoyexi",
+          "subject": "伏笔解决",
+          "change": "夜袭反杀：八人全俘、鹰镖令+私印信到手、毒囊未烧、栽赃包被挪走",
+          "source": "chapter_0024_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0024_my_yiling",
+        "subject": "新谜题",
+        "change": "忆灵是谁？为什么帮零队挪走伪证？'毫无恶意的目光'来自哪里？",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0024_my_washi",
+        "subject": "新谜题",
+        "change": "瓦上'像霜又不是霜'的半透明微光是什么？",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0024_goal",
+        "subject": "第0024章主要目标",
+        "change": "赵启雇鹰镖队夜袭南区小院（烧毒囊毁证+教训+栽赃）；队伍反杀八人全俘；搜出鹰镖令+赵家私印'启'字买凶信（实锤三件套）；忆灵首次以影子身份远观并挪走栽赃包；零 Lv.14→15；定计'下月初一比武场当众打脸'",
+        "source": "chapter_0024_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

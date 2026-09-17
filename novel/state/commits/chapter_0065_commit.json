@@ -1,0 +1,192 @@
+{
+  "chapter_id": "0065",
+  "committed_at": "20260906001427",
+  "state_delta": {
+    "chapter_id": "0065",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260906000824_e860265c:candidate",
+    "source_draft_hash": "d5a6613fc06ce3138755a958dd1806227301f3c3ecf08984ffd3a98490f8b66e",
+    "timeline_delta": {
+      "source_chapter": "0064",
+      "title": "记忆库里的旧世界",
+      "time": "CH064议会车队抵达后紧接，持续至当夜",
+      "location": "远古门阵外城高阶→第二重记忆库外廊→外城宝库营地"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0065_zero",
+        "subject": "人物变化",
+        "change": "零维持Lv.45、腐化值24；用一支恢复剂支撑示威与入库，右掌仍近乎失去知觉，旧伤未愈",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0065_yiling",
+        "subject": "人物变化",
+        "change": "忆灵消耗其余三支恢复剂强行读开记忆库封存记录，取得两页残页后几乎站立不稳；当夜偷看到门衍对侧门提及父亲",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0065_menyan",
+        "subject": "人物变化",
+        "change": "银发门衍正式登场，以毒舌拆议会台并暗开侧门帮助队伍撤出；夜间独自以令牌试门，称父亲把某物封在其中",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0065_council",
+        "subject": "人物变化",
+        "change": "长老门衡与执事门崇正式登场；门衡禁止外传‘万芯’并试图收缴残页，门崇主张按律拿下队伍",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0065_zero_menyan",
+        "subject": "关系变化",
+        "change": "零与门衍第一次正面互怼；门衍表面嘲讽、实际暗开侧门放队伍离开",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0065_party_council",
+        "subject": "关系变化",
+        "change": "队伍与门控议会围绕遗迹权限和记忆库残页形成公开对立，但双方暂未在记忆仓群内全面开战",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0065_memory_library",
+        "subject": "知识变化",
+        "change": "第二重记忆库藏名，主仓封存术会排斥议会门印；旧留言称议会可守门不可读心",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0065_wanxin",
+        "subject": "知识变化",
+        "change": "‘万芯’二字首次以残缺记录出现，仅知‘万芯不归库’与‘万芯若醒，诸门皆闭’，本质仍未知",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0065_menyan_secret",
+        "subject": "知识变化",
+        "change": "忆灵得知门衍父亲曾把某物封在记忆库侧门后，但对象未知",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0065_location",
+        "subject": "地点变化",
+        "change": "队伍暂退回外城宝库扎营；门控议会驻在外门内侧，双方仍同时留在门阵",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0065_potions",
+        "subject": "物品变化",
+        "change": "灵能恢复剂4全部消耗：零使用1支，忆灵先后使用3支；章末库存0",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0065_pages",
+        "subject": "物品变化",
+        "change": "忆灵从记忆库封存光中取得记忆库残页2，由零与队伍保留",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0065_paste",
+        "subject": "物品变化",
+        "change": "净化膏5盒仍封存未动",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0065_array_core",
+        "subject": "物品变化",
+        "change": "示威斩落一具石兵的石兵阵芯，但队伍未拾取，实体留在门崇脚边；队伍石兵阵芯库存仍为26",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [],
+    "organization_changes": [
+      {
+        "id": "chapter_0065_council",
+        "subject": "组织变化",
+        "change": "门控议会宣称远古门阵与记忆库归其查验封存，并开始对队伍实施权限阻拦",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0065_memory_rules",
+        "subject": "世界变化",
+        "change": "记忆库主仓封存术高于外城宝库锁阵，能排斥试图强行封管的门控议会令印",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0065_father_lock",
+          "subject": "伏笔埋设",
+          "change": "门衍确认父亲把某物封在记忆库侧门后，并决意取走",
+          "source": "chapter_0065_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0065_wanxin",
+          "subject": "伏笔推进",
+          "change": "万芯首次露名，但用途、形态和来历均未揭示",
+          "source": "chapter_0065_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0065_council_arrival",
+          "subject": "伏笔回收",
+          "change": "CH064末抵达的议会车队正式进入门阵并爆发权限争执",
+          "source": "chapter_0065_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0065_sealed_object",
+        "subject": "新谜题",
+        "change": "门衍父亲封在侧门后的东西是什么，与万芯是否有关",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0065_goal",
+        "subject": "第0065章主要目标",
+        "change": "队伍进入第二重记忆库并取得残页2，万芯首次露名；灵能恢复剂4耗尽，门衍、门衡、门崇登场，队伍与议会权限冲突开始",
+        "source": "chapter_0065_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

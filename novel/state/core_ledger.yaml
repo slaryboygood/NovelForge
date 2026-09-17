@@ -1,0 +1,161 @@
+version: 1
+updated_through: 0068
+taxonomy:
+  native_core: 本命灵核；每个硅基生命自身唯一的核心，不属于背包库存
+  monster_core: 怪物灵核；实体战利品，必须挖取/拾取/接触，不会自行飘入身体
+  core_fragment: 灵核碎片/核屑；实体材料，吸收后实体消失并扣库存
+  ambient_energy: 逸散灵能/灵韵残响；非实体击杀收益，可以飘起并被吸收，不计库存
+  core_imprint: 核印；吞噬后留下的信息与本能，不是实体灵核
+  energy_crystal: 灵能结晶；矿物/神龛/能量仓储能物，不等于怪物灵核
+inventory:
+  zero_carried:
+    wolf_king_core:
+      canonical_name: 狼王灵核
+      quantity: 1
+      obtained_at: '0005'
+      status: intact
+      note: CH0006 仅被裂变剑吸收表层残响；实体未消耗
+    elite_beetle_half_core:
+      canonical_name: 精英甲虫半核
+      quantity: 1
+      obtained_at: '0004'
+      status: half_piece
+      note: 同一整核的另一半已被零吞噬
+    electric_moss_core:
+      canonical_name: 电苔核
+      quantity: 2
+      obtained_at: '0010'
+      status: intact
+      note: CH0011 明确余3并吞1，故余2
+    leech_large_core:
+      canonical_name: 水蛭大核
+      quantity: 1
+      obtained_at: '0010'
+      status: intact
+    flow_worm_king_core:
+      canonical_name: 虫王灵核
+      aliases:
+      - 虫王芯
+      quantity: 1
+      obtained_at: 0019
+      status: evidence
+      note: 裂变剑只吸收表层残响；实体仍完整
+    thunder_arc_beast_king_core:
+      canonical_name: 雷弧兽王灵核
+      quantity: 1
+      obtained_at: '0025'
+      status: evidence
+      note: 升级吸收的是兽王死亡逸散灵能；实体未吞未喂剑
+    chapter_0031_焦土蜥灵核:
+      canonical_name: 焦土蜥灵核
+      owner: 零
+      quantity: 2
+      obtained_at: '0031'
+      status: intact
+      source: 三只焦土蜥尸体剖出并
+    chapter_0052_地牢蠕虫灵核:
+      canonical_name: 地牢蠕虫灵核
+      owner: 零
+      quantity: 1
+      obtained_at: '0052'
+      status: intact
+      source: 地牢蠕虫尸体，由频闪剖出后立即交给零
+  party_carried:
+    purified_gray_core:
+      canonical_name: 净化灰核
+      owner: 容小满
+      quantity: 1
+      obtained_at: '0026'
+      status: evidence
+    chapter_0058_锈王灵核:
+      canonical_name: 锈王灵核
+      owner: 忆灵
+      quantity: 1
+      obtained_at: 0058
+      status: intact
+      source: 锈王遗骸炉心后方
+    chapter_0061_石兵阵芯:
+      canonical_name: 石兵阵芯
+      owner: 队伍
+      quantity: 26
+      obtained_at: '0061'
+      status: intact
+      source: 远古门阵外城六具门卫石兵残骸
+    chapter_0062_灵核碎片:
+      canonical_name: 灵核碎片
+      owner: 队伍
+      quantity: 40
+      obtained_at: '0062'
+      status: intact
+      source: 远古门阵外城宝库石槽
+  stored_elsewhere:
+    corrupted_beetle_core:
+      canonical_name: 大虫坏核
+      owner: 零
+      location: 废渣镇棚屋暗格
+      quantity: 1
+      obtained_at: '0003'
+      status: stored
+consumed:
+- chapter: '0002'
+  item: 濒死怪物生核
+  quantity: 1
+  result: 实体消失并吐出空壳；核印/腐化残留进入零
+- chapter: '0004'
+  item: 精英甲虫半核
+  quantity: 1
+  result: 被吞部分实体消失；另一半仍在库存
+- chapter: 0009
+  item: 静电水蛭灵核
+  quantity: 16
+  result: 全部当场吞噬；实体库存0，留下灵能与核印
+- chapter: '0011'
+  item: 电苔核
+  quantity: 1
+  result: 当场吞噬；CH0011 后电苔核余2
+- chapter: '0014'
+  item: 小史莱姆灵核
+  quantity: 4
+  result: 战斗中吞噬/喂剑/捏碎吸收；实体库存0
+- chapter: '0031'
+  item: 焦土蜥灵核
+  quantity: 1
+  result: 完整吞噬
+- chapter: '0032'
+  item: 烧蚀犬王灵核
+  quantity: 1
+  result: 裂变剑完整吞噬
+- chapter: '0034'
+  item: 焦土蜥灵核
+  quantity: 2
+  result: 出售离队
+- chapter: '0035'
+  item: 赤蝎头领灵核
+  quantity: 1
+  result: 裂变剑完整吞噬
+- chapter: '0035'
+  item: 过载灵核
+  quantity: 1
+  result: 完整吞噬
+- chapter: '0036'
+  item: 过载傀儡芯
+  quantity: 1
+  result: 完整吞噬
+- chapter: '0037'
+  item: 教团过载灵核
+  quantity: 1
+  result: 完整吞噬
+- chapter: '0057'
+  item: 锈王核屑
+  quantity: 1
+  result: 完整吞噬
+aliases:
+  狼王暗红结晶: 狼王灵核
+  狼王灵能结晶: 狼王灵核
+  虫王芯: 虫王灵核
+hard_rules:
+- 实体怪物灵核不得无接触飘起、钻入或没入身体
+- 飘起并被吸收的对象必须命名为逸散灵能或灵韵残响
+- 完整吞噬后只能留下核印，不能继续把实体核写在体内或库存中
+- 获得表示进入库存；已吸收表示实体已消耗；同一物品不能同时成立
+- 灵能结晶与怪物灵核不可互相改名

@@ -1,0 +1,178 @@
+{
+  "chapter_id": "0012",
+  "committed_at": "20260827154148",
+  "state_delta": {
+    "chapter_id": "0012",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260827153602_d254b8f9:candidate",
+    "source_draft_hash": "879850a5b19a244cca9ebb41846661126b57bb6f634b54134443300e7b781b2e",
+    "timeline_delta": {
+      "source_chapter": "0011",
+      "title": "烧蚀犬牙的作用",
+      "time": "新历300纪·春，初战后三日（复盘→猎犬→制瓶→试爆→商会→出发前夜）",
+      "location": "废渣镇（集市、乱石坡、老瘸棚子、静电洞穴洞口浅滩、拾荒者商会）"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0012_character",
+        "subject": "人物变化",
+        "change": "零：Lv.8→Lv.9（洞口清史莱姆回血）；复盘 Boss 战（分裂时本体空/怕热）；制定战术（先清小再趁分裂放火）；硬吃大公犬自爆（皮毡+湿泥沟），手背后颈燎泡；与铁算盘谈妥'蓝光东西归商会'+先付一半底细（旧羊皮情报）；学会谈价（'你才配听这句'）；收下容小满的入伙股钱（73+6 枚）",
+        "source": "chapter_0012_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0012_character_rong",
+        "subject": "人物变化",
+        "change": "容小满：掏出一半积蓄 73 枚做材料（'算我入伙的股钱'）；设计猎犬战术（引犬/湿土沟/喊退）；最后只剩 6 枚+2 颗石子也全押上（闭环）",
+        "source": "chapter_0012_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0012_character_laoque",
+        "subject": "人物变化",
+        "change": "老瘸：制燃烧瓶（牙是火种结晶是火粮），收 20 枚'看热闹的彩头'",
+        "source": "chapter_0012_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0012_rel_rong",
+        "subject": "关系变化",
+        "change": "容小满：'你能先算一算吗'（第一次顶他）→ 零'听你的'（学会听劝）——从搭档到共同押上全部",
+        "source": "chapter_0012_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0012_rel_suanpan",
+        "subject": "关系变化",
+        "change": "铁算盘：从'压价'到'谈价'——交易升级（蓝光归商会/掉落归零/先付一半底细）；露底'年轻的时候进过比这更深的地方'+天梭城贵人点名",
+        "source": "chapter_0012_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0012_knowledge",
+        "subject": "知识变化",
+        "change": "王怕热（白雾/焦痕缩）；分裂时本体空；战术：先清小再趁分裂放火；火星牙=火种、灵能结晶=火粮（燃烧瓶配方）；蓝息菇只是祭台蓝光的'种子'；商会折三拨人的记录（一拨疯/一拨无回/一拨只剩压扁铁片）；祭台在巢穴中央、王眼皮下；天梭城贵人点名要蓝光之物；铁算盘年轻时进过更深的地方（新谜）",
+        "source": "chapter_0012_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0012_location",
+        "subject": "地点变化",
+        "change": "乱石坡（猎犬地界）、老瘸棚子（制瓶）、洞口浅滩（试爆练级）、拾荒者商会（情报交易）",
+        "source": "chapter_0012_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0012_item_cores",
+        "subject": "物品变化",
+        "change": "火星牙×5（大公犬3+小犬2）→ 3 颗嵌瓶、2 颗留用；烧蚀腺+1（拳头大）；蓝息菇 20 颗交商会换情报；灵能结晶敲下一角做火引；燃烧瓶×3（正瓶）+试瓶×1（已用）",
+        "source": "chapter_0012_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0012_item_money",
+        "subject": "物品变化",
+        "change": "容小满 73 枚全押材料（老瘸收 20），剩 6 枚+2 石子也入股——零承诺'还你两个'药箱",
+        "source": "chapter_0012_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0012_ability",
+        "subject": "能力变化",
+        "change": "Lv.9；火性耐受（吞过火性东西+犬血灼热记忆——硬吃自爆的底气）",
+        "source": "chapter_0012_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0012_org",
+        "subject": "组织变化",
+        "change": "拾荒者商会：'蓝光东西归商会，掉落归零'新约；天梭城贵人线浮出",
+        "source": "chapter_0012_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0012_world",
+        "subject": "世界变化",
+        "change": "静电洞穴洞口史莱姆群被清（燃烧瓶试爆）；烧蚀犬地界三只被猎（牧人丢羊案解）",
+        "source": "chapter_0012_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0012_fs_burn",
+          "subject": "伏笔埋设",
+          "change": "燃烧瓶×3（正瓶）——Boss 战火攻武器（怕热弱点兑现）",
+          "source": "chapter_0012_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0012_fs_suanpan_old",
+          "subject": "伏笔埋设",
+          "change": "铁算盘'年轻的时候进过比这更深的地方'——他的来历",
+          "source": "chapter_0012_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0012_fs_heat_adv",
+          "subject": "伏笔推进",
+          "change": "怕热疑点确认：王怕烫（白雾/焦痕）——首杀关键",
+          "source": "chapter_0012_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0012_fs_blue_adv",
+          "subject": "伏笔推进",
+          "change": "蓝息菇=祭台蓝光的'种子'；真货在王巢穴祭台上；天梭城贵人点名要",
+          "source": "chapter_0012_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": []
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0012_my_suanpan",
+        "subject": "新谜题",
+        "change": "铁算盘年轻时进过什么更深的地方？他知道多少？",
+        "source": "chapter_0012_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0012_my_altar",
+        "subject": "新谜题",
+        "change": "祭台上会发蓝光的东西到底是什么，贵人为何点名要？",
+        "source": "chapter_0012_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0012_goal",
+        "subject": "第0012章主要目标",
+        "change": "惨败后的复盘与复仇准备：研究 Boss 弱点（怕热/分裂空）、制作燃烧瓶（火星牙+灵能结晶）、洞口清小怪练级回血 Lv.8→Lv.9；与铁算盘谈妥'蓝光东西归商会'的交易（先付一半底细）",
+        "source": "chapter_0012_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

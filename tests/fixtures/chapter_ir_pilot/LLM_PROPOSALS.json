@@ -1,0 +1,1251 @@
+{
+ "note": "LLM backend 的结构化 proposal（人工/模型语义判读，只含结构，不含 writer prose）。仍必须过 strict Pydantic + deterministic validator。",
+ "chapters": {
+  "ch325": {
+   "chapter_uuid": "uuid_wl_ch325",
+   "events": [
+    {
+     "event_id": "CE_001",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "open",
+     "action_text": "前六次尝试都只让门体升温，队伍退回安全线外重排顺序",
+     "agency": "forced",
+     "physical_presence": true,
+     "temporal_order": 1
+    },
+    {
+     "event_id": "CE_002",
+     "actor_ids": [
+      "ENTITY_DOG_AHUI"
+     ],
+     "action_type": "protect",
+     "action_text": "阿灰把铭牌顶到凹槽边，凹槽边缘亮起微光",
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 2
+    },
+    {
+     "event_id": "CE_003",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "open",
+     "action_text": "韩彻把旧铭牌按进凹槽，第七次推门，门体第一次完全打开",
+     "decision_action": "decide",
+     "alternatives": [
+      "放弃",
+      "第七次再试"
+     ],
+     "selected_action": "把旧铭牌按进凹槽，第七次推门",
+     "changes_followup_path": true,
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 3
+    }
+   ],
+   "effects": [
+    {
+     "effect_id": "EF_001",
+     "effect_type": "benefit",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "门体第一次完全打开，队伍进入干燥长廊",
+     "polarity": "positive",
+     "caused_by_event_ids": [
+      "CE_003"
+     ]
+    },
+    {
+     "effect_id": "EF_002",
+     "effect_type": "cost",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "门内空气带出锈味，灯油耗掉半盏",
+     "polarity": "negative",
+     "caused_by_event_ids": [
+      "CE_003"
+     ]
+    }
+   ],
+   "state_assertions": [
+    {
+     "assertion_id": "ST_001",
+     "state_key": "zero_layer_access",
+     "from_state": "closed",
+     "to_state": "first_opened",
+     "mode": "transition",
+     "narrative_role": "primary",
+     "evidence_event_ids": [
+      "CE_003"
+     ]
+    }
+   ],
+   "decision_candidates": [
+    {
+     "decision_id": "DEC_001",
+     "actor_id": "ENTITY_PROTAGONIST",
+     "choice": "第七次再试",
+     "alternatives": [
+      "放弃",
+      "第七次再试"
+     ],
+     "selected_action": "把旧铭牌按进凹槽，第七次推门",
+     "changes_followup_path": true,
+     "evidence_event_ids": [
+      "CE_003"
+     ]
+    }
+   ],
+   "turn_candidates": [
+    {
+     "turn_id": "TURN_001",
+     "turn_type": "state_transition",
+     "transition_id": "ST_001",
+     "summary": "门第一次真正打开"
+    }
+   ],
+   "dog_presence": {
+    "dog_entity_id": "ENTITY_DOG_AHUI",
+    "physical_presence": true,
+    "role": "involved",
+    "evidence_event_ids": [
+     "CE_002"
+    ],
+    "effect_ids": []
+   },
+   "dog_action_candidates": [
+    "阿灰把铭牌顶到凹槽边"
+   ]
+  },
+  "ch436": {
+   "chapter_uuid": "uuid_wl_ch436",
+   "events": [
+    {
+     "event_id": "CE_001",
+     "actor_ids": [
+      "ENTITY_HUNTER_DOG_01"
+     ],
+     "action_type": "action",
+     "action_text": "外部队伍带来一只带编号的荒原犬，编号与阿灰铭牌同源",
+     "agency": "forced",
+     "physical_presence": true,
+     "temporal_order": 1
+    },
+    {
+     "event_id": "CE_002",
+     "actor_ids": [
+      "ENTITY_EXTERNAL_TEAM"
+     ],
+     "action_type": "negotiate",
+     "action_text": "对方以同类与安全区为条件招揽阿灰",
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 2
+    },
+    {
+     "event_id": "CE_003",
+     "actor_ids": [
+      "ENTITY_DOG_AHUI"
+     ],
+     "action_type": "depart",
+     "action_text": "阿灰自己来回走了两趟，最后自己跟着那只同类走出旧路钉之外",
+     "agency": "autonomous",
+     "physical_presence": true,
+     "temporal_order": 3
+    },
+    {
+     "event_id": "CE_004",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "decision",
+     "action_text": "韩彻没有阻拦，也没有呼唤，只把门闩留在原位",
+     "decision_action": "withdraw",
+     "alternatives": [
+      "追上去",
+      "放它走"
+     ],
+     "selected_action": "不追，把门闩留在原位",
+     "changes_followup_path": true,
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 4
+    }
+   ],
+   "effects": [
+    {
+     "effect_id": "EF_001",
+     "effect_type": "loss",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "阿灰随外部队伍离开，集口少了一道随时在侧的警戒",
+     "polarity": "negative",
+     "caused_by_event_ids": [
+      "CE_003"
+     ]
+    },
+    {
+     "effect_id": "EF_002",
+     "effect_type": "benefit",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "选择权真正交给阿灰，铁锈集保住不锁链的规矩",
+     "polarity": "positive",
+     "caused_by_event_ids": [
+      "CE_004"
+     ]
+    }
+   ],
+   "state_assertions": [
+    {
+     "assertion_id": "ST_001",
+     "state_key": "dog_departure_status",
+     "from_state": "present",
+     "to_state": "voluntarily_departed",
+     "mode": "transition",
+     "narrative_role": "primary",
+     "evidence_event_ids": [
+      "CE_003"
+     ]
+    }
+   ],
+   "decision_candidates": [
+    {
+     "decision_id": "DEC_001",
+     "actor_id": "ENTITY_PROTAGONIST",
+     "choice": "放它走",
+     "alternatives": [
+      "追上去",
+      "放它走"
+     ],
+     "selected_action": "不追，把门闩留在原位",
+     "changes_followup_path": true,
+     "evidence_event_ids": [
+      "CE_004"
+     ]
+    }
+   ],
+   "turn_candidates": [
+    {
+     "turn_id": "TURN_001",
+     "turn_type": "state_transition",
+     "transition_id": "ST_001",
+     "summary": "阿灰第一次跨过旧路钉"
+    }
+   ],
+   "dog_presence": {
+    "dog_entity_id": "ENTITY_DOG_AHUI",
+    "physical_presence": true,
+    "role": "independent",
+    "evidence_event_ids": [
+     "CE_003"
+    ],
+    "effect_ids": []
+   },
+   "dog_action_candidates": [
+    "阿灰自己跟着那只同类走出旧路钉之外"
+   ]
+  },
+  "ch437": {
+   "chapter_uuid": "uuid_wl_ch437",
+   "events": [
+    {
+     "event_id": "CE_001",
+     "actor_ids": [
+      "ENTITY_RUST_SETTLEMENT"
+     ],
+     "action_type": "action",
+     "action_text": "据点会议上有人要求韩彻追回阿灰",
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 1
+    },
+    {
+     "event_id": "CE_002",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "decision",
+     "action_text": "韩彻拒绝用锁链，宣布门不关",
+     "decision_action": "refuse",
+     "alternatives": [
+      "锁链追回",
+      "门不关等它自己"
+     ],
+     "selected_action": "门不关",
+     "changes_followup_path": true,
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 2
+    },
+    {
+     "event_id": "CE_003",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "decision",
+     "action_text": "老鸦私下备好追索队，被韩彻叫停；他改让老鸦盯住外部队伍的去向",
+     "decision_action": "withdraw",
+     "alternatives": [
+      "派追索队",
+      "只盯外部队伍"
+     ],
+     "selected_action": "撤回追索队",
+     "changes_followup_path": true,
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 3
+    }
+   ],
+   "effects": [
+    {
+     "effect_id": "EF_001",
+     "effect_type": "cost",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "据点整夜留门，守夜人手翻倍",
+     "polarity": "negative",
+     "caused_by_event_ids": [
+      "CE_002"
+     ]
+    },
+    {
+     "effect_id": "EF_002",
+     "effect_type": "benefit",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "追索队撤回，据点维持开放等它自己选",
+     "polarity": "positive",
+     "caused_by_event_ids": [
+      "CE_003"
+     ]
+    }
+   ],
+   "state_assertions": [
+    {
+     "assertion_id": "ST_001",
+     "state_key": "dog_departure_status",
+     "from_state": "voluntarily_departed",
+     "to_state": "absent_waiting",
+     "mode": "transition",
+     "narrative_role": "primary",
+     "evidence_event_ids": [
+      "CE_002"
+     ]
+    }
+   ],
+   "decision_candidates": [
+    {
+     "decision_id": "DEC_001",
+     "actor_id": "ENTITY_PROTAGONIST",
+     "choice": "门不关",
+     "alternatives": [
+      "锁链追回",
+      "门不关等它自己"
+     ],
+     "selected_action": "门不关",
+     "changes_followup_path": true,
+     "evidence_event_ids": [
+      "CE_002"
+     ]
+    }
+   ],
+   "turn_candidates": [
+    {
+     "turn_id": "TURN_001",
+     "turn_type": "state_transition",
+     "transition_id": "ST_001",
+     "summary": "追索队被撤回，门留着"
+    }
+   ],
+   "dog_presence": {
+    "dog_entity_id": "ENTITY_DOG_AHUI",
+    "physical_presence": false,
+    "role": "offscreen_effect",
+    "evidence_event_ids": [],
+    "effect_ids": [
+     "EF_001"
+    ],
+    "absence_effect": "阿灰不在据点，它的离开直接决定追索队是否出集、门是否上锁",
+    "affects_decision_or_state": true
+   }
+  },
+  "ch438": {
+   "chapter_uuid": "uuid_wl_ch438",
+   "events": [
+    {
+     "event_id": "CE_001",
+     "actor_ids": [
+      "ENTITY_DOG_AHUI"
+     ],
+     "action_type": "return",
+     "action_text": "第三日夜里，阿灰自己走回集口，身上带着外部队伍的哨音节奏",
+     "agency": "autonomous",
+     "physical_presence": true,
+     "temporal_order": 1
+    },
+    {
+     "event_id": "CE_002",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "decision",
+     "action_text": "韩彻没有追问，只把水壶推过去",
+     "decision_action": "wait",
+     "alternatives": [
+      "先问清楚",
+      "先让它喝水"
+     ],
+     "selected_action": "先让它喝水",
+     "changes_followup_path": false,
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 2
+    },
+    {
+     "event_id": "CE_003",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "decision",
+     "action_text": "他据哨音节奏定下入盆时间",
+     "decision_action": "decide",
+     "alternatives": [
+      "照原计划",
+      "按带回的节奏改时间"
+     ],
+     "selected_action": "按带回的节奏改时间",
+     "changes_followup_path": true,
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 3
+    }
+   ],
+   "effects": [
+    {
+     "effect_id": "EF_001",
+     "effect_type": "benefit",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "队伍抢进盆地腹地",
+     "polarity": "positive",
+     "caused_by_event_ids": [
+      "CE_003"
+     ]
+    },
+    {
+     "effect_id": "EF_002",
+     "effect_type": "cost",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "体力透支，旧伤渗血",
+     "polarity": "negative",
+     "caused_by_event_ids": [
+      "CE_003"
+     ]
+    }
+   ],
+   "state_assertions": [
+    {
+     "assertion_id": "ST_001",
+     "state_key": "dog_departure_status",
+     "from_state": "absent_waiting",
+     "to_state": "voluntarily_returned",
+     "mode": "transition",
+     "narrative_role": "primary",
+     "evidence_event_ids": [
+      "CE_001"
+     ]
+    }
+   ],
+   "decision_candidates": [
+    {
+     "decision_id": "DEC_001",
+     "actor_id": "ENTITY_PROTAGONIST",
+     "choice": "按带回的节奏改时间",
+     "alternatives": [
+      "照原计划",
+      "按带回的节奏改时间"
+     ],
+     "selected_action": "按带回的节奏改时间",
+     "changes_followup_path": true,
+     "evidence_event_ids": [
+      "CE_003"
+     ]
+    }
+   ],
+   "turn_candidates": [
+    {
+     "turn_id": "TURN_001",
+     "turn_type": "state_transition",
+     "transition_id": "ST_001",
+     "summary": "阿灰自己回来"
+    }
+   ],
+   "dog_presence": {
+    "dog_entity_id": "ENTITY_DOG_AHUI",
+    "physical_presence": true,
+    "role": "independent",
+    "evidence_event_ids": [
+     "CE_001"
+    ],
+    "effect_ids": []
+   },
+   "dog_action_candidates": [
+    "阿灰自己走回集口"
+   ]
+  },
+  "ch502": {
+   "chapter_uuid": "uuid_wl_ch502",
+   "events": [
+    {
+     "event_id": "CE_001",
+     "actor_ids": [
+      "ENTITY_THREE_FACTIONS"
+     ],
+     "action_type": "negotiate",
+     "action_text": "三方代表在观测站外要求先核对署名再谈公开",
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 1
+    },
+    {
+     "event_id": "CE_002",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "trade",
+     "action_text": "韩彻用一次共感换取查阅第二份档案的资格",
+     "decision_action": "trade_off",
+     "alternatives": [
+      "不查",
+      "用一次共感交换"
+     ],
+     "selected_action": "用一次共感换查阅资格",
+     "changes_followup_path": true,
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 2
+    },
+    {
+     "event_id": "CE_003",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "discover",
+     "action_text": "第二份档案末尾列着验证者名单，其中一个编号与阿灰校验码部分吻合",
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 3
+    },
+    {
+     "event_id": "CE_004",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "decision",
+     "action_text": "韩彻把名单抄下，同意在观测站公布已确认的部分",
+     "decision_action": "accept",
+     "alternatives": [
+      "先不公开",
+      "公布已确认部分"
+     ],
+     "selected_action": "公布已确认部分",
+     "changes_followup_path": true,
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 4
+    }
+   ],
+   "effects": [
+    {
+     "effect_id": "EF_001",
+     "effect_type": "knowledge",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "验证者名单到手",
+     "polarity": "positive",
+     "caused_by_event_ids": [
+      "CE_003"
+     ]
+    },
+    {
+     "effect_id": "EF_002",
+     "effect_type": "cost",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "韩彻短期失明，铭牌磨损",
+     "polarity": "negative",
+     "caused_by_event_ids": [
+      "CE_002"
+     ]
+    }
+   ],
+   "state_assertions": [
+    {
+     "assertion_id": "ST_001",
+     "state_key": "archive_publication_level",
+     "from_state": "partial_release",
+     "to_state": "second_archive_verified",
+     "mode": "transition",
+     "narrative_role": "primary",
+     "evidence_event_ids": [
+      "CE_003"
+     ]
+    }
+   ],
+   "decision_candidates": [
+    {
+     "decision_id": "DEC_001",
+     "actor_id": "ENTITY_PROTAGONIST",
+     "choice": "公布已确认部分",
+     "alternatives": [
+      "先不公开",
+      "公布已确认部分"
+     ],
+     "selected_action": "公布已确认部分",
+     "changes_followup_path": true,
+     "evidence_event_ids": [
+      "CE_004"
+     ]
+    }
+   ],
+   "turn_candidates": [
+    {
+     "turn_id": "TURN_001",
+     "turn_type": "state_transition",
+     "transition_id": "ST_001",
+     "summary": "第二份档案核对完成"
+    }
+   ],
+   "dog_presence": {
+    "dog_entity_id": "ENTITY_DOG_AHUI",
+    "physical_presence": false,
+    "role": "offscreen_effect",
+    "evidence_event_ids": [],
+    "effect_ids": [
+     "EF_002"
+    ],
+    "absence_effect": "阿灰不在场，它的铭牌校验码成为名单比对的唯一钥匙",
+    "affects_decision_or_state": true
+   }
+  },
+  "ch559": {
+   "chapter_uuid": "uuid_wl_ch559",
+   "events": [
+    {
+     "event_id": "CE_001",
+     "actor_ids": [
+      "ENTITY_THREE_FACTIONS"
+     ],
+     "action_type": "action",
+     "action_text": "各方代表聚在塔壁前，第一份正式签署的规矩刻在石面上",
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 1
+    },
+    {
+     "event_id": "CE_002",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "decision",
+     "action_text": "韩彻拒绝编号所有权条款，在塔壁刻下自己与阿灰两个名字",
+     "decision_action": "sign",
+     "alternatives": [
+      "把编号所有权写进条款",
+      "并列署名"
+     ],
+     "selected_action": "并列署名",
+     "changes_followup_path": true,
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 2
+    },
+    {
+     "event_id": "CE_003",
+     "actor_ids": [
+      "ENTITY_DOG_AHUI"
+     ],
+     "action_type": "retain",
+     "action_text": "阿灰自己走到塔壁前，把铭牌按进两个名字之间那道缝里，选择留在塔内",
+     "agency": "autonomous",
+     "physical_presence": true,
+     "temporal_order": 3
+    },
+    {
+     "event_id": "CE_004",
+     "actor_ids": [
+      "ENTITY_THREE_FACTIONS"
+     ],
+     "action_type": "sign",
+     "action_text": "各方依次落笔，共守规矩正式生效",
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 4
+    }
+   ],
+   "effects": [
+    {
+     "effect_id": "EF_001",
+     "effect_type": "benefit",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "共守规矩正式生效",
+     "polarity": "positive",
+     "caused_by_event_ids": [
+      "CE_002",
+      "CE_004"
+     ]
+    },
+    {
+     "effect_id": "EF_002",
+     "effect_type": "loss",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "韩彻独自出塔，阿灰留塔",
+     "polarity": "negative",
+     "caused_by_event_ids": [
+      "CE_003"
+     ]
+    }
+   ],
+   "state_assertions": [
+    {
+     "assertion_id": "ST_001",
+     "state_key": "common_rules_status",
+     "from_state": "approved",
+     "to_state": "signed",
+     "mode": "transition",
+     "narrative_role": "primary",
+     "evidence_event_ids": [
+      "CE_002",
+      "CE_004"
+     ]
+    }
+   ],
+   "decision_candidates": [
+    {
+     "decision_id": "DEC_001",
+     "actor_id": "ENTITY_PROTAGONIST",
+     "choice": "并列署名",
+     "alternatives": [
+      "把编号所有权写进条款",
+      "并列署名"
+     ],
+     "selected_action": "并列署名",
+     "changes_followup_path": true,
+     "evidence_event_ids": [
+      "CE_002"
+     ]
+    }
+   ],
+   "turn_candidates": [
+    {
+     "turn_id": "TURN_001",
+     "turn_type": "state_transition",
+     "transition_id": "ST_001",
+     "summary": "共守规矩正式签署"
+    }
+   ],
+   "dog_presence": {
+    "dog_entity_id": "ENTITY_DOG_AHUI",
+    "physical_presence": true,
+    "role": "independent",
+    "evidence_event_ids": [
+     "CE_003"
+    ],
+    "effect_ids": [
+     "EF_002"
+    ]
+   },
+   "dog_action_candidates": [
+    "阿灰把铭牌按进两个名字之间的缝里"
+   ]
+  },
+  "ch271": {
+   "chapter_uuid": "uuid_wl_ch271",
+   "events": [
+    {
+     "event_id": "CE_001",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "observe",
+     "action_text": "韩彻亲自到东口实测灰墙走向，发现墙体整体缓慢东移",
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 1
+    },
+    {
+     "event_id": "CE_002",
+     "actor_ids": [
+      "ENTITY_DOG_AHUI"
+     ],
+     "action_type": "protect",
+     "action_text": "阿灰在东口贴地低鸣，把队伍引到一处正在扩大的空腔边",
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 2
+    },
+    {
+     "event_id": "CE_003",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "decision",
+     "action_text": "韩彻暂缓签结盟书，把实测结果留作谈判依据",
+     "decision_action": "defer",
+     "alternatives": [
+      "照旧签结盟书",
+      "暂缓签署先探路"
+     ],
+     "selected_action": "暂缓签署",
+     "changes_followup_path": true,
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 3
+    }
+   ],
+   "effects": [
+    {
+     "effect_id": "EF_001",
+     "effect_type": "knowledge",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "灰墙移动规律被测出，旧路与旧地图失效",
+     "polarity": "mixed",
+     "caused_by_event_ids": [
+      "CE_001"
+     ],
+     "is_narrative_pivot": true
+    },
+    {
+     "effect_id": "EF_002",
+     "effect_type": "benefit",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "实测结果成为谈判依据，旧路标注作废",
+     "polarity": "positive",
+     "caused_by_event_ids": [
+      "CE_003"
+     ]
+    }
+   ],
+   "state_assertions": [
+    {
+     "assertion_id": "ST_001",
+     "state_key": "gray_wall_observation_status",
+     "from_state": "unobserved",
+     "to_state": "observed_on_page",
+     "mode": "transition",
+     "narrative_role": "primary",
+     "evidence_event_ids": [
+      "CE_001"
+     ]
+    }
+   ],
+   "decision_candidates": [
+    {
+     "decision_id": "DEC_001",
+     "actor_id": "ENTITY_PROTAGONIST",
+     "choice": "暂缓签署先探路",
+     "alternatives": [
+      "照旧签结盟书",
+      "暂缓签署先探路"
+     ],
+     "selected_action": "暂缓签署",
+     "changes_followup_path": true,
+     "evidence_event_ids": [
+      "CE_003"
+     ]
+    }
+   ],
+   "turn_candidates": [
+    {
+     "turn_id": "TURN_001",
+     "turn_type": "state_transition",
+     "transition_id": "ST_001",
+     "summary": "灰墙现场实测确认整体位移"
+    }
+   ],
+   "dog_presence": {
+    "dog_entity_id": "ENTITY_DOG_AHUI",
+    "physical_presence": true,
+    "role": "involved",
+    "evidence_event_ids": [
+     "CE_002"
+    ],
+    "effect_ids": []
+   },
+   "dog_action_candidates": [
+    "阿灰贴地低鸣把队伍引到空腔边"
+   ]
+  },
+  "ch361": {
+   "chapter_uuid": "uuid_wl_ch361",
+   "events": [
+    {
+     "event_id": "CE_001",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "decision",
+     "action_text": "韩彻把验证记录抄成三份，一家一份同时封存",
+     "decision_action": "decide",
+     "alternatives": [
+      "独存原始记录",
+      "三家分存"
+     ],
+     "selected_action": "三家分存",
+     "changes_followup_path": true,
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 1
+    },
+    {
+     "event_id": "CE_002",
+     "actor_ids": [
+      "ENTITY_DOG_AHUI"
+     ],
+     "action_type": "protect",
+     "action_text": "阿灰守在地窖门口，把想凑近桌旁的人一次次挡回门廊",
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 2
+    },
+    {
+     "event_id": "CE_003",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "decision",
+     "action_text": "原始记录留在铁锈集地窖，铁锈集接下战争责任署名",
+     "decision_action": "retain",
+     "alternatives": [
+      "交出去",
+      "自己留下原始记录"
+     ],
+     "selected_action": "原始记录留地窖",
+     "changes_followup_path": true,
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 3
+    }
+   ],
+   "effects": [
+    {
+     "effect_id": "EF_001",
+     "effect_type": "authority",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "遗迹权限与战争责任同时落到铁锈集肩上",
+     "polarity": "mixed",
+     "caused_by_event_ids": [
+      "CE_003"
+     ],
+     "is_narrative_pivot": true
+    },
+    {
+     "effect_id": "EF_002",
+     "effect_type": "cost",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "地窖从此常设守夜",
+     "polarity": "negative",
+     "caused_by_event_ids": [
+      "CE_003"
+     ]
+    }
+   ],
+   "state_assertions": [
+    {
+     "assertion_id": "ST_001",
+     "state_key": "zero_layer_access",
+     "from_state": "emergency_locked",
+     "to_state": "inaccessible",
+     "mode": "observation",
+     "narrative_role": "derived",
+     "evidence_event_ids": [
+      "CE_001"
+     ]
+    }
+   ],
+   "decision_candidates": [
+    {
+     "decision_id": "DEC_001",
+     "actor_id": "ENTITY_PROTAGONIST",
+     "choice": "三家分存",
+     "alternatives": [
+      "独存原始记录",
+      "三家分存"
+     ],
+     "selected_action": "三家分存",
+     "changes_followup_path": true,
+     "evidence_event_ids": [
+      "CE_001"
+     ]
+    }
+   ],
+   "turn_candidates": [
+    {
+     "turn_id": "TURN_001",
+     "turn_type": "authority_transfer",
+     "effect_id": "EF_001",
+     "summary": "权限与责任同时落到铁锈集"
+    }
+   ],
+   "dog_presence": {
+    "dog_entity_id": "ENTITY_DOG_AHUI",
+    "physical_presence": true,
+    "role": "involved",
+    "evidence_event_ids": [
+     "CE_002"
+    ],
+    "effect_ids": []
+   },
+   "dog_action_candidates": [
+    "阿灰守在门口挡回凑近的人"
+   ]
+  },
+  "ch515": {
+   "chapter_uuid": "uuid_wl_ch515",
+   "events": [
+    {
+     "event_id": "CE_001",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "decision",
+     "action_text": "韩彻带着共守草案到盆地边缘的聚落征求意见",
+     "decision_action": "defer",
+     "alternatives": [
+      "直接进表决",
+      "先征求意见"
+     ],
+     "selected_action": "先征求意见",
+     "changes_followup_path": true,
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 1
+    },
+    {
+     "event_id": "CE_002",
+     "actor_ids": [
+      "ENTITY_SETTLEMENT_EDGE"
+     ],
+     "action_type": "negotiate",
+     "action_text": "聚落代表逐条追问草案里的席位与义务",
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 2
+    },
+    {
+     "event_id": "CE_003",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "decision",
+     "action_text": "韩彻把有争议的三条圈出来带回去修订",
+     "decision_action": "defer",
+     "alternatives": [
+      "当场定稿",
+      "带回去修订"
+     ],
+     "selected_action": "带回去修订",
+     "changes_followup_path": true,
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 3
+    }
+   ],
+   "effects": [
+    {
+     "effect_id": "EF_001",
+     "effect_type": "benefit",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "共守草案获得边缘聚落的初步支持",
+     "polarity": "positive",
+     "caused_by_event_ids": [
+      "CE_003"
+     ]
+    },
+    {
+     "effect_id": "EF_002",
+     "effect_type": "cost",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "草案多出两处批注，定稿延后",
+     "polarity": "negative",
+     "caused_by_event_ids": [
+      "CE_003"
+     ]
+    }
+   ],
+   "state_assertions": [
+    {
+     "assertion_id": "ST_001",
+     "state_key": "common_rules_status",
+     "from_state": "draft",
+     "to_state": "consulted",
+     "mode": "transition",
+     "narrative_role": "primary",
+     "evidence_event_ids": [
+      "CE_001"
+     ]
+    }
+   ],
+   "decision_candidates": [
+    {
+     "decision_id": "DEC_001",
+     "actor_id": "ENTITY_PROTAGONIST",
+     "choice": "先征求意见",
+     "alternatives": [
+      "直接进表决",
+      "先征求意见"
+     ],
+     "selected_action": "先征求意见",
+     "changes_followup_path": true,
+     "evidence_event_ids": [
+      "CE_001"
+     ]
+    }
+   ],
+   "turn_candidates": [
+    {
+     "turn_id": "TURN_001",
+     "turn_type": "state_transition",
+     "transition_id": "ST_001",
+     "summary": "草案进入征求意见阶段"
+    }
+   ],
+   "dog_presence": {
+    "dog_entity_id": "ENTITY_DOG_AHUI",
+    "physical_presence": false,
+    "role": "offscreen_effect",
+    "evidence_event_ids": [],
+    "effect_ids": [
+     "EF_002"
+    ],
+    "absence_effect": "阿灰不在场，草案里为它留的席位成了聚落追问的焦点"
+   }
+  },
+  "ch526": {
+   "chapter_uuid": "uuid_wl_ch526",
+   "events": [
+    {
+     "event_id": "CE_001",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "decision",
+     "action_text": "韩彻逐条念草案，把例外条款压回议事程序里",
+     "decision_action": "decide",
+     "alternatives": [
+      "让例外条款直接进草案",
+      "压回程序"
+     ],
+     "selected_action": "压回程序",
+     "changes_followup_path": true,
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 1
+    },
+    {
+     "event_id": "CE_002",
+     "actor_ids": [
+      "ENTITY_THREE_FACTIONS"
+     ],
+     "action_type": "action",
+     "action_text": "两方联手拖票，表决两次都没过",
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 2
+    },
+    {
+     "event_id": "CE_003",
+     "actor_ids": [
+      "ENTITY_PROTAGONIST"
+     ],
+     "action_type": "decision",
+     "action_text": "有人提出让韩彻先署名定调，被他当场拒绝",
+     "decision_action": "refuse",
+     "alternatives": [
+      "先署名压场",
+      "继续走程序"
+     ],
+     "selected_action": "继续走程序",
+     "changes_followup_path": true,
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 3
+    },
+    {
+     "event_id": "CE_004",
+     "actor_ids": [
+      "ENTITY_THREE_FACTIONS"
+     ],
+     "action_type": "sign",
+     "action_text": "第三轮表决以十一票对九票通过程序",
+     "agency": "reactive",
+     "physical_presence": true,
+     "temporal_order": 4
+    }
+   ],
+   "effects": [
+    {
+     "effect_id": "EF_001",
+     "effect_type": "benefit",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "草案与表决程序成立，正式签署被推迟",
+     "polarity": "positive",
+     "caused_by_event_ids": [
+      "CE_004"
+     ]
+    },
+    {
+     "effect_id": "EF_002",
+     "effect_type": "cost",
+     "target_id": "ENTITY_PROTAGONIST",
+     "after_state": "三次会议耗掉半个月，条款约束力有限",
+     "polarity": "negative",
+     "caused_by_event_ids": [
+      "CE_002"
+     ]
+    }
+   ],
+   "state_assertions": [
+    {
+     "assertion_id": "ST_001",
+     "state_key": "common_rules_status",
+     "from_state": "consulted",
+     "to_state": "voted",
+     "mode": "transition",
+     "narrative_role": "primary",
+     "evidence_event_ids": [
+      "CE_004"
+     ]
+    }
+   ],
+   "decision_candidates": [
+    {
+     "decision_id": "DEC_001",
+     "actor_id": "ENTITY_PROTAGONIST",
+     "choice": "继续走程序",
+     "alternatives": [
+      "先署名压场",
+      "继续走程序"
+     ],
+     "selected_action": "继续走程序",
+     "changes_followup_path": true,
+     "evidence_event_ids": [
+      "CE_003"
+     ]
+    }
+   ],
+   "turn_candidates": [
+    {
+     "turn_id": "TURN_001",
+     "turn_type": "state_transition",
+     "transition_id": "ST_001",
+     "summary": "第一轮表决程序通过"
+    }
+   ],
+   "dog_presence": {
+    "dog_entity_id": "ENTITY_DOG_AHUI",
+    "physical_presence": false,
+    "role": "offscreen_effect",
+    "evidence_event_ids": [],
+    "effect_ids": [
+     "EF_002"
+    ],
+    "absence_effect": "阿灰不在场，它的席位排序直接影响了拖票的两方"
+   }
+  }
+ }
+}

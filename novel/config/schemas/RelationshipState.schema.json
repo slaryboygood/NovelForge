@@ -1,0 +1,91 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "relation_id": {
+      "title": "Relation Id",
+      "type": "string"
+    },
+    "participants": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "title": "Participants",
+      "type": "array"
+    },
+    "surface_relation": {
+      "title": "Surface Relation",
+      "type": "string"
+    },
+    "trust": {
+      "maximum": 100,
+      "minimum": -100,
+      "title": "Trust",
+      "type": "integer"
+    },
+    "respect": {
+      "maximum": 100,
+      "minimum": -100,
+      "title": "Respect",
+      "type": "integer"
+    },
+    "fear": {
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Fear",
+      "type": "integer"
+    },
+    "emotional_debt": {
+      "default": 0,
+      "title": "Emotional Debt",
+      "type": "integer"
+    },
+    "shared_secrets": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Shared Secrets",
+      "type": "array"
+    },
+    "unresolved_conflicts": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Unresolved Conflicts",
+      "type": "array"
+    },
+    "current_stage": {
+      "title": "Current Stage",
+      "type": "string"
+    },
+    "next_target_stage": {
+      "title": "Next Target Stage",
+      "type": "string"
+    },
+    "evidence_chapters": {
+      "items": {
+        "type": "integer"
+      },
+      "title": "Evidence Chapters",
+      "type": "array"
+    }
+  },
+  "required": [
+    "relation_id",
+    "participants",
+    "surface_relation",
+    "trust",
+    "respect",
+    "fear",
+    "current_stage",
+    "next_target_stage"
+  ],
+  "title": "RelationshipState",
+  "type": "object"
+}

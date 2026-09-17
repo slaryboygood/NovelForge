@@ -1,0 +1,15 @@
+pipeline_id: short_writer
+version: 1.0.0
+auto_commit: false
+planner:
+  plugin: mock_planner
+writer:
+  plugin: mock_short_writer
+reviewers:
+  mode: serial
+  plugins:
+    - mock_reviewer
+state_extractor:
+  plugin: mock_state_extractor
+publisher:
+  enabled: false

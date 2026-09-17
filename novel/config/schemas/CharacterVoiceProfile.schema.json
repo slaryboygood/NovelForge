@@ -1,0 +1,140 @@
+{
+  "$defs": {
+    "CanonLevel": {
+      "enum": [
+        "HARD_CANON",
+        "HARD_PLOT",
+        "RESTRICTED_TRUTH",
+        "SOFT_PLAN"
+      ],
+      "title": "CanonLevel",
+      "type": "string"
+    },
+    "SourceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "section": {
+          "title": "Section",
+          "type": "string"
+        },
+        "canon_level": {
+          "$ref": "#/$defs/CanonLevel"
+        },
+        "writer_visible": {
+          "default": false,
+          "title": "Writer Visible",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "section",
+        "canon_level"
+      ],
+      "title": "SourceReference",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "character_id": {
+      "title": "Character Id",
+      "type": "string"
+    },
+    "sentence_pattern": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Sentence Pattern",
+      "type": "array"
+    },
+    "vocabulary": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Vocabulary",
+      "type": "array"
+    },
+    "tone": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Tone",
+      "type": "array"
+    },
+    "emotional_expression": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Emotional Expression",
+      "type": "array"
+    },
+    "humor_sarcasm": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Humor Sarcasm",
+      "type": "array"
+    },
+    "speech_taboo": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Speech Taboo",
+      "type": "array"
+    },
+    "silence_pattern": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Silence Pattern",
+      "type": "array"
+    },
+    "relationship_specific_voice": {
+      "additionalProperties": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "title": "Relationship Specific Voice",
+      "type": "object"
+    },
+    "example_intent": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Example Intent",
+      "type": "array"
+    },
+    "source_refs": {
+      "items": {
+        "$ref": "#/$defs/SourceReference"
+      },
+      "title": "Source Refs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "character_id",
+    "sentence_pattern",
+    "vocabulary",
+    "tone",
+    "emotional_expression",
+    "humor_sarcasm",
+    "speech_taboo",
+    "silence_pattern",
+    "source_refs"
+  ],
+  "title": "CharacterVoiceProfile",
+  "type": "object"
+}

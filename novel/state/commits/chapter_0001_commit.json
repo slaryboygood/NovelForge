@@ -1,0 +1,141 @@
+{
+  "chapter_id": "0001",
+  "committed_at": "20260826230400",
+  "state_delta": {
+    "chapter_id": "0001",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260826224551_c6f9d732:candidate",
+    "source_draft_hash": "4b2c12ddfedff81aaf326e5bbbd2abb384edb7c52f397518d196463d53790d51",
+    "timeline_delta": {
+      "source_chapter": "0000",
+      "title": "废渣镇的零",
+      "time": "新历300纪·春，一日一夜（白天拾荒→傍晚残骸→夜腐化潮）",
+      "location": "碎屑平原·废渣镇"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0001_character",
+        "subject": "人物变化",
+        "change": "零：护断剑被赖三打手追打受伤；发现断口旧纹与额角芯片纹呼应发烫；腐化潮夜被赖三栽赃堵在巷子尽头，骨头深处第一次睁开眼的异动（吞噬觉醒前兆）",
+        "source": "chapter_0001_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0001_rel_rong",
+        "subject": "关系变化",
+        "change": "容小满：替零洗伤缠布、塞黑饼，叮嘱夜里躲钟楼（人情线立住）",
+        "source": "chapter_0001_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0001_rel_head",
+        "subject": "关系变化",
+        "change": "村长：给药粉、安排钟楼过夜，警告“拾荒捡着看不懂的东西，别往额头上贴”（善意+深意）",
+        "source": "chapter_0001_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0001_rel_laisan",
+        "subject": "关系变化",
+        "change": "赖三：白天抢剑未遂结仇，夜里把腐化潮栽赃到零头上",
+        "source": "chapter_0001_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0001_knowledge",
+        "subject": "知识变化",
+        "change": "镇口展出黑鳞怪物残骸（平原西边，离镇不到十里）；腐化潮将至的传言；腐化潮夜爆发",
+        "source": "chapter_0001_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0001_location",
+        "subject": "地点变化",
+        "change": "废渣镇：废料滩、容家裁缝铺夹道、镇口、钟楼、废料棚",
+        "source": "chapter_0001_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0001_item_sword",
+        "subject": "物品变化",
+        "change": "破铁条（裂变剑初形）：断口旧纹遇额角芯片纹发烫、贴掌心微烫，来历不明",
+        "source": "chapter_0001_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [],
+    "organization_changes": [
+      {
+        "id": "chapter_0001_org_village",
+        "subject": "组织变化",
+        "change": "镇卫队队长秦虎：下令封门备水、符纸贴门、鸣锣往钟楼跑",
+        "source": "chapter_0001_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0001_world",
+        "subject": "世界变化",
+        "change": "腐化潮夜：西墙外火光冲天、狗群暴走、黑影成群贴着废墟掠来，废渣镇首次直接面对腐化威胁",
+        "source": "chapter_0001_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0001_fs_sword",
+          "subject": "伏笔埋设",
+          "change": "裂变剑断口旧纹与额角芯片纹呼应发烫",
+          "source": "chapter_0001_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0001_fs_head",
+          "subject": "伏笔埋设",
+          "change": "村长对断剑异状似有察觉（别往额头上贴）",
+          "source": "chapter_0001_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0001_fs_blank",
+          "subject": "伏笔埋设",
+          "change": "空白灵核与“骨头深处第一次睁开的眼”（吞噬觉醒前兆）",
+          "source": "chapter_0001_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [],
+      "resolved": []
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0001_my_sword",
+        "subject": "新谜题",
+        "change": "断剑从哪来？断口旧纹是什么？",
+        "source": "chapter_0001_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0001_goal",
+        "subject": "第0001章主要目标",
+        "change": "开局立人设：空白灵核零级废灵少年在废渣镇拾荒求生，从废料堆捡到断刃裂变剑；铺垫腐化潮将至；赖三欺压、容小满缝补、村长善意三条人物线立住",
+        "source": "chapter_0001_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

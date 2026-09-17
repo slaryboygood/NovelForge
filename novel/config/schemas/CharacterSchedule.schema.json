@@ -1,0 +1,156 @@
+{
+  "$defs": {
+    "CanonLevel": {
+      "enum": [
+        "HARD_CANON",
+        "HARD_PLOT",
+        "RESTRICTED_TRUTH",
+        "SOFT_PLAN"
+      ],
+      "title": "CanonLevel",
+      "type": "string"
+    },
+    "ChapterWindow": {
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "minimum": 1,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "minimum": 1,
+          "title": "End",
+          "type": "integer"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "reason"
+      ],
+      "title": "ChapterWindow",
+      "type": "object"
+    },
+    "SourceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "section": {
+          "title": "Section",
+          "type": "string"
+        },
+        "canon_level": {
+          "$ref": "#/$defs/CanonLevel"
+        },
+        "writer_visible": {
+          "default": false,
+          "title": "Writer Visible",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "section",
+        "canon_level"
+      ],
+      "title": "SourceReference",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schedule_id": {
+      "title": "Schedule Id",
+      "type": "string"
+    },
+    "character_id": {
+      "title": "Character Id",
+      "type": "string"
+    },
+    "volume_role": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Volume Role",
+      "type": "object"
+    },
+    "active_windows": {
+      "items": {
+        "$ref": "#/$defs/ChapterWindow"
+      },
+      "title": "Active Windows",
+      "type": "array"
+    },
+    "absence_windows": {
+      "items": {
+        "$ref": "#/$defs/ChapterWindow"
+      },
+      "title": "Absence Windows",
+      "type": "array"
+    },
+    "required_return_nodes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Required Return Nodes",
+      "type": "array"
+    },
+    "relationship_milestones": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Relationship Milestones",
+      "type": "array"
+    },
+    "plot_milestones": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Plot Milestones",
+      "type": "array"
+    },
+    "mystery_milestones": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Mystery Milestones",
+      "type": "array"
+    },
+    "required_presence": {
+      "items": {
+        "$ref": "#/$defs/ChapterWindow"
+      },
+      "title": "Required Presence",
+      "type": "array"
+    },
+    "forbidden_presence": {
+      "items": {
+        "$ref": "#/$defs/ChapterWindow"
+      },
+      "title": "Forbidden Presence",
+      "type": "array"
+    },
+    "source_refs": {
+      "items": {
+        "$ref": "#/$defs/SourceReference"
+      },
+      "title": "Source Refs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schedule_id",
+    "character_id",
+    "source_refs"
+  ],
+  "title": "CharacterSchedule",
+  "type": "object"
+}

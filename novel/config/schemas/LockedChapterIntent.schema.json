@@ -1,0 +1,116 @@
+{
+  "$defs": {
+    "CanonLevel": {
+      "enum": [
+        "HARD_CANON",
+        "HARD_PLOT",
+        "RESTRICTED_TRUTH",
+        "SOFT_PLAN"
+      ],
+      "title": "CanonLevel",
+      "type": "string"
+    },
+    "SourceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "section": {
+          "title": "Section",
+          "type": "string"
+        },
+        "canon_level": {
+          "$ref": "#/$defs/CanonLevel"
+        },
+        "writer_visible": {
+          "default": false,
+          "title": "Writer Visible",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "section",
+        "canon_level"
+      ],
+      "title": "SourceReference",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "chapter_id": {
+      "pattern": "^\\d{4}$",
+      "title": "Chapter Id",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "raw_intent": {
+      "title": "Raw Intent",
+      "type": "string"
+    },
+    "key_events": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Key Events",
+      "type": "array"
+    },
+    "key_characters": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Key Characters",
+      "type": "array"
+    },
+    "hard_plot_node_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Hard Plot Node Ids",
+      "type": "array"
+    },
+    "required_results": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Required Results",
+      "type": "array"
+    },
+    "key_foreshadowing": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Key Foreshadowing",
+      "type": "array"
+    },
+    "soft_freedoms": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Soft Freedoms",
+      "type": "array"
+    },
+    "source_refs": {
+      "items": {
+        "$ref": "#/$defs/SourceReference"
+      },
+      "title": "Source Refs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "chapter_id",
+    "title",
+    "raw_intent",
+    "key_events",
+    "source_refs"
+  ],
+  "title": "LockedChapterIntent",
+  "type": "object"
+}

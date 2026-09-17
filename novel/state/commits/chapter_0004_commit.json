@@ -1,0 +1,171 @@
+{
+  "chapter_id": "0004",
+  "committed_at": "20260827003248",
+  "state_delta": {
+    "chapter_id": "0004",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260827002804_a85dcb62:candidate",
+    "source_draft_hash": "d3269735a21427877f97213ba2c55d5bface2d9ab2cee509daf67d0a8d16d270",
+    "timeline_delta": {
+      "source_chapter": "0003",
+      "title": "第一单生意",
+      "time": "新历300纪·春，潮后数日（清晨出发→日落前）",
+      "location": "碎屑平原·废渣镇（镇公所、镇西废车场甲虫窝、地道→静电洞穴边缘）"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0004_character",
+        "subject": "人物变化",
+        "change": "零：接下商会首单（镇西甲虫窝清剿），学会组队配合；吞精英甲虫半颗灵核惊险取胜，Lv.3→Lv.4；暗灰纹路越过腕骨直逼小臂、缠绕暗红（代价加深）；发现甲虫窝深处的旧通道直通静电洞穴——'甲虫窝是后来长在它外面的，它们像是在逃'；深夜雷声般的咕噜声（静电洞穴深处的庞然大物）",
+        "source": "chapter_0004_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0004_rel_rong",
+        "subject": "关系变化",
+        "change": "容小满：主动随队（'你上回吞了坏核，我得看着你'），撒药/包扎/补漏，看见纹路但没问——关系从人情走向并肩",
+        "source": "chapter_0004_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0004_rel_suanpan",
+        "subject": "关系变化",
+        "change": "铁算盘：首单交易（四枚碎灵钱、虫核归零、药钱从酬劳扣）——'笑着说话，不代表手里的刀钝'",
+        "source": "chapter_0004_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0004_rel_partners",
+        "subject": "关系变化",
+        "change": "临时搭档豁牙（门牙外露、怕死嘴碎）、石墩（贪心但关键时顶得住）：共过生死，分赃规矩立下",
+        "source": "chapter_0004_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0004_knowledge",
+        "subject": "知识变化",
+        "change": "清剿牌情报不可全信（'十余只'实为上百，是虫群门厅）；精英甲虫（Lv.5 小头目）头冠裂缝藏半成形灵核，甲壳刀砍不动、硬刺/颚刃致命；镇西废车场地下有旧通道直通静电洞穴（黑玻璃灼痕、焦麻气息）；静电洞穴的传说：白光、铁壳影、地底雷声，深入者多未归",
+        "source": "chapter_0004_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0004_location",
+        "subject": "地点变化",
+        "change": "镇西废车场（甲虫窝：土厅+三岔口+斜洞）、静电洞穴边缘（倒塌金属骨架、灰白尘粉、暗纹）",
+        "source": "chapter_0004_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0004_item_cores",
+        "subject": "物品变化",
+        "change": "半颗精英甲虫灵核（未吞，破布包好塞怀里）；碎灵硬屑若干（未吞——坏屑不能乱吞）",
+        "source": "chapter_0004_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0004_item_sword",
+        "subject": "物品变化",
+        "change": "裂变剑：剑口添新痕，捅入头冠裂缝时卡过壳",
+        "source": "chapter_0004_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0004_ability",
+        "subject": "能力变化",
+        "change": "【吞噬】加深：吞半颗灵核（不完全吞噬）代价更大——体内横冲直撞、吞不净化不开，热意烧到眼底；吞碎灵可临时强化",
+        "source": "chapter_0004_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0004_org",
+        "subject": "组织变化",
+        "change": "拾荒者商会：首单委托（镇西甲虫窝清剿，虫壳归商会、虫核归零、药钱扣酬劳）——铁算盘试探",
+        "source": "chapter_0004_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0004_world",
+        "subject": "世界变化",
+        "change": "镇西甲虫窝被清空（含精英甲虫）；甲虫窝深处旧通道通往静电洞穴方向——地图伏笔",
+        "source": "chapter_0004_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0004_fs_cave",
+          "subject": "伏笔埋设",
+          "change": "静电洞穴：地道尽头'咕噜咕噜'的雷声，像庞大心脏在黑暗里跳动——洞穴 Boss 伏笔",
+          "source": "chapter_0004_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0004_fs_flux",
+          "subject": "伏笔埋设",
+          "change": "零的灵核对静电洞穴方向'像饥饿，又像朝拜'——空白灵核与洞穴的隐秘联系",
+          "source": "chapter_0004_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0004_fs_partial",
+          "subject": "伏笔埋设",
+          "change": "吞半颗灵核：代价更大、纹路带暗红、'像虫卵回应雷声'——不完全吞噬机制",
+          "source": "chapter_0004_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0004_fs_cost_adv",
+          "subject": "伏笔推进",
+          "change": "吞噬代价：暗灰纹路越过腕骨直逼小臂、缠绕暗红；半颗核吞不净化不开，烧到眼底",
+          "source": "chapter_0004_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": []
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0004_my_cave",
+        "subject": "新谜题",
+        "change": "静电洞穴深处是什么？为什么甲虫窝会通到那里？",
+        "source": "chapter_0004_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0004_my_flux",
+        "subject": "新谜题",
+        "change": "自己的空白灵核为什么对静电洞穴方向发烫、震颤？",
+        "source": "chapter_0004_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0004_goal",
+        "subject": "第0004章主要目标",
+        "change": "接下拾荒者商会首单委托，清剿镇西甲虫窝；学会组队打怪的配合；Lv.3→Lv.4；发现甲虫窝深处通往静电洞穴方向的地道（地图伏笔）",
+        "source": "chapter_0004_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

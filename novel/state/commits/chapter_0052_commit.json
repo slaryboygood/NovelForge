@@ -1,0 +1,200 @@
+{
+  "chapter_id": "0052",
+  "committed_at": "20260831220732",
+  "state_delta": {
+    "chapter_id": "0052",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260831215833_9d0b134c:candidate",
+    "source_draft_hash": "9923a5cfbf1254e3d42675dfe071ee86e64e5ed4a9f44a02af46a58a27a4cff4",
+    "timeline_delta": {
+      "source_chapter": "0051",
+      "title": "半透明的她，和铁公鸡的工钱",
+      "time": "CH051仓笼锁亮起后紧接，随后撤回中层营地短歇",
+      "location": "锈蚀地牢中层蠕虫巢记忆仓笼室→中层营地铸鸣铁匠摊"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0052_zero",
+        "subject": "人物变化",
+        "change": "零拒绝吞噬与忆灵相连的记忆锁，护送忆灵撤离；吸收地牢蠕虫死亡逸散灵能后Lv.33→Lv.34，腐化值仍为16，左臂伤势没有治愈",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0052_yiling",
+        "subject": "人物变化",
+        "change": "忆灵以读仓术反向解开自己的记忆锁，恢复身形并获救归队；取回来自记忆废库、被铁手套封存后丢入地牢的第一层记忆，但封存者与原因仍不可见",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0052_team",
+        "subject": "人物变化",
+        "change": "闸门盾与壁垒进一步受损后用铸鸣给的灰黑胶泥临时封缝；容小满透支未愈；频闪右肩肿伤，临时战弓由铸鸣矫直并取得箭杆20；团子仍困倦且带锈纹",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0052_yiling_return",
+        "subject": "关系变化",
+        "change": "忆灵确认自己仍被全队当作既有伙伴而非负担；闸门以‘归队’确认其位置，零承诺以后再砍开剩余身世锁",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0052_zhuming",
+        "subject": "关系变化",
+        "change": "拾荒者商会外摊匠人铸鸣与队伍建立修理和材料交易关系；其收费苛刻但手艺可靠",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0052_trial",
+        "subject": "知识变化",
+        "change": "忆灵触发隐藏任务【典狱长的试炼】：找回三道被封存的仓门记录，完成后可读锈王真名一层；拒接会使记忆重新归仓",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0052_sword",
+        "subject": "知识变化",
+        "change": "铸鸣在拾荒者商会旧货录残页中认出裂变剑纹路，判断其为旧世界断刃，但持剑者姓名已被烧毁",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0052_location",
+        "subject": "地点变化",
+        "change": "队伍已带忆灵撤出蠕虫巢，抵达锈蚀地牢中层营地铸鸣铁匠摊短歇",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0052_core_obtain",
+        "subject": "物品变化",
+        "change": "频闪从地牢蠕虫尸体头部剖出并获得地牢蠕虫灵核×1，交给零装入包内；实体进入零的库存",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0052_energy",
+        "subject": "物品变化",
+        "change": "零吸收三具地牢蠕虫死亡后逸散的灰白灵能并升级；逸散灵能不是实体灵核，不进入库存",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0052_gland",
+        "subject": "物品变化",
+        "change": "队伍剖取蠕虫口器腺×1，随后交给铸鸣抵修弓与箭杆工钱，材料离队",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0052_bow",
+        "subject": "物品变化",
+        "change": "铸鸣矫直频闪的临时战弓、补临时护弦并交付箭杆×20；旧无声弓仍折成两段，不能当天修复",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0052_key",
+        "subject": "物品变化",
+        "change": "忆灵取得旧世界钥匙串并随队携带",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0052_level",
+        "subject": "能力变化",
+        "change": "零Lv.33→Lv.34；升级来源为地牢蠕虫死亡逸散灵能，不消耗实体灵核",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0052_yiling_read",
+        "subject": "能力变化",
+        "change": "忆灵读仓术可反向执行旧仓规，解开与本人记忆相连的记忆锁",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0052_scavenger",
+        "subject": "组织变化",
+        "change": "拾荒者商会中层外摊与队伍建立材料换修理的交易入口",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0052_waste_library",
+        "subject": "世界变化",
+        "change": "记忆废库被确认是旧世界记忆存放地；忆灵曾在那里被封仓记并被送入锈蚀地牢",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0052_glove",
+          "subject": "伏笔埋设",
+          "change": "封存忆灵记忆者戴发黑铁手套，袖口有闭合眼纹，身份未知",
+          "source": "chapter_0052_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0052_broken_blade",
+          "subject": "伏笔推进",
+          "change": "裂变剑纹路与拾荒者商会旧货录上的旧世界断刃拓印吻合",
+          "source": "chapter_0052_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0052_rescue",
+          "subject": "伏笔回收",
+          "change": "忆灵从仓笼获救并重新与队伍会合",
+          "source": "chapter_0052_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0052_trial_truth",
+        "subject": "新谜题",
+        "change": "典狱长试炼为何把忆灵识别为引名者，锈王真名一层隐藏什么",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0052_goal",
+        "subject": "第0052章主要目标",
+        "change": "忆灵获救归队并触发典狱长试炼；零升至Lv.34；铸鸣为频闪矫直弓并补给20支箭",
+        "source": "chapter_0052_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

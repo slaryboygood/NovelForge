@@ -1,0 +1,184 @@
+{
+  "chapter_id": "0006",
+  "committed_at": "20260827004542",
+  "state_delta": {
+    "chapter_id": "0006",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260827004127_8d6ef826:candidate",
+    "source_draft_hash": "65c19f08ac02c0e77ac8756da52e27df4d8173165076112e774675a19a2cae64",
+    "timeline_delta": {
+      "source_chapter": "0005",
+      "title": "锈铁神龛与闪步",
+      "time": "新历300纪·春，猎狼次日清晨→正午",
+      "location": "碎屑平原·西废线（锈铁神龛：地下石室，隐藏遗迹）"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0006_character",
+        "subject": "人物变化",
+        "change": "零：按地图找到锈铁神龛（机关锁/毒钉陷阱/守龛烧蚀犬 Lv.8 精英）；烧蚀犬自爆瞬间本能踏出'闪步'预演；技能书·闪步到手却读不进去——空白灵核是'口没底的井，倒多少漏多少'（觉醒才能学的伏笔加深）；地图走过之后显出新印记与新红线（指向静电洞穴）；裂变剑两次偷吸灵能结晶，浮现两道裂纹灵纹（剑在自行进食）",
+        "source": "chapter_0006_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0006_character_laoque",
+        "subject": "人物变化",
+        "change": "老瘸（镇上有名老猎户，独眼/旱烟）：加入零的探索小队——指点狼性、警告'烧红了的狗'、自爆一吼救命、收存烧蚀腺（'将来有大用'）",
+        "source": "chapter_0006_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0006_rel_rong",
+        "subject": "关系变化",
+        "change": "容小满：回灵术当盾（'治伤是温的，砸它身上是烫的'），分赃讨价（我八你二→四六）——搭档感加深",
+        "source": "chapter_0006_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0006_rel_laoque",
+        "subject": "关系变化",
+        "change": "老瘸：半师半友，收存烧蚀腺，盯着零揣书的位置若有所思",
+        "source": "chapter_0006_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0006_knowledge",
+        "subject": "知识变化",
+        "change": "锈铁神龛：闭合眼睛图腾、机关锁（毒钉）、铁心脏造型神龛、背后小门（掌印开启）；烧蚀犬（Lv.8 精英）：皮裂透光、伤越重光越亮、残血自爆；烧蚀腺=燃烧瓶原材料（晒干封罐能烧半条街）；技能书·闪步：字是活的，认主需灵核承载——空白灵核装不下（'口没底的井'）；地图走过隐藏点后会显出新印记与新路线",
+        "source": "chapter_0006_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0006_location",
+        "subject": "地点变化",
+        "change": "锈铁神龛（西废线地下石室，隐藏遗迹）：机关暗门、神龛、小门藏室——探索完成（图鉴）",
+        "source": "chapter_0006_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0006_item_book",
+        "subject": "物品变化",
+        "change": "技能书·闪步×1（蓝级，读不进去——'字是活的，就是吞不进去'，怀里贴身收好）",
+        "source": "chapter_0006_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0006_item_crystal",
+        "subject": "物品变化",
+        "change": "完整狼王灵核×1（被剑偷吸两次表层残响，实体仍完整，光暗一圈+凹痕）；神龛幽蓝灵能结晶×1（容小满收着）",
+        "source": "chapter_0006_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0006_item_gland",
+        "subject": "物品变化",
+        "change": "烧蚀腺结块×若干（老瘸收存——燃烧瓶原材料伏笔）",
+        "source": "chapter_0006_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0006_item_sword",
+        "subject": "物品变化",
+        "change": "裂变剑：浮现两道裂纹灵纹（交汇成眼睛/裂缝图案），会自行偷食灵性能量——'它在进食'",
+        "source": "chapter_0006_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0006_ability",
+        "subject": "能力变化",
+        "change": "闪步（预演）：烧蚀犬自爆一瞬本能踏出一步（胸口灵核'磕'了一下，世界变慢）——技能书到手但暂不可学",
+        "source": "chapter_0006_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0006_world",
+        "subject": "世界变化",
+        "change": "锈铁神龛首次探索完成（隐藏遗迹图鉴）；地图红线延伸向静电洞穴方向——隐藏的路还没完",
+        "source": "chapter_0006_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0006_fs_blank_teach",
+          "subject": "伏笔埋设",
+          "change": "空白灵核的真相：不是废，是'装不下'——'口没底的井'（觉醒才能学的伏笔）",
+          "source": "chapter_0006_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0006_fs_sword_eat",
+          "subject": "伏笔埋设",
+          "change": "裂变剑自行进食：偷吸结晶、两道裂纹灵纹、眼睛/裂缝图案——剑有自己的秘密",
+          "source": "chapter_0006_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0006_fs_gland",
+          "subject": "伏笔埋设",
+          "change": "烧蚀腺：晒干封罐能烧半条街——Boss 战燃烧瓶原材料伏笔",
+          "source": "chapter_0006_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0006_fs_map",
+          "subject": "伏笔埋设",
+          "change": "地图会'认路'：走过隐藏点才显出新印记与新红线——地图本身不简单",
+          "source": "chapter_0006_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0006_fs_shrine_adv",
+          "subject": "伏笔推进",
+          "change": "锈铁神龛：铁心脏造型、闭合眼睛图腾、空凹槽——供奉之物成谜",
+          "source": "chapter_0006_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": []
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0006_my_sword",
+        "subject": "新谜题",
+        "change": "裂变剑为什么会自己进食？裂纹灵纹是什么？",
+        "source": "chapter_0006_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0006_my_shrine2",
+        "subject": "新谜题",
+        "change": "神龛供的是什么？空凹槽原本放着什么？",
+        "source": "chapter_0006_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0006_goal",
+        "subject": "第0006章主要目标",
+        "change": "按地图碎片找到隐藏遗迹锈铁神龛，破解机关拿到藏宝：技能书·闪步加灵能结晶；但技能书'读不进去'——空白灵核的限制，埋下觉醒才能学的伏笔；烧蚀犬自爆预演闪步",
+        "source": "chapter_0006_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

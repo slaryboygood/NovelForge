@@ -1,0 +1,170 @@
+{
+  "chapter_id": "0056",
+  "committed_at": "20260902215708",
+  "state_delta": {
+    "chapter_id": "0056",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260902002041_3056c1fd:candidate",
+    "source_draft_hash": "85631767f8c957e39c62f44b58c26b06b66f42377ba45f6b3f7928a4eceb8be2",
+    "timeline_delta": {
+      "source_chapter": "0055",
+      "title": "拆王座计划",
+      "time": "CH055败退后立即至半个时辰后",
+      "location": "锈蚀地牢中层半塌巡守室、侧维护道与内锁房"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0056_zero",
+        "subject": "人物变化",
+        "change": "零维持Lv.35与腐化值16，左臂仍吊在胸前；带频闪从侧维护道救回闸门，受损雷弧战甲只贴反锈涂层，未恢复完好",
+        "source": "chapter_0056_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0056_gate",
+        "subject": "人物变化",
+        "change": "闸门被从内锁房救回，重甲和重盾严重受损，仅恢复到能站立与短时卡位，不能满状态作战",
+        "source": "chapter_0056_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0056_rong",
+        "subject": "人物变化",
+        "change": "容小满半个时辰后苏醒，只能维持十几息有限净化；拒绝被留在后方但仍属重度透支",
+        "source": "chapter_0056_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0056_pinshan",
+        "subject": "人物变化",
+        "change": "频闪右肩伤势持续，协助拖回闸门；取得短箭12支，但临时战弓与伤肩限制仍在",
+        "source": "chapter_0056_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0056_tuanzi",
+        "subject": "人物变化",
+        "change": "团子靠近一团净化膏缓慢取暖后仅恢复一粒微弱电光；膏体未耗尽，团子仍接近空能且只用叫声表达",
+        "source": "chapter_0056_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0056_yiling",
+        "subject": "人物变化",
+        "change": "忆灵强撑读出侧维护道和被污染的王座结构图，灵体仍近乎透明",
+        "source": "chapter_0056_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0056_team",
+        "subject": "关系变化",
+        "change": "零和频闪没有放弃被隔离的闸门；闸门获救后接受只卡一次台阶的受伤分工，队伍以有限状态共同制定二战方案",
+        "source": "chapter_0056_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0056_throne",
+        "subject": "知识变化",
+        "change": "旧记录确认王座并非座椅，而是持续以囚徒记忆喂养典狱长的记忆炉",
+        "source": "chapter_0056_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0056_battle_plan",
+        "subject": "知识变化",
+        "change": "二战顺序锁定为拆王座、压制召唤虫群、在锈能回流时净化、零闪步斩关节与颈甲缝；污染仓图可能仍含陷阱",
+        "source": "chapter_0056_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0056_location",
+        "subject": "地点变化",
+        "change": "全队在锈蚀地牢中层半塌巡守室会合；闸门不再被隔在王座大厅门后",
+        "source": "chapter_0056_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0056_materials",
+        "subject": "物品变化",
+        "change": "消耗火星牙×2与烧蚀腺×2，当前火星牙×5、烧蚀腺×3",
+        "source": "chapter_0056_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0056_supplies",
+        "subject": "物品变化",
+        "change": "从巡守室旧守备架明确取得短箭×12；制作净化膏×4，其中2团用于闸门、另2团留用（其中1团暂置团子身边取暖但未耗尽）；制作反锈涂层×2并全部贴于闸门、零和频闪装备",
+        "source": "chapter_0056_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0056_level",
+        "subject": "能力变化",
+        "change": "零维持Lv.35、腐化值16，无升级或新技能",
+        "source": "chapter_0056_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0056_memory_furnace",
+        "subject": "世界变化",
+        "change": "黑铁王座被确认是喂养锈王的记忆炉，而非普通权力象征",
+        "source": "chapter_0056_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [],
+      "advanced": [
+        {
+          "id": "chapter_0056_throne_plan",
+          "subject": "伏笔推进",
+          "change": "王座结构图与记忆炉记录共同指向先拆王座的破局路径",
+          "source": "chapter_0056_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0056_gate_rescue",
+          "subject": "伏笔回收",
+          "change": "CH055被隔离的闸门经侧维护道获救归队",
+          "source": "chapter_0056_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0056_map_trap",
+        "subject": "新谜题",
+        "change": "污染王座结构图是真情报还是锈王故意留下的钓饵",
+        "source": "chapter_0056_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0056_goal",
+        "subject": "第0056章主要目标",
+        "change": "救回闸门并在有限伤势与资源下完成拆王座二战计划",
+        "source": "chapter_0056_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

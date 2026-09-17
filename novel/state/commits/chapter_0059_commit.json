@@ -1,0 +1,149 @@
+{
+  "chapter_id": "0059",
+  "committed_at": "20260905210715",
+  "state_delta": {
+    "chapter_id": "0059",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260905210155_36fc1cc6:candidate",
+    "source_draft_hash": "500ad148dccc6327eabc67408b0ec03a9dfe72bbbe7dae7299cf164823682690",
+    "timeline_delta": {
+      "source_chapter": "0058",
+      "title": "弃剑持枪：试炼第一战",
+      "time": "CH058锈王决战后在试炼井入口短歇期间",
+      "location": "锈蚀地牢·试炼井速度关与力量关"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0059_zero",
+        "subject": "人物变化",
+        "change": "零将裂变剑锁在井口，单手拔出试炼制式旧枪入井；速度关领悟拦字诀并击败影枪灵，进入力量关后被重枪灵击飞，右腿与虎口新增伤口、胸甲凹陷，旧枪断成两截；Lv.38与腐化值24均不变",
+        "source": "chapter_0059_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0059_yiling",
+        "subject": "人物变化",
+        "change": "忆灵在井口保管锈王灵核，从试炼记录中为零读出‘枪意不在快，在拦’与‘力之所至，皆可借’两条关键记录",
+        "source": "chapter_0059_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0059_party",
+        "subject": "人物变化",
+        "change": "闸门开始试穿壁垒重甲但旧伤未愈；容小满灵能仍近空，频闪仍右肩伤且无箭，团子仍无可用能量，队友均留在井口",
+        "source": "chapter_0059_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0059_support",
+        "subject": "关系变化",
+        "change": "队友无法进入单人试炼，但闸门以‘活’表达信任，忆灵在井口继续读取记录为零提供有限提示",
+        "source": "chapter_0059_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0059_trial_rules",
+        "subject": "知识变化",
+        "change": "试炼井明确分为速、力与未完全显示的第三关；入井者必须弃随身之刃并使用井中枪",
+        "source": "chapter_0059_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0059_gun_intent",
+        "subject": "知识变化",
+        "change": "速度关的破法不是追快，而是以枪身拦截进攻路线并借力导引；力量关的下一条线索是‘力之所至，皆可借’",
+        "source": "chapter_0059_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0059_location",
+        "subject": "地点变化",
+        "change": "零独自深入试炼井第二层力量关；其他队员与裂变剑留在井口",
+        "source": "chapter_0059_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0059_sword",
+        "subject": "物品变化",
+        "change": "裂变剑被试炼井锁在井口剑槽，并未遗失或移交",
+        "source": "chapter_0059_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0059_trial_spear",
+        "subject": "物品变化",
+        "change": "零临时取用试炼制式灰白旧枪×1，在力量关被击断为两截；试炼枪属于井内道具，不进入队伍永久库存",
+        "source": "chapter_0059_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0059_block",
+        "subject": "能力变化",
+        "change": "零获得试炼枪意心得‘拦字诀’，学会以枪身拦线与导力；仍为Lv.38，未转职且未解锁雷弧斩",
+        "source": "chapter_0059_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0059_trial_one",
+        "subject": "世界变化",
+        "change": "试炼井速度关已通过，影枪灵化为枪上记忆留下拦字诀；力量关重枪灵仍未击败",
+        "source": "chapter_0059_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [],
+      "advanced": [
+        {
+          "id": "chapter_0059_third_trial",
+          "subject": "伏笔推进",
+          "change": "第三盏白灯会抹去第三关规则字迹，第三关内容仍未公开",
+          "source": "chapter_0059_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0059_speed_trial",
+          "subject": "伏笔回收",
+          "change": "弃剑持枪的速度关已以拦字诀通过",
+          "source": "chapter_0059_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0059_third_trial",
+        "subject": "新谜题",
+        "change": "白灯为什么隐去第三关的说明",
+        "source": "chapter_0059_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0059_goal",
+        "subject": "第0059章主要目标",
+        "change": "零弃剑持枪通过速度关并领悟拦字诀，进入力量关后被重枪灵压制，试炼旧枪断裂",
+        "source": "chapter_0059_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

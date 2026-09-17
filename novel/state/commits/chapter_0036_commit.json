@@ -1,0 +1,164 @@
+{
+  "chapter_id": "0036",
+  "committed_at": "20260828215926",
+  "state_delta": {
+    "chapter_id": "0036",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260828215250_3046dc35:candidate",
+    "source_draft_hash": "fd26592fab7961e8e32189888364632a856ce948e1e29756e37b2ca14e17b0ea",
+    "timeline_delta": {
+      "source_chapter": "0035",
+      "title": "哨站遗址",
+      "time": "赤蝎巢战后的黄昏至夜间",
+      "location": "过载荒原·旧防线哨站遗址"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0036_zero",
+        "subject": "人物变化",
+        "change": "零完整吞噬由赤红旧芯与暗紫内芯构成的过载傀儡芯，实体消失，留下自爆巡逻核印并使腐化值+2",
+        "source": "chapter_0036_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0036_zhamen",
+        "subject": "人物变化",
+        "change": "闸门确认遗址属于阻流族旧防线；面对族老密柜暂未割血开启",
+        "source": "chapter_0036_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0036_zhamen_team",
+        "subject": "关系变化",
+        "change": "队友尊重闸门对族规与守线人身份的暂缓决定",
+        "source": "chapter_0036_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0036_puppet",
+        "subject": "知识变化",
+        "change": "荒原傀儡被植入教团暗紫内芯，自爆行为来自后期改造",
+        "source": "chapter_0036_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0036_wells",
+        "subject": "知识变化",
+        "change": "旧哨墙图只能辨认七井中的三处；紫线刻意绕开可辨认的凉水井",
+        "source": "chapter_0036_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0036_location",
+        "subject": "地点变化",
+        "change": "队伍进入阻流族旧防线哨站，发现尚未开启的族老密柜",
+        "source": "chapter_0036_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0036_core_obtain",
+        "subject": "物品变化",
+        "change": "零从傀儡头目胸腔拔出并获得过载傀儡芯×1（赤红旧芯内嵌暗紫内芯）",
+        "source": "chapter_0036_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0036_core_consume",
+        "subject": "物品变化",
+        "change": "零完整吞噬过载傀儡芯×1，实体完全消失，只留下核印与腐化残留",
+        "source": "chapter_0036_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0036_map",
+        "subject": "物品变化",
+        "change": "获得旧哨局部井图抄本；仅三处井位清晰，非完整散热井分布图",
+        "source": "chapter_0036_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0036_imprint",
+        "subject": "能力变化",
+        "change": "获得傀儡核印：巡逻、锁定热源、靠近、自爆的短促本能",
+        "source": "chapter_0036_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0036_cult",
+        "subject": "组织变化",
+        "change": "确认教团以暗紫内芯改造过载傀儡",
+        "source": "chapter_0036_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0036_construct",
+        "subject": "世界变化",
+        "change": "傀儡属于构装体，倒毁后不产生血肉怪物的死亡逸散灵能",
+        "source": "chapter_0036_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0036_station",
+        "subject": "世界变化",
+        "change": "旧防线哨站保存局部井图与需阻流族纹血开启的族老密柜",
+        "source": "chapter_0036_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0036_fs_guard",
+          "subject": "伏笔埋设",
+          "change": "阻流族披甲队持族长令抵达哨站，要带闸门回关",
+          "source": "chapter_0036_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0036_fs_cult",
+          "subject": "伏笔推进",
+          "change": "暗紫芯会躲避容小满金纹净化，并在核印中留下半闭眼命令",
+          "source": "chapter_0036_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": []
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0036_mystery",
+        "subject": "新谜题",
+        "change": "族老密柜中的完整井位、警号与封门法",
+        "source": "chapter_0036_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0036_goal",
+        "subject": "第0036章主要目标",
+        "change": "击败过载傀儡巡逻队，发现旧防线哨站、局部井图与教团暗紫改造",
+        "source": "chapter_0036_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

@@ -1,0 +1,277 @@
+{
+  "chapter_id": "0026",
+  "committed_at": "20260827201509",
+  "state_delta": {
+    "chapter_id": "0026",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260827200532_2884636b:candidate",
+    "source_draft_hash": "ba1100461db57fa8cda56b1f1c860097659bd28bd42336f7430d0540b2bc2659",
+    "timeline_delta": {
+      "source_chapter": "0025",
+      "title": "地下仓库里的暗紫纹",
+      "time": "新历300纪·春，虫潮后数日·三月中（灰巷入夜→排水口潜入→仓库突袭→铁门巨响收尾）",
+      "location": "灰巷尽头旧仓库（地下：笼区/高台/炼案/账房/白幡暗道）→ 暗道铁门（白袍客）"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0026_character",
+        "subject": "人物变化",
+        "change": "零：商会线人指路潜入灰巷旧仓库；识破'门不卖货只认鹰镖'；借狼之意砍木销放铁闸砸开笼门；连战腐化守卫（脏灵能灌过的打手/白布死士），为护容小满被黑铁爪抓伤左臂（腐气伤，药粉压住）；火烧炼槽；账房夺账册（赵家商行·脏灵能·三百枚+私印启字+备注'半图未得，查斩波者'）+两枚鹰头赵字铜牌；忆灵现身告知白袍客线；铁门巨响，白袍客将至（结尾钩子）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0026_character_rong",
+        "subject": "人物变化",
+        "change": "容小满：金纹净化首显代价——救孩子时白火净化污染灵核成灰核（金纹亮到刺眼），力竭瘫软+手腕浮金痕（碰则疼，灵核受损危机感）；坚持'我不走'继续压黑丝救人；忆灵警告'储能族的光最适合喂门'（白袍仙师原话）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0026_character_pinshan",
+        "subject": "人物变化",
+        "change": "频闪：裂弓+备弦将就作战（铜镜晃弓手/射灯盏/铁钩）；弓弦彻底崩断（弓报废，甩弓捡弯背刀）；'旧钟楼那个闲活？'（忆灵线索呼应）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0026_character_zhamen",
+        "subject": "人物变化",
+        "change": "闸门：排水口进不去，从灰巷正门破入（'听见底下乱起来，就砸进来'——好）；外间打乱黑市打手",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0026_character_tuanzi",
+        "subject": "人物变化",
+        "change": "团子：跟入仓库（颜色发灰）；净化时电紫丝护主（紫丝太浓只顿一息）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0026_character_yiling",
+        "subject": "人物变化",
+        "change": "忆灵（第二次现身·开口）：十二三岁女孩、灰白头发、碎镜片（镜中无灯无自己）、芯片纹淡如水痕；'别告诉别人见过我'；'我不是幽灵，我只是能听见仓里的人在哭'；告知白袍线（赵家送货进门/找半张图的人）；警告'别让他看见你们的影子，门会记住'后消失于货架阴影",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0026_character_baipao",
+        "subject": "人物变化",
+        "change": "白袍客/白袍仙师：教团据点主人——'紫纹是神赐的路，喝了黑水能躲开腐化潮'；收完整的人喂门；要储能族的光喂门；今晚来仓库（铁门巨响收尾）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0026_rel_yiling",
+        "subject": "关系变化",
+        "change": "忆灵：第二次现身开口（更近）——零队开始知道她的存在与处境（被抓的'会读记忆仓的幽灵'）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0026_rel_zhao",
+        "subject": "关系变化",
+        "change": "赵启：账册实锤（赵家商行·脏灵能·三百枚+私印启字+鹰头铜牌）——经手黑市脏灵能证据落袋；'半图未得，查斩波者'——赵启盯上零的地图",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0026_rel_chuneng2",
+        "subject": "关系变化",
+        "change": "储能商会：线人指路/只认活口和账（商会要账本与活口，不烧仓库——灰巷上面住人）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0026_knowledge",
+        "subject": "知识变化",
+        "change": "腐化教团印记：暗紫螺旋纹（白幡/白布内侧/暗道石框——比林间紫纹更新更正，'把野长的腐根刻成了印'）；教义：紫纹=神赐的路、喝黑水躲腐化潮；白袍仙师（白袍客）：收完整的人喂'门'、储能族的光最适合喂门；灰巷旧仓库：炼黑水（石槽紫火/铜管滴瓶）、失智硅基民实验料（胸口嵌污染灵核、紫丝绕进皮肉）；账册：赵家商行提脏灵能三百枚押老码头（三月十二）、收坏核折黑水、送深部紫土启少爷验、'样本不足白袍仙师催。半图未得，查斩波者'；记忆仓：下面有仓、会读人的仓、白袍喂脏东西给它、'门会记脸'——旧钟楼幽灵线（忆灵）；忆灵能力：能听见仓里的人在哭/仓记着零的味道（'像门外面的风'）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0026_location",
+        "subject": "地点变化",
+        "change": "灰巷尽头旧仓库（地下三层结构：笼区/炼案/账房；白幡后暗道通记忆仓群）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0026_item_zhangce",
+        "subject": "物品变化",
+        "change": "账册（赵家商行·脏灵能·三百枚+启字私印+备注；鹰头压印封皮）+散单+两枚鹰头赵字铜牌（油布包收怀里）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0026_item_huike",
+        "subject": "物品变化",
+        "change": "灰核（孩子胸口的污染灵核被金纹净化成灰色废核——容小满掌心；白袍客想要的东西）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0026_item_bow3",
+        "subject": "物品变化",
+        "change": "频闪的弓彻底报废（弓弦崩断，甩弓捡弯背刀——CH027 巡影换弓）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0026_item_zhuawound",
+        "subject": "物品变化",
+        "change": "零左臂黑铁爪抓伤（腐气伤，药粉压住灰紫慢了一点）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0026_ability_jinghua",
+        "subject": "能力变化",
+        "change": "容小满：金纹净化（白火压回黑核成灰核——'不像术法画成，像血脉深处刻着的脉络'）；代价=力竭+手腕金痕",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0026_ability_lang",
+        "subject": "能力变化",
+        "change": "零：狼之意（借狼的速度与狠劲劈木销）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0026_ability_pinshan2",
+        "subject": "能力变化",
+        "change": "频闪：巡影纹铜镜（借光晃弓手失准——巡影线伏笔）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0026_org",
+        "subject": "组织变化",
+        "change": "腐化教团（暗紫螺旋纹印记首现/白袍仙师/喂门）；赵家（账册实锤）；储能商会（线人/要账本）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0026_world",
+        "subject": "世界变化",
+        "change": "教团据点运营模式（收坏核炼黑水/养失智实验料/喂记忆仓）；记忆仓群在仓库暗道之下（旧世界设施被利用）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0026_fs_men",
+          "subject": "伏笔埋设",
+          "change": "'门'：记忆仓群（会读人的仓/记脸/白袍喂脏东西）——旧钟楼幽灵线+忆灵身份线",
+          "source": "chapter_0026_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0026_fs_huike",
+          "subject": "伏笔埋设",
+          "change": "净化灰核（容小满掌心）——白袍客志在必得之物（CH027 追杀线）",
+          "source": "chapter_0026_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0026_fs_guang",
+          "subject": "伏笔埋设",
+          "change": "'储能族的光最适合喂门'——容小满成教团目标",
+          "source": "chapter_0026_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0026_fs_xunyin",
+          "subject": "伏笔埋设",
+          "change": "巡影纹铜镜（频闪）——巡影者传承前置",
+          "source": "chapter_0026_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0026_fs_jiaotuan2",
+          "subject": "伏笔推进",
+          "change": "教团印记首现（暗紫螺旋纹）；白袍仙师=白袍客（灰巷黑市线核心）",
+          "source": "chapter_0026_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0026_fs_zhao9",
+          "subject": "伏笔推进",
+          "change": "赵启经手脏灵能账册实锤（'半图未得，查斩波者'——地图线冲突升级）",
+          "source": "chapter_0026_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0026_fs_yiling2",
+          "subject": "伏笔推进",
+          "change": "忆灵第二次现身开口（读仓能力/被抓处境）",
+          "source": "chapter_0026_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0026_fs_judian",
+          "subject": "伏笔解决",
+          "change": "灰巷据点端掉（账册/铜牌/失智民获救；炼槽烧毁；白袍客将至未至）",
+          "source": "chapter_0026_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0026_my_men",
+        "subject": "新谜题",
+        "change": "暗道下的记忆仓群是什么？'门'要喂什么？白袍仙师要把赵家的货送进门做什么？",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0026_my_yiling3",
+        "subject": "新谜题",
+        "change": "忆灵为什么能听见仓里的人在哭？她的芯片纹为什么淡如水痕？",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0026_my_baipao2",
+        "subject": "新谜题",
+        "change": "白袍仙师与腐化潮/紫纹/储能族光的关系？",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0026_goal",
+        "subject": "第0026章主要目标",
+        "change": "端掉灰巷黑市据点（排水口潜入/铁闸砸笼/账房夺册）；腐化教团暗紫螺旋纹印记首现；容小满金纹净化污染灵核成灰核（力竭瘫软+手腕金痕——代价可见）；账册实锤赵家经手脏灵能（三百枚+启字私印+'半图未得查斩波者'）；忆灵第二次现身开口（读仓能力/白袍线情报）；结尾白袍客将至（铁门巨响）",
+        "source": "chapter_0026_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

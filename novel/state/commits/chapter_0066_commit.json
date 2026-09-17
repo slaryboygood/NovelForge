@@ -1,0 +1,185 @@
+{
+  "chapter_id": "0066",
+  "committed_at": "20260906132813",
+  "state_delta": {
+    "chapter_id": "0066",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260906001445_c4457212:candidate",
+    "source_draft_hash": "2a24e8c998adade2eb969711be6088f61e0ff0a53bbfe3f6d4645a0f47c0d993",
+    "timeline_delta": {
+      "source_chapter": "0065",
+      "title": "剑名显形：裂变",
+      "time": "CH065当夜门衍试门后至次日清晨",
+      "location": "远古门阵·记忆库后侧送炉道→铸灵殿"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0066_zero",
+        "subject": "人物变化",
+        "change": "零与门衍达成一次性合作，在铸灵殿击溃Lv.50金阵灵；裂变剑紫转橙、剑名显形，零由Lv.45升至Lv.46，腐化值仍为24",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0066_party",
+        "subject": "人物变化",
+        "change": "闸门、频闪和团子负责殿外石兵，频闪以唯一穿云箭贯阵后完整取回；容小满与忆灵辅助零抓住灵池空拍；铸鸣确认剑上芯火纹在老货册中名为万芯",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0066_menyan",
+        "subject": "人物变化",
+        "change": "门衍用不完整权限令将铸灵殿门锁降阶，战后按约取走一只门印旧铜盒；令牌表面出现细纹",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0066_zero_menyan",
+        "subject": "关系变化",
+        "change": "零与门衍第一次按明确条件合作：门衍开门，队伍主战，事后门衍取一件私人旧物",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0066_forge",
+        "subject": "知识变化",
+        "change": "铸灵殿以旧世界余韵养器，灵池会响应持令者之剑并令守殿阵灵低首归阵",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0066_storm",
+        "subject": "知识变化",
+        "change": "技能书·雷弧风暴当前只允许零使用受限第一式，Lv.55才可发挥完整形态",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0066_wanxin_mark",
+        "subject": "知识变化",
+        "change": "裂变剑橙化后显出门形芯火纹，铸鸣认出老货册称该图样为‘万芯’，但其本质仍未解释",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0066_location",
+        "subject": "地点变化",
+        "change": "铸灵殿守灵已归阵，队伍控制殿内；门衍取走旧铜盒后离开殿内",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0066_sword",
+        "subject": "物品变化",
+        "change": "裂变剑吸收铸灵殿遗迹余韵，由紫形态强化为橙形态，剑名‘裂变’正式显形",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0066_skill_book",
+        "subject": "物品变化",
+        "change": "获得技能书·雷弧风暴并习得受限第一式；完整威力锁定Lv.55",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0066_embers",
+        "subject": "物品变化",
+        "change": "获得铸灵余烬3，由铸鸣保管，可用于修复旧器与补铭文",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0066_arrow",
+        "subject": "物品变化",
+        "change": "穿云箭贯穿殿外石兵后钉入远墙，频闪已拔回；箭光更暗但实体未断",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0066_cloak",
+        "subject": "物品变化",
+        "change": "零的紫装符文披风在战斗中被金阵灵切出一道裂口，仍可使用",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0066_progress",
+        "subject": "能力变化",
+        "change": "零Lv.45→Lv.46；获得雷弧风暴第一式，完整形态须Lv.55；裂变剑进化橙形态",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0066_forge_rules",
+        "subject": "世界变化",
+        "change": "铸灵殿不产怪物灵核，以遗迹余韵、剑槽和灵池完成旧器强化",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0066_bronze_box",
+          "subject": "伏笔埋设",
+          "change": "门衍按约取走带门形印的旧铜盒，内容未知",
+          "source": "chapter_0066_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0066_wanxin_sword",
+          "subject": "伏笔推进",
+          "change": "万芯称谓与裂变剑橙化后显出的门形芯火纹首次交汇，但未说明万芯本质",
+          "source": "chapter_0066_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0066_forge_route",
+          "subject": "伏笔回收",
+          "change": "铸鸣从记忆库后侧锤印找到铸灵殿并完成裂变剑强化",
+          "source": "chapter_0066_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0066_sword_wanxin",
+        "subject": "新谜题",
+        "change": "裂变剑上的万芯图样与门衍父亲封存之物有何关系",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0066_goal",
+        "subject": "第0066章主要目标",
+        "change": "门衍降阶开锁，队伍攻破铸灵殿；零升Lv.46，裂变剑紫转橙并显名，获雷弧风暴第一式与铸灵余烬3，万芯线与剑线交汇",
+        "source": "chapter_0066_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

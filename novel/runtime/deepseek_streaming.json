@@ -1,0 +1,98 @@
+{
+  "defaults": {
+    "endpoint": "https://api.deepseek.com/chat/completions",
+    "model": "deepseek-v4-flash",
+    "max_attempts": 2,
+    "progress_char_interval": 1000,
+    "partial_flush_chars": 256,
+    "partial_flush_seconds": 1.0
+  },
+  "default_timeouts": {
+    "connect_timeout_seconds": 15,
+    "first_activity_timeout_seconds": 60,
+    "idle_token_timeout_seconds": 45,
+    "total_timeout_seconds": 300
+  },
+  "profiles": {
+    "planner": {
+      "thinking": true,
+      "reasoning_effort": "low",
+      "max_completion_tokens": 4000,
+      "timeouts": {
+        "first_activity_timeout_seconds": 30,
+        "idle_token_timeout_seconds": 30,
+        "total_timeout_seconds": 120
+      }
+    },
+    "reviewer": {
+      "thinking": true,
+      "reasoning_effort": "low",
+      "max_completion_tokens": 4000,
+      "timeouts": {
+        "first_activity_timeout_seconds": 30,
+        "idle_token_timeout_seconds": 30,
+        "total_timeout_seconds": 120
+      }
+    },
+    "revision_planner": {
+      "thinking": true,
+      "reasoning_effort": "low",
+      "max_completion_tokens": 4000,
+      "timeouts": {
+        "first_activity_timeout_seconds": 30,
+        "idle_token_timeout_seconds": 30,
+        "total_timeout_seconds": 150
+      }
+    },
+    "writer": {
+      "thinking": false,
+      "max_completion_tokens": 12000,
+      "timeouts": {
+        "first_activity_timeout_seconds": 60,
+        "first_content_timeout_seconds": 120,
+        "idle_token_timeout_seconds": 45,
+        "total_timeout_seconds": 300
+      }
+    },
+    "rewriter": {
+      "thinking": false,
+      "max_completion_tokens": 12000,
+      "timeouts": {
+        "first_activity_timeout_seconds": 60,
+        "first_content_timeout_seconds": 120,
+        "idle_token_timeout_seconds": 45,
+        "total_timeout_seconds": 300
+      }
+    },
+    "state_extractor": {
+      "thinking": false,
+      "max_completion_tokens": 3000,
+      "timeouts": {
+        "first_activity_timeout_seconds": 30,
+        "idle_token_timeout_seconds": 30,
+        "total_timeout_seconds": 120
+      }
+    },
+    "smoke": {
+      "thinking": false,
+      "max_completion_tokens": 64,
+      "max_attempts": 1,
+      "timeouts": {
+        "first_activity_timeout_seconds": 30,
+        "first_content_timeout_seconds": 45,
+        "idle_token_timeout_seconds": 20,
+        "total_timeout_seconds": 60
+      }
+    },
+    "structured_smoke": {
+      "thinking": false,
+      "max_completion_tokens": 256,
+      "max_attempts": 1,
+      "timeouts": {
+        "first_activity_timeout_seconds": 30,
+        "idle_token_timeout_seconds": 20,
+        "total_timeout_seconds": 60
+      }
+    }
+  }
+}

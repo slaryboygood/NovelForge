@@ -1,0 +1,235 @@
+{
+  "chapter_id": "0023",
+  "committed_at": "20260827194901",
+  "state_delta": {
+    "chapter_id": "0023",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260827194350_929030cf:candidate",
+    "source_draft_hash": "269f7b467c30295f4c98ed485a998172f6abaa8c8623a432a0539d2bba8dcb37",
+    "timeline_delta": {
+      "source_chapter": "0022",
+      "title": "灰巷捡漏",
+      "time": "新历300纪·春，能量仓调查次日（午前老掌柜画图指路→午后灰巷黑市冲突→审出白袍客线索）",
+      "location": "天梭城储能商会账房 → 南城灰巷黑市（缺角石狮子暗门）"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0023_character",
+        "subject": "人物变化",
+        "change": "零：挂铁牌进灰巷（老掌柜教'认牌子不认脸'）；数三下闪步抓王独眼（首次城里人前用闪步）；雷纹护臂吃铁蒺藜、裂变剑断包铁门闩、顶飞打手；倒镖囊得鹰头赵字短镖+夹层进货单；审出白袍客（三倍价收黑货连坏核都要）；定下明晚码头之约；结尾铜牌发烫（感应伏笔）",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0023_character_pinshan",
+        "subject": "人物变化",
+        "change": "频闪：灰巷'以前就在那儿混的'（三四年没来，巷子老变）；撞翻脏灵能瓶闯祸；房檐三箭不射人（钉手背/削镖囊/钉脚前）+第四箭被刀疤脸同伴磕飞；'以前就在那儿混的'黑市旧识线",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0023_character_zhamen",
+        "subject": "人物变化",
+        "change": "闸门：跟进灰巷，一夫当关反堵巷口（铁盾推出两个打手，'让。'——还是那个字）",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0023_character_rong",
+        "subject": "人物变化",
+        "change": "容小满：记着老掌柜的警告（光只能是白的不能是金的）；问娘的事（'先查货，货查到了人就不远了'）；听闻白袍客连坏核都收倒吸冷气（联想能量仓/储能族灭族）",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0023_character_wang",
+        "subject": "人物变化",
+        "change": "王独眼（新登场）：灰巷独眼摊主，替鹰镖队看摊卖黑水（卖一瓶抽两个铜子）；被审出白袍客（'那位爷从来没人见过脸'）+明晚码头情报",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0023_character_daoba",
+        "subject": "人物变化",
+        "change": "刀疤脸（新登场）：鹰镖队收货头目，左眉旧刀疤，月白短打黑腰带；认出零'抢了赵公子功劳'；不战撤走撇清（怕'赵'字和黑水摊在一处）；镖囊/进货单被缴",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0023_rel_zhao",
+        "subject": "关系变化",
+        "change": "赵启：鹰镖队在灰巷收脏灵能实锤（刀疤脸/进货单/鹰头赵字短镖）——黑市线证据链+1",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0023_rel_baipao",
+        "subject": "关系变化",
+        "change": "白袍客（新势力）：腐化教团影子——三倍价成批收黑货/坏核，连鹰镖队都听他调度；明晚码头验大货",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0023_knowledge",
+        "subject": "知识变化",
+        "change": "灰巷黑市规矩：认牌子不认脸/问'黑货'不问'脏灵能'/'收不收裂的'（裂核价高）；狮子嘴红布=真入口、黑布=官面眼线；鹰镖队每隔三天送一批黑水到灰巷（对半分账）；白袍客：白袍遮脸后半夜收货、给价市面三倍、有多少收多少、连坏核都要、身边跟着不说话的人；明晚码头验大货（腐化完整灵核）；灰巷巷子会'骗人'（风/影子绕人）",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0023_location",
+        "subject": "地点变化",
+        "change": "灰巷（南城黑市：一片巷/缺角石狮子/骗人巷）、老码头（明晚验货点，口头）",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0023_item_jhd",
+        "subject": "物品变化",
+        "change": "进货单（镖囊夹层：'明晚，老码头，验货。带完整的来'+鹰头落款——关键线索）",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0023_item_daobiao",
+        "subject": "物品变化",
+        "change": "鹰头赵字短镖十几支（镖囊缴获，与怀中铜牌同一字号）",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0023_item_hei",
+        "subject": "物品变化",
+        "change": "黑水（脏灵能）三瓶打碎赔偿（一百五十铜）；现场其余黑水瓶归摊主/鹰镖队遗留",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0023_ability_flash",
+        "subject": "能力变化",
+        "change": "零：闪步首次在城里人前使用（'第一次在城里、在人前用这一招'）",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0023_org",
+        "subject": "组织变化",
+        "change": "鹰镖队（灰巷收货网）；白袍客势力（神秘买家首现于情报）；灰巷黑市（结构/规矩）",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0023_world",
+        "subject": "世界变化",
+        "change": "脏灵能黑市链：鹰镖队送货→灰巷分销→白袍客成批收（含坏核）；明晚码头大货交易将成",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0023_fs_baipao",
+          "subject": "伏笔埋设",
+          "change": "白袍客：连腐化完整灵核都收（腐化教团黑市线核心买家）——明晚码头验大货",
+          "source": "chapter_0023_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0023_fs_copper",
+          "subject": "伏笔埋设",
+          "change": "鹰头赵字铜牌结尾'毫无征兆烫了一下'（感应/呼应——明晚码头不止白袍客）",
+          "source": "chapter_0023_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0023_fs_pinshan3",
+          "subject": "伏笔埋设",
+          "change": "频闪'以前就在那儿混的'——黑市旧识（'收货的'没敢往下说）",
+          "source": "chapter_0023_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0023_fs_lane",
+          "subject": "伏笔埋设",
+          "change": "灰巷'骗人的巷子'（风/影子绕人——非阵法，像活物）",
+          "source": "chapter_0023_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0023_fs_hui2",
+          "subject": "伏笔推进",
+          "change": "灰巷线：王独眼/刀疤脸/进货单——明晚码头集结",
+          "source": "chapter_0023_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0023_fs_ying2",
+          "subject": "伏笔推进",
+          "change": "鹰头赵字铜牌+短镖+进货单=赵家经手脏灵能证据链",
+          "source": "chapter_0023_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0023_fs_hui3",
+          "subject": "伏笔解决",
+          "change": "脏灵能流向初步查明：能量仓偷灵→灰巷黑市→白袍客成批收（明晚码头）",
+          "source": "chapter_0023_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0023_my_baipao",
+        "subject": "新谜题",
+        "change": "白袍客是谁？为什么连坏核都收？身边'不说话的人'是什么？",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0023_my_copper",
+        "subject": "新谜题",
+        "change": "鹰头赵字铜牌为什么发烫？",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0023_my_lane",
+        "subject": "新谜题",
+        "change": "灰巷为什么'会骗人'？",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0023_goal",
+        "subject": "第0023章主要目标",
+        "change": "潜入灰巷黑市追查脏灵能流向；频闪迷路撞翻脏灵能瓶闯祸；鹰镖队刀疤脸收货撞个正着（短弓已改长弓、闸门反堵巷口）；战利品捡漏（鹰头短镖+夹层进货单）；审出白袍客（三倍价收黑货/连坏核都要）+明晚码头验大货 hook",
+        "source": "chapter_0023_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

@@ -1,0 +1,192 @@
+{
+  "chapter_id": "0037",
+  "committed_at": "20260828220550",
+  "state_delta": {
+    "chapter_id": "0037",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260828215937_fd836c18:candidate",
+    "source_draft_hash": "41b6c973fec511b1b72ee9d8ccd04a3a0733e243afd29e95352bc13261d1c605",
+    "timeline_delta": {
+      "source_chapter": "0036",
+      "title": "灰袍与密信",
+      "time": "阻流族卫抵达后的次日清晨",
+      "location": "过载荒原·老鼹拾荒者营地"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0037_zero",
+        "subject": "人物变化",
+        "change": "零为救忆灵完整吞噬教团过载灵核，Lv.22升至Lv.23，腐化值+3；与CH0036累计腐化值为5",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0037_rong",
+        "subject": "人物变化",
+        "change": "容小满首次把净化术推进到半程，压下零约一半新腐化但未能清除",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0037_yiling",
+        "subject": "人物变化",
+        "change": "忆灵以读仓术截获教团密信并遭仓虫追杀",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0037_team",
+        "subject": "关系变化",
+        "change": "全队在灰袍灭口战中协作保护忆灵并承担零吞核后的腐化代价",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0037_network",
+        "subject": "知识变化",
+        "change": "教团荒原暗桩分为砂营收核、旧井望风、锈铁道转运三线",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0037_letter",
+        "subject": "知识变化",
+        "change": "教团收购巨人心脏制作过载核心，锈蚀地牢炉子等候投喂；第37号井需等巨人过热",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0037_location",
+        "subject": "地点变化",
+        "change": "队伍返回老鼹营地并击退灰袍暗桩，准备转向北谷第37号井",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0037_core_obtain",
+        "subject": "物品变化",
+        "change": "零用口接住并获得教团过载灵核×1",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0037_core_consume",
+        "subject": "物品变化",
+        "change": "零完整吞噬教团过载灵核×1，外壳与暗紫内质全部消失，只留下过载核印与腐化残留",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0037_residue",
+        "subject": "物品变化",
+        "change": "队伍吸收三只污染焦土蜥死亡逸散灵能，不修改实体灵核库存",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0037_sword_residue",
+        "subject": "物品变化",
+        "change": "裂变剑只吸收污染傀儡坏核表层残响，不扣实体库存；该坏核随后在战场被剑锋搅碎",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0037_letter_item",
+        "subject": "物品变化",
+        "change": "获得教团黑皮信×1，记载暗桩网、锈蚀地牢与第37号井",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0037_level",
+        "subject": "能力变化",
+        "change": "零等级提升：Lv.22→Lv.23",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0037_purify",
+        "subject": "能力变化",
+        "change": "容小满净化术完成半程，尚未正式习得完整技能",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0037_cult",
+        "subject": "组织变化",
+        "change": "教团驻荒原灰袍暗桩暴露，实体以灰砂遁逃",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0037_core",
+        "subject": "世界变化",
+        "change": "教团以巨人心脏温养带暗紫腐化的过载灵核",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0037_puppets",
+        "subject": "世界变化",
+        "change": "污染傀儡实体小核均在战斗中毁坏，构装残骸不产生死亡逸散灵能",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0037_fs_37",
+          "subject": "伏笔埋设",
+          "change": "密信指示第37号井等待巨人过热",
+          "source": "chapter_0037_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0037_fs_dungeon",
+          "subject": "伏笔推进",
+          "change": "锈蚀地牢炉子需要过载核心，教团关注巡影与储能余血",
+          "source": "chapter_0037_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": []
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0037_mystery",
+        "subject": "新谜题",
+        "change": "第37号井的教团计划与锈蚀地牢炉子用途",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0037_goal",
+        "subject": "第0037章主要目标",
+        "change": "截获教团荒原密信，击退灰袍暗桩并锁定第37号井",
+        "source": "chapter_0037_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

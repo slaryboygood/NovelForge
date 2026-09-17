@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "session": {
+    "session_id": "sb_20260910_034440_6cf56ebe",
+    "project_id": "novel_project",
+    "status": "CONFIGURING",
+    "current_step": "worldview",
+    "completed_steps": [
+      "reader_experience"
+    ],
+    "selections": [
+      {
+        "selection_id": "sel_000001_b2088873",
+        "step": "reader_experience",
+        "option_id": "experience_growth_adventure",
+        "custom_text": "",
+        "source": "recommended",
+        "revision": 1,
+        "selected_at": "2026-09-10T03:47:06.405932Z"
+      }
+    ],
+    "needs_review_steps": [],
+    "selection_version": 1,
+    "recommendation_version": 1,
+    "created_at": "2026-09-10T03:44:40.582384Z",
+    "updated_at": "2026-09-10T03:47:06.461781Z"
+  }
+}

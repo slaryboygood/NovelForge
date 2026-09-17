@@ -1,0 +1,62 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "from_location_id": {
+      "title": "From Location Id",
+      "type": "string"
+    },
+    "to_location_id": {
+      "title": "To Location Id",
+      "type": "string"
+    },
+    "travel_method": {
+      "title": "Travel Method",
+      "type": "string"
+    },
+    "available_hours": {
+      "minimum": 0,
+      "title": "Available Hours",
+      "type": "number"
+    },
+    "required_min_hours": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Required Min Hours"
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "TRAVEL_CONTINUITY_VIOLATION",
+        "ROUTE_NOT_FOUND"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "hard_fail": {
+      "title": "Hard Fail",
+      "type": "boolean"
+    },
+    "reason": {
+      "title": "Reason",
+      "type": "string"
+    }
+  },
+  "required": [
+    "from_location_id",
+    "to_location_id",
+    "travel_method",
+    "available_hours",
+    "status",
+    "hard_fail",
+    "reason"
+  ],
+  "title": "TravelContinuityReport",
+  "type": "object"
+}

@@ -1,0 +1,14 @@
+{
+  "quality_policy_version": "2.0",
+  "threshold": 9.30,
+  "max_revision_rounds": 2,
+  "deepseek_weight": 0.45,
+  "doubao_weight": 0.55,
+  "approval_policy": {
+    "STANDARD": {"mode": "auto_quality", "threshold": 9.3},
+    "KEY": {"mode": "manual", "threshold": 9.3},
+    "CLIMAX": {"mode": "manual", "threshold": 9.3}
+  },
+  "author_policy_authorized": false,
+  "note": "Novel Reboot v2：质量策略沿用技术参数；维度与文风约束见 quality.py 与 bible/style_guide.md。"
+}

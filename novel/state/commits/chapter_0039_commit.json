@@ -1,0 +1,193 @@
+{
+  "chapter_id": "0039",
+  "committed_at": "20260828222020",
+  "state_delta": {
+    "chapter_id": "0039",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260828221222_f0910640:candidate",
+    "source_draft_hash": "6d0fcaa44afc2d2871f3768cac473fa398aa3f602fae266e51e00456f76a5545",
+    "timeline_delta": {
+      "source_chapter": "0038",
+      "title": "井与盾",
+      "time": "巨人折返第37号井前后",
+      "location": "旧防线哨站密柜/北谷纵深/第37号井"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0039_zero",
+        "subject": "人物变化",
+        "change": "零在混合警戒线战斗中突破Lv.25至Lv.26",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0039_rong",
+        "subject": "人物变化",
+        "change": "容小满在救治被污染芯屑刺伤的孩子时正式习得净化术",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0039_zhamen",
+        "subject": "人物变化",
+        "change": "闸门主动以族纹血开启旧哨族老密柜，并首次借壁垒残卷引出不完整的暗黄卸力微光",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0039_guard",
+        "subject": "关系变化",
+        "change": "族卫长暂时停止押送闸门，转而与队伍共同保护拾荒者并守井",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0039_map",
+        "subject": "知识变化",
+        "change": "完整井图确认七口散热井环绕北谷圆心，标注过热必冷却与守门勿启",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0039_cult",
+        "subject": "知识变化",
+        "change": "教团灰袍利用阻流族长开井令推动七井同时苏醒，目标在旧门之后",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0039_location",
+        "subject": "地点变化",
+        "change": "队伍返回旧哨开柜、穿过北谷警戒线，并赶回第37号井面对七井共鸣",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0039_residue",
+        "subject": "物品变化",
+        "change": "队伍吸收荒原巨蝎死亡逸散灵能，不修改实体灵核库存",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0039_sword_residue",
+        "subject": "物品变化",
+        "change": "裂变剑只吸收炸芯傀儡赤黑碎芯的表层残响；碎芯随后在盾外爆炸，不进入实体库存",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0039_cabinet",
+        "subject": "物品变化",
+        "change": "从旧哨族老密柜获得完整散热井分布图、壁垒技能书残卷和焦黑盾铁×1",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0039_level",
+        "subject": "能力变化",
+        "change": "零等级提升：Lv.25→Lv.26",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0039_purify",
+        "subject": "能力变化",
+        "change": "容小满正式习得技能·净化术",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0039_wall",
+        "subject": "能力变化",
+        "change": "闸门获得壁垒技能书残卷但尚未正式习得完整壁垒",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0039_cult",
+        "subject": "组织变化",
+        "change": "教团灰袍与两名学徒控制北谷石堡和七井热路，遭截击后撤入地牢",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0039_core",
+        "subject": "世界变化",
+        "change": "巨蝎核腔与傀儡旧芯均在战斗中毁坏，无完整实体灵核进入库存；构装体不产生死亡逸散灵能",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0039_well",
+        "subject": "世界变化",
+        "change": "七井水线连接北谷圆心，井图与现实一一重合；七井已同时轰鸣",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0039_fs_door",
+          "subject": "伏笔埋设",
+          "change": "七井散热的热量去向与旧门开启条件尚不明",
+          "source": "chapter_0039_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0039_fs_wall",
+          "subject": "伏笔推进",
+          "change": "壁垒祖技与闸门父亲焦盾断口、守门职责相连",
+          "source": "chapter_0039_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0039_resolve_map",
+          "subject": "伏笔回收",
+          "change": "CH0036 未开的族老密柜由闸门主动开启，取得完整井图",
+          "source": "chapter_0039_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0039_mystery",
+        "subject": "新谜题",
+        "change": "七井一起苏醒后旧门将释放什么",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0039_goal",
+        "subject": "第0039章主要目标",
+        "change": "开启族老密柜取得完整井图和壁垒残卷，完成净化术并升至Lv.26",
+        "source": "chapter_0039_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

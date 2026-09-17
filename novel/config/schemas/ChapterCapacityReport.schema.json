@@ -1,0 +1,63 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "chapter_id": {
+      "pattern": "^\\d{4}$",
+      "title": "Chapter Id",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "PLAN_CAPACITY_FAIL"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "hard_fail": {
+      "title": "Hard Fail",
+      "type": "boolean"
+    },
+    "metrics": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "title": "Metrics",
+      "type": "object"
+    },
+    "issues": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Issues",
+      "type": "array"
+    },
+    "recommendations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Recommendations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "chapter_id",
+    "status",
+    "hard_fail"
+  ],
+  "title": "ChapterCapacityReport",
+  "type": "object"
+}

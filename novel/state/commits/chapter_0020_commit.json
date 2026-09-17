@@ -1,0 +1,206 @@
+{
+  "chapter_id": "0020",
+  "committed_at": "20260827164140",
+  "state_delta": {
+    "chapter_id": "0020",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260827163744_a32a2a1e:candidate",
+    "source_draft_hash": "536dd47fe81b52bdcdf047215de8bc3fd3a6bb7c6a2497c8c6adf9491790fbba",
+    "timeline_delta": {
+      "source_chapter": "0019",
+      "title": "谁才是首杀？",
+      "time": "新历300纪·春，庆功宴次日（上午公会→近午茶馆→午前委托）",
+      "location": "天梭城（冒险者公会大厅、主街茶馆、储能商会、赵家车马行）"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0020_character",
+        "subject": "人物变化",
+        "change": "零：赵启当众抢功（公告墙挂'赵家昨夜首杀'）；零以雷纹虫王芯反打脸（静电束缚烙进核里拔不掉+口器破法+老冒险者目击证词）；频闪一箭钉靴+团子虫王气息压场；执事（赵启表亲）被迫公事公办（张榜三日核验）；赵启撂话'你们给我等着'；接老掌柜委托（三倍护送脉冲林边陲，'出发前我要知道货是谁的'）；裂变剑'等下一次开锋'",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0020_character_rong",
+        "subject": "人物变化",
+        "change": "容小满：出身线开启——储能商会徽记（合拢手掌托光）=她娘发簪；娘年轻时在天梭城'能看见光的地方'待过（净化之源）；'储能堂方士是最末一等'（语气复杂）",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0020_character_pinshan",
+        "subject": "人物变化",
+        "change": "频闪：赵璃暗中解围（背条例/避嫌/'箭不错'）；耳根红",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0020_character_zhaoli",
+        "subject": "人物变化",
+        "change": "赵璃（赵启'我哥'叫得不亲）：首次正面——背《公会实务》条例帮零队解围；与频闪有旧（骨哨/长弓）",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0020_rel_zhao",
+        "subject": "关系变化",
+        "change": "赵启：正面抢功失败，当众丢脸（'你们给我等着'——梁子升级到明面）",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0020_rel_zhaoli",
+        "subject": "关系变化",
+        "change": "赵璃：偏帮零队（避嫌条例）——与频闪关系成谜（狗粮线）",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0020_rel_chuneng",
+        "subject": "关系变化",
+        "change": "储能商会：容小满出身线浮出（徽记/娘的发簪/'能看见光的地方'）——商会委托（三倍护送）",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0020_rel_laozhang",
+        "subject": "关系变化",
+        "change": "老掌柜（周姓）：牵线三倍护送委托（'不是大公会、不是赵家、手里真有本事'）",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0020_knowledge",
+        "subject": "知识变化",
+        "change": "首杀争议规程：材料核验/登记入册/张榜三日（《公会实务》第七页）；避嫌条例；虫王芯雷纹铁证法（静电束缚烙进核里）；储能商会=天梭城管灵能物资（掌纹徽记）；容小满娘：天梭城'能看见光的地方'待过（净化之源伏笔）；老掌柜委托：脉冲林边陲三倍护送，商队运的东西赵家也想要（货线：储能商会+赵家+贵人三线交汇）",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0020_location",
+        "subject": "地点变化",
+        "change": "天梭城公会大厅（抢功打脸现场）、主街茶馆（委托）、储能商会门口、赵家车马行",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0020_item_paid5",
+        "subject": "物品变化",
+        "change": "首杀赏金 320 铜（结算）；赵家托人送的 50 铜+10 瓶药（容小满验毒，钱照收）；委托单（三倍，未接先收）",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0020_item_heart",
+        "subject": "物品变化",
+        "change": "虫王芯（不卖，自己留——'结算赏金就行'）",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [],
+    "organization_changes": [
+      {
+        "id": "chapter_0020_org",
+        "subject": "组织变化",
+        "change": "储能商会：徽记/出身线/三倍委托；赵家：明面梁子；公会：声望再升（'铁牌候补杀虫王？什么来头'）",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0020_world",
+        "subject": "世界变化",
+        "change": "天梭城传言反转（'废灵队捡漏'→'赵家的手伸太长'）；储能商会货物线浮出（乳白光）",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0020_fs_rong_line",
+          "subject": "伏笔埋设",
+          "change": "容小满出身：娘在天梭城'能看见光的地方'待过+发簪=储能徽记（储能族血脉主线）",
+          "source": "chapter_0020_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0020_fs_goods3",
+          "subject": "伏笔埋设",
+          "change": "三倍护送委托：商队运的东西赵家也想要——货线（储能商会+赵家+贵人）",
+          "source": "chapter_0020_final",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "chapter_0020_fs_zhaoli2",
+          "subject": "伏笔埋设",
+          "change": "赵璃与频闪的旧交（骨哨/长弓/'箭不错'）",
+          "source": "chapter_0020_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0020_fs_zhao6",
+          "subject": "伏笔推进",
+          "change": "赵启'你们给我等着'——第二回合蓄力",
+          "source": "chapter_0020_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0020_fs_zhao4_done",
+          "subject": "伏笔解决",
+          "change": "赵家抢功（庆功宴+公告墙两回合）被虫王芯证据彻底打回",
+          "source": "chapter_0020_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [
+      {
+        "id": "chapter_0020_my_rong3",
+        "subject": "新谜题",
+        "change": "容小满娘在'能看见光的地方'做过什么？净化之力的来源？",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0020_my_goods4",
+        "subject": "新谜题",
+        "change": "商队运的乳白光之物是什么？赵家/储能/贵人三方的算盘？",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0020_my_zhaoli",
+        "subject": "新谜题",
+        "change": "赵璃与频闪的旧交是什么？她为什么帮零队？",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0020_goal",
+        "subject": "第0020章主要目标",
+        "change": "赵启第一次正面登场，当众抢功羞辱；零用毒王芯证据反打脸（雷纹印记）；赵璃暗中帮频闪解围（狗粮点）；储能商会委托出现，牵出容小满出身线（'能看见光的地方'/掌纹徽记）",
+        "source": "chapter_0020_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

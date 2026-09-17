@@ -1,0 +1,181 @@
+{
+  "$defs": {
+    "FailurePolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "default": "fail_stage",
+          "enum": [
+            "fail_stage",
+            "abort_run"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        "fallback_plugin": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fallback Plugin"
+        }
+      },
+      "title": "FailurePolicy",
+      "type": "object"
+    },
+    "PluginStage": {
+      "enum": [
+        "planner",
+        "writer",
+        "reviewer",
+        "revision_planner",
+        "rewriter",
+        "state_extractor",
+        "publisher"
+      ],
+      "title": "PluginStage",
+      "type": "string"
+    },
+    "RetryPolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "max_attempts": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Max Attempts",
+          "type": "integer"
+        }
+      },
+      "title": "RetryPolicy",
+      "type": "object"
+    },
+    "RuntimeSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "provider": {
+          "title": "Provider",
+          "type": "string"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        }
+      },
+      "required": [
+        "provider"
+      ],
+      "title": "RuntimeSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "plugin_id": {
+      "pattern": "^[a-z0-9_.-]+$",
+      "title": "Plugin Id",
+      "type": "string"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    },
+    "stage": {
+      "$ref": "#/$defs/PluginStage"
+    },
+    "runtime": {
+      "$ref": "#/$defs/RuntimeSpec"
+    },
+    "skill": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Skill"
+    },
+    "input_schema": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Input Schema",
+      "type": "array"
+    },
+    "output_schema": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Output Schema",
+      "type": "array"
+    },
+    "permissions": {
+      "additionalProperties": {
+        "enum": [
+          "deny",
+          "read",
+          "write",
+          "review_only",
+          "allow"
+        ],
+        "type": "string"
+      },
+      "title": "Permissions",
+      "type": "object"
+    },
+    "dependencies": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Dependencies",
+      "type": "array"
+    },
+    "timeout_seconds": {
+      "default": 600,
+      "minimum": 1,
+      "title": "Timeout Seconds",
+      "type": "integer"
+    },
+    "retry_policy": {
+      "$ref": "#/$defs/RetryPolicy"
+    },
+    "failure_policy": {
+      "$ref": "#/$defs/FailurePolicy"
+    },
+    "capabilities": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Capabilities",
+      "type": "array"
+    }
+  },
+  "required": [
+    "plugin_id",
+    "name",
+    "version",
+    "stage",
+    "runtime"
+  ],
+  "title": "PluginContract",
+  "type": "object"
+}

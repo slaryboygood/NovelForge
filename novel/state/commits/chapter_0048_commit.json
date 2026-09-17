@@ -1,0 +1,163 @@
+{
+  "chapter_id": "0048",
+  "committed_at": "20260831113521",
+  "state_delta": {
+    "chapter_id": "0048",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260831112945_f79c731b:candidate",
+    "source_draft_hash": "eb25ef6d4b2f46afca13b2b3e88fb6aeb94982dbd953de12c9d4e0105b77d4a5",
+    "timeline_delta": {
+      "source_chapter": "0047",
+      "title": "四人锤出一件紫装",
+      "time": "CH047紧接至当夜",
+      "location": "锈蚀地牢中层旧锻造间"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0048_zero",
+        "subject": "人物变化",
+        "change": "零带伤救回频闪并击退Lv.36地牢蠕虫，吸收战后逸散灵能升至Lv.32；参与锻造后再升至Lv.33",
+        "source": "chapter_0048_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0048_team",
+        "subject": "人物变化",
+        "change": "零、闸门、容小满、频闪四人直接锻造，忆灵读图、团子供能；全员进一步透支，团子近乎空能",
+        "source": "chapter_0048_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0048_team",
+        "subject": "关系变化",
+        "change": "六名队员以明确分工共同完成第一件紫色战甲，团队协作从战斗扩展到制造",
+        "source": "chapter_0048_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0048_forge",
+        "subject": "知识变化",
+        "change": "旧锻造间属于旧世界兵工坊；雷弧战甲须以新锈包心、雷粉走背脊，巨人心脏不能直接见雷",
+        "source": "chapter_0048_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0048_worm",
+        "subject": "知识变化",
+        "change": "Lv.36地牢蠕虫皮韧难斩，雷纹矿石粉入伤口可使锈层翻开",
+        "source": "chapter_0048_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0048_location",
+        "subject": "地点变化",
+        "change": "队伍占据中层旧锻造间轮休，深处王座方向传来沉重砸地声",
+        "source": "chapter_0048_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0048_alloy",
+        "subject": "物品变化",
+        "change": "队伍从深层活锈矿脉物理采得新锈合金三段，随后全部用于锻造",
+        "source": "chapter_0048_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0048_armor",
+        "subject": "物品变化",
+        "change": "完整过载巨人心脏、新锈合金三段、雷纹矿石粉×6、黑红犬王残甲与锈壳辅料全部投入，锻成雷弧战甲（紫色）",
+        "source": "chapter_0048_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0048_medicine",
+        "subject": "物品变化",
+        "change": "最后一份伤药由零与闸门平分，伤药库存归零",
+        "source": "chapter_0048_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0048_residue",
+        "subject": "物品变化",
+        "change": "零吸收蠕虫残血和锻造间反吐的逸散灵能；未获得或消耗怪物实体灵核",
+        "source": "chapter_0048_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0048_level",
+        "subject": "能力变化",
+        "change": "零由Lv.31升至Lv.33",
+        "source": "chapter_0048_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0048_forge",
+        "subject": "能力变化",
+        "change": "队伍掌握雷弧战甲的旧炉锻造顺序，但不等于获得工匠职业",
+        "source": "chapter_0048_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0048_workshop",
+        "subject": "世界变化",
+        "change": "锈蚀地牢中层存在可被旧图唤醒的兵工坊与深层活锈矿脉；受伤蠕虫已逃走并非击杀",
+        "source": "chapter_0048_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0048_throne",
+          "subject": "伏笔埋设",
+          "change": "中层王座方向在夜间持续传来巨大砸地声",
+          "source": "chapter_0048_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0048_armor",
+          "subject": "伏笔推进",
+          "change": "雷弧战甲被旧记录称为守中层门者的装备",
+          "source": "chapter_0048_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0048_recipe",
+          "subject": "伏笔回收",
+          "change": "CH045-046取得的战甲图纸、巨人心脏与雷纹矿石粉完成锻造兑现",
+          "source": "chapter_0048_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0048_goal",
+        "subject": "第0048章主要目标",
+        "change": "取得新锈合金并由六人分工锻成雷弧战甲，零升至Lv.33",
+        "source": "chapter_0048_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

@@ -1,0 +1,77 @@
+{
+  "$defs": {
+    "DeviationStatus": {
+      "enum": [
+        "PROPOSED",
+        "AUTHOR_ACCEPTED",
+        "AUTHOR_REJECTED"
+      ],
+      "title": "DeviationStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "deviation_id": {
+      "title": "Deviation Id",
+      "type": "string"
+    },
+    "chapter_id": {
+      "pattern": "^\\d{4}$",
+      "title": "Chapter Id",
+      "type": "string"
+    },
+    "planned": {
+      "title": "Planned",
+      "type": "string"
+    },
+    "actual": {
+      "title": "Actual",
+      "type": "string"
+    },
+    "reason": {
+      "title": "Reason",
+      "type": "string"
+    },
+    "affected_soft_nodes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Affected Soft Nodes",
+      "type": "array"
+    },
+    "affected_hard_nodes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Affected Hard Nodes",
+      "type": "array"
+    },
+    "status": {
+      "$ref": "#/$defs/DeviationStatus",
+      "default": "PROPOSED"
+    },
+    "author_note": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Author Note"
+    }
+  },
+  "required": [
+    "deviation_id",
+    "chapter_id",
+    "planned",
+    "actual",
+    "reason",
+    "affected_soft_nodes"
+  ],
+  "title": "OutlineDeviation",
+  "type": "object"
+}

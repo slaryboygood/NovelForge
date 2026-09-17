@@ -1,0 +1,22 @@
+pipeline_id: writer_only
+version: 2.0.0
+auto_commit: false
+stages:
+  - id: plan
+    plugin: mock_planner
+  - id: capacity_gate
+    kernel_gate: capacity
+    depends_on:
+      - plan
+  - id: context
+    kernel_gate: context_builder
+    depends_on:
+      - capacity_gate
+  - id: draft
+    plugin: mock_writer
+    depends_on:
+      - context
+  - id: draft_quality_gate
+    kernel_gate: draft_quality
+    depends_on:
+      - draft

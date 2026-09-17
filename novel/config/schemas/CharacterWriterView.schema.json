@@ -1,0 +1,47 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "character_id": {
+      "title": "Character Id",
+      "type": "string"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "identity": {
+      "title": "Identity",
+      "type": "string"
+    },
+    "core_desire": {
+      "title": "Core Desire",
+      "type": "string"
+    },
+    "core_fear": {
+      "title": "Core Fear",
+      "type": "string"
+    },
+    "values": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Values",
+      "type": "array"
+    },
+    "narrative_function": {
+      "title": "Narrative Function",
+      "type": "string"
+    }
+  },
+  "required": [
+    "character_id",
+    "name",
+    "identity",
+    "core_desire",
+    "core_fear",
+    "values",
+    "narrative_function"
+  ],
+  "title": "CharacterWriterView",
+  "type": "object"
+}

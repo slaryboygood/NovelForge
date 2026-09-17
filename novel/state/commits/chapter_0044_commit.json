@@ -1,0 +1,192 @@
+{
+  "chapter_id": "0044",
+  "committed_at": "20260830204408",
+  "state_delta": {
+    "chapter_id": "0044",
+    "version": "candidate",
+    "source_draft_artifact_id": "run_20260830203942_89ddb5e5:candidate",
+    "source_draft_hash": "f5dddd87021a7c6261f5c0d6f90edb963e64fba44f757486e10c8c70909c6698",
+    "timeline_delta": {
+      "source_chapter": "0043",
+      "title": "过载巨人",
+      "time": "CH043紧接",
+      "location": "过载荒原·第37号井"
+    },
+    "character_changes": [
+      {
+        "id": "chapter_0044_zero",
+        "subject": "人物变化",
+        "change": "零在全队残血状态下吸收过载巨人向外逸散的灵能，腐化值11→16，经容小满血净化暂时压制，击杀巨人后升至Lv.30",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0044_rong",
+        "subject": "人物变化",
+        "change": "容小满以自身血和残余灵能净化零，严重透支",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0044_zhamen",
+        "subject": "人物变化",
+        "change": "闸门以重伤之躯维持最后壁垒，灵核根基继续受损",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0044_pinshan",
+        "subject": "人物变化",
+        "change": "频闪在无弓状态下以手投穿云箭阻断灰袍夺心，胸骨受伤",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0044_yiling",
+        "subject": "人物变化",
+        "change": "忆灵读取巨人残存记忆，确认裂变剑属于旧世界断刃守炉体系",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0044_tuanzi",
+        "subject": "人物变化",
+        "change": "团子仅以叫声、蓝光和动作辅助决战，战后仍极度虚弱",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "relationship_changes": [
+      {
+        "id": "chapter_0044_team",
+        "subject": "关系变化",
+        "change": "全队在极限状态完成分工击杀，容小满以血净化零，协作与信任进一步加深",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "knowledge_changes": [
+      {
+        "id": "chapter_0044_sword",
+        "subject": "知识变化",
+        "change": "裂变剑与过载巨人心脏同属旧世界守炉体系；锈蚀地牢第三层存在雷弧剑士试炼",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "location_changes": [
+      {
+        "id": "chapter_0044_location",
+        "subject": "地点变化",
+        "change": "过载巨人倒毙于第37号井前，队伍取得离开荒原前往锈蚀地牢的方向",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "item_changes": [
+      {
+        "id": "chapter_0044_heart",
+        "subject": "物品变化",
+        "change": "零从巨人尸体胸腔取出完整过载巨人心脏并用犬王残甲包裹收起，作为橙色实体材料",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0044_loot",
+        "subject": "物品变化",
+        "change": "队伍获得雷纹战甲图纸与指向锈蚀地牢的试炼牌片",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0044_residue",
+        "subject": "物品变化",
+        "change": "零只吸收过载巨人核心向外逸散的过载灵能，完整实体心脏未被吞噬；怪物灵核库存不变",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "ability_changes": [
+      {
+        "id": "chapter_0044_level",
+        "subject": "能力变化",
+        "change": "零由Lv.28连升两级至Lv.30",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0044_corruption",
+        "subject": "能力变化",
+        "change": "零腐化值由11升至16，容小满净化后仅压制未清零",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      },
+      {
+        "id": "chapter_0044_sword",
+        "subject": "能力变化",
+        "change": "裂变剑蓝形态与巨人心脏共鸣，显现旧断刃守炉属性",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "organization_changes": [
+      {
+        "id": "chapter_0044_cult",
+        "subject": "组织变化",
+        "change": "本地灰袍暗桩被零斩杀，未能夺取巨人心脏",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "world_fact_changes": [
+      {
+        "id": "chapter_0044_boss",
+        "subject": "世界变化",
+        "change": "过载巨人已被击杀，完整心脏作为橙色材料被物理取出；阻流族长旁观后默许队伍离开",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      }
+    ],
+    "foreshadowing": {
+      "planted": [
+        {
+          "id": "chapter_0044_dungeon",
+          "subject": "伏笔埋设",
+          "change": "锈蚀地牢第三层的雷弧剑士试炼成为下一阶段目标",
+          "source": "chapter_0044_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "advanced": [
+        {
+          "id": "chapter_0044_furnace",
+          "subject": "伏笔推进",
+          "change": "灰袍死前留下‘心脏没了，炉子还在’",
+          "source": "chapter_0044_final",
+          "confidence": "confirmed"
+        }
+      ],
+      "resolved": [
+        {
+          "id": "chapter_0044_giant",
+          "subject": "伏笔回收",
+          "change": "过载巨人Boss战结束，心脏未被教团夺走",
+          "source": "chapter_0044_final",
+          "confidence": "confirmed"
+        }
+      ]
+    },
+    "new_mysteries": [],
+    "resolved_mysteries": [],
+    "canon_candidates": [
+      {
+        "id": "chapter_0044_goal",
+        "subject": "第0044章主要目标",
+        "change": "击杀过载巨人并阻止灰袍夺心，获得橙色心脏材料、雷纹战甲图纸与转职线索",
+        "source": "chapter_0044_final",
+        "confidence": "confirmed"
+      }
+    ]
+  },
+  "rollback": "Restore the matching files from novel/state/snapshots for this timestamp."
+}

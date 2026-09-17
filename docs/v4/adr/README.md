@@ -26,6 +26,9 @@
 | [ADR-018](ADR-018-quality-is-gate-based-not-score-based.md) | Quality Is Gate-Based, Not Score-Based | **Accepted**（V4-05 实施完成） | V4-05 起 |
 | [ADR-019](ADR-019-repair-is-minimal-scope-and-revisioned.md) | Repair Is Minimal-Scope And Revisioned | **Accepted**（V4-05 实施完成） | V4-05 起 |
 | [ADR-020](ADR-020-quality-evidence-is-separate-from-story-truth.md) | Quality Evidence Is Separate From Story Truth | **Accepted**（V4-05 实施完成） | V4-05 起 |
+| [ADR-021](ADR-021-editor-mutations-are-append-only-revisions.md) | Editor Mutations Are Append-Only Revisions | **Accepted**（V4-06 实施完成） | V4-06 起 |
+| [ADR-022](ADR-022-quality-pass-does-not-mean-author-accepted.md) | Quality Pass Does Not Mean Author Accepted | **Accepted**（V4-06 实施完成） | V4-06 起 |
+| [ADR-023](ADR-023-restore-creates-a-new-revision.md) | Restore Creates A New Revision | **Accepted**（V4-06 实施完成） | V4-06 起 |
 
 ## 已被作者裁定的决策（原待决项）
 

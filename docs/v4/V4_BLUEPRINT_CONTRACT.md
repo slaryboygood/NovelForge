@@ -111,6 +111,38 @@ quality_status 是 **Quality Store 的投影**，不是质量详情的 owner（A
 **evaluator 是只读的**：Q0–Q9 都不修改 Blueprint 节点；evidence / issue 明细存放在
 `novel/authoring/story_engine/quality/<novel_id>/`（V4-05），不写进节点 payload。
 
+### 3.2 编辑与状态语义（V4-06）
+
+```text
+status 仍是唯一生命周期状态机：proposed → draft → accepted → superseded
+（V4-06 不新增 rejected —— 见下）
+```
+
+| 概念 | owner | 说明 |
+| --- | --- | --- |
+| `status`（生命周期） | Blueprint lifecycle | 由 `accept` / `set_status` 流转；每次流转 append 新 revision |
+| `quality_status`（质量投影） | Quality Store | 与 status 独立：`passed` ≠ `accepted`（ADR-022） |
+| review 决定（accepted / rejected） | Editor metadata | 针对**某个 revision** 的评审记录，不改变 lifecycle enum |
+| 结构 identity（parent / chapter_id / characters / character_id / resolves_setup_ids） | Blueprint 结构 | 只能经 `move_node` 或系统分配改变，patch / rewrite 一律拒绝 |
+
+为什么 rejection 不进 lifecycle：
+
+```text
+BlueprintNode.status 描述"当前 revision"的状态，而 set_status 会 append 一个新 revision；
+"给旧 revision 打 rejected" 无法用 lifecycle 表达，且 rejected 会立刻被下一个 revision 取代。
+因此 rejection 记在 editor metadata（`editor/<novel_id>/reviews/`），
+由 EditorService 的 RevisionView.review_status 暴露（V4_EDITOR_CONTRACT.md §7）。
+```
+
+编辑不变量（V4-06）：
+
+```text
+· 任何编辑 / 改写 / 恢复 / 移动都产生**新 revision**（append-only）
+· 新 revision 默认 status=proposed、quality_status=unevaluated
+· 写操作携带 expected_revision；冲突 → EditorConflictError（不覆盖、不自动 merge）
+· 结构自洽：scene.chapter_id 必须与 parent_id 一致（editor 写入前校验）
+```
+
 ---
 
 ## 4. 节点 ID 规则（系统分配，模型不得自造）

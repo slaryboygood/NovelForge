@@ -48,7 +48,7 @@ Module Tests
 | Story Blueprint Store | `blueprint` | `src/novelforge/blueprint/` | 不变（V4-04 已落地） | **NEW** | V4-04 ✅ |
 | Story Quality | `quality` | 9 处 validator / finding | `src/novelforge/quality/` | **NEW** | V4-05 ✅ |
 | Story Repair | `repair` | `story_engine/repair.py`（冻结历史用途，**不复用**） | `src/novelforge/quality/repair/` | **NEW** | V4-05 ✅ |
-| Blueprint Editor | `editor` | `story_builder/writer_integration.py` | `src/novelforge/editor/` | DEFERRED | V4-06 |
+| Blueprint Editor | `editor` | `story_builder/writer_integration.py`（正文草稿，**不复用**） | `src/novelforge/editor/` | **NEW** | V4-06 ✅ |
 | Delivery / Export | `delivery` | `story_builder/export_package.py` | `application.services.export` | DEFERRED（V4-01 建 service 入口） | V4-07 |
 | MCP Adapter | `mcp` | 无 | `src/novelforge/interfaces/mcp/` | DEFERRED | V4-08 |
 | Plugin Platform | `plugins` | 无 | `src/novelforge/plugins/` | DEFERRED | V4-09 |
@@ -383,6 +383,35 @@ Exceptions
 > Contract（`regenerate`）；`generation` 仍然**绝不**依赖 quality（守卫测试
 > `tests/v4/isolation/test_quality_boundaries.py::test_generation_never_imports_quality_or_repair`）。
 
+### 3.13 `editor` — Blueprint Editor & Revision Workflow（V4-06 落地）
+
+```text
+Public Contract（精简，§6）
+  BlueprintEditorService / EditorStore
+  EditRequest / EditResult / BatchEditRequest / BatchEditResult / MoveNodeRequest
+  DiffRequest / BlueprintDiff / FieldChange / ListChange
+  RewriteRequest / RewriteResult / ApprovalResult / RestoreResult / ChangeImpact
+  RevisionView / RevisionHistory / EditorOperationRecord / ReviewDecision / EditorSession
+  EditorError 家族
+Internal
+  editor/patch.py / diff.py / history.py / impact.py / operations.py 的实现细节
+Allowed
+  blueprint（唯一 canonical store）、generation（rewrite / regenerate 的 Public Contract）、
+  core、persistence.paths
+Forbidden
+  interfaces(api) / application / ai（gateway 与 provider）/ memory / story_engine /
+  quality、任何 HTTP client、自行拼 artifact 路径、写 Canon / StoryState、
+  自建第二套 Blueprint store
+State Ownership
+  **editor metadata**（operation / review / session）；canonical 内容仍属 blueprint
+Module Tests
+  tests/editor/**、tests/v4/isolation/test_editor_boundaries.py
+```
+
+Application 组合（§67）：`application.services.editor.EditorService` 把
+`editor` + `quality` + `generation` 组装起来；**editor 模块本身不依赖 quality**，
+从而避免 `editor → application` 的循环。
+
 ### 4.1 明文禁令
 
 ```text
@@ -395,6 +424,11 @@ ui           → 不允许 import 任何 Python 模块（只走 HTTP）
 quality      → 不允许 import api / ai.providers / HTTP client，不允许自行拼 artifact 路径
 quality      → 不允许修改 Blueprint 节点 / Canon / StoryState
 generation   → 不允许 import quality / repair（否则形成依赖环）
+editor       → 不允许 import api / application / ai / memory / story_engine / quality
+editor       → 不允许自行拼 artifact 路径，不允许写 Canon / StoryState，
+               不允许自建第二套 Blueprint store
+core / persistence / domain / ai / memory / blueprint / generation / quality
+             → 不允许 import editor（Application 可以依赖 editor）
 ```
 
 ### 4.2 守卫测试
@@ -410,6 +444,13 @@ tests/v4/isolation/test_quality_boundaries.py（V4-05）
   · evaluator / service 不依赖 generation（allowlist = quality/repair/executor.py）
   · domain / ai / memory / blueprint / generation / core / persistence 不得 import quality
   · quality 不写 Canon / StoryState；Public Contract 精简；顶层不 import generation
+tests/v4/isolation/test_editor_boundaries.py（V4-06）
+  · editor 不 import interface / application / provider / domain / memory / quality
+  · editor 不自行拼 artifact 路径；只经 persistence.paths
+  · editor 不写 Canon / StoryState；下层不得反向 import editor
+  · editor 顶层不 import application / api / ai / memory / quality
+  · Public Contract 精简；REST 路由只调用 application.services.editor（+ 错误模型）
+  · editor metadata store 不含 BlueprintNode（不是第二套 truth）
 ```
 
 ---

@@ -111,14 +111,21 @@ Decision C  canonical creative artifact = StoryBlueprint；Writer → Blueprint 
 验收：见 V4_QUALITY_CONTRACT.md §9。
 ```
 
-### V4-06 Writer
+### V4-06 Blueprint Editor & Revision Workflow（已按 V4-01 决策 C 重定义）
 
 ```text
-动作：ChapterRevision 模型 + writer_store（canonical）+ 编辑 / 保存 / diff / restore /
-      AI 修订（proposal → accept）。
-数据：novel/final/** 的归属由作者裁定（导入为 revision 0 / 保持只读参考 / 排除）。
-兼容：旧 drafts 以只读 revision 视图呈现（不迁移、不改写）。
-验收：AI 修订不覆盖作者文本；每次修改产生 revision；删除 memory 不影响 revision。
+V4-00 原计划：ChapterRevision 模型 + writer_store（canonical），服务于"正文 revision"。
+V4-01 决策 C 覆盖：canonical creative artifact = StoryBlueprint；正文不属 V4 Core。
+
+V4-06 实际交付（docs/v4/V4_EDITOR_CONTRACT.md）：
+  动作：novelforge.editor（patch / diff / history / rewrite / accept / reject /
+        restore / undo / move / audit）+ application.services.EditorService
+        （组合 editor + quality + generation）+ 最小 REST（/api/story-builder/editor/**）
+  数据：Blueprint 节点的 append-only revision（BlueprintRepository 仍是唯一 truth）；
+        editor 只额外保存 operation / review metadata（novel/authoring/story_engine/editor/**）
+  兼容：WriterDraftService / writer 路由保持只读兼容（正文能力），不作为 Editor 底层
+  验收：任何编辑产生新 revision；AI 改写只改 target fields；accepted 不被静默覆盖；
+        冲突不覆盖、不自动 merge；删除 quality / editor metadata 不影响 Blueprint truth
 ```
 
 ### V4-07 Delivery / Export

@@ -128,6 +128,10 @@ MCP 只是协议入口。所有 MCP tool 必须调用与 REST/UI 相同的 Appli
   （`truth_layer: "preview"`、`wrote_story_state: False`）。
 * V4 要求：正文修改必须产生 `Revision`，AI 修改默认 `status = proposed`，
   作者 accept 后才成为 canonical。
+* V4-06 实现事实：`novelforge.editor` 把这条原则落到 Blueprint：
+  patch / rewrite / restore / move 全部产生**新 revision**（append-only），
+  写操作携带 `expected_revision`（冲突不覆盖、不自动 merge）；
+  `accept` 是唯一进入 accepted 的显式动作，且 `quality_status = passed ≠ accepted`（ADR-022）。
 
 ### 1.9 Generated machine-consumed content is structured
 
@@ -416,6 +420,7 @@ src/novelforge/
 | `memory.*` | 派生检索与上下文装配 | `persistence.*`（只读）、`ai.gateway`（embedding/summary） | 写 StoryState / Canon | 派生索引（**可重建**，非 truth） |
 | `generation.*` | 生成编排 → 既有 domain 模型 | `ai.gateway`、`memory.*`、`domain.*`（模型定义） | 直接读写文件、直接写 StoryState | 无（产出 proposal） |
 | `quality.*` | 评估 / 门禁 / 定向修复编排 | `blueprint`（只读）、`ai.gateway`（critic）、`memory.*`（只读）、`core`、`persistence.paths`；`quality/repair` 另允许 `generation` Public Contract | 直接写 truth（Canon / StoryState）、修改 Blueprint 节点、绕过 approval、被下层反向依赖 | Quality Store（report / issue / evidence / repair history）；不拥有 story truth |
+| `editor.*` | 作者编辑 / 比较 / 审批 / 恢复 / 审计（Blueprint revision 工作流） | `blueprint`、`generation` Public Contract、`core`、`persistence.paths`；Quality 由 Application 层组合 | 自建 Blueprint store、写 Canon / StoryState、自动语义 merge、被下层反向依赖 | editor metadata（operation / review / session）；不拥有 story truth |
 | `plugins.*` | 扩展点加载与 capability 声明 | 通过 `plugins.base` 暴露的 Port | **直接操作数据库 / 文件系统 / 绕过 service** | Plugin 自身配置（lifespan 内） |
 | `persistence.*` | 唯一物理存储访问点 | `core.*`、`domain.*`（模型定义） | `interfaces.*`、`ai.*`、`application.services`（反向依赖） | 物理存储 |
 | `observability.*` | 日志 / 指标 / 审计 / token 用量 | `core.*` | 业务规则 | 遥测数据 |
@@ -468,6 +473,7 @@ Legacy       → 不允许被新的写路径依赖
 | **LLM 边界** | `ai.gateway.llm.generate(contract, context, model_policy)`；业务层禁止直接调 SDK | ✅ V4-02 已收编：`novelforge.ai` 是唯一入口；3 个 legacy 调用点（spec / plot / route）改为经 `ai.legacy_support` 调用，全仓再无自带 HTTP 的模型调用 | V4-02 完成 |
 | **Memory 边界** | Canon / StoryState 是 truth；`memory/*` 是派生、可重建、非权威 | ✅ V4-03 已落地：`novelforge.memory`（检索契约 + 四类视图 + 偏好 + ContextBuilder），条目带 source_ids / revision / stale 语义；`story_engine/memory.py` 保持原义不改名 | V4-03 完成 |
 | **Quality 边界** | 每次生成经过 QualityService；issue 是业务对象 | ✅ V4-05 已落地：`novelforge.quality`（Q0–Q9 evaluator + code registry + Quality Store）、`quality/repair`（minimal-scope / revisioned repair）、`application.services.ReviewService`（闭环编排）；判定是 gate-based，不是分数（ADR-018） | V4-05 完成 |
+| **Editor 边界** | 作者通过 Editor 掌握生成结果；Editor 不拥有 story truth | ✅ V4-06 已落地：`novelforge.editor`（patch / diff / history / rewrite / accept / reject / restore / move / audit）+ `application.services.EditorService`（组合 editor + quality + generation）；全部 mutation 是 append-only revision（ADR-021） | V4-06 完成 |
 | **Export 边界** | 唯一 `ExportService`；不允许 UI / API 各自拼产物 | `export_package` + `outlines` 导出 + `docx_bytes` 三处 | V4-07 收敛 |
 | **Blueprint 边界** | canonical Story Blueprint = `blueprint` 节点图 + repository；生成只产出 proposal | ✅ V4-04 已落地：`novelforge.blueprint` + `novelforge.generation`（逐级生成 / 局部重生成 / revision / 幂等 / 结构校验） | V4-04 完成 |
 | **MCP 边界** | MCP 只是协议；tool 调 service；统一 Result Envelope | 不存在 | V4-08 新建 |

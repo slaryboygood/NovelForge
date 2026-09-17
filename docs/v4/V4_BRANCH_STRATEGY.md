@@ -28,7 +28,7 @@ Git ref 不能同时存在 refs/heads/v4 与 refs/heads/v4/<name>（文件 / 目
 | V4-03 | Memory | `v4-03-memory-canon`、`v4-03-memory-context-builder` |
 | V4-04 | Blueprint | `v4-04-blueprint-generation` |
 | V4-05 | Quality | `v4-05-quality-loop`（integration，单 Agent 顺序执行；§3 允许的方式） |
-| V4-06 | Editor | `v4-06-blueprint-editor` |
+| V4-06 | Editor | `v4-06-blueprint-editor`（integration，单 Agent 顺序执行） |
 | V4-07 | Delivery | `v4-07-delivery` |
 | V4-08 | MCP | `v4-08-mcp-resources`、`v4-08-mcp-tools` |
 | V4-09 | Plugins | `v4-09-plugins` |
@@ -77,6 +77,7 @@ Tests    : tests/test_ai_gateway.py, tests/test_ai_provider_offline.py
 | `v4-03-memory-integration` | `memory` | `src/novelforge/memory/**` | `persistence/paths.py`（新增 memory 路径，唯一路径来源）、`tests/memory/**`、`tests/v4/isolation/**`、`docs/v4/**` | `story_engine` 内部实现、`ai`、`api`、UI、`novel/final` 与 570 章 historical（已删除） | `MemoryQuery` / `MemoryResult` / `MemoryItem` / `ContextRequest` / `ContextBundle`（新增） | `tests/memory/**`、`tests/v4/isolation/test_memory_ownership.py` |
 | `v4-04-blueprint-generation` | `generation`（+ `blueprint`） | `src/novelforge/generation/**`、`src/novelforge/blueprint/**` | `persistence/paths.py`（新增 blueprint 路径）、`ai/legacy_support.py`（structured 桥）、`application/services/blueprint.py`、四处 legacy provider 接入点、`tests/generation/**`、`tests/v4/isolation/**`、`docs/v4/**` | `story_engine` 内部实现、`api`、UI、frozen 模块、Canon / StoryState 写入 | `BlueprintNode` / `BlueprintRepository` / `GenerationRequest` / `GenerationResult`（新增） | `tests/generation/**`、`tests/v4/isolation/test_generation_boundaries.py` |
 | `v4-05-quality-loop` | `quality`（+ `quality.repair`） | `src/novelforge/quality/**` | `persistence/paths.py`（新增 quality 路径）、`persistence/__init__.py`、`application/services/review.py`（+ `__init__` 导出）、`tests/quality/**`、`tests/v4/isolation/**`、`docs/v4/**` | `generation` 反向依赖 quality、`ai` / `memory` / `blueprint` / `domain` 内部实现、`story_engine/repair.py`（M11 frozen）、Canon / StoryState 写入、release tag | `QualityIssue` / `QualityEvidence` / `QualityReport` / `QualityPolicy` / `RepairPlan` / `RepairResult` / `VerificationResult`（新增） | `tests/quality/**`、`tests/v4/isolation/test_quality_boundaries.py` |
+| `v4-06-blueprint-editor` | `editor` | `src/novelforge/editor/**` | `persistence/paths.py`（新增 editor 路径）、`generation/{service,errors,rewrite,__init__}.py`（字段级 rewrite）、`blueprint/{contracts,__init__}.py`（结构 identity SSOT）、`application/services/editor.py`、`api/editor_routes.py` + `api/app.py`、`quality/repair/planner.py`（复用 blueprint SSOT）、`tests/editor/**`、`tests/v4/isolation/**`、`docs/v4/**` | `generation` / `quality` / `blueprint` / `ai` / `memory` / `domain` 反向依赖 editor、`story_engine/repair.py`（M11 frozen）、Canon / StoryState 写入、release tag | `EditRequest` / `EditResult` / `BlueprintDiff` / `RevisionView` / `RevisionHistory` / `RewriteRequest` / `RewriteResult` / `ApprovalResult` / `RestoreResult` / `ChangeImpact` / `EditorOperationRecord`（新增） | `tests/editor/**`、`tests/v4/isolation/test_editor_boundaries.py` |
 
 > V4-04 执行方式：任务书 §2 允许「单 Agent 顺序执行 → 一个 integration branch + 清晰提交边界」，
 > 本阶段即采用该方式（`v4-04-blueprint-generation` = integration branch）。

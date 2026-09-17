@@ -107,6 +107,8 @@ Decision        : 作者决策 B —— DELETE / NO IMPORT / NO FIXTURE / NO leg
 | `ui/src/StoryBuilderPage.tsx` + 14 个 legacy 面板 | 与 V3 工作台功能重叠 | 它们是**唯一**的完整编辑入口（角色 / 地点 / 势力 / 路线 / Canon / 修复）。删除前必须由新 UI 提供同等能力（`docs/LEGACY_COMPAT.md` 的 bridge 定义） |
 | `story_builder/ai_recommendations.py` | 目前 provider 恒为 None（`AI_UNAVAILABLE`） | 它实现了「AI 只能补充、不能新增结构」的合并与校验逻辑，是 V4 Gateway 的良好输入（分类 = REWRITE，不是 DELETE） |
 | `story_builder/cross_genre_e2e.py` | 看起来像测试代码 | 它是 3 题材 13 步的回归 harness，V4 迁移的主要安全网 |
+| `story_builder/writer_integration.py`（`WriterDraftService` / `WriterContextBuilder` / `writer_export_bundle`） | 正文草稿能力，V4 的 canonical artifact 已改为 StoryBlueprint（ADR-011） | **V4-06 已评估（docs/v4/V4_06_EDITOR_INVENTORY.md）**：它是正文 preview 能力，仍被 `/api/story-builder/writer/*` 路由与 legacy 产品面使用；Blueprint Editor **不复用**它。移除条件：V4-10 UI 不再依赖 writer 草稿入口 + legacy 测试退出。当前保留 = compatibility |
+| `story_engine/outline_revision.py`（`revise_item` / `restore_version` / `impact_of_change`） | 与 Blueprint Editor 的编辑 / 恢复 / 影响面功能重叠 | **V4-06 已评估**：它们服务 outline package（V3 大纲产品面，UI 与测试仍在使用），只是**思路**被 ADAPT（append-only restore / 结构 diff / 受影响下游列表）。移除条件：V4 产品路径完全切到 Blueprint Editor 且 V4-10 不再渲染 outline 编辑 |
 
 ---
 

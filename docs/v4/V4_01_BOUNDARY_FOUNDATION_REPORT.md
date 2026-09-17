@@ -391,8 +391,7 @@ a3508c6  docs(v4): align architecture with story blueprint product decision
 ef97620  refactor(v4): parameterize persistence ownership paths
 9a5eccf  refactor(v4): establish application service boundary
 c6895f0  feat(v4): add revision primitives and legacy adapters
-b2084c7  test(v4): add ownership and legacy isolation coverage
-（+ 本报告与产品文档同步提交）
+8791254  docs(v4): record V4-01 boundary foundation result
 ```
 
 ---
@@ -427,6 +426,16 @@ b2084c7  test(v4): add ownership and legacy isolation coverage
 V4-02 可以开始：**LLM Gateway（Provider / Router / Contract / usage / trace / cache）**，
 开工前需按 `V4_BRANCH_STRATEGY.md` §3 填写任务分支声明（Primary Module = `ai`）。
 
+### 20.1 未执行的验证（如实报告）
+
+```text
+浏览器门禁（tests/browser_*.cjs）本轮未运行：
+  本机 ui/node_modules 下没有安装 playwright（README 亦说明由使用者自行安装）。
+V4-01 的改动不涉及 UI 组件结构，只改变 API 响应字段来源
+  （ui_flow.current_stage 现在来自 JourneyService；新增 journey_* 字段），
+  因此风险集中在 UI 文案而非布局；V4-10 重构 UI 时必须补跑浏览器门禁。
+```
+
 ---
 
 # V4-01 = PASS
@@ -435,4 +444,3 @@ V4-02 可以开始：**LLM Gateway（Provider / Router / Contract / usage / trac
 Editor / MCP），以及 3 个**待作者裁定**的仓库卫生问题（`workspace/pilot_v2`、
 `novel/runs|state|pipelines|learning`、`project_id` 层级）。
 它们都不阻塞 V4-02。
-

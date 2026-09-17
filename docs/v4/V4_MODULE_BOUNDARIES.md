@@ -46,8 +46,8 @@ Module Tests
 | Story Memory | `memory` | `src/novelforge/memory/` | 不变（V4-03 已落地） | **EXISTS** | V4-03 ✅ |
 | Blueprint Generation | `generation` | `src/novelforge/generation/` | 不变（V4-04 已落地） | **EXISTS** | V4-04 ✅ |
 | Story Blueprint Store | `blueprint` | `src/novelforge/blueprint/` | 不变（V4-04 已落地） | **NEW** | V4-04 ✅ |
-| Story Quality | `quality` | 9 处 validator / finding | `src/novelforge/quality/` | DEFERRED | V4-05 |
-| Story Repair | `repair` | `story_engine/repair.py`（冻结历史用途） | `src/novelforge/quality/repair/` | DEFERRED | V4-05 |
+| Story Quality | `quality` | 9 处 validator / finding | `src/novelforge/quality/` | **NEW** | V4-05 ✅ |
+| Story Repair | `repair` | `story_engine/repair.py`（冻结历史用途，**不复用**） | `src/novelforge/quality/repair/` | **NEW** | V4-05 ✅ |
 | Blueprint Editor | `editor` | `story_builder/writer_integration.py` | `src/novelforge/editor/` | DEFERRED | V4-06 |
 | Delivery / Export | `delivery` | `story_builder/export_package.py` | `application.services.export` | DEFERRED（V4-01 建 service 入口） | V4-07 |
 | MCP Adapter | `mcp` | 无 | `src/novelforge/interfaces/mcp/` | DEFERRED | V4-08 |
@@ -315,6 +315,57 @@ Exceptions
 
 `✓` 允许 / `✗` 禁止 / `△` 仅经显式 Contract。
 
+### 3.11 `quality` — Story Quality Gate（V4-05 落地）
+
+```text
+Public Contract（保持精简，§6 / §79）
+  QualityService / quality_service      唯一评估入口（deterministic first，逐 gate）
+  QualityScope / QualityEvidence        作用域与一等证据
+  QualityIssue / QualityGateResult      结构化问题 / 每 gate 结果
+  QualityReport / QualityPolicy         report 与生产策略
+  QualityStatus / SEVERITIES / decide_status   固定语义（gate-based，非分数）
+  EvaluatorRegistry / EvaluatorSpec     evaluator 注册表（不硬编码 if gate == ...）
+  CODE_REGISTRY / code_spec / codes_for_gate / is_registered   稳定 issue code
+  QualityStore                          quality truth（独立于 story truth）
+  RepairPlanner / RepairExecutor / RepairVerifier / RepairPlan / RepairResult /
+  RepairContract / RepairStep / VerificationResult / RepairBlastRadius
+  QualityError 家族
+Internal
+  quality/evaluators/*（10 个 gate 模块 + base）、quality/aggregation.py、
+  quality/_internal/*（确定性相似度）
+Allowed
+  blueprint（节点模型 + repository 只读）、memory（只读检索）、ai（LLMGateway，仅 critic）、
+  core（ids / revision）、persistence.paths（唯一路径来源）、domain public contract
+Forbidden
+  novelforge.api / novelforge.application、novelforge.ai.providers、HTTP client、
+  自行拼 artifact 路径、写 Canon / StoryState、修改 Blueprint 节点
+State Ownership
+  **quality truth**（report / issue / evidence / repair history）；不拥有 story truth
+Module Tests
+  tests/quality/**（122 个）、tests/v4/isolation/test_quality_boundaries.py
+```
+
+### 3.12 `quality.repair` — Targeted Repair（V4-05 落地）
+
+```text
+Public Contract
+  RepairPlanner / RepairBlastRadius / RepairExecutor / RepairVerifier /
+  RepairContract / RepairStep / RepairPlan / RepairResult / VerificationResult
+Allowed
+  quality contracts、blueprint、generation Public Contract（唯一允许的上层依赖）、core
+Forbidden
+  generation → quality 的反向依赖（形成环）、自行实现 LLM 生成、原地修改节点、
+  修改 Canon / StoryState、绕过 expected_revision
+State Ownership
+  无（产出新 Blueprint revision + repair history）
+Module Tests
+  tests/quality/repair/**（test_planner / test_blast_radius / test_executor /
+  test_verifier / test_loop）
+Exceptions
+  repair 是**唯一**允许 import generation 的 quality 子模块（显式 allowlist：
+  src/novelforge/quality/repair/executor.py，守卫测试登记）
+```
+
 | ↓依赖 / 被依赖→ | core | persistence | domain | app-services | legacy | interfaces | ui | ai | memory | quality |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `core` | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ |
@@ -328,6 +379,10 @@ Exceptions
 | `memory` | ✓ | △ | ✓ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ |
 | `quality` | ✓ | △ | ✓ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | ✓ |
 
+> `quality.repair` 例外：`quality/repair/executor.py` 允许依赖 `generation` 的 Public
+> Contract（`regenerate`）；`generation` 仍然**绝不**依赖 quality（守卫测试
+> `tests/v4/isolation/test_quality_boundaries.py::test_generation_never_imports_quality_or_repair`）。
+
 ### 4.1 明文禁令
 
 ```text
@@ -337,6 +392,9 @@ interfaces   → 不允许 import domain（必须经 app-services）
 persistence  → 不允许 import app-services / interfaces / ai
 legacy       → 不允许被 app-services 之外的模块 import
 ui           → 不允许 import 任何 Python 模块（只走 HTTP）
+quality      → 不允许 import api / ai.providers / HTTP client，不允许自行拼 artifact 路径
+quality      → 不允许修改 Blueprint 节点 / Canon / StoryState
+generation   → 不允许 import quality / repair（否则形成依赖环）
 ```
 
 ### 4.2 守卫测试
@@ -345,6 +403,13 @@ ui           → 不允许 import 任何 Python 模块（只走 HTTP）
 tests/v4/isolation/test_module_boundaries.py
   · 扫描 src/ 的 import 图，断言上表禁例
   · 存量例外以显式白名单登记（V4-01 白名单 = 现状快照，后续只减不增）
+tests/v4/isolation/test_quality_boundaries.py（V4-05）
+  · quality 不 import interface / provider / HTTP client
+  · quality 不自行拼 artifact 路径（AST 字符串字面量检查）
+  · quality 只经 persistence.paths 取路径
+  · evaluator / service 不依赖 generation（allowlist = quality/repair/executor.py）
+  · domain / ai / memory / blueprint / generation / core / persistence 不得 import quality
+  · quality 不写 Canon / StoryState；Public Contract 精简；顶层不 import generation
 ```
 
 ---

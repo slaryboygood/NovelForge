@@ -14,6 +14,8 @@
 | R-03 LLM coupling | M / H | **已修复（V4-02）**：唯一入口 `novelforge.ai`；3 处 legacy 调用点接入 Gateway；边界由源码守卫机械验证 |
 | R-04 Provider coupling | M / M | **已修复（V4-02）**：配置驱动 `openai_compatible` adapter；核心无厂商名 / 端点 / 模型常量 |
 | R-05 Prompt sprawl | H / M | **部分缓解（V4-02）**：prompt 收进 `LLMContract.prompt`（带 contract 版本）；业务 prompt 设计属于 V4-04 |
+| R-13 Quality cost explosion | M / M | **已缓解（V4-05）**：deterministic first + `stop_on_blocker` 跳过下游 gate + revision-aware 缓存 + usage 汇总 + token / cost 预算闸门 |
+| R-14 Quality infinite repair loop | M / **H** | **已缓解（V4-05）**：`max_repair_rounds`（默认 3）+ 稳定 issue id + preserve 硬约束 + 必须由 verifier 确认 issue 消失，否则 `needs_human_review` |
 
 ---
 
@@ -297,7 +299,19 @@ Owner Layer : plugins
 Detection   : 结构性测试（host 无 db() / write_file()）+ 未声明 capability 拒绝测试
 ```
 
-### R-13 Quality cost explosion
+### R-13 Quality cost explosion（V4-05 后状态：**已缓解**）
+
+```text
+V4-05 落地事实：
+· deterministic first：默认策略 enable_llm_evaluators=False，只有 Q2 具备 critic evaluator
+· stop_on_blocker：Q0/Q1 blocker → 下游 gate 标记 skipped（不调用昂贵 critic）
+· revision-aware 缓存：cache key = novel + gate + evaluator + version + scope + 节点 revision
+· usage 汇总：evaluation / repair / verification / total 四个桶（input/output tokens / cost / calls）
+· 预算闸门：QualityPolicy.token_limit / cost_limit 触顶 → 停止自动 repair → needs_human_review
+· repair 只重写最小 scope（blast radius），不做整本重生成
+``` 
+
+### R-13（V4-00 原文）Quality cost explosion
 
 ```text
 Probability : M
@@ -317,7 +331,19 @@ Owner Layer : quality / ai.usage
 Detection   : 每章平均 token / cost 报表；预算触顶事件计数
 ```
 
-### R-14 Quality infinite repair loop
+### R-14 Quality infinite repair loop（V4-05 后状态：**已缓解**）
+
+```text
+V4-05 落地事实：
+· max_repair_rounds（默认 3，policy 可配）；超限 → needs_human_review（不静默接受）
+· issue_id 与 revision 无关 → 同一问题重复出现仍命中同一 id，不会无限新增 issue
+· preserve 是硬约束：模型改写 preserve 字段 → REPAIR_PRESERVE_VIOLATION（上报，不吞）
+· 修复必须产生新 revision + 重新评估受影响 gate；模型返回成功不算解决
+· idempotency_key 重放不产生第二个 revision；expected_revision 冲突 0 次模型调用
+· 不存在自动修复路径的问题（例如未回收 setup / 因果环 / ownership）→ 明确人工决定
+```
+
+### R-14（V4-00 原文）Quality infinite repair loop
 
 ```text
 Probability : M

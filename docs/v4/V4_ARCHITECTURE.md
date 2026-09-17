@@ -84,6 +84,11 @@ MCP 只是协议入口。所有 MCP tool 必须调用与 REST/UI 相同的 Appli
   `planning/validator.py`、`planning/graph_validator.py`、`outline_forge` 标题质量门禁。
 * V4 要求：这些能力**被统一到 Quality Contract**（`V4_QUALITY_CONTRACT.md`），
   而不是被新写一套取代。
+* V4-05 实现事实：统一为 `QualityIssue` / `QualityEvidence` / `QualityReport`；
+  Q0–Q9 由 `EvaluatorRegistry` 装配（不硬编码 `if gate == ...`）；
+  severity / status / issue code 全部固定语义；判定由 Gate + Severity + Policy 决定
+  （`decide_status`，绝不使用平均分 —— ADR-018）；证据与 issue 存在独立的
+  Quality Store（ADR-020），节点只保留 `quality_status` 投影。
 
 ### 1.4 UI / REST / MCP share the same services
 
@@ -137,6 +142,10 @@ MCP 只是协议入口。所有 MCP tool 必须调用与 REST/UI 相同的 Appli
 * 现有事实：目前是 `Generate → Save`（外加事后检查）。
 * V4 要求：`Generate → Evaluate → (Repair → Verify)* → Save`，且每次循环有 cost / token 记录
   （见 `V4_QUALITY_CONTRACT.md` §7 与 `V4_ARCHITECTURE_RISKS.md` 的 `Quality infinite repair loop`）。
+* V4-05 实现事实：`application.services.ReviewService.evaluate_and_repair()` 实现该闭环
+  （evaluate → plan → execute → verify，受 `max_repair_rounds` / token / cost 预算限制）；
+  `RepairPlanner` 支持 `dry_run`（只回答改哪些节点 / 允许改什么 / 复核哪些 gate / 预计几次模型调用）；
+  复核范围是 blast radius（direct + dependent），不是整个 Blueprint。
 
 ---
 
@@ -406,7 +415,7 @@ src/novelforge/
 | `ai.providers` | 具体厂商适配 | `core.*` | 知道 NovelForge 的任何业务概念 | 无 |
 | `memory.*` | 派生检索与上下文装配 | `persistence.*`（只读）、`ai.gateway`（embedding/summary） | 写 StoryState / Canon | 派生索引（**可重建**，非 truth） |
 | `generation.*` | 生成编排 → 既有 domain 模型 | `ai.gateway`、`memory.*`、`domain.*`（模型定义） | 直接读写文件、直接写 StoryState | 无（产出 proposal） |
-| `quality.*` | 评估 / 门禁 / 定向修复编排 | `domain.*`、`ai.gateway`、`memory.*` | 直接写 truth、绕过 approval | QualityResult / RepairContract |
+| `quality.*` | 评估 / 门禁 / 定向修复编排 | `blueprint`（只读）、`ai.gateway`（critic）、`memory.*`（只读）、`core`、`persistence.paths`；`quality/repair` 另允许 `generation` Public Contract | 直接写 truth（Canon / StoryState）、修改 Blueprint 节点、绕过 approval、被下层反向依赖 | Quality Store（report / issue / evidence / repair history）；不拥有 story truth |
 | `plugins.*` | 扩展点加载与 capability 声明 | 通过 `plugins.base` 暴露的 Port | **直接操作数据库 / 文件系统 / 绕过 service** | Plugin 自身配置（lifespan 内） |
 | `persistence.*` | 唯一物理存储访问点 | `core.*`、`domain.*`（模型定义） | `interfaces.*`、`ai.*`、`application.services`（反向依赖） | 物理存储 |
 | `observability.*` | 日志 / 指标 / 审计 / token 用量 | `core.*` | 业务规则 | 遥测数据 |
@@ -458,7 +467,7 @@ Legacy       → 不允许被新的写路径依赖
 | **Service 边界** | 唯一业务入口是 `application.services`；路由 / MCP / UI 一律薄 | `api/story_builder_routes.py` 1,545 行含内联编排 | V4-01 拆薄 |
 | **LLM 边界** | `ai.gateway.llm.generate(contract, context, model_policy)`；业务层禁止直接调 SDK | ✅ V4-02 已收编：`novelforge.ai` 是唯一入口；3 个 legacy 调用点（spec / plot / route）改为经 `ai.legacy_support` 调用，全仓再无自带 HTTP 的模型调用 | V4-02 完成 |
 | **Memory 边界** | Canon / StoryState 是 truth；`memory/*` 是派生、可重建、非权威 | ✅ V4-03 已落地：`novelforge.memory`（检索契约 + 四类视图 + 偏好 + ContextBuilder），条目带 source_ids / revision / stale 语义；`story_engine/memory.py` 保持原义不改名 | V4-03 完成 |
-| **Quality 边界** | 每次生成经过 QualityService；issue 是业务对象 | 9 处 deterministic validator 分散 | V4-05 统一契约 |
+| **Quality 边界** | 每次生成经过 QualityService；issue 是业务对象 | ✅ V4-05 已落地：`novelforge.quality`（Q0–Q9 evaluator + code registry + Quality Store）、`quality/repair`（minimal-scope / revisioned repair）、`application.services.ReviewService`（闭环编排）；判定是 gate-based，不是分数（ADR-018） | V4-05 完成 |
 | **Export 边界** | 唯一 `ExportService`；不允许 UI / API 各自拼产物 | `export_package` + `outlines` 导出 + `docx_bytes` 三处 | V4-07 收敛 |
 | **Blueprint 边界** | canonical Story Blueprint = `blueprint` 节点图 + repository；生成只产出 proposal | ✅ V4-04 已落地：`novelforge.blueprint` + `novelforge.generation`（逐级生成 / 局部重生成 / revision / 幂等 / 结构校验） | V4-04 完成 |
 | **MCP 边界** | MCP 只是协议；tool 调 service；统一 Result Envelope | 不存在 | V4-08 新建 |

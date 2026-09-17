@@ -27,7 +27,7 @@ Git ref 不能同时存在 refs/heads/v4 与 refs/heads/v4/<name>（文件 / 目
 | V4-02 | LLM | `v4-02-llm-gateway` |
 | V4-03 | Memory | `v4-03-memory-canon`、`v4-03-memory-context-builder` |
 | V4-04 | Blueprint | `v4-04-blueprint-generation` |
-| V4-05 | Quality | `v4-05-quality-causality`、`v4-05-quality-continuity`、`v4-05-repair` |
+| V4-05 | Quality | `v4-05-quality-loop`（integration，单 Agent 顺序执行；§3 允许的方式） |
 | V4-06 | Editor | `v4-06-blueprint-editor` |
 | V4-07 | Delivery | `v4-07-delivery` |
 | V4-08 | MCP | `v4-08-mcp-resources`、`v4-08-mcp-tools` |
@@ -76,6 +76,7 @@ Tests    : tests/test_ai_gateway.py, tests/test_ai_provider_offline.py
 | `v4-02-llm-gateway` | `ai` | `src/novelforge/ai/**` | `core`（revision/ids 复用）、`observability/model_trace.py`、`application/services/utility.py`、`story_engine/spec/llm.py`（仅 compatibility 适配）、`tests/ai/**`、`tests/v4/isolation/test_module_boundaries.py`、`docs/v4/**` | `story_engine` 其余部分、`persistence`、`api`、UI、frozen 模块内部实现 | `LLMContract` / `ModelPolicy` / `LLMProvider` / `LLMResult`（新增） | `tests/ai/**`、`tests/v4/isolation/test_module_boundaries.py` |
 | `v4-03-memory-integration` | `memory` | `src/novelforge/memory/**` | `persistence/paths.py`（新增 memory 路径，唯一路径来源）、`tests/memory/**`、`tests/v4/isolation/**`、`docs/v4/**` | `story_engine` 内部实现、`ai`、`api`、UI、`novel/final` 与 570 章 historical（已删除） | `MemoryQuery` / `MemoryResult` / `MemoryItem` / `ContextRequest` / `ContextBundle`（新增） | `tests/memory/**`、`tests/v4/isolation/test_memory_ownership.py` |
 | `v4-04-blueprint-generation` | `generation`（+ `blueprint`） | `src/novelforge/generation/**`、`src/novelforge/blueprint/**` | `persistence/paths.py`（新增 blueprint 路径）、`ai/legacy_support.py`（structured 桥）、`application/services/blueprint.py`、四处 legacy provider 接入点、`tests/generation/**`、`tests/v4/isolation/**`、`docs/v4/**` | `story_engine` 内部实现、`api`、UI、frozen 模块、Canon / StoryState 写入 | `BlueprintNode` / `BlueprintRepository` / `GenerationRequest` / `GenerationResult`（新增） | `tests/generation/**`、`tests/v4/isolation/test_generation_boundaries.py` |
+| `v4-05-quality-loop` | `quality`（+ `quality.repair`） | `src/novelforge/quality/**` | `persistence/paths.py`（新增 quality 路径）、`persistence/__init__.py`、`application/services/review.py`（+ `__init__` 导出）、`tests/quality/**`、`tests/v4/isolation/**`、`docs/v4/**` | `generation` 反向依赖 quality、`ai` / `memory` / `blueprint` / `domain` 内部实现、`story_engine/repair.py`（M11 frozen）、Canon / StoryState 写入、release tag | `QualityIssue` / `QualityEvidence` / `QualityReport` / `QualityPolicy` / `RepairPlan` / `RepairResult` / `VerificationResult`（新增） | `tests/quality/**`、`tests/v4/isolation/test_quality_boundaries.py` |
 
 > V4-04 执行方式：任务书 §2 允许「单 Agent 顺序执行 → 一个 integration branch + 清晰提交边界」，
 > 本阶段即采用该方式（`v4-04-blueprint-generation` = integration branch）。

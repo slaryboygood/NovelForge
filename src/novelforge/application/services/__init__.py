@@ -9,6 +9,7 @@ project_service : ProjectService（作品生命周期）            —— ADR-0
 utility_service : UtilityService（最小 application → ai 集成路径）—— V4-02 §25
 blueprint_service : BlueprintService（Story Blueprint 生成/读取入口）—— V4-04 §52
 review_service  : ReviewService / QualityLoopService（质量评审 + 定向修复闭环）—— V4-05 §55–§56
+editor_service  : EditorService（Blueprint 编辑 / revision / diff / approve）—— V4-06 §7
 ```
 
 边界：只允许依赖 domain（story_engine）、persistence、core、legacy（只读）；
@@ -16,6 +17,7 @@ review_service  : ReviewService / QualityLoopService（质量评审 + 定向修�
 """
 
 from .blueprint import BlueprintService, blueprint_service
+from .editor import EditorService, editor_service
 from .export import ExportService, export_service
 from .journey import JourneyService, journey_service
 from .project import ProjectService, project_service
@@ -29,9 +31,10 @@ from .review import (
 from .utility import UTILITY_LABEL_CONTRACT, UtilityService, utility_service
 
 __all__ = [
-    "BlueprintService", "ExportService", "JourneyService", "ProjectService",
+    "BlueprintService", "EditorService", "ExportService", "JourneyService",
+    "ProjectService",
     "QualityLoopResult", "QualityLoopService", "RepairOutcome", "ReviewService",
     "UtilityService", "UTILITY_LABEL_CONTRACT", "blueprint_service",
-    "export_service", "journey_service", "project_service", "review_service",
-    "utility_service",
+    "editor_service", "export_service", "journey_service", "project_service",
+    "review_service", "utility_service",
 ]

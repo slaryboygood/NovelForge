@@ -31,6 +31,10 @@ from .paths import (
     quality_manifest_path,
     quality_repair_history_dir,
     quality_reports_dir,
+    editor_dir,
+    editor_manifest_path,
+    editor_operations_dir,
+    editor_reviews_dir,
     novel_context,
     planning_dir,
     planning_index_path,
@@ -50,4 +54,6 @@ __all__ = [
     "blueprint_node_dir", "blueprint_node_path",
     "quality_dir", "quality_issues_dir", "quality_manifest_path",
     "quality_repair_history_dir", "quality_reports_dir",
+    "editor_dir", "editor_manifest_path", "editor_operations_dir",
+    "editor_reviews_dir",
 ]

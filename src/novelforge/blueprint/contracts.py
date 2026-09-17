@@ -253,6 +253,17 @@ ALLOWED_PARENT_TYPES: dict[str, tuple[str | None, ...]] = {
     "payoff": ("chapter", "scene", "structural_unit"),
 }
 
+#: **结构 identity 字段**（V4-05 §30 / V4-06 §10、§63）：质量修复与 editor 都不得通过
+#: 普通字段修改它们 —— 结构关系只能经显式操作（move_node / restore 的结构校验）改变。
+#: 放在 blueprint 作为 SSOT，避免 quality 与 editor 各维护一份。
+STRUCTURAL_IDENTITY_FIELDS: dict[str, tuple[str, ...]] = {
+    "scene": ("chapter_id",),
+    "chapter": ("characters",),
+    "character_arc": ("character_id",),
+    "causal_link": ("source_node", "target_node"),
+    "payoff": ("resolves_setup_ids",),
+}
+
 
 def validate_node_id(node_id: str) -> str:
     if not _ID_RE.match(str(node_id or "")):
@@ -369,5 +380,6 @@ __all__ = [
     "NodeType", "PAYLOAD_MODELS", "PayoffPayload", "PremisePayload", "SceneCardPayload",
     "SceneFunction", "SetupPayload", "SetupStatus", "StoryArcPayload",
     "StructuralUnitPayload", "StrictPayload", "ThemePayload", "TransitionKind",
-    "WorldPayload", "slug", "utc_now", "validate_node_id",
+    "STRUCTURAL_IDENTITY_FIELDS", "WorldPayload", "slug", "utc_now",
+    "validate_node_id",
 ]

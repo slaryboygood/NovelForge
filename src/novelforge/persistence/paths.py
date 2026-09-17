@@ -33,8 +33,8 @@ ARTIFACT_KINDS: frozenset[str] = frozenset({
     "blueprint",
     "outline",
     "memory",
-    "blueprint",
     "quality",
+    "editor",
 })
 
 _NOVEL_ID_RE = re.compile(NOVEL_ID_PATTERN)
@@ -287,6 +287,30 @@ def quality_manifest_path(project_root: Path | str, novel_id: str) -> Path:
     return quality_dir(project_root, novel_id) / "MANIFEST.json"
 
 
+def editor_dir(project_root: Path | str, novel_id: str) -> Path:
+    """Editor metadata 根目录：novel/authoring/story_engine/editor/<novel_id>
+
+    V4-06：Editor 只拥有 **metadata**（operation 记录 / review 决定），
+    canonical Blueprint 仍在 BlueprintRepository（不得出现第二套 truth，§5 / §49）。
+    """
+
+    context = novel_context(project_root, novel_id, artifact_kind="editor")
+    return context.resolve("novel", "authoring", "story_engine", "editor",
+                           context.novel_id)
+
+
+def editor_operations_dir(project_root: Path | str, novel_id: str) -> Path:
+    return editor_dir(project_root, novel_id) / "operations"
+
+
+def editor_reviews_dir(project_root: Path | str, novel_id: str) -> Path:
+    return editor_dir(project_root, novel_id) / "reviews"
+
+
+def editor_manifest_path(project_root: Path | str, novel_id: str) -> Path:
+    return editor_dir(project_root, novel_id) / "MANIFEST.json"
+
+
 __all__ = [
     "ARTIFACT_KINDS", "NOVEL_ID_PATTERN", "ArtifactContext", "OwnershipError",
     "canon_db_path", "content_pack_path", "novel_context", "planning_dir",
@@ -297,4 +321,6 @@ __all__ = [
     "blueprint_node_dir", "blueprint_node_path",
     "quality_dir", "quality_issues_dir", "quality_manifest_path",
     "quality_repair_history_dir", "quality_reports_dir",
+    "editor_dir", "editor_manifest_path", "editor_operations_dir",
+    "editor_reviews_dir",
 ]

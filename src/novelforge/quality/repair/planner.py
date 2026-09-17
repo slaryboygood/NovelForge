@@ -18,7 +18,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
-from novelforge.blueprint import BlueprintRepository
+from novelforge.blueprint import STRUCTURAL_IDENTITY_FIELDS, BlueprintRepository
 from novelforge.core.ids import digest_payload
 
 from ..contracts import QualityIssue, QualityScope
@@ -48,14 +48,9 @@ _ORDER_RANK: Mapping[str, int] = {
     "story_arc": 0, "structural_unit": 1, "chapter": 2, "scene": 3,
 }
 
-#: 结构 identity 字段：质量修复**永远**不得改动（§30 preserve 是硬约束）
-STRUCTURAL_PRESERVE: Mapping[str, tuple[str, ...]] = {
-    "scene": ("chapter_id",),
-    "chapter": ("characters",),
-    "character_arc": ("character_id",),
-    "causal_link": ("source_node", "target_node"),
-    "payoff": ("resolves_setup_ids",),
-}
+#: 结构 identity 字段：质量修复**永远**不得改动（§30 preserve 是硬约束）。
+#: SSOT 在 `novelforge.blueprint.STRUCTURAL_IDENTITY_FIELDS`（V4-06 起 editor 共用同一份）。
+STRUCTURAL_PRESERVE: Mapping[str, tuple[str, ...]] = STRUCTURAL_IDENTITY_FIELDS
 
 
 def payload_fields(node: Any) -> tuple[str, ...]:

@@ -21,6 +21,7 @@ from .contracts import (
     BLUEPRINT_SCHEMA_VERSION,
     NODE_ID_PREFIX,
     PAYLOAD_MODELS,
+    STRUCTURAL_IDENTITY_FIELDS,
     BlueprintNode,
     BlueprintNodeRef,
     CausalLinkPayload,
@@ -60,7 +61,7 @@ __all__ = [
     # node model
     "BlueprintNode", "BlueprintNodeRef", "NodeType", "NodeStatus",
     "BLUEPRINT_SCHEMA_VERSION", "NODE_ID_PREFIX", "PAYLOAD_MODELS",
-    "ALLOWED_PARENT_TYPES", "slug", "utc_now",
+    "ALLOWED_PARENT_TYPES", "STRUCTURAL_IDENTITY_FIELDS", "slug", "utc_now",
     # payloads
     "PremisePayload", "ThemePayload", "WorldPayload", "CharacterPayload",
     "CharacterArcPayload", "StoryArcPayload", "StructuralUnitPayload",
@@ -74,4 +75,3 @@ __all__ = [
     "BlueprintError", "BlueprintNodeNotFound", "BlueprintOwnershipError",
     "BlueprintStatusError", "BlueprintValidationError",
 ]
-

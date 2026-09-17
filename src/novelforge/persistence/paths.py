@@ -33,6 +33,7 @@ ARTIFACT_KINDS: frozenset[str] = frozenset({
     "blueprint",
     "outline",
     "memory",
+    "blueprint",
 })
 
 _NOVEL_ID_RE = re.compile(NOVEL_ID_PATTERN)
@@ -212,10 +213,57 @@ def memory_manifest_path(project_root: Path | str, novel_id: str) -> Path:
     return memory_dir(project_root, novel_id) / "MANIFEST.json"
 
 
+def blueprint_dir(project_root: Path | str, novel_id: str) -> Path:
+    """Story Blueprint canonical store 根目录：
+    novel/authoring/story_engine/blueprint/<novel_id>
+
+    V4-04：generation 模块**不得自行拼路径**，只能经本函数（§31）。
+    目录内容属于 canonical Blueprint（不是派生记忆）。
+    """
+
+    context = novel_context(project_root, novel_id, artifact_kind="blueprint")
+    return context.resolve("novel", "authoring", "story_engine", "blueprint",
+                           context.novel_id)
+
+
+def blueprint_node_dir(project_root: Path | str, novel_id: str,
+                       node_id: str) -> Path:
+    """单个 Blueprint 节点的 revision 目录：blueprint/<novel_id>/nodes/<node_id>"""
+
+    if not re.fullmatch(r"[a-z][a-z0-9_]{1,63}", str(node_id or "")):
+        raise OwnershipError("NODE_ID_INVALID", f"blueprint node_id 非法：{node_id!r}",
+                             novel_id=novel_id)
+    return blueprint_dir(project_root, novel_id) / "nodes" / str(node_id)
+
+
+def blueprint_node_path(project_root: Path | str, novel_id: str, node_id: str,
+                        revision: int) -> Path:
+    """节点某一 revision 的文件：nodes/<node_id>/r%06d.json"""
+
+    if int(revision) < 1:
+        raise OwnershipError("REVISION_INVALID", "blueprint revision 必须 >= 1",
+                             novel_id=novel_id)
+    return blueprint_node_dir(project_root, novel_id, node_id) / f"r{int(revision):06d}.json"
+
+
+def blueprint_index_path(project_root: Path | str, novel_id: str) -> Path:
+    """Blueprint 索引：blueprint/<novel_id>/index.json（current revision / 子节点顺序）"""
+
+    return blueprint_dir(project_root, novel_id) / "index.json"
+
+
+def blueprint_manifest_path(project_root: Path | str, novel_id: str) -> Path:
+    """Blueprint manifest：blueprint/<novel_id>/MANIFEST.json"""
+
+    return blueprint_dir(project_root, novel_id) / "MANIFEST.json"
+
+
 __all__ = [
     "ARTIFACT_KINDS", "NOVEL_ID_PATTERN", "ArtifactContext", "OwnershipError",
     "canon_db_path", "content_pack_path", "novel_context", "planning_dir",
     "planning_index_path", "profiles_path", "require_same_novel", "story_state_dir",
     "writer_store_dir", "memory_dir", "memory_episodes_path",
     "memory_manifest_path", "memory_preferences_path",
+    "blueprint_dir", "blueprint_index_path", "blueprint_manifest_path",
+    "blueprint_node_dir", "blueprint_node_path",
 ]

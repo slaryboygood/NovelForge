@@ -21,6 +21,11 @@ from .paths import (
     memory_episodes_path,
     memory_manifest_path,
     memory_preferences_path,
+    blueprint_dir,
+    blueprint_index_path,
+    blueprint_manifest_path,
+    blueprint_node_dir,
+    blueprint_node_path,
     novel_context,
     planning_dir,
     planning_index_path,
@@ -36,4 +41,6 @@ __all__ = [
     "planning_index_path", "profiles_path", "require_same_novel", "story_state_dir",
     "writer_store_dir", "memory_dir", "memory_episodes_path",
     "memory_manifest_path", "memory_preferences_path",
+    "blueprint_dir", "blueprint_index_path", "blueprint_manifest_path",
+    "blueprint_node_dir", "blueprint_node_path",
 ]

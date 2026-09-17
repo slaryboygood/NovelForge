@@ -53,6 +53,23 @@ def iter_imports(path: Path) -> list[tuple[str, int]]:
     return found
 
 
+def module_level_imports(path: Path) -> list[tuple[str, int]]:
+    """只返回**模块顶层**的 import（函数/方法内 import 属于惰性依赖，单独判断）。"""
+
+    tree = ast.parse(read_text(path))
+    found: list[tuple[str, int]] = []
+    for node in tree.body:
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                found.append((alias.name, node.lineno))
+        elif isinstance(node, ast.ImportFrom):
+            module = node.module or ""
+            if node.level:
+                module = f"{'.' * node.level}{module}"
+            found.append((module, node.lineno))
+    return found
+
+
 def imports_matching(path: Path, prefixes: tuple[str, ...]) -> list[tuple[str, int]]:
     return [(name, line) for name, line in iter_imports(path)
             if name.startswith(prefixes)]

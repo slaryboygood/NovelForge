@@ -4,8 +4,29 @@
 
 - 输出必须过 strict schema（`SpecProposal.model_validate(..., strict=True)`）；
 - 解析 / 校验失败最多重试 3 次（2s / 5s / 10s backoff），保留原始响应文本；
-- 结果必须再由作者确认（`SpecConfirmation`）才能进入编译；
-- 网络调用通过注入的 `chat` 函数完成，便于测试与替换 provider。
+- 结果必须再由作者确认（`SpecConfirmation`）才能进入编译。
+
+## V4-02 迁移说明（compatibility adapter）
+
+本模块是 **legacy 调用点**：V4-02 起它不再自己发 HTTP 请求，而是通过唯一的
+`novelforge.ai` LLMGateway 调用模型（timeout / retry / 错误归一化 / usage / trace
+全部由 Gateway 负责）。
+
+保留的兼容面（**不要扩展**）：
+
+```text
+LLMSpecProposalProvider(api_key=..., model=..., endpoint=..., timeout=..., max_attempts=...,
+                        chat=...)   ← chat 注入是测试 seam，不是产品路径
+SpecProposalError / SpecProposalProvider / StaticSpecProposalProvider
+build_spec_prompt / extract_proposal_payload / propose_spec / load_env / BACKOFF
+```
+
+已移除的硬编码（V4-02 §9）：
+
+```text
+DEFAULT_MODEL / DEFAULT_ENDPOINT（原先写死 deepseek-chat 与厂商端点）
+→ model / base_url / api_key_env 现在全部由调用方或 environment 提供
+```
 """
 
 from __future__ import annotations
@@ -13,8 +34,6 @@ from __future__ import annotations
 import json
 import os
 import time
-import urllib.error
-import urllib.request
 from pathlib import Path
 from typing import Any, Callable, Protocol
 
@@ -22,8 +41,6 @@ from pydantic import ValidationError
 
 from .models import NovelSpec, SpecGap, SpecProposal, new_spec_id
 
-DEFAULT_MODEL = "deepseek-chat"
-DEFAULT_ENDPOINT = "https://api.deepseek.com/chat/completions"
 BACKOFF = (2.0, 5.0, 10.0)
 
 SYSTEM_PROMPT = (
@@ -113,23 +130,39 @@ class StaticSpecProposalProvider:
 
 
 class LLMSpecProposalProvider:
-    """真实 LLM provider：默认走 DeepSeek chat completions；`chat` 可注入替换。"""
+    """真实 LLM provider（compatibility adapter over `novelforge.ai`）。
 
-    def __init__(self, *, api_key: str = "", model: str = DEFAULT_MODEL,
-                 endpoint: str = DEFAULT_ENDPOINT, timeout: float = 150.0,
-                 max_attempts: int = 3, chat: ChatFunction | None = None) -> None:
+    `chat` 注入保留为测试 seam；未注入时每次调用都经 LLMGateway：
+    模型 / base_url / api_key 环境变量必须由调用方提供，模块内不再有默认生产模型。
+    """
+
+    #: 兼容默认：这些环境变量按顺序作为 api_key 来源（与 .env.example 保持一致）
+    DEFAULT_KEY_ENVS: tuple[str, ...] = ("DEEPSEEK_API_KEY", "ARK_API_KEY")
+    #: 兼容默认：模型名的环境变量（未显式传 model 时使用）
+    MODEL_ENV = "NOVELFORGE_SPEC_MODEL"
+    #: 兼容默认：base_url 的环境变量
+    BASE_URL_ENV = "NOVELFORGE_SPEC_BASE_URL"
+
+    def __init__(self, *, api_key: str = "", model: str = "",
+                 endpoint: str = "", timeout: float = 150.0,
+                 max_attempts: int = 3, chat: ChatFunction | None = None,
+                 project_root: Path | str | None = None,
+                 provider_id: str = "spec_proposal",
+                 model_policy: Any | None = None,
+                 gateway: Any | None = None) -> None:
         self.api_key = api_key
         self.model = model
         self.endpoint = endpoint
         self.timeout = timeout
         self.max_attempts = max_attempts
+        self.project_root = Path(project_root) if project_root else None
+        self.provider_id = provider_id
+        self._model_policy = model_policy
+        self._gateway = gateway
         self._injected = chat is not None
-        self._chat = chat or self._http_chat
+        self._chat = chat or self._gateway_chat
 
     def propose(self, spec: NovelSpec, gaps: list[SpecGap]) -> SpecProposal:
-        if not self.api_key and not self._injected:
-            raise SpecProposalError("BLOCKED_REAL_LLM_PROPOSER_UNAVAILABLE",
-                                    "缺少 DEEPSEEK_API_KEY")
         prompt = build_spec_prompt(spec, gaps)
         messages = [{"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": prompt}]
@@ -152,29 +185,137 @@ class LLMSpecProposalProvider:
         assert last_error is not None
         raise last_error
 
-    def _http_chat(self, messages: list[dict[str, str]]) -> str:
-        request = urllib.request.Request(
-            self.endpoint,
-            data=json.dumps({"model": self.model, "messages": messages, "temperature": 0,
-                             "max_tokens": 2000,
-                             "response_format": {"type": "json_object"}}).encode(),
-            headers={"Content-Type": "application/json",
-                     "Authorization": f"Bearer {self.api_key}"})
+    # ------------------------------------------------------------ gateway 路径
+    def _resolved_env(self) -> dict[str, str]:
+        env = dict(load_env(self.project_root)) if self.project_root else {}
+        for key in self.DEFAULT_KEY_ENVS:
+            if os.environ.get(key):
+                env[key] = os.environ[key]
+        return env
+
+    def _resolve_api_key(self, env: dict[str, str]) -> str:
+        if self.api_key:
+            return self.api_key
+        for key in self.DEFAULT_KEY_ENVS:
+            if env.get(key):
+                return env[key]
+        return ""
+
+    def _ensure_contract(self, model: str) -> None:
+        """准备 contract / model policy（不构建 provider；注入 gateway 时也复用）。"""
+
+        from novelforge.ai import (LLMContract, ModelPolicy, PromptSpec,
+                                   ValidationPolicy)
+
+        if getattr(self, "_contract", None) is not None:
+            return
+        self._spec_prompt = PromptSpec(system=SYSTEM_PROMPT,
+                                       user_template="{prompt}")
+        self._contract = LLMContract(
+            contract_id="spec_proposal.v1", version=1, prompt=self._spec_prompt,
+            generation_mode="text", temperature_policy="deterministic",
+            max_output_tokens=2000, timeout_s=float(self.timeout),
+            max_attempts=1,  # 重试由本适配器统一管理（保持既有语义）
+            cacheable=False,
+            validation=ValidationPolicy(require_json=False,
+                                        retry_on_structured_output=False))
+        if self._model_policy is None:
+            if self._gateway is not None:
+                # 注入 gateway 时由调用方决定 provider，只按模型名路由
+                self._model_policy = ModelPolicy(profile="explicit_model",
+                                                 explicit_model_id=model)
+            else:
+                self._model_policy = ModelPolicy(
+                    profile="explicit_model", explicit_provider_id=self.provider_id,
+                    explicit_model_id=model)
+
+    def _build_gateway(self, env: dict[str, str]):
+        """用显式配置（或 environment）构建一次性 Gateway（V4-02 唯一模型入口）。"""
+
+        from novelforge.ai import (
+            LLMContract,
+            ModelPolicy,
+            ModelSpec,
+            PromptSpec,
+            ProviderConfig,
+            build_gateway_from_configs,
+            load_provider_configs,
+        )
+        from novelforge.observability import InMemoryModelTraceStore
+
+        api_key = self._resolve_api_key(env)
+        if not api_key:
+            raise SpecProposalError(
+                "BLOCKED_REAL_LLM_PROPOSER_UNAVAILABLE",
+                "缺少 API key（请设置 "
+                + " / ".join(self.DEFAULT_KEY_ENVS)
+                + "，或使用 providers 配置）")
+
+        model = self.model or env.get(self.MODEL_ENV, "")
+        if not model:
+            raise SpecProposalError(
+                "BLOCKED_REAL_LLM_PROPOSER_UNAVAILABLE",
+                f"缺少模型名（请显式传入 model 或设置 {self.MODEL_ENV}）")
+        base_url = self.endpoint or env.get(self.BASE_URL_ENV, "")
+        if not base_url:
+            raise SpecProposalError(
+                "BLOCKED_REAL_LLM_PROPOSER_UNAVAILABLE",
+                f"缺少 base_url（请显式传入 endpoint 或设置 {self.BASE_URL_ENV}）")
+        if base_url.endswith("/chat/completions"):
+            base_url = base_url[: -len("/chat/completions")]
+
+        self._ensure_contract(model)
+        config = ProviderConfig(
+            provider_id=self.provider_id, kind="openai_compatible",
+            base_url=base_url,
+            # key 已解析出来 → 走一次性环境变量，不落盘、不写入 trace
+            api_key_env="NOVELFORGE_SPEC_API_KEY",
+            models=(ModelSpec(model_id=model, capabilities=("utility",),
+                              cost_tier=3, speed_tier=3),),
+            default_model=model, timeout_s=float(self.timeout), enabled=True)
+        registry = load_provider_configs(payload={"providers": []}, env=env)
+        registry.register(config)
+        gateway = build_gateway_from_configs(
+            tuple(registry.all()), contracts=None,
+            trace_sink=InMemoryModelTraceStore(),
+            env={**env, "NOVELFORGE_SPEC_API_KEY": api_key})
+        return gateway
+
+    def _gateway_chat(self, messages: list[dict[str, str]]) -> str:
+        """经 LLMGateway 调用模型；错误统一映射回 legacy SpecProposalError。"""
+
+        from novelforge.ai import LLMError
+
+        env = self._resolved_env()
+        if self._gateway is None:
+            self._gateway = self._build_gateway(env)
+        elif getattr(self, "_contract", None) is None:
+            self._ensure_contract(self.model or "injected-model")
+        gateway = self._gateway
+        user_content = messages[-1]["content"] if messages else ""
         try:
-            with urllib.request.urlopen(request, timeout=self.timeout) as response:
-                body = json.loads(response.read().decode("utf-8", "replace"))
-        except urllib.error.HTTPError as exc:
-            raise SpecProposalError("SPEC_PROPOSAL_HTTP_FAILURE",
-                                    f"HTTP {exc.code}", raw=exc.read().decode(
-                                        "utf-8", "replace")[:2000]) from exc
+            result = gateway.generate(
+                contract=self._contract,
+                context={"prompt": user_content},
+                model_policy=self._model_policy,
+                operation="spec_proposal")
+        except LLMError as exc:
+            # RetryExhaustedError 保留根因错误码；据此映射回 legacy 错误码
+            effective = str((exc.details or {}).get("last_error_code") or exc.code)
+            http_codes = {"LLM_AUTHENTICATION_ERROR", "LLM_RATE_LIMIT",
+                          "LLM_PROVIDER_UNAVAILABLE", "LLM_INVALID_REQUEST",
+                          "LLM_MODEL_UNAVAILABLE", "LLM_REQUEST_TIMEOUT",
+                          "LLM_PROVIDER_CONFIGURATION_ERROR"}
+            legacy_code = ("SPEC_PROPOSAL_HTTP_FAILURE" if effective in http_codes
+                           else "SPEC_PROPOSAL_NETWORK_FAILURE")
+            raise SpecProposalError(legacy_code, exc.message[:200]) from exc
         except Exception as exc:  # noqa: BLE001 - 统一成 proposal 层错误
             raise SpecProposalError("SPEC_PROPOSAL_NETWORK_FAILURE",
                                     str(exc)[:200]) from exc
-        choices = body.get("choices") or []
-        content = choices[0].get("message", {}).get("content") if choices else ""
-        if not content:
+        text = str(result.output or "")
+        if not text.strip():
             raise SpecProposalError("SPEC_PROPOSAL_EMPTY_RESPONSE", "模型返回空内容")
-        return content
+        return text
 
 
 def propose_spec(spec: NovelSpec, gaps: list[SpecGap],
@@ -197,8 +338,6 @@ def propose_spec(spec: NovelSpec, gaps: list[SpecGap],
 
 __all__ = [
     "BACKOFF",
-    "DEFAULT_ENDPOINT",
-    "DEFAULT_MODEL",
     "LLMSpecProposalProvider",
     "SYSTEM_PROMPT",
     "SpecProposalError",

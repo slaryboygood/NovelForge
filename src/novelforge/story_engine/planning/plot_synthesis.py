@@ -74,23 +74,29 @@ class StaticPlotCandidateProvider:
 
 
 class LLMPlotCandidateProvider:
-    """可选 LLM provider：默认走 DeepSeek；`chat` 可注入（测试不需要网络）。"""
+    """可选 LLM provider（compatibility adapter over `novelforge.ai`）。
 
-    def __init__(self, *, api_key: str = "", model: str = "deepseek-chat",
+    `chat` 可注入（测试不需要网络）；未注入时经 `ai.chat_completion_via_gateway`
+    调用模型 —— 本模块不再自带 HTTP 客户端，也没有写死的厂商端点 / 模型。
+    """
+
+    MODEL_ENV = "NOVELFORGE_PLOT_MODEL"
+    BASE_URL_ENV = "NOVELFORGE_PLOT_BASE_URL"
+
+    def __init__(self, *, api_key: str = "", model: str = "",
+                 base_url: str = "",
                  timeout: float = 150.0, max_attempts: int = 3,
                  chat: Callable[[list[dict[str, str]]], str] | None = None) -> None:
         self.api_key = api_key
         self.model = model
+        self.base_url = base_url
         self.timeout = timeout
         self.max_attempts = max_attempts
         self._injected = chat is not None
-        self._chat = chat or self._http_chat
+        self._chat = chat or self._gateway_chat
 
     def propose(self, payload: dict[str, Any], *,
                 source_revision: str) -> list[PlotNodeCandidate]:
-        if not self.api_key and not self._injected:
-            raise PlotProposalError("BLOCKED_REAL_LLM_PROPOSER_UNAVAILABLE",
-                                    "缺少 DEEPSEEK_API_KEY")
         messages = [{"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": json.dumps(payload, ensure_ascii=False)}]
         last_error: PlotProposalError | None = None
@@ -106,30 +112,27 @@ class LLMPlotCandidateProvider:
         assert last_error is not None
         raise last_error
 
-    def _http_chat(self, messages: list[dict[str, str]]) -> str:
-        import urllib.error
-        import urllib.request
+    def _gateway_chat(self, messages: list[dict[str, str]]) -> str:
+        """经 `novelforge.ai` 调用（V4-02：legacy 调用不再自己发 HTTP）。"""
 
-        request = urllib.request.Request(
-            "https://api.deepseek.com/chat/completions",
-            data=json.dumps({"model": self.model, "messages": messages, "temperature": 0,
-                             "max_tokens": 4000,
-                             "response_format": {"type": "json_object"}}).encode(),
-            headers={"Content-Type": "application/json",
-                     "Authorization": f"Bearer {self.api_key}"})
+        from novelforge.ai import LLMError, chat_completion_via_gateway
+        from novelforge.ai.legacy_support import map_legacy_error_code
+
         try:
-            with urllib.request.urlopen(request, timeout=self.timeout) as response:
-                body = json.loads(response.read().decode("utf-8", "replace"))
-        except urllib.error.HTTPError as exc:
-            raise PlotProposalError("PLOT_PROPOSAL_HTTP_FAILURE", f"HTTP {exc.code}",
-                                    raw=exc.read().decode("utf-8", "replace")[:2000]) from exc
-        except Exception as exc:  # noqa: BLE001
-            raise PlotProposalError("PLOT_PROPOSAL_NETWORK_FAILURE", str(exc)[:200]) from exc
-        choices = body.get("choices") or []
-        content = choices[0].get("message", {}).get("content") if choices else ""
-        if not content:
+            text = chat_completion_via_gateway(
+                messages, model=self.model, base_url=self.base_url,
+                api_key=self.api_key, timeout_s=self.timeout,
+                max_output_tokens=4000, operation="plot_candidates",
+                provider_id="plot_candidates", model_env=self.MODEL_ENV,
+                base_url_env=self.BASE_URL_ENV, system_prompt=SYSTEM_PROMPT)
+        except LLMError as exc:
+            raise PlotProposalError(
+                map_legacy_error_code(exc, http_code="PLOT_PROPOSAL_HTTP_FAILURE",
+                                      network_code="PLOT_PROPOSAL_NETWORK_FAILURE"),
+                exc.message[:200]) from exc
+        if not str(text or "").strip():
             raise PlotProposalError("PLOT_PROPOSAL_EMPTY_RESPONSE", "模型返回空内容")
-        return content
+        return str(text)
 
 
 def parse_candidates(raw: str, *, source_revision: str, provider: str,

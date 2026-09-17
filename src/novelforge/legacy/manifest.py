@@ -99,6 +99,25 @@ FROZEN_MODULES: tuple[FrozenModule, ...] = (
         used_by=("story_builder.writer_integration",),
         removal_condition="Blueprint Editor（V4-06）落地后，正文预览能力由插件承担",
     ),
+    FrozenModule(
+        module_id="story_engine.spec.llm",
+        path="src/novelforge/story_engine/spec/llm.py",
+        capability="M3 SpecProposal 的 LLM 适配器（V4-02 起改为经 novelforge.ai 调用）",
+        status="compatibility_adapter",
+        used_by=("story_engine.spec（作者确认提案流）", "tests/test_novel_spec_compiler.py"),
+        removal_condition=("M3 spec 提案流被 V4 Structured Generation 取代，"
+                           "且 chat 注入 seam 不再被测试需要时删除"),
+    ),
+    FrozenModule(
+        module_id="story_engine.planning.llm_providers",
+        path=("src/novelforge/story_engine/planning/plot_synthesis.py、"
+              "src/novelforge/story_engine/planning/route_candidates.py"),
+        capability="M6/M7 的可选 LLM 提案 provider（V4-02 起经 novelforge.ai 调用）",
+        status="compatibility_adapter",
+        used_by=("story_engine.planning（plot / route 提案流）",),
+        removal_condition=("V4-04/V4-05 的 Blueprint 生成与 Quality 流程接管后，"
+                           "这两个 legacy provider 可整体退役"),
+    ),
 )
 
 
@@ -121,4 +140,3 @@ __all__ = [
     "FROZEN_MODULES", "FrozenModule", "frozen_module", "frozen_module_ids",
     "frozen_module_paths",
 ]
-

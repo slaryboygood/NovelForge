@@ -53,6 +53,11 @@ DOMAIN_AI_IMPORT_ALLOWLIST = {
     "src/novelforge/story_engine/spec/llm.py",
     "src/novelforge/story_engine/planning/plot_synthesis.py",
     "src/novelforge/story_engine/planning/route_candidates.py",
+    # V4-04：四处 legacy structured provider 通过 Gateway 桥接入（函数内惰性 import）
+    "src/novelforge/story_engine/creative.py",
+    "src/novelforge/story_engine/settings_gen.py",
+    "src/novelforge/story_engine/outline_forge.py",
+    "src/novelforge/story_builder/ai_recommendations.py",
 }
 
 
@@ -203,3 +208,34 @@ def test_domain_and_ai_do_not_import_memory() -> None:
                     offenders.append(f"{_relative(path)}:{line} → {name}")
     assert offenders == [], (
         "依赖方向必须是 memory → domain / ai（不得反向）：\n" + "\n".join(offenders))
+
+
+# ---------------------------------------------------------------- V4-04（generation）
+GENERATION_FORBIDDEN_PREFIXES = (
+    "novelforge.api", "novelforge.ai.providers", "fastapi", "starlette", "mcp",
+    "httpx", "requests", "urllib", "openai", "anthropic",
+)
+
+
+def test_generation_module_boundaries() -> None:
+    offenders: list[str] = []
+    for path in python_files("generation"):
+        for name, line in iter_imports(path):
+            if name.startswith(GENERATION_FORBIDDEN_PREFIXES):
+                offenders.append(f"{_relative(path)}:{line} → {name}")
+    assert offenders == [], (
+        "generation 不得依赖 interface / provider 实现 / HTTP client：\n"
+        + "\n".join(offenders))
+
+
+def test_layers_do_not_import_generation() -> None:
+    offenders: list[str] = []
+    for package in ("story_engine", "story_builder", "ai", "memory", "blueprint",
+                    "core", "persistence"):
+        for path in python_files(package):
+            for name, line in iter_imports(path):
+                if name.startswith("novelforge.generation"):
+                    offenders.append(f"{_relative(path)}:{line} → {name}")
+    assert offenders == [], (
+        "generation 是上层消费者；domain / ai / memory / blueprint 不得依赖它：\n"
+        + "\n".join(offenders))

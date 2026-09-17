@@ -21,6 +21,7 @@ GenerationResult（含 evidence：contract / context digest / source_ids / model
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Mapping, Sequence
@@ -38,7 +39,20 @@ from novelforge.core.ids import new_request_id
 from novelforge.memory import ContextBuilder, ContextBundle
 
 from .contracts import TaskRegistry, TaskSpec
-from .errors import GenerationError, GenerationUnavailableError
+from .errors import (
+    GenerationError,
+    GenerationUnavailableError,
+    RewriteViolationError,
+)
+from .rewrite import (
+    assert_rewrite_allowed,
+    build_rewrite_contract,
+    changed_outside_target,
+    fields_of,
+    merge_target_fields,
+    rewrite_contract_id,
+    REWRITE_CONTRACT_VERSION,
+)
 from .tasks import chapter as chapter_task
 from .tasks import characters as character_task
 from .tasks import links as links_task
@@ -66,6 +80,23 @@ def default_registry() -> TaskRegistry:
     registry.register(chapter_task.chapter_spec())
     registry.register(scene_task.scene_spec())
     return registry
+
+
+#: 节点类型 → 生成任务名（V4-06：rewrite / regenerate 的默认任务）
+NODE_TYPE_TASK: Mapping[str, str] = {
+    "premise": "premise", "theme": "theme", "world": "world", "character": "character",
+    "character_arc": "character_arc", "story_arc": "story_arc",
+    "structural_unit": "structural_unit", "chapter": "chapter", "scene": "scene",
+}
+
+
+def task_for_node_type(node_type: str) -> str:
+    task = NODE_TYPE_TASK.get(str(node_type))
+    if task is None:
+        raise GenerationError(f"{node_type} 没有对应的生成任务",
+                              details={"node_type": str(node_type),
+                                       "known": sorted(NODE_TYPE_TASK)})
+    return task
 
 
 @dataclass(frozen=True)
@@ -141,6 +172,8 @@ class GenerationResult:
     evidence: Mapping[str, Any] = field(default_factory=dict)
     cached: bool = False
     warnings: tuple[str, ...] = ()
+    #: 字段级改写（V4-06 §19）声明被改写的字段；其余操作留空
+    target_fields: tuple[str, ...] = ()
 
     def as_dict(self) -> dict[str, Any]:
         return {"ok": self.ok, "operation": self.operation,
@@ -152,7 +185,8 @@ class GenerationResult:
                 "source_ids": list(self.source_ids), "usage": dict(self.usage),
                 "trace": dict(self.trace), "validation": dict(self.validation),
                 "evidence": dict(self.evidence), "cached": self.cached,
-                "warnings": list(self.warnings)}
+                "warnings": list(self.warnings),
+                "target_fields": list(self.target_fields)}
 
 
 @dataclass(frozen=True)
@@ -333,6 +367,151 @@ class BlueprintGenerationService:
 
         return self.repository.set_status(node_id, "accepted",
                                           expected_revision=expected_revision)
+
+    # ------------------------------------------------------- 字段级 AI 改写（V4-06）
+    def rewrite_fields(self, *, novel_id: str, node_id: str,
+                       expected_revision: int | None,
+                       target_fields: Sequence[str],
+                       preserve_fields: Sequence[str] = (),
+                       instruction: str = "",
+                       quality_issue_ids: Sequence[str] = (),
+                       idempotency_key: str = "", request_id: str = "",
+                       model_policy: ModelPolicy | None = None) -> GenerationResult:
+        """只改 target_fields 的 AI 改写（§18）：其余字段必须与当前 revision 一致。
+
+        `expected_revision` 在**任何模型调用之前**校验；模型若改动了未授权字段，
+        抛 `RewriteViolationError` 且**不写入任何 revision**（§20 / §58）。
+        """
+
+        if str(novel_id) != self.novel_id:
+            raise GenerationError(
+                f"拒绝跨作品改写：{novel_id} != {self.novel_id}",
+                details={"novel_id": self.novel_id})
+        current = self.repository.require_current(node_id)
+        spec = self.registry.get(task_for_node_type(current.node_type))
+        current_payload = self._payload_as_dict(current)
+        targets, preserve = assert_rewrite_allowed(
+            payload_fields=fields_of(type(current.payload)),
+            target_fields=target_fields, preserve_fields=preserve_fields)
+        replay_key = f"rewrite:{idempotency_key}" if idempotency_key else ""
+        if replay_key:
+            existing = self.repository.find_by_idempotency(replay_key)
+            if existing is not None:
+                return GenerationResult(
+                    ok=True, operation="rewrite", request_id=request_id,
+                    novel_id=self.novel_id, node=existing.as_dict(),
+                    revision=existing.revision,
+                    contract=rewrite_contract_id(spec.task),
+                    model=str(existing.provenance.get("model") or ""),
+                    provider=str(existing.provenance.get("provider") or ""),
+                    context_digest=existing.context_digest,
+                    source_ids=tuple(existing.source_ids),
+                    validation={"status": "PASS", "checks": ["idempotency_replay"]},
+                    warnings=("IDEMPOTENT_REPLAY",))
+        # §20 / §62：revision 冲突必须在调用模型之前发现（0 次模型调用）
+        if expected_revision is not None:
+            from novelforge.core.revision import check_expected_revision
+
+            check_expected_revision(expected_revision, current.revision,
+                                    artifact_id=node_id)
+        task_input = {
+            "task": instruction or f"改写 {current.node_type} 的指定字段",
+            "parent_id": current.parent_id,
+            "characters": [str(value) for value in
+                           (current_payload.get("characters") or ())],
+            "preserve": list(preserve),
+            "rewrite": {"target_fields": list(targets),
+                        "preserve_fields": list(preserve),
+                        "quality_issue_ids": [str(value) for value in quality_issue_ids],
+                        "current": current_payload},
+        }
+        bundle = self._build_context(spec, GenerationRequest(
+            novel_id=self.novel_id, task=spec.task, node_id=node_id,
+            parent_id=current.parent_id, revision=current.revision,
+            task_input=task_input), task_input)
+        contract = build_rewrite_contract(spec, target_fields=targets,
+                                          preserve_fields=preserve,
+                                          instruction=instruction)
+        resolved_request_id = request_id or new_request_id(f"rewrite_{spec.task}")
+        policy = model_policy or ModelPolicy(
+            profile="quality_first", required_capabilities=spec.capabilities)
+        context = self._llm_context(bundle, task_input)
+        context["instruction"] = instruction or "按 target_fields 改写"
+        context["current"] = json.dumps(current_payload, ensure_ascii=False, indent=1)
+        try:
+            llm_result = self.gateway.generate(
+                contract=contract, context=context, model_policy=policy,
+                operation=f"rewrite.{spec.task}", request_id=resolved_request_id,
+                revision=current.revision)
+        except LLMError as exc:
+            raise GenerationUnavailableError(
+                f"{spec.task} 改写失败：{exc.message}",
+                details={"code": exc.code, "task": spec.task}) from exc
+
+        proposed = self._payload_as_dict(llm_result.output)
+        violations = changed_outside_target(current_payload, proposed, targets)
+        if violations:
+            raise RewriteViolationError(
+                "模型改动了未被授权的字段，已拒绝写入",
+                fields=list(violations),
+                details={"node_id": node_id, "target_fields": list(targets),
+                         "violating_fields": list(violations)})
+        merged = merge_target_fields(current_payload, proposed, targets)
+        payload = type(current.payload).model_validate(merged)
+        provenance = {**dict(current.provenance),
+                      "operation": "ai_rewrite",
+                      "contract_id": rewrite_contract_id(spec.task),
+                      "contract_version": REWRITE_CONTRACT_VERSION,
+                      "target_fields": list(targets),
+                      "preserve": list(preserve),
+                      "quality_issue_ids": [str(value) for value in quality_issue_ids],
+                      "source_revision": int(current.revision),
+                      "context_digest": bundle.digest,
+                      "model": str(llm_result.model),
+                      "provider": str(llm_result.provider)}
+        node = BlueprintNode(
+            node_id=current.node_id, novel_id=self.novel_id,
+            node_type=current.node_type, payload=payload,
+            parent_id=current.parent_id, status="proposed",
+            source_ids=tuple(sorted({row["source_id"] for row in bundle.provenance
+                                     if row.get("source_id")})),
+            context_digest=bundle.digest,
+            generation_contract=rewrite_contract_id(spec.task),
+            generation_contract_version=REWRITE_CONTRACT_VERSION,
+            provenance=provenance, quality_status="unevaluated",
+            schema_version=BLUEPRINT_SCHEMA_VERSION, sequence=current.sequence)
+        parent = (self.repository.get_current(current.parent_id)
+                  if current.parent_id else None)
+        require_valid(node, parent=parent, known=self._known_with(node))
+        saved = self.repository.save_revision(
+            node, expected_revision=expected_revision,
+            idempotency_key=replay_key)
+        evidence = GenerationEvidence(
+            contract_id=rewrite_contract_id(spec.task),
+            contract_version=REWRITE_CONTRACT_VERSION, context_digest=bundle.digest,
+            source_ids=tuple(saved.source_ids), model=str(llm_result.model),
+            provider=str(llm_result.provider),
+            request_id=str(llm_result.request_id),
+            parent_revision=saved.parent_revision,
+            context_blocks=tuple(bundle.order))
+        return GenerationResult(
+            ok=True, operation="rewrite", request_id=str(llm_result.request_id),
+            novel_id=saved.novel_id, node=saved.as_dict(), revision=saved.revision,
+            contract=rewrite_contract_id(spec.task), model=str(llm_result.model),
+            provider=str(llm_result.provider), context_digest=bundle.digest,
+            source_ids=tuple(saved.source_ids), usage=dict(llm_result.usage),
+            trace=dict(llm_result.trace),
+            validation={"status": "PASS",
+                        "checks": ["schema", "target_fields_only", "preserve",
+                                   "reference_integrity"]},
+            evidence=evidence.as_dict(), target_fields=targets)
+
+    @staticmethod
+    def _payload_as_dict(payload_or_node: Any) -> dict[str, Any]:
+        payload = getattr(payload_or_node, "payload", payload_or_node)
+        if hasattr(payload, "model_dump"):
+            return payload.model_dump(mode="json")
+        return dict(payload or {})
 
     # ------------------------------------------------------------------ 内部
     def _build_context(self, spec: TaskSpec, request: GenerationRequest,
@@ -534,5 +713,6 @@ class BlueprintGenerationService:
 
 __all__ = [
     "BlueprintGenerationService", "DEFAULT_PIPELINE", "GenerationEvidence",
-    "GenerationPlan", "GenerationRequest", "GenerationResult", "default_registry",
+    "GenerationPlan", "GenerationRequest", "GenerationResult", "NODE_TYPE_TASK",
+    "default_registry", "task_for_node_type",
 ]

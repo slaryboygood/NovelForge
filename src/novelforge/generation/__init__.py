@@ -31,15 +31,26 @@ from .errors import (
     GenerationError,
     GenerationUnavailableError,
     GenerationValidationError,
+    RewriteViolationError,
 )
 from .service import (
     DEFAULT_PIPELINE,
+    NODE_TYPE_TASK,
     BlueprintGenerationService,
     GenerationEvidence,
     GenerationPlan,
     GenerationRequest,
     GenerationResult,
     default_registry,
+    task_for_node_type,
+)
+from .rewrite import (
+    REWRITE_CONTRACT_VERSION,
+    assert_rewrite_allowed,
+    build_rewrite_contract,
+    changed_outside_target,
+    merge_target_fields,
+    rewrite_contract_id,
 )
 
 __all__ = [
@@ -47,5 +58,8 @@ __all__ = [
     "GenerationPlan", "GenerationEvidence", "TaskSpec", "TaskRegistry",
     "DEFAULT_PIPELINE", "CONTRACT_VERSION", "default_registry",
     "GenerationError", "GenerationUnavailableError", "GenerationValidationError",
+    # V4-06：字段级 AI 改写（只改 target fields）
+    "NODE_TYPE_TASK", "task_for_node_type", "RewriteViolationError",
+    "REWRITE_CONTRACT_VERSION", "rewrite_contract_id", "build_rewrite_contract",
+    "assert_rewrite_allowed", "changed_outside_target", "merge_target_fields",
 ]
-

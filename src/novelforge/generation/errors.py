@@ -35,6 +35,20 @@ class GenerationValidationError(GenerationError):
         self.details.setdefault("issues", self.issues)
 
 
-__all__ = ["GenerationError", "GenerationUnavailableError",
-           "GenerationValidationError"]
+class RewriteViolationError(GenerationError):
+    """字段级改写违反了 target / preserve 约束（V4-06 §20、§58）。
 
+    违反时**不写入任何 revision**（不是"先保存再提醒"）。
+    """
+
+    code = "REWRITE_PRESERVE_VIOLATION"
+
+    def __init__(self, message: str, *, fields: list[str] | None = None,
+                 details: Mapping[str, Any] | None = None) -> None:
+        super().__init__(message, details=details)
+        self.fields = list(fields or [])
+        self.details.setdefault("violating_fields", self.fields)
+
+
+__all__ = ["GenerationError", "GenerationUnavailableError",
+           "GenerationValidationError", "RewriteViolationError"]

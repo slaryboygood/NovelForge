@@ -147,18 +147,40 @@ def test_frozen_evidence_digest_matches_tracked_files() -> None:
 
 # --------------------------------------------------------------------------- 4
 def test_history_is_a_single_root_commit() -> None:
+    """永久不变式：V3 Final 基线只有 1 个 root commit，且活动 release tag 未移动。
+
+    V4-01 说明：此断言在 V4-00 时表达的是**冻结时刻的时间点状态**
+    （`git rev-list --count HEAD == 1`）。V4 开发分支必须在该 root commit 之上
+    追加提交，因此把断言收敛为其永久不变式：
+
+      1. HEAD 的历史里只有一个 root commit（不继承 V1 / V2 / V3 开发历史）；
+      2. 活动 release tag 仍指向这个 root commit（tag 未被移动 / 重写）；
+      3. 当 HEAD 恰好就是 release commit 时，仍保持冻结时刻的严格形态（1 个 commit）。
+    """
+
     _require_git()
     payload = _manifest()
     expected = payload["active_history_shape"]["root_commit_count"]
 
-    code, text = _git("rev-list", "--count", "HEAD")
-    assert code == 0, "无法读取当前历史"
-    assert int(text) == expected, (
-        f"V3 Final 必须保持单一 root commit（实际 commit 数 {text}）")
-
     code, roots = _git("rev-list", "--max-parents=0", "HEAD")
     assert code == 0
-    assert len([row for row in roots.splitlines() if row.strip()]) == 1
+    root_list = [row for row in roots.splitlines() if row.strip()]
+    assert len(root_list) == expected, (
+        f"V3 Final 必须保持单一 root commit（实际 root 数 {len(root_list)}）")
+
+    code, tag_commit = _git("rev-list", "-n", "1", ACTIVE_RELEASE)
+    assert code == 0, f"无法解析活动 release tag：{ACTIVE_RELEASE}"
+    assert tag_commit in root_list, (
+        f"{ACTIVE_RELEASE} 必须仍指向唯一的 root commit"
+        f"（tag -> {tag_commit}，root -> {root_list}）")
+
+    code, head_commit = _git("rev-parse", "HEAD")
+    assert code == 0
+    if head_commit == tag_commit:
+        code, text = _git("rev-list", "--count", "HEAD")
+        assert code == 0
+        assert int(text) == expected, (
+            f"在冻结基线上必须只有 {expected} 个 commit（实际 {text}）")
 
 
 # --------------------------------------------------------------------------- 5

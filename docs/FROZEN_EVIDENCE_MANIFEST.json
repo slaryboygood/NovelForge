@@ -17,8 +17,8 @@
   },
   "active_history_shape": {
     "root_commit_count": 1,
-    "requirement": "git rev-list --count HEAD == 1",
-    "note": "V3 Final 之后的新历史从这一个 root commit 开始，不继承 V1 / V2 / V3 开发历史。"
+    "requirement": "git rev-list --max-parents=0 HEAD 只有一个 root commit，且 novelforge-product-v3-final 仍指向该 root commit",
+    "note": "V3 Final 之后的新历史从这一个 root commit 开始，不继承 V1 / V2 / V3 开发历史。V4 开发分支会在该 root 之上追加提交（V4-01 起），因此不再要求 HEAD 恰好只有 1 个 commit；永久不变式是「只有 1 个 root + 活动 tag 未移动」。"
   },
   "historical_releases": [
     {
@@ -123,6 +123,6 @@
     "历史 release 名称与 commit hash 只作为 metadata 保留；任何测试 / 工具都不得要求当前 Git 能 resolve 它们。",
     "冻结资产的完整性由本 manifest 的摘要承担；摘要不匹配必须失败，不得放宽断言。",
     "旧历史的完整恢复由 external_archive 承担。",
-    "V3 Final 保持单一 root commit：git rev-list --count HEAD == 1。"
+    "V3 Final 保持单一 root commit（git rev-list --max-parents=0 HEAD 只有一个 root），且活动 release tag 始终指向该 root commit；开发分支可以在其上追加提交。"
   ]
 }

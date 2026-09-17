@@ -388,8 +388,12 @@ def test_novel_rename_and_archive_delete_leave_no_orphans(tmp_path: Path) -> Non
     assert leftovers == [], f"删除后不得留下孤儿文件：{leftovers}"
 
 
-def test_writer_legacy_directory_is_read_only_compatible(tmp_path: Path) -> None:
-    """历史 writer 目录（workspace/.../writer_v1）只读兼容：canonical 为空时才使用。"""
+def test_writer_store_has_no_legacy_fallback(tmp_path: Path) -> None:
+    """V4-01：writer 草稿只有一个 canonical 位置，不再回退到历史目录。
+
+    对应作者决策 B（570 章 historical 废弃）：`workspace/wasteland_001_exports/writer_v1`
+    已删除，任何"当前作品没有草稿就去看历史目录"的行为都必须消失。
+    """
 
     novel_id = "novel_repair_legacy_writer"
     legacy = tmp_path / "workspace" / "wasteland_001_exports" / "writer_v1" / novel_id
@@ -399,8 +403,10 @@ def test_writer_legacy_directory_is_read_only_compatible(tmp_path: Path) -> None
         "generated_at": "2026-01-01T00:00:00+00:00", "truth_layer": "preview",
         "validation": {"accepted": True}, "fact_sync": {"synced": False},
     }, ensure_ascii=False), encoding="utf-8")
+
     rows = WriterDraftService(tmp_path, novel_id).list_drafts()
-    assert [row["draft_id"] for row in rows] == ["draft_legacy"]
+    assert rows == [], (
+        "canonical 为空时不得回退读取历史 writer 目录（V4-01 已删除该回退）")
 
     canonical = tmp_path / WRITER_DIR / novel_id
     (canonical / "drafts").mkdir(parents=True, exist_ok=True)
@@ -411,4 +417,4 @@ def test_writer_legacy_directory_is_read_only_compatible(tmp_path: Path) -> None
     }, ensure_ascii=False), encoding="utf-8")
     rows = WriterDraftService(tmp_path, novel_id).list_drafts()
     assert [row["draft_id"] for row in rows] == ["draft_new"], (
-        "canonical 有草稿时不能再把历史目录算一遍（避免同一份草稿被计两次）")
+        "只读 canonical writer store；历史目录既不计入也不回退")

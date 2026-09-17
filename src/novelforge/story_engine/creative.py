@@ -122,6 +122,18 @@ def _keywords_of(genre: str) -> tuple[str, ...]:
     return GENRE_KEYWORDS.get(genre, ())
 
 
+def _default_provider() -> Any | None:
+    """V4-04 §14：legacy 模块的默认 provider 只能来自 `novelforge.ai` 的 Gateway 桥。
+
+    函数内惰性 import → domain 不在模块顶层依赖 ai（边界守卫允许的显式例外）。
+    未配置 enabled provider 时返回 None，保持 V3 的确定性行为。
+    """
+
+    from novelforge.ai import default_structured_provider
+
+    return default_structured_provider()
+
+
 def _catalog(project_root: Path) -> tuple[dict[str, GenreTemplate], dict[str, ContentPack]]:
     """真实目录：模板与内容包；候选只能从这里来。"""
 
@@ -230,7 +242,7 @@ class CreativeIdeaProvider:
     """把 LLM 提议过滤到真实目录内；越界 id 直接丢弃并记录原因。"""
 
     def __init__(self, provider: Any | None) -> None:
-        self.provider = provider
+        self.provider = provider if provider is not None else _default_provider()
 
     def enrich(self, project_root: Path, *, idea: str, references: list[str],
                reader_experience: str, genre_candidates: list[GenreCandidate],

@@ -63,7 +63,7 @@ class AIRecommendationSupplementer:
         provider: StructuredRecommendationProvider | None,
     ) -> None:
         self.rule_engine = rule_engine
-        self.provider = provider
+        self.provider = provider if provider is not None else _default_provider()
 
     def recommend(
         self,
@@ -235,3 +235,14 @@ class AIRecommendationSupplementer:
             cleaned = tuple(item.strip() for item in raw_values if item.strip())
             normalized[step] = cleaned
         return normalized
+
+
+def _default_provider() -> Any | None:
+    """V4-04 §14：默认 provider 经 `novelforge.ai` 的 Gateway 桥（函数内惰性 import）。
+
+    未配置 enabled provider 时返回 None，保持 V3 的规则式行为。
+    """
+
+    from novelforge.ai import default_structured_provider
+
+    return default_structured_provider()

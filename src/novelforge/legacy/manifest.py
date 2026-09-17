@@ -100,6 +100,19 @@ FROZEN_MODULES: tuple[FrozenModule, ...] = (
         removal_condition="Blueprint Editor（V4-06）落地后，正文预览能力由插件承担",
     ),
     FrozenModule(
+        module_id="story_engine.creative.settings_generation",
+        path=("src/novelforge/story_engine/creative.py、settings_gen.py、"
+              "outline_forge.py、src/novelforge/story_builder/ai_recommendations.py"),
+        capability=("V3 规则式创意/设定/章纲生成 + 四处鸭子类型 structured provider"
+                    "（V4-04 起默认经 ai.legacy_support 的 Gateway 桥）"),
+        status="compatibility_adapter",
+        used_by=("api.story_builder_routes（创作链）", "tests/**", "ui（V3 创作工作区）"),
+        removal_condition=("V4 结构化生成（generation + blueprint）成为唯一生产路径，"
+                           "且作者确认不再需要「未配置模型时的确定性内容」后，"
+                           "删除固定创意表（RULE_TEMPLATES / TONE_RULES / "
+                           "NARRATIVE_BEATS / PROTAGONIST_ROLES 等）"),
+    ),
+    FrozenModule(
         module_id="story_engine.spec.llm",
         path="src/novelforge/story_engine/spec/llm.py",
         capability="M3 SpecProposal 的 LLM 适配器（V4-02 起改为经 novelforge.ai 调用）",

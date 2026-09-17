@@ -879,7 +879,15 @@ class OutlineProvider:
     """可选 AI 润色：只允许改写既有章节的标题 / 摘要 / 钩子。"""
 
     def __init__(self, provider: Any | None) -> None:
-        self.provider = provider
+        self.provider = provider if provider is not None else _default_provider()
+
+
+def _default_provider() -> Any | None:
+    """V4-04 §14：默认 provider 经 `novelforge.ai` 的 Gateway 桥（函数内惰性 import）。"""
+
+    from novelforge.ai import default_structured_provider
+
+    return default_structured_provider()
 
     def enrich(self, plan: ForgePlan) -> ForgePlan:
         if self.provider is None:

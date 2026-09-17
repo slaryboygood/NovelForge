@@ -82,6 +82,14 @@ CATEGORY_LABELS: dict[str, str] = {
 ID_PATTERN = re.compile(r"^[a-z][a-z0-9_]{0,63}$")
 
 
+def _default_provider() -> Any | None:
+    """V4-04 §14：默认 provider 经 `novelforge.ai` 的 Gateway 桥（函数内惰性 import）。"""
+
+    from novelforge.ai import default_structured_provider
+
+    return default_structured_provider()
+
+
 class SettingsGenError(ValueError):
     def __init__(self, code: str, message: str, *, novel_id: str = "") -> None:
         self.code = code
@@ -293,7 +301,7 @@ class SettingsProvider:
     """可选 AI 补全：只允许在既有候选 id 上补充文案，不能新增结构。"""
 
     def __init__(self, provider: Any | None) -> None:
-        self.provider = provider
+        self.provider = provider if provider is not None else _default_provider()
 
     def enrich(self, seed: SettingSeed) -> tuple[SettingSeed, list[str]]:
         notes: list[str] = []

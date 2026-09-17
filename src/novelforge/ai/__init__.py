@@ -54,7 +54,13 @@ from .factory import (
     build_providers,
 )
 from .gateway import LLMGateway, LLMResult
-from .legacy_support import chat_completion_via_gateway, map_legacy_error_code
+from .legacy_support import (
+    GatewayStructuredProvider,
+    build_gateway_structured_provider,
+    chat_completion_via_gateway,
+    default_structured_provider,
+    map_legacy_error_code,
+)
 from .provider import LLMProvider, LLMRequest, ProviderResponse
 from .retry import RetryPolicy, run_with_retry, should_retry
 from .router import ModelPolicy, ModelRoute, ModelRouter
@@ -68,6 +74,8 @@ __all__ = [
     "build_gateway", "build_gateway_from_configs", "build_provider",
     "build_providers",
     "chat_completion_via_gateway", "map_legacy_error_code",
+    "GatewayStructuredProvider", "build_gateway_structured_provider",
+    "default_structured_provider",
     # provider
     "LLMProvider", "LLMRequest", "ProviderResponse",
     "ProviderConfig", "ProviderRegistry", "ModelSpec", "KNOWN_CAPABILITIES",

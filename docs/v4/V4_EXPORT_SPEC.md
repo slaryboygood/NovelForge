@@ -1,8 +1,22 @@
 # NovelForge V4 — Export Spec（设计稿）
 
-> 状态：**V4-00 Architecture / Proposed — 只设计，不实现**
+> 状态：**V4-00 Architecture / Proposed**，已按 **V4-01 作者决策**对齐（2026-09-17）
 > 依据：`docs/v4/V4_ARCHITECTURE.md` §1.6（ownership）、§6（Export 归属）、§5（Export 边界）
 > 硬约束：**所有导出必须经过 `ExportService`。UI / API / MCP 不允许各自拼装导出内容。**
+
+### 0.1 V4-01 对齐
+
+```text
+核心交付物 = Story Blueprint Package（Markdown / JSON / DOCX / structured package / ZIP）
+EPUB 降级：正文型交付不再是 V4 核心优先级（可后续由插件提供）
+prose 分区：不再是 V4 导出必选分区（novel/final 已删除；writer draft 仅 preview）
+```
+
+| 位置 | V4-00 原文 | V4-01 修正 |
+| --- | --- | --- |
+| §3 格式表 `EPUB` | 读者交付（V4 新增） | 降级为插件方向（正文非核心） |
+| §5 nfpack `chapters/ch001.md` | 来自 writer revision | 改为 `blueprint/{premise,story_arc,acts,chapters,scenes,...}.json` 为主，正文可选 |
+| §6 O3 | 「`novel/final` 默认不可导出，需先导入」 | 文件已删除；规则改为「无归属数据一律不可导出」 |
 
 ---
 
@@ -232,4 +246,3 @@ export(novel_id) → 只能获取属于该 novel 的数据
 [ ] 导出失败时无半成品文件残留（原子写）
 [ ] MCP export tool 与 UI 导出产生同一 artifact digest（同一输入）
 ```
-

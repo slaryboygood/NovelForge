@@ -1,5 +1,18 @@
 # V4-00 ARCHITECTURE RESULT
 
+> ⚠️ **V4-01 更新说明（2026-09-17）**：本报告是 **V4-00 的历史记录**，部分结论已被作者决策取代：
+>
+> ```text
+> · canonical creative artifact  由「正文 ChapterRevision」改为「StoryBlueprint」（ADR-011，取代 ADR-003）
+> · novel/final/*.md（69 个 tracked 正文）→ 已删除（V4-01）
+> · 570 章 historical（workspace/wasteland_001_exports，1918 文件）→ 已删除（V4-01）
+> · §6「正文 source of truth」一行、§10「V4-01 recommended scope」的正文相关项已作废
+> ```
+>
+> V4-01 的对齐结果见 `docs/v4/V4_MODULE_BOUNDARIES.md`、`docs/v4/adr/ADR-011-*.md`
+> 与 `docs/v4/V4_01_BOUNDARY_FOUNDATION_REPORT.md`。**本报告其余内容（扫描事实 / 分类统计 /
+> 结构问题 / 风险）仍然有效。**
+
 > 阶段：**V4-00 Architecture Audit & Architecture Freeze**
 > 分支：`v4/00-architecture`
 > 基线：`novelforge-product-v3-final`（commit `f02ca8c`）
@@ -291,4 +304,3 @@ V4-00 = PASS
   BLOCKER-03  historical 570 章是否作为一等作品     → 影响 V4-01 ownership 设计
   BLOCKER-04  是否长期支持多作品                    → 影响 V4-01…V4-07 的彻底程度
 ```
-

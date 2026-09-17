@@ -23,6 +23,46 @@ C4  有验证手段（测试 / 源码守卫 / 验收脚本）能证明删除后�
 
 ## 2. 删除清单
 
+### 2.1 V4-01 已执行删除（作者决策 A / B）
+
+#### A. `novel/final/**`（旧正文）
+
+```text
+Exact Path      : F:/AI_小说/硅基升维/novel/final/（69 个 .md 文件，含 1 个含引号的畸形文件名）
+File Count      : 69
+Tracked         : 69 / 69（全部已跟踪，删除进入版本控制）
+Size            : ~1.9 MB
+Code References : 1 处 —— src/novelforge/story_engine/historical_ir.py
+                  （source_inventory L527、prose_availability L927、_has_wasteland_entities L1822 防串稿启发式）
+Test References : 0（没有任何测试直接断言这些文件）
+Config Refs     : novelforge.project.yaml 的 protected_paths 列出 novel/final（V4-01 同步更新）
+Decision        : 作者决策 A —— DELETE / NO MIGRATION / NO ARCHIVE / NO IMPORT
+```
+
+#### B. `workspace/wasteland_001_exports/**`（570 章 historical + 旧导出证据）
+
+```text
+Exact Path      : F:/AI_小说/硅基升维/workspace/wasteland_001_exports/
+File Count      : 1918
+Tracked         : 0（整个 workspace/ 在 .gitignore 中，磁盘删除不进版本控制）
+Size            : ~62 MB
+子目录           : chapter_ir_v1(31) / historical_chapter_ir_v1(581) / plan_v2(2) / plan_v3(122) /
+                  reconstruction_v2(19) / repair_adoption_v1(709) / repair_v1(365) / writer_v1(6)
+                  + 根级 WASTELAND_001_* 报告 / 大纲 / 审计产物
+Code References : 47 个 src/scripts 文件（含 historical_ir / repair / reconstruction /
+                  historical_adoption / m11_* 18 个 / m12..m18 7 个 / export_package /
+                  inspector / writer_integration / novel_admin / canon_routes / phase_snapshot /
+                  scripts/wasteland_001_m1b_closure.py）
+Test References : 53 个测试文件
+Config Refs     : novelforge.project.yaml（local_only_paths.workspace）、docs/DATA_MODEL.md、
+                  docs/LEGACY_COMPAT.md
+Decision        : 作者决策 B —— DELETE / NO IMPORT / NO FIXTURE / NO legacy/
+```
+
+> 删除执行后，产品运行时不再有任何路径指向这两类资产；
+> 仍引用它们的 frozen 模块（historical_ir / repair / reconstruction / m11_* / m12–m18）
+> **原地保留但脱离产品写路径**，并纳入 `legacy/manifest`（见 §4）。
+
 | Path | Symbol | Why Delete | Replacement | Dependency Impact | Migration Dependency | Safe Removal Phase | Verification |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `ui/src/api.ts` | 全量端点客户端 + 全量 DTO（1,127 行） | **双份 DTO / 双份端点定义**：与 `ui/src/v3/api.ts`（426 行）重复声明同一批后端契约，属于重复 truth source（`AGENTS.md` §5） | `ui/src/api/generated.ts`（从后端 schema 生成）+ 各 feature client | 被 `StoryBuilderPage.tsx`、`guidedFlow.ts`、14 个 legacy 面板引用 | 必须先完成：新 UI 覆盖 legacy 面板全部能力（V4-10） | `LATE` | 删除后 `tsc --noEmit` PASS + 浏览器门禁 P0–P7 + advanced tools 全通过 |
@@ -44,7 +84,9 @@ C4  有验证手段（测试 / 源码守卫 / 验收脚本）能证明删除后�
 | `story_builder/inspector.py` | `CANON_DB` 常量 | 同上 | 同上 | Inspector / Repair 诊断 | V4-01 | `V4-01` | 同上 |
 | `story_builder/ui_flow.py` | 第二套 stage / next-step 计算 | 与 `journey_service` 形成两套状态推导（V3 曾修过同类问题 NF-005） | `journey_service`（单一投影） | `api` 的 `/guided-flow`、`/settings/*`、legacy 面板 | V4-01 | `V4-01` | 同一小说在 Landing / Command Center / guided-flow 得到同一 stage + progress（新增一致性测试） |
 | `api/story_builder_routes.py` | 内联编排逻辑（路由体内的业务判断） | 路由承担业务规则 → UI/REST/MCP 无法共用 | `application/services/*` | 全部 UI 调用点 | V4-01 起逐段迁移 | `V4-10` | 每个路由函数 ≤ 参数映射 + service 调用（源码守卫：路由文件不 import domain 模块） |
-| `novel/authoring/story_engine/writer/*/drafts/*.json` | preview 草稿（无 revision） | 无法回答「改了什么」，与 revision 模型冲突 | `ChapterRevision`（append-only） | UI 草稿列表、导出 | V4-06 | **不删除**（只读保留）→ 见备注 | 保留为只读；删除需作者确认无数据 |
+| `novel/authoring/story_engine/writer/*/drafts/*.json` | preview 草稿（无 revision） | 无法回答「改了什么」；且**正文不再是 V4 canonical artifact**（ADR-011） | Blueprint 节点 revision（非正文） | UI 草稿列表、导出 | V4-06 | **不删除**（只读兼容保留） | 保留为只读 preview；作者确认无数据后可删 |
+| `novel/final/**` | 无 owner 旧正文 | **已执行删除**（V4-01，证据见 §2.1 A） | — | — | V4-01 | ✅ done | `git ls-files novel/final` 为空 |
+| `workspace/wasteland_001_exports/**` | 570 章 historical / M11 证据 | **已执行删除**（V4-01，证据见 §2.1 B） | — | — | V4-01 | ✅ done | 目录不存在；`rg wasteland_001_exports src` 无产品侧引用 |
 
 ---
 
@@ -55,8 +97,8 @@ C4  有验证手段（测试 / 源码守卫 / 验收脚本）能证明删除后�
 | `story_engine/m11_*.py`（18 文件）、`m12_*`…`m18_*`（7 文件） | 其中 `m11_run02.py`…`m11_run12.py` 平均仅 56 行，形似复制脚本 | 属 **frozen 验收证据**，由 `tests/test_v2_frozen_guard.py` 与 `docs/FROZEN_EVIDENCE_MANIFEST.json` 守卫（`AGENTS.md` §16/§20）。重复问题记入 Architecture Debt，**冻结解除前不得合并** |
 | `story_engine/repair.py`、`historical_ir.py`、`reconstruction.py`、`historical_adoption.py` | 体量大、只服务历史作品 | frozen Repair Contract / Gate / 570 章 IR 证据；`AGENTS.md` §16.1 禁止自动修改 |
 | `story_builder/adventures.py` | 新旅程已用 `rules_version = 3` | 旧存档只读兼容（`docs/LEGACY_COMPAT.md`）；删除会让旧作品打不开 |
-| `workspace/wasteland_001_exports/**` | gitignored 的运行时产物 | 冻结历史证据（570 章 IR / M11 overlay / contract / gate / phase snapshots） |
-| `novel/final/**`（69 个 tracked 正文文件） | 产品代码几乎不读 | **作者的作品内容**，归属未裁定（BLOCKER-01）；删除属于破坏作者资产 |
+| ~~`workspace/wasteland_001_exports/**`~~ | — | **已删除（V4-01，作者决策 B）**；`workspace/pilot_v2/**` 仍保留、待裁定 |
+| ~~`novel/final/**`~~ | — | **已删除（V4-01，作者决策 A）**；不再是「不删除清单」成员 |
 | `novel/runs/**`、`novel/state/**`、`novel/pipelines/**`、`novel/learning/**`、`novel/status/**`、9 个空目录 | 产品代码无引用 | 证据不足（`V4_CODEBASE_INVENTORY.md` §6）；需先确认是否为外部写作流程产物 |
 | `scripts/wasteland_001_m1b_closure.py`、`scripts/seed_long_line_state.py` | 一次性脚本观感 | 分别被 `tests/test_m1b_v2_coverage.py:22` 与 `tests/browser_creator_long_lines.cjs:59` 引用（`docs/V3_FINAL_REPOSITORY_FREEZE_REPORT.md` 亦记录 KEEP 判定） |
 | `ui/src/StoryBuilderPage.tsx` + 14 个 legacy 面板 | 与 V3 工作台功能重叠 | 它们是**唯一**的完整编辑入口（角色 / 地点 / 势力 / 路线 / Canon / 修复）。删除前必须由新 UI 提供同等能力（`docs/LEGACY_COMPAT.md` 的 bridge 定义） |
@@ -136,4 +178,3 @@ LATE（最终）
 | AD-006 | `project_id` / `novel_id` 双名同值 | 所有权命名歧义 | MCP / 导出 / 多作品支持受影响 | 统一命名 + 兼容读取 | **是**（V4-01） | 否 |
 | AD-007 | `history` 形态散落（`blueprints` / `outlines` / `planning` / `StoryState` 各自版本实现） | 四套版本语义并存 | revision 统一成本高 | `core/revision.py` 统一语义 | 否 | 是 |
 | AD-008 | `novel/` 下 9 个空目录 + 1108 文件 `novel/runs/` | 仓库语义不明 | 仓库卫生与「什么算产品」的边界模糊 | 需要作者裁定（BLOCKER-02） | 否 | 是 |
-

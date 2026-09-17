@@ -1,8 +1,20 @@
 # NovelForge V4 — V3 Module Classification
 
 > 阶段：**V4-00 Architecture**（只分类，不改代码）
+> 对齐：**V4-01 作者决策**（2026-09-17）——`novel/final` 与 570 章 historical 判定为废弃并删除；
+> canonical creative artifact 改为 **StoryBlueprint**（见 `adr/ADR-011`，ADR-003 已被取代）。
 > 输入：`docs/v4/V4_CODEBASE_INVENTORY.md`
 > 原则：**数量不是目标，准确分类才是目标。** 每条分类都必须能追到文件、符号或调用点。
+
+### 0.1 V4-01 决策导致的分类变更
+
+| 对象 | V4-00 分类 | V4-01 分类 | 原因 |
+| --- | --- | --- | --- |
+| `novel/final/**`（69 tracked 正文） | `MIGRATE`（待裁定归属） | **`DELETE`（已执行）** | 作者决策 A |
+| `workspace/wasteland_001_exports/**`（570 章 historical / M11 证据 / 旧导出） | `COMPATIBILITY_ONLY` | **`DELETE`（已执行）** | 作者决策 B |
+| `story_builder/writer_integration.py` | `REWRITE` → writer service | `REWRITE` → **Blueprint context + 兼容预览** | 作者决策 C |
+| `story_engine/writer.py` | `REWRITE`（Writer 边界） | `COMPATIBILITY_ONLY`（预览/降级文本） | 作者决策 C：正文非 V4 Core |
+| `ui/src/v3/ExportFlow.tsx` | `REWRITE` → delivery | `REWRITE` → **Blueprint 交付** | 作者决策 C |
 
 ---
 
@@ -64,8 +76,8 @@
 | `story_builder/ai_recommendations.py` | `AIRecommendationSupplementer` | provider 补充 + 合并规则候选 | REWRITE | `ai/gateway` 消费者 | 已实现「AI 只能补充，不能新增结构」——把它移到 Gateway 之上 | provider 鸭子类型 | P1 |
 | `story_builder/ui_flow.py` | 引导流投影 | 第二套 stage / next step 计算 | MIGRATE | `services/journey.py`（单一投影） | 与 `v3_projection.V3_STAGES` 形成两套 stage 词表 | creator/world_view | P0 |
 | `story_builder/inspector.py` | Inspector / 修复诊断 | 跨层只读检索 + provenance | MIGRATE | `services/inspector.py` | `CANON_DB` 硬编码单作品 | canon/historical_ir/repair | P0 |
-| `story_builder/export_package.py` | Export projection + serializer | 导出唯一 projection（8 个 section） | REWRITE | `services/export.py` + `DeliveryValidator` | `RECON_DIR` / `PLANNING_INDEX` / `canon/wasteland_001.sqlite` 硬编码 → NR-002 根因 | canon/outline/world/m11_p15p | P6 |
-| `story_builder/writer_integration.py` | WriterContextBuilder + WriterDraftService | 6 层 writer context + 草稿 SSOT + fact proposal | REWRITE | `services/writer.py` + `persistence/writer_store.py` | 只有 create/read/sync，**无 update**；context 6 层可直接成为 Memory 检索的对照物 | creator/storage/writer/memory_view | P5 |
+| `story_builder/export_package.py` | Export projection + serializer | 导出唯一 projection | REWRITE | `application/services/export.py`（V4-01 起）+ `DeliveryValidator` | 曾含 `RECON_DIR` / `PLANNING_INDEX` / `canon/wasteland_001.sqlite` 硬编码与历史分区（NR-002）；**V4-01 已参数化并移除历史分区** | canon/outline/world | P6 |
+| `story_builder/writer_integration.py` | WriterContextBuilder + WriterDraftService | 6 层 writer context + 草稿 + fact proposal | REWRITE | `application/services/blueprint.py`（context 装配）+ `persistence/writer_store.py`（兼容预览） | **正文草稿不是 V4 canonical artifact**（ADR-011）；其分层 context / 去重 / 预算设计保留给 Blueprint 上下文 | creator/storage/memory_view | P5 |
 | `story_builder/v3_projection.py` | V3 只读投影（1,682 行） | Journey/Objective/NextAction/实体/推演/大纲/检查/导出就绪 | REWRITE | `services/journey.py` + 各 `*_projection.py` | `_journey_projection` 已是唯一 stage/progress 入口（需保留该性质）；其余职责必须拆开 | 8+ 模块 | P0 |
 | `story_builder/novel_admin.py` | `rename_novel` / `delete_novel` | 重命名 / 归档式删除 | KEEP | `services/project_admin.py` | 已有可恢复语义 + `ARCHIVE_MANIFEST.json` | profile/packs/outlines | P0 |
 | `story_builder/cross_genre_e2e.py` | `CrossGenreE2ERunner` | 13 步跨题材 harness | KEEP | `tests/support/` | 「同一实现只换数据」的现成回归资产 | 各 application | P0 |
@@ -105,7 +117,7 @@
 | `story_engine/settings_gen.py` | 设定候选生成 | `RULE_TEMPLATES` / `PROTAGONIST_ROLES` / `SUPPORT_ROLES` / `FACTION_SHAPES` + `content_pack_draft()` 固定骨架（`起点场所` / `act_ask` / `ev_first_pressure`） | REPLACE_BY_LLM | `generation/settings.py` | 693 行硬编码创作骨架；schema 校验与 id 规则保留 | content/creative | P3 |
 | `story_engine/outline_forge.py` | 四级大纲锻造 | `NARRATIVE_BEATS` / `ChapterTitleLedger`（`（第 N 次）`）/ `第{n}章：{body}` | REPLACE_BY_LLM | `generation/outline.py` | NF-003 根因；来源一致性 / 事实分层 / 唯一性门禁保留 | outline_revision/narrative | P3 |
 | `story_engine/journey.py` | Journey 场景渲染 | 三原型硬编码行动 + rev1/rev2 固定场景文本 | REPLACE_BY_LLM | `generation/scene.py` | `journey_revision` 状态保留 | content/state | P3 |
-| `story_engine/writer.py` | Writer 边界 | `WriterPackage` / `validate_writer_output`（KEEP）+ `render_scene` / `fallback_text`（REPLACE） | REWRITE | `quality/writer_guard.py` + `generation/draft.py` | 校验层是资产，表现层交 LLM；`LLM_UNAVAILABLE` fallback 不进入交付物 | state/effects | P5 |
+| `story_engine/writer.py` | Writer 边界（正文） | `WriterPackage` / `validate_writer_output` + `render_scene` / `fallback_text` | COMPATIBILITY_ONLY | 保留在原位（preview / 降级文本）；校验层可被 Blueprint 复用 | 正文生成不是 V4 Core（ADR-011）；`fallback_text` 永不进入交付物 | state/effects | — |
 | `story_engine/outline_revision.py` | 大纲修订 / 版本 / 导出 | 版本比较 + `docx_bytes` | REWRITE | `services/outline_revision.py` + `DeliveryService` | `docx_bytes` 被两处导出复用，必须收敛到 ExportService | outline repo | P6 |
 | `story_engine/canon/*`（16 文件） | Canon 基础设施 | 稳定身份 / SQLite 唯一写入口 / 校验器 / 图 / mutation test / prose 防线 | KEEP | `domain/canon/*` + `persistence/canon_repo.py` | 结构成熟；路径需按 `novel_id` 参数化 | networkx/sqlite | P0 |
 | `story_engine/chapter_ir/*`（13 文件） | Chapter Semantic IR | IR 模型 + schema gate + evidence + typed state + compiler + 可选 judge/verifier | KEEP | `domain/chapter_ir/*` + `quality/gates/semantic.py` | **V4 结构化生成的最佳现成契约**；NullJudge/NullVerifier 已是「无 LLM 也能跑」的设计 | pydantic | P3 |
@@ -157,8 +169,9 @@
 | `scripts/seed_long_line_state.py` | 长线测试数据种 | 造浏览器测试所需 StoryState | COMPATIBILITY_ONLY | `tests/support/` | 被 `tests/browser_creator_long_lines.cjs:59` 调用 | storage | P0 |
 | `novel/config/**`（103 文件） | 模板 / 内容包 / 目录 / schema | 数据（不是事实） | KEEP | `novel/config/**` + plugin packs | 引擎无题材分支的保证 | — | P0 |
 | `novel/authoring/**`（2,381 文件） | 运行期作者数据 | Canon / StoryState / profile / 大纲 / 草稿 | KEEP | 不变（gitignored 边界保持） | 真实作者数据不进版本控制 | — | P0 |
-| `novel/final/**`（69 tracked 文件） | 既有正文 | 无 owner 的手稿 | MIGRATE | canonical writer store / 只读参考（**需作者决定**） | 归属完全缺失；`historical_ir._has_wasteland_entities()` 只是启发式防护 | 无 | P5 |
-| `workspace/**` | frozen 证据 + 归档 | 历史 IR / M11 证据 / 归档作品 | COMPATIBILITY_ONLY | 不变（只读） | frozen truth 不得移动 | — | FROZEN |
+| `novel/final/**`（69 tracked 文件） | 既有正文 | 无 owner 的手稿 | DELETE | — | 作者决策 A（V4-01 已执行）：无产品价值，不迁移 / 不归档 / 不导入 | 仅 `historical_ir`（已隔离） | V4-01 |
+| `workspace/wasteland_001_exports/**` | frozen 证据 + 旧导出 | 570 章 historical / M11 证据 / 旧交付物 | DELETE | — | 作者决策 B（V4-01 已执行）：废弃产物，不导入 / 不做 fixture / 不进 legacy | reconstruction / repair / historical_ir（仅历史测试） | V4-01 |
+| `workspace/pilot_v2/**` | V2 story-engine pilot 实验 | 与产品代码无引用关系 | UNKNOWN | 待定 | 未在作者决策 A/B 范围内；需单独裁定 | 无 | — |
 | `novel/runs/**`、`novel/state/**`、`novel/pipelines/**`、`novel/learning/**`、`novel/status/**` 与 9 个空目录 | 历史内容产物 | 与产品代码无引用关系 | UNKNOWN | 待定 | 证据不足（见 inventory §6） | 无 | — |
 | `tests/**`（171 py + 20 cjs + fixtures） | 测试与门禁 | 回归网 + 浏览器验收 | KEEP | 扩展 | V4 迁移的安全网 | 全仓 | P0 |
 | `docs/**` | 文档 | 产品 / 架构 / 数据 / 兼容 SSOT | KEEP | 增加 `docs/v4/**` | — | — | P0 |
@@ -169,16 +182,16 @@
 
 统计口径 = 上面的表格行数（家族合并行按 1 计）。
 
-| Classification | Count |
-| --- | --- |
-| `KEEP` | 63 |
-| `REWRITE` | 13 |
-| `REPLACE_BY_LLM` | 5 |
-| `DELETE` | 1 |
-| `MIGRATE` | 4 |
-| `COMPATIBILITY_ONLY` | 13 |
-| `UNKNOWN` | 1 |
-| **合计** | **100** |
+| Classification | V4-00 | V4-01（当前） | 变化 |
+| --- | --- | --- | --- |
+| `KEEP` | 63 | 63 | — |
+| `REWRITE` | 13 | 12 | writer_integration 目标改为 Blueprint；writer.py 移出 |
+| `REPLACE_BY_LLM` | 5 | 5 | — |
+| `DELETE` | 1 | 3 | + `novel/final/**`、`workspace/wasteland_001_exports/**`（V4-01 已执行） |
+| `MIGRATE` | 4 | 3 | `novel/final/**` 由 MIGRATE 改为 DELETE |
+| `COMPATIBILITY_ONLY` | 13 | 13 | + `story_engine/writer.py`；− wasteland 导出树 |
+| `UNKNOWN` | 1 | 2 | + `workspace/pilot_v2/**`（未在作者决策范围内） |
+| **合计** | **100** | **101** | 新增 1 行（waseland 树从 workspace 行中拆出） |
 
 > 统计由脚本从本文件表格第 4 列计数得到（见 §7 校验），不是人工估计。
 
@@ -186,11 +199,11 @@
 
 ```text
 KEEP 占 63%  → V4 的基本盘是「继承内核」，不是「推倒重来」
-冻结/兼容占 13% → V3 → V4 的迁移成本里有相当一部分是「历史证据不可删」
+冻结/兼容占 13% → 仍有大量 frozen 历史模块原地保留（不为目录整齐搬动）
 REPLACE_BY_LLM 只有 5 行 → 硬编码创作逻辑集中在 5 个模块（creative / settings_gen /
     outline_forge / journey / recommendations），而不是「整个引擎」
-REWRITE 13 行 → 主要是 application 层边界（routes / export / writer / projection）
-DELETE 只有 1 行 → V4 的清理空间很小，真正的风险是「重复边界」，不是「垃圾代码」
+REWRITE 12 行 → 主要是 application 层边界（routes / export / projection / blueprint context）
+DELETE 3 行 → 其中 2 行是 V4-01 已执行的废弃资产删除（正文 + 570 章 historical）
 ```
 
 ### 6.2 全表最重要的三条结论

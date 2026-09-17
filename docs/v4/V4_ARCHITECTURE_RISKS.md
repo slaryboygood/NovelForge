@@ -1,8 +1,17 @@
 # NovelForge V4 — Architecture Risk Register
 
-> 状态：**V4-00 Architecture — 只识别，不处理**
+> 状态：**V4-00 Architecture — 只识别，不处理**；已按 **V4-01 作者决策**更新受影响条目
 > 每条风险必须有 `Evidence`（代码 / 数据事实）。没有证据的担忧不进入本表。
 > Probability / Impact 采用 `H / M / L`（High / Medium / Low）。
+
+### 0.1 V4-01 风险状态更新
+
+| 风险 | V4-00 | V4-01 状态 |
+| --- | --- | --- |
+| R-11 Historical data leakage | H / H（已发生） | **已修复**：路径按 `novel_id` 参数化；历史数据与历史分区从产品导出 / inspector / writer 移除；跨作品隔离测试落地 |
+| R-16 Export contamination | H / H（已发生） | **部分修复**：导出不再含历史分区与单作品硬编码；Q9 Delivery Validator 留待 V4-07 |
+| R-15 Writer overwrite | M / H | **风险对象改变**：正文不再是 canonical artifact（ADR-011）；风险转为「Blueprint Editor 覆盖作者接受的节点」，缓解手段不变（append-only revision + proposed 状态） |
+| R-05 Prompt sprawl / R-03 LLM coupling | H / H | 未变化（V4-02 处理） |
 
 ---
 
@@ -323,24 +332,26 @@ Owner Layer : quality.repair
 Detection   : 修复轮次直方图；同一 issue 重复出现次数告警
 ```
 
-### R-15 Writer overwrite
+### R-15 Writer overwrite（V4-01：对象改为 Blueprint 节点）
 
 ```text
 Probability : M
-Impact      : H（丢失作者文字，不可接受）
+Impact      : H（丢失作者已接受的内容，不可接受）
 
 Evidence
   · V3 当前没有正文编辑能力（WriterDraftService 只有 create / list / get / sync-facts，无 update / PATCH）
-  · 一旦加入 AI 改写，最自然的实现就是 in-place 覆盖 → 直接触发该风险
+  · 一旦加入 AI 改写（无论是正文还是 Blueprint 节点），最自然的实现就是 in-place 覆盖 → 直接触发该风险
   · writer.py 已明确"AI 永远拿不到 StoryState 写入口"，说明团队对此敏感
+  · V4-01 决策 C：canonical creative artifact 改为 StoryBlueprint，因此本风险的主要载体
+    从"正文"变为"作者已接受 Blueprint 节点"（ADR-011）
 
 Mitigation
-  · append-only ChapterRevision；AI 结果默认 status = proposed
+  · append-only Blueprint 节点 revision；AI 结果默认 status = proposed
   · 作者 accept 后才成为 canonical；旧 revision 永久可读
   · 原则 1.8（AI 修改绝不静默覆盖作者文本）
 
 Owner Layer : application.services.writer
-Detection   : 修订历史完整性测试（每次写入产生新 revision，旧文本不变）
+Detection   : 修订历史完整性测试（每次写入产生新 revision，旧节点内容不变）
 ```
 
 ### R-16 Export contamination
@@ -452,4 +463,3 @@ Detection   : MCP contract golden test（schema 快照 + 变更评审）
   · 修复轮次直方图
   · Budget 触顶事件计数
 ```
-

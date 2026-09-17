@@ -1,8 +1,24 @@
 # NovelForge V4 — Migration Plan（设计稿）
 
-> 状态：**V4-00 Architecture / Proposed — 只规划，不执行**
+> 状态：**V4-00 Architecture / Proposed**，已按 **V4-01 作者决策**对齐（2026-09-17）
 > 铁律：**V3 → V4 不做 Big Bang Rewrite。**
 > 每个阶段都必须满足：外部行为可验证、旧数据仍可读、随时可回滚、frozen boundary 不动。
+
+### 0.1 V4-01 作者决策（覆盖本文件以下相关段落）
+
+```text
+Decision A  novel/final/*.md        → DELETE（不迁移 / 不归档 / 不导入）
+Decision B  570 章 historical 数据  → DELETE（不导入 / 不做 fixture / 不进 legacy/）
+Decision C  canonical creative artifact = StoryBlueprint；Writer → Blueprint Editor
+```
+
+| 位置 | V4-00 原计划 | V4-01 修正 |
+| --- | --- | --- |
+| §2「Writer（正文）」行 | 建立 `ChapterRevision` 正文链，导入 `novel/final` | **删除正文资产**；Blueprint Editor 取代 Writer；正文 draft 仅兼容预览 |
+| §3 V4-06 Writer | 正文编辑 / 保存 / diff / restore | **Blueprint Editor / Story Studio**（结构节点编辑） |
+| §4.1 Writer 专项 | W1–W5 正文 revision 步骤 | 作废；改由 `docs/v4/V4_MODULE_BOUNDARIES.md` 的 Blueprint 服务承担 |
+| §6 BLOCKER-01 / 03 | 待作者裁定 `novel/final` 与 historical 归属 | **已裁定并执行删除**（V4-01） |
+| §6 BLOCKER-02 / 04 | `novel/runs` 等与多作品支持 | 仍未定（不阻塞 V4-01，见 BLOCKER 表） |
 
 ---
 
@@ -25,7 +41,7 @@
 | 对象 | Current State（V3） | Target State（V4） | Adapter | Compatibility Period | Rollback | Removal Point |
 | --- | --- | --- | --- | --- | --- | --- |
 | **Service 层** | `api/story_builder_routes.py`（1,545 行内联编排） | `application/services/*` 薄路由 | 路由内保留旧实现，逐步改为调用 service | V4-01 → V4-10 | 路由 revert 到内联实现 | 最后一个 UI 调用点迁移后 |
-| **Writer（正文）** | 无正文 owner；`writer/<novel>/drafts/*.json` 是 preview；`novel/final/*.md` 无主 | `ChapterRevision`（revision + status + source_ids + author_accepted） | 旧 draft 作为 `revision 0` 只读导入视图 | V4-06 → V4-10 | 关闭 writer service，回到 draft-only 模式 | bridge 面板删除时 |
+| **Writer / Blueprint Editor** | 无正文 owner；`writer/<novel>/drafts/*.json` 是 preview；`novel/final/*.md` 已于 V4-01 删除 | **Blueprint Editor**：结构节点 edit / revision / diff / restore（正文非核心） | 旧 draft 保留为只读 preview 视图（不迁移） | V4-06 → V4-10 | 关闭 Blueprint Editor，回到只读投影 | bridge 面板删除时 |
 | **Export** | 4 条拼装路径 + 3 个硬编码单作品路径 | 唯一 `ExportService` + `DeliveryValidator` + nfpack | `export_package.export_package()` 保留为薄 wrapper 调用新 service | V4-07 → V4-10 | wrapper 回退到旧实现 | 验收通过后（LATE） |
 | **Project / Novel 数据** | `novel_id` 与 `project_id` 双名同值；profile / pack / state / canon 各自路径 | 单一 `project_id` → `novel_id` 层级 + `persistence/paths.py` 统一 | 读取时按 novel_id 推导 project_id（同值映射） | V4-01 起 | 保留旧字段名读取兼容 | 所有 artifact 带 project_id 后 |
 | **Historical works（570 章 IR / M11 证据）** | 散落在 `story_engine/*.py` 顶层 + `workspace/wasteland_001_exports/**` | `legacy/` 命名空间，只读；导出默认排除 | `legacy` 包提供只读 API（原 API 签名不变） | 全程 | 直接 revert import 路径 | 永不删除（frozen） |
@@ -124,7 +140,27 @@ UI       ：按稳定 service 重构；legacy bridge 保留到功能对齐
 
 ## 4. 专项迁移设计
 
-### 4.1 Writer（最高风险项）
+### 4.1 Writer / Blueprint Editor（V4-01 已重定义）
+
+> ### ⚠️ V4-01 决策：本节原「正文 revision 迁移」方案作废
+>
+> 作者判定 `novel/final/**` 与 570 章 historical 为废弃资产并直接删除；
+> **V4 不建立 canonical prose writer store**，正文 draft 不再是核心 artifact。
+> 取而代之的目标：
+>
+> ```text
+> StoryBlueprint = canonical creative artifact（Premise / Characters / Arcs /
+>                  Chapter Cards / Scene Cards / Causal Graph / Setup-Payoff / Revision）
+> Writer         → Blueprint Editor / Story Studio（结构节点编辑器）
+> 正文生成        → Plugin / 下游 Agent（非 V4 Core）
+> ```
+>
+> 仍然继承的实现原则：唯一写入点、append-only revision、AI 产出默认 `proposed`、
+> 作者 accept 后才 canonical、旧存储只读不迁移。
+>
+> 细节见 `adr/ADR-011`、`docs/v4/V4_MODULE_BOUNDARIES.md` §3.2。
+
+以下为 V4-00 原文（仅作记录）：
 
 **问题**：V3 里「正文」不存在。`writer/<novel>/drafts/*.json` 是 preview，
 `novel/final/*.md` 是无主手稿，`novel/source_text/` 为空。
@@ -223,9 +259,9 @@ J4  新增性能预算：作品数 N 时列表投影成本必须线性可控（V
 
 | ID | 阻塞点 | 为什么必须作者决定 | 影响范围 |
 | --- | --- | --- | --- |
-| **BLOCKER-01** | `novel/final/**`（69 个 tracked 正文文件）的归属：导入为 revision / 只读参考 / 不进 V4 | 这是**作者的作品内容**，不是代码结构问题；任何自动决定都会影响作品事实 | V4-06 Writer、V4-07 Export、Canon 完整性 |
+| **~~BLOCKER-01~~（已解除）** | `novel/final/**` 的归属 | **作者已裁定：DELETE（不迁移 / 不归档 / 不导入）** | V4-01 已执行；V4-06 不再建正文 revision 链 |
 | **BLOCKER-02** | `novel/runs/**`（1,108 文件）、`novel/state/**`（278）、`novel/pipelines/**`（12）、`novel/learning/**`（6）与产品的关系 | 可能是外部写作流程产物，删除或忽略都可能丢失作者工作 | 仓库卫生、V4-10 UI（是否展示） |
-| **BLOCKER-03** | Historical 570 章（wasteland_001）是否要进入 V4 主线能力 | 它当前是 frozen 证据 + M11 修复对象；若 V4 要支持「多作品」，需明确历史作品是否作为一等作品存在 | V4-01 ownership、V4-07 Export、V4-08 MCP |
+| **~~BLOCKER-03~~（已解除）** | Historical 570 章（wasteland_001）是否进入 V4 | **作者已裁定：DELETE（不导入 / 不做 fixture / 不进 legacy）** | V4-01 已执行删除 + 移除产品侧引用 |
 | **BLOCKER-04** | 是否保留「wasteland_001 之外的第二部作品」的长期支持目标 | 决定 ownership 参数化的彻底程度（单作品 vs 多作品平台） | V4-01…V4-07 全部 |
 
 > 除上述 4 项外，本轮审计没有发现必须停下来等作者的问题。
@@ -262,4 +298,3 @@ Canon drift               → 由 gateway + quality 双层门禁防止
 Historical data leakage   → 由 §4.4 legacy 隔离 + ownership 校验防止
 Schema version drift      → 由 §5 兼容期表 + revision 统一防止
 ```
-

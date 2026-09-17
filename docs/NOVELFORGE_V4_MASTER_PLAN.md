@@ -1,358 +1,405 @@
 # NovelForge V4 架构与实施总计划
 
-> 状态：V4 规划稿  
+> 状态：V4-00 Architecture 已完成并通过；进入 V4-01 Boundary Foundation & Legacy Cleanup  
 > 基线：NovelForge V3 Final — Functional Closure  
-> 目标：将 NovelForge 从“带 UI 的小说生成工具”重构为“Agent 可直接接入的小说创作系统 + MCP Server + 可插拔质量闭环平台”。
+> V4-00：PASS，业务代码 0 改动，frozen boundary 未触碰  
+> 核心目标：将 NovelForge 从“小说正文生成工具”重构为“面向小说/影视式故事大纲的 Story Blueprint Runtime + LLM 编排层 + 质量闭环 + MCP Server + Plugin Platform”。
 
 ---
 
-## 1. V4 的核心定位
+# 1. V4 的核心定位
 
-NovelForge V4 不再只是一个前端应用。
+NovelForge V4 的最终目标**不是自动写完一部长篇小说正文**。
 
-V4 应同时具备四种身份：
-
-1. **小说创作引擎**  
-   负责项目、设定、人物、世界、故事状态、大纲、章节、写作、修订与导出。
-
-2. **MCP Server**  
-   让 Codex、ChatGPT、Claude、IDE Agent 或其他支持 MCP 的 Agent 可以直接读取 NovelForge 状态并执行创作操作。
-
-3. **LLM 编排层**  
-   统一接入一个或多个大模型 API，负责生成、评估、修订、摘要、重写、角色推演等任务。
-
-4. **质量闭环系统**  
-   所有生成内容必须经过结构校验、事实一致性、语义重复、人物一致性、因果逻辑、节奏、交付质量等检查，失败后进行定向修订，而不是直接进入最终结果。
-
-V4 的核心原则：
+V4 的核心产品是：
 
 ```text
-NovelForge 不替大模型“硬写小说”
-NovelForge 负责约束、状态、记忆、编排、验证、修订和交付
+高质量、可编辑、可验证、可持续修订的故事大纲 / Story Blueprint
+```
+
+它应像电影剧本开发阶段的“故事蓝图”一样，把创意逐层细化到：
+
+```text
+Premise
+Theme
+World
+Characters
+Character Arcs
+Act / Volume / Arc Structure
+Chapter Cards
+Scene Cards
+Causal Chain
+Setup / Payoff
+Knowledge State
+Relationship Changes
+Timeline
+Quality Evidence
+Revision History
+```
+
+NovelForge 负责：
+
+```text
+约束
+状态
+长期记忆
+故事结构编排
+模型调用编排
+结构化输出
+质量验证
+定向修订
+版本管理
+交付
+```
+
+LLM 负责：
+
+```text
+创意生成
+角色推演
+情节方案
+场景设计
+结构重写
+问题修复候选
+```
+
+核心原则：
+
+```text
+NovelForge 不替大模型“硬写小说正文”
+NovelForge 负责把故事规划成可验证、可修订、可交付的 Story Blueprint
 ```
 
 ---
 
-# 2. V4 总体目标
+# 2. V4 的主要交付物：Story Blueprint
 
-## 2.1 必须实现
+V4 的 canonical creative artifact 不再是完整正文 Draft，而是：
+
+```text
+StoryBlueprint
+```
+
+推荐分层：
+
+```text
+StoryBlueprint
+├── Story Premise
+├── Theme & Dramatic Question
+├── World Rules
+├── Character Bible
+├── Character Arcs
+├── Global Story Arc
+├── Act / Volume / Arc Plans
+├── Chapter Plans
+├── Scene Plans
+├── Setup / Payoff Graph
+├── Causal Graph
+├── Timeline
+├── Story State Transitions
+├── Knowledge State Changes
+├── Relationship Changes
+├── Quality Result
+└── Revision History
+```
+
+场景级结果应足够细，使作者或其他 Agent 可以据此继续写作，但 V4 本身不以生成完整文学正文为完成条件。
+
+建议 Scene Card 至少包含：
+
+```json
+{
+  "scene_id": "sc_001",
+  "chapter_id": "ch_001",
+  "location": "...",
+  "time": "...",
+  "pov": "...",
+  "participants": ["..."],
+  "purpose": "这一场为什么存在",
+  "setup": "进入场景前的状态",
+  "goal": "角色在本场想得到什么",
+  "conflict": "什么阻止目标",
+  "escalation": "冲突如何升级",
+  "turn": "场景发生的关键转折",
+  "outcome": "场景结束后的新状态",
+  "information_reveal": ["..."],
+  "character_change": "...",
+  "relationship_change": "...",
+  "setup_ids": ["..."],
+  "payoff_ids": ["..."],
+  "next_hook": "...",
+  "source_ids": ["..."]
+}
+```
+
+---
+
+# 3. V4 明确的非目标
+
+V4 当前不把以下内容作为核心完成标准：
+
+```text
+完整长篇正文自动生成
+文学文风打磨到出版级
+逐章连续写满数十万字
+旧 V3 正文资产迁移
+旧 historical 章节资产保留
+```
+
+未来可以通过 Plugin / 外部 Agent / 下游写作工具使用 Story Blueprint 继续生成正文，但那不是 V4 核心架构的中心。
+
+---
+
+# 4. V4-00 后的作者决策冻结
+
+以下决策覆盖 V4-00 中对应的待定项。
+
+## 4.1 `novel/final/*.md`
+
+作者确认：
+
+```text
+旧正文已无产品价值
+不迁移
+不保留为 canonical source
+可删除
+```
+
+V4-01 应：
+
+```text
+删除 novel/final/*.md
+删除只为这些旧正文服务的引用/路径/兼容逻辑
+不得建立 ChapterRevision 正文迁移链
+```
+
+如存在仍被测试或运行时代码引用的路径，应先移除依赖，再删除资产。
+
+---
+
+## 4.2 570 章 historical
+
+作者确认：
+
+```text
+570 章 historical 是废弃产物
+不作为一等作品
+不导入 V4
+不做 migration
+可删除
+```
+
+V4-01 应：
+
+```text
+删除 historical 内容
+删除自动扫描 historical 的代码路径
+删除针对该废弃作品的硬编码数据库/导出/路径依赖
+```
+
+它不再进入 Memory、Export、Quality、Regression Product Data。
+
+必要测试数据应重新制作成最小、明确归属、可重复生成的 fixtures。
+
+---
+
+## 4.3 V4 最终产品目标
+
+作者确认：
+
+```text
+最终目标 = 小说大纲 / 故事蓝图
+形态接近电影剧本开发中的结构化故事规划
+而不是完整小说正文
+```
+
+因此 V4 的 Writer、Quality、Export、MCP、Agent、Memory 都必须围绕 Story Blueprint 重定义。
+
+---
+
+# 5. V4 总体目标
+
+V4 必须实现：
 
 - 大模型 API 正式接入
+- 统一 LLM Gateway
+- Provider / Model Router
+- 结构化生成契约
+- Story Blueprint canonical model
+- 世界 / 人物 / 人物弧 / 故事弧 / 章节 / 场景结构化生成
+- Canon / StoryState / Episodic / Semantic Memory
+- Context Builder
+- 故事质量闭环
+- 自动定向修订
+- Blueprint Editor 真正可编辑
+- 版本 / Revision / Diff / Restore
 - MCP Server
 - Agent 可直接操作 NovelForge
 - Plugin / 扩展机制
-- 统一 LLM Gateway
-- 结构化输出契约
-- 小说长期记忆
-- 项目上下文检索
-- 生成质量闭环
-- 自动定向修订
-- Writer 真正可编辑
-- 版本 / 修订历史
-- 可恢复操作
 - 统一 Export
-- 结构化导出
+- Story Blueprint Package
 - 交付质量验证
 - 成本 / Token / 调用跟踪
 - 统一日志和质量证据
 - UI 简化
-- MCP / API / UI 共用同一业务服务层
-- 模块级目录隔离与明确依赖边界
-- 支持按模块拆分并行任务分支，降低多 Agent / 多开发者冲突
+- UI / REST / MCP 共用同一业务 Service
+- 模块级目录隔离与依赖边界
+- 支持按模块拆分并行任务分支
 
 ---
 
-# 3. V4 明确删除或弱化的 V3 结构
+# 6. V4 最重要的架构原则
 
-V4 不继续在 V3 的规则生成器上堆逻辑。
+## 6.1 LLM 不是数据库
 
-## 3.1 应逐步删除的内容
+模型负责提出内容。
 
-### A. 硬编码创作逻辑
-
-例如：
-
-- 固定章节标题模板
-- “阶段目标 / 长期方向”式标题生成
-- 同义词替换器
-- 为避免重复而添加“第 N 次”
-- 大量题材 specific `if/else`
-- 人物原型固定文案
-- 固定剧情摘要拼接
-- 规则式文学表达
-- 人工维护的大量 creative fallback
-
-原则：
-
-> 业务规则可以硬编码，创作内容不应该大量硬编码。
+NovelForge 保存事实、状态、结构和版本。
 
 ---
 
-### B. 重复的状态计算
+## 6.2 MCP 不是业务层
 
-禁止重新出现：
-
-```text
-Landing 一套 progress
-Workspace 一套 progress
-Export 一套 progress
-Agent 又一套 progress
-```
-
-V4 必须只有：
+MCP 只是协议 Adapter。
 
 ```text
-JourneyProjection
+UI
+REST
+MCP
+Agent Adapter
+      ↓
+Application / Service Layer
+      ↓
+Domain / Story Engine
 ```
 
-作为唯一状态投影来源。
-
-UI / API / MCP 全部消费同一个结果。
+所有入口共享同一业务能力。
 
 ---
 
-### C. 多套 Writer 存储
+## 6.3 Quality 不是测试脚本
 
-V4 只保留一个 canonical writer store。
+Quality 是正式业务架构。
 
-旧路径只允许 migration / read-only compatibility。
-
----
-
-### D. 多套 Export
-
-所有导出必须统一经过：
+每个 Story Blueprint artifact 都必须可以拥有：
 
 ```text
-ExportService
-```
-
-UI、API、MCP 不允许各自拼导出内容。
-
----
-
-### E. UI 中直接包含业务判断
-
-UI 只负责：
-
-- 展示
-- 用户输入
-- 发起 command
-- 展示状态
-
-业务规则必须在后端 service / domain 层。
-
----
-
-### F. 自动加载历史作品作为当前小说数据
-
-任何 legacy / historical source 必须：
-
-```text
-显式绑定到 novel_id
-```
-
-不得因为磁盘上存在旧目录就自动混入新作品。
-
----
-
-# 4. V4 推荐目录结构
-
-```text
-src/novelforge/
-│
-├── core/
-│   ├── ids.py
-│   ├── errors.py
-│   ├── events.py
-│   ├── transactions.py
-│   └── result.py
-│
-├── domain/
-│   ├── novel.py
-│   ├── character.py
-│   ├── location.py
-│   ├── faction.py
-│   ├── canon.py
-│   ├── story_state.py
-│   ├── outline.py
-│   ├── chapter.py
-│   ├── scene.py
-│   ├── draft.py
-│   └── revision.py
-│
-├── ai/
-│   ├── gateway.py
-│   ├── provider.py
-│   ├── router.py
-│   ├── contracts.py
-│   ├── structured_output.py
-│   ├── retry.py
-│   ├── cache.py
-│   ├── usage.py
-│   └── trace.py
-│
-├── memory/
-│   ├── store.py
-│   ├── retrieval.py
-│   ├── compressor.py
-│   ├── embeddings.py
-│   ├── episodic.py
-│   ├── semantic.py
-│   └── author_preferences.py
-│
-├── generation/
-│   ├── premise.py
-│   ├── world.py
-│   ├── characters.py
-│   ├── story_arc.py
-│   ├── outline.py
-│   ├── chapter_plan.py
-│   ├── scene_plan.py
-│   └── draft.py
-│
-├── quality/
-│   ├── contracts.py
-│   ├── evaluator.py
-│   ├── continuity.py
-│   ├── repetition.py
-│   ├── character_consistency.py
-│   ├── causality.py
-│   ├── pacing.py
-│   ├── style.py
-│   ├── delivery.py
-│   ├── scoring.py
-│   └── evidence.py
-│
-├── repair/
-│   ├── planner.py
-│   ├── executor.py
-│   ├── contracts.py
-│   └── verifier.py
-│
-├── services/
-│   ├── project_service.py
-│   ├── creation_service.py
-│   ├── simulation_service.py
-│   ├── outline_service.py
-│   ├── writer_service.py
-│   ├── review_service.py
-│   ├── export_service.py
-│   └── journey_service.py
-│
-├── plugins/
-│   ├── base.py
-│   ├── registry.py
-│   ├── loader.py
-│   └── builtin/
-│
-├── mcp/
-│   ├── server.py
-│   ├── tools/
-│   ├── resources/
-│   ├── prompts/
-│   ├── schemas/
-│   └── permissions.py
-│
-├── api/
-│   ├── routes/
-│   ├── schemas/
-│   └── dependencies.py
-│
-├── persistence/
-│   ├── repositories/
-│   ├── migrations/
-│   └── storage.py
-│
-└── observability/
-    ├── logging.py
-    ├── metrics.py
-    ├── token_usage.py
-    └── audit.py
-```
-
-## 4.1 模块化隔离原则
-
-V4 的目录结构不仅用于整理文件，还必须成为正式的**模块边界**。
-
-目标：
-
-```text
-一个主要能力 = 一个明确模块 = 一个独立目录 = 一组公开契约 = 一组独立测试
-```
-
-例如：
-
-```text
-ai/
-memory/
-generation/
-quality/
-repair/
-writer/
-export/
-mcp/
-plugins/
-```
-
-应尽量可以独立开发、独立测试、独立评审和独立合并。
-
-禁止重新形成：
-
-```text
-一个巨型 service.py
-一个巨型 utils.py
-一个目录承担多个无关业务能力
-跨目录直接读写其他模块内部状态
-模块之间通过内部文件路径互相调用
-```
-
-每个模块建议至少具备：
-
-```text
-<module>/
-├── contracts.py      # 对外契约 / DTO / Protocol
-├── service.py        # 模块入口或 application service
-├── domain.py         # 模块内部领域逻辑（需要时）
-├── repository.py     # persistence port（需要时）
-├── errors.py         # 模块错误
-├── internal/         # 不允许其他模块直接依赖
-└── tests/            # 模块级测试
-```
-
-实际目录可按模块复杂度调整，不要求机械复制模板。
-
-核心要求是：
-
-```text
-模块内部实现可以变化
-模块对外 Contract 必须稳定、明确、可测试
+quality_status
+quality_issues
+quality_evidence
+repair_history
 ```
 
 ---
 
-## 4.2 Public Contract 与 Internal Implementation
-
-模块之间只允许通过公开接口协作。
-
-例如：
+## 6.4 模块目录就是维护边界
 
 ```text
-memory.contracts
-quality.contracts
-ai.contracts
-writer.contracts
-export.contracts
+一个主要能力
+= 一个明确模块
+= 一个独立目录
+= 一组公开 Contract
+= 一组独立测试
+= 可由独立任务分支维护
 ```
 
-其他模块不得直接依赖：
+---
+
+## 6.5 大纲是核心产物，正文不是
+
+任何新架构设计优先回答：
 
 ```text
-memory/internal/*
-quality/internal/*
-ai/provider 私有实现
-writer 私有 persistence 实现
+它如何提升 Story Blueprint 的质量、可控性、可修订性或可交付性？
 ```
+
+如果一个能力只服务旧正文生成流程，应优先评估删除或降级，而不是自动迁移。
+
+---
+
+# 7. V4-00 已确认的 V3 现状
+
+V4-00 扫描结论：
+
+```text
+src/              188 py / 68,038 行
+ui/src/            45 ts/tsx / 10,482 行
+tests/             171 py + 20 cjs
+```
+
+基线：
+
+```text
+pytest -q → 892 passed / 687 deselected / 0 failed
+validate_project.py → PASS
+```
+
+已确认结构问题：
+
+1. 单作品/历史作品路径硬编码
+2. 旧正文无 owner
+3. 硬编码创作内容集中在多个模块
+4. Route 承担业务编排
+5. Export 多套拼装
+6. 状态推导重复
+7. project_id / novel_id 语义混乱
+8. Quality finding 不统一
+9. LLM 边界不存在
+10. frozen 历史模块缺少清晰隔离
+
+V4 的迁移策略是：
+
+```text
+继承稳定内核
+建立边界
+删除废弃资产
+重写必要编排
+逐步提升既有能力
+避免 Big Bang Rewrite
+```
+
+---
+
+# 8. 模块化架构
+
+V4-00 已证明现有 `story_engine` 中有大量 KEEP 能力，因此 V4 不应为了目录“好看”机械新建一套平行 domain。
+
+物理目录名称以：
+
+```text
+docs/v4/V4_MODULE_BOUNDARIES.md
+```
+
+为最终依据。
+
+逻辑上至少需要以下独立模块边界：
+
+```text
+Core Primitives
+Application Services
+Story Engine / Domain
+LLM Gateway
+Story Memory
+Story Blueprint / Structured Generation
+Story Quality
+Story Repair
+Blueprint Editor
+Delivery / Export
+MCP Adapter
+Plugin Platform
+Persistence
+Observability
+Legacy Compatibility
+UI
+```
+
+由于现有代码存在 `memory.py`、`repair.py` 等命名冲突，新目录命名应避免与 frozen V3 模块产生歧义；具体命名由 V4_MODULE_BOUNDARIES.md 决定，不在 Master Plan 中机械强制。
+
+---
+
+# 9. Public Contract 与 Internal Implementation
+
+模块之间只允许通过公开 Contract 协作。
 
 原则：
 
@@ -361,15 +408,28 @@ Public Contract = 可跨模块依赖
 Internal Implementation = 仅模块自身可见
 ```
 
-如果某个跨模块需求只能通过读取另一个模块内部实现才能完成，说明模块边界设计存在问题，应先补 Contract，而不是建立隐式耦合。
+禁止：
+
+```text
+跨模块直接 import internal implementation
+跨模块读取其他模块私有文件路径
+跨模块直接执行 SQL 修改对方状态
+UI 直接推导业务事实
+MCP Tool 自己实现业务逻辑
+```
+
+如果跨模块需求无法通过 Contract 完成：
+
+```text
+先修改 Contract
+再分别适配模块
+```
 
 ---
 
-## 4.3 模块依赖方向
+# 10. 模块依赖方向
 
-V4-00 必须产出正式的依赖矩阵。
-
-基本原则：
+推荐：
 
 ```text
 Interface / Adapter
@@ -383,7 +443,7 @@ Ports
 Infrastructure Adapter
 ```
 
-特别禁止：
+禁止：
 
 ```text
 Domain → MCP
@@ -395,306 +455,121 @@ Quality → MCP Tool implementation
 Plugin → 核心数据库任意写入
 ```
 
-模块之间如果存在双向依赖，应优先：
+出现双向依赖时优先：
 
 ```text
-提取 Contract
-提取 Event
-提取 Port
-或重新划分模块责任
+Contract
+Event
+Port
+重新划分责任
 ```
 
 而不是保留循环依赖。
 
 ---
 
-## 4.4 模块代码所有权
-
-V4 应建立“目录级代码所有权”概念。
-
-例如：
-
-```text
-src/novelforge/ai/**          → AI / LLM 模块
-src/novelforge/memory/**      → Memory 模块
-src/novelforge/quality/**     → Quality 模块
-src/novelforge/repair/**      → Repair 模块
-src/novelforge/mcp/**         → MCP Adapter 模块
-src/novelforge/plugins/**     → Plugin Platform 模块
-```
-
-以后一个开发任务必须明确：
-
-```text
-Primary Module
-Allowed Paths
-Read-only Dependencies
-Contract Changes
-Cross-module Changes
-```
-
-这样 Codex、其他 Agent 或多人并行开发时，可以知道哪些目录属于自己的修改范围。
-
----
-
-## 4.5 模块化任务分支策略
-
-V4 后续开发默认采用：
-
-```text
-一个任务分支主要维护一个模块
-```
-
-例如：
-
-```text
-v4/02-llm-gateway
-v4/03-memory
-v4/04-generation
-v4/05-quality
-v4/05-repair
-v4/06-writer
-v4/07-export
-v4/08-mcp
-v4/09-plugins
-v4/10-ui
-v4/11-agent-mode
-```
-
-大型阶段可以继续拆成更小的模块任务：
-
-```text
-v4/03-memory-canon
-v4/03-memory-story-state
-v4/03-memory-context-builder
-
-v4/05-quality-continuity
-v4/05-quality-repetition
-v4/05-quality-causality
-
-v4/08-mcp-resources
-v4/08-mcp-tools
-v4/08-mcp-permissions
-```
-
-分支名反映：
-
-```text
-阶段 / 模块 / 任务
-```
-
-不要使用无法判断作用域的名称，例如：
-
-```text
-fix-v4
-update-code
-new-feature
-refactor-all
-```
-
----
-
-## 4.6 单分支修改范围
-
-每个任务分支开始前必须声明：
-
-```text
-Primary Module:
-Primary Paths:
-Allowed Shared Paths:
-Forbidden Paths:
-Required Contracts:
-Expected Tests:
-```
-
-默认规则：
-
-```text
-Primary Module 内部文件      → 可修改
-该模块 tests                 → 可修改
-该模块 docs / contract       → 可修改
-其他业务模块内部文件         → 默认不可修改
-共享 core / domain contract  → 需要明确理由
-数据库 schema               → 需要 migration plan
-```
-
-目的不是绝对禁止跨模块修改，而是避免“顺手重构”造成分支范围失控。
-
----
-
-## 4.7 跨模块变更规则
-
-如果任务必须同时修改多个模块，不允许直接在一个大分支里任意修改。
-
-优先流程：
-
-```text
-1. 先定义 / 修改共享 Contract
-2. 单独提交 Contract Change
-3. 各模块分别适配 Contract
-4. 独立运行模块测试
-5. 最后运行 Integration / E2E
-```
-
-例如 Memory 与 Generation 同时需要新 Context：
-
-```text
-memory
-    ↓ 暴露 ContextProvider Contract
-
-generation
-    ↓ 只消费 Contract
-```
-
-而不是：
-
-```text
-generation 直接 import memory 内部 store / SQL / embedding 实现
-```
-
----
-
-## 4.8 Shared Core 必须保持小
+# 11. Shared Core 必须保持小
 
 `core/` 不是公共垃圾桶。
 
-只允许放真正跨模块且稳定的基础能力，例如：
+只放真正稳定、跨模块的 primitive：
 
 ```text
 ID
 Result
-基础 Error
+Error envelope
 Event envelope
+Revision primitive
 Transaction abstraction
-Revision primitives
 ```
 
-禁止因为两个模块都需要某个函数，就立即移动到：
+禁止建立万能：
 
 ```text
 core/utils.py
 ```
 
-共享代码至少满足：
+共享代码必须满足：
 
 ```text
 语义稳定
-不存在模块所有权争议
-不包含创作业务规则
+无明确模块所有权争议
+不包含故事创作业务规则
 不依赖具体 Adapter
 ```
 
 ---
 
-## 4.9 并行开发与合并顺序
+# 12. 模块化任务分支策略
 
-并行分支之间尽量通过 Contract 解耦。
+由于远端已存在 `origin/v4`，Git 不能同时安全使用 `v4/...` 层级分支。
 
-推荐顺序：
+V4 后续统一使用扁平命名：
 
 ```text
-Contract / ADR
-    ↓
-Core Domain / Port
-    ↓
-Module Implementation
-    ↓
-Adapter
-    ↓
-Integration
-    ↓
-UI / MCP / Agent
+v4-01-boundary-foundation
+v4-02-llm-gateway
+v4-03-memory-canon
+v4-03-memory-context-builder
+v4-04-blueprint-generation
+v4-05-quality-continuity
+v4-05-quality-causality
+v4-05-repair
+v4-06-blueprint-editor
+v4-07-delivery
+v4-08-mcp-resources
+v4-08-mcp-tools
+v4-09-plugins
+v4-10-ui
+v4-11-agent
 ```
 
-对于存在依赖的两个模块，不应同时修改彼此内部实现来“对接”。
+需要跨模块集成时使用短生命周期：
 
-应该先冻结双方共享 Contract，再并行开发。
+```text
+v4-int-memory-blueprint
+v4-int-quality-repair
+v4-int-mcp-services
+```
+
+每个分支开始前必须声明：
+
+```text
+Primary Module
+Primary Paths
+Allowed Shared Paths
+Forbidden Paths
+Required Contracts
+Expected Tests
+```
+
+默认一个任务分支主要维护一个模块。
 
 ---
 
-## 4.10 模块级测试要求
+# 13. 跨模块变更规则
 
-每个主要模块必须拥有自己的测试边界。
-
-至少区分：
+如果任务必须跨模块：
 
 ```text
-Unit Test
-Contract Test
-Integration Test
-E2E Test
+1. 先定义/修改 Contract
+2. Contract 单独提交
+3. 各模块分别适配
+4. 各自运行模块测试
+5. Integration / E2E 验证
 ```
 
-模块分支原则上必须能够在不启动完整 NovelForge 的情况下运行自己的主要测试。
-
-例如：
+禁止：
 
 ```text
-Memory 模块测试不应要求启动 React
-Quality 模块测试不应要求启动 MCP Server
-LLM Router 测试不应要求真实写入小说数据库
-MCP schema 测试不应承担生成质量测试
-```
-
----
-
-## 4.11 V4-00 必须确定模块边界
-
-V4-00 Architecture 阶段必须额外回答：
-
-```text
-每个 V4 模块负责什么？
-每个模块不负责什么？
-模块公开哪些 Contract？
-模块允许依赖谁？
-谁允许依赖它？
-模块的数据由谁拥有？
-模块能否独立测试？
-模块是否适合独立任务分支维护？
-```
-
-并新增正式产物：
-
-```text
-V4_MODULE_BOUNDARIES.md
-V4_BRANCH_STRATEGY.md
-```
-
-其中 `V4_MODULE_BOUNDARIES.md` 至少包含：
-
-```text
-Module
-Owned Paths
-Responsibility
-Public Contracts
-Internal Components
-Data Ownership
-Allowed Dependencies
-Forbidden Dependencies
-Primary Tests
-Likely Task Branches
-```
-
-`V4_BRANCH_STRATEGY.md` 至少包含：
-
-```text
-Branch Naming
-Module Ownership
-Allowed Path Rules
-Cross-module Change Process
-Contract-first Merge Process
-Conflict Resolution
-Integration Branch Policy
-Definition of Done
+一个大分支顺手修改五六个模块内部实现
 ```
 
 ---
 
-# 5. 大模型 API 架构
+# 14. 大模型 API 架构
 
-## 5.1 单一 LLM Gateway
-
-任何业务模块禁止直接调用模型 API。
+所有业务模块禁止直接调用模型 API。
 
 统一：
 
@@ -709,7 +584,7 @@ llm.generate(
 数据流：
 
 ```text
-业务 Service
+Business Service
     ↓
 LLM Gateway
     ↓
@@ -724,9 +599,7 @@ Structured Output Validator
 Quality Pipeline
 ```
 
----
-
-## 5.2 Provider 抽象
+Provider 抽象：
 
 ```text
 LLMProvider
@@ -737,58 +610,49 @@ LLMProvider
 └── Future Provider
 ```
 
-NovelForge 业务层不能依赖具体模型厂商。
-
----
-
-## 5.3 Model Router
-
-根据任务选择模型：
+Router 角色：
 
 ```text
-Creative Model
-    人物 / 世界 / 情节 / 正文
+Creative / Planning Model
+    premise / character / world / arc / chapter / scene planning
 
 Critic Model
-    一致性 / 重复 / 逻辑 / 质量评估
+    continuity / causality / character / repetition / pacing / setup-payoff
 
 Repair Model
-    定向修订
+    targeted outline repair
 
 Utility Model
-    摘要 / 分类 / 标签 / 结构转换
+    summary / classification / extraction / structure conversion
 ```
 
 支持：
 
-- 质量优先
-- 成本优先
-- 速度优先
-- 本地优先
-- 指定模型
+```text
+质量优先
+成本优先
+速度优先
+本地优先
+指定模型
+```
 
 ---
 
-# 6. 结构化生成契约
+# 15. 结构化生成契约
 
-模型输出尽量不使用自由格式文本作为机器输入。
+机器消费的模型结果应优先结构化。
 
-例如章节规划：
+禁止：
 
-```json
-{
-  "chapter_id": "ch_001",
-  "title": "维修记录里的异常编号",
-  "goal": "确认被删除的维修日志是否真实存在",
-  "conflict": "主管拒绝开放旧记录",
-  "turn": "主角发现日志编号仍存在于设备缓存",
-  "outcome": "获得一条指向殖民区的线索",
-  "hook": "缓存记录显示日志最后由一个已经死亡的人访问",
-  "source_ids": ["..."]
-}
+```text
+自由文本
+↓
+大量 Regex
+↓
+猜测故事结构
 ```
 
-模型输出：
+推荐：
 
 ```text
 JSON
@@ -799,30 +663,55 @@ Domain Validation
 ↓
 Quality Validation
 ↓
-保存
+Revision Save
 ```
 
-禁止：
+核心 contract 至少包括：
 
 ```text
-模型文本
-↓
-大量 Regex
-↓
-猜测结构
+PremiseIR
+CharacterIR
+WorldIR
+StoryArcIR
+ActPlanIR
+ChapterPlanIR
+ScenePlanIR
+StoryBlueprint
 ```
 
 ---
 
-# 7. 记忆系统
+# 16. Story Blueprint 数据模型
 
-V4 需要正式的小说记忆层。
+V4 的故事结构至少区分：
 
-不能每次把整本小说塞给模型。
+```text
+事实层：Canon
+状态层：StoryState
+规划层：StoryBlueprint
+质量层：QualityResult
+版本层：Revision
+```
 
-## 7.1 四类记忆
+禁止把“计划发生的剧情”提前写进 Canon。
 
-### 1. Canon Memory
+建议规则：
+
+```text
+Canon = 已确认事实 / 不应被普通修订随意改变
+StoryState = 当前状态
+StoryBlueprint = 未来故事计划与结构
+```
+
+只有故事计划被作者接受并推进到对应状态后，才根据业务规则更新事实/状态。
+
+---
+
+# 17. 记忆系统
+
+V4 正式使用四类故事记忆。
+
+## 17.1 Canon Memory
 
 不可随意修改的事实：
 
@@ -834,11 +723,9 @@ V4 需要正式的小说记忆层。
 - 重要物品
 - 固定关系
 
----
+## 17.2 Story State Memory
 
-### 2. Story State Memory
-
-当前故事状态：
+当前状态：
 
 - 当前时间
 - 当前地点
@@ -849,24 +736,20 @@ V4 需要正式的小说记忆层。
 - 未解决冲突
 - 正在进行的目标
 
----
+## 17.3 Episodic Memory
 
-### 3. Episodic Memory
-
-按章节 / 场景记录：
+按章节/场景记录：
 
 ```text
 发生了什么
 谁知道什么
 谁做了什么
-造成了什么后果
+产生了什么后果
 ```
 
----
+## 17.4 Semantic Memory
 
-### 4. Semantic Memory
-
-模型需要检索的长期信息：
+用于长期检索：
 
 - 人物特征
 - 地点
@@ -875,13 +758,15 @@ V4 需要正式的小说记忆层。
 - 伏笔
 - 主题
 - 作者偏好
-- 文风要求
+- 结构偏好
+
+Memory 是派生/检索能力，不得取代 Canon / StoryState / StoryBlueprint 的 source of truth。
 
 ---
 
-# 8. Context Builder
+# 18. Context Builder
 
-任何模型调用不得由业务模块手工拼 Prompt。
+业务模块不得手工散落拼 Prompt。
 
 统一：
 
@@ -889,14 +774,14 @@ V4 需要正式的小说记忆层。
 ContextBuilder
 ```
 
-按任务构建上下文。
-
-例如生成第 87 章：
+例如生成第 87 章场景规划：
 
 ```text
+当前 Story Arc
++
 当前 Chapter Plan
 +
-最近 3 章 episodic memory
+最近相关 episodic memory
 +
 相关角色 memory
 +
@@ -906,130 +791,188 @@ ContextBuilder
 +
 相关 Canon
 +
-未完成伏笔
+未完成 setup/payoff
 +
-作者风格偏好
+人物弧当前位置
++
+作者结构偏好
 ```
 
-而不是加载整本小说。
+而不是加载整本历史资产。
 
 ---
 
-# 9. 作者偏好记忆
+# 19. 作者偏好记忆
 
-V4 应记录作者自己的长期创作偏好：
+V4 记录的偏好重点转为“故事设计偏好”，包括：
 
 ```text
-喜欢 / 不喜欢的文风
-对话比例
-章节长度
+题材
 节奏
-视角
-禁用表达
-喜欢的冲突类型
-不希望出现的套路
+章节长度目标
+场景密度
+对白占比偏好
+冲突类型
 人物塑造偏好
-题材习惯
+视角偏好
+反感套路
+禁用桥段
+悬念强度
+反转频率
+结构模型偏好
 ```
 
-作用域必须区分：
+作用域：
 
 ```text
-Global Author Preference
-Project Preference
-Novel Preference
-Chapter Override
+Global
+Project
+Novel
+Arc / Chapter Override
 ```
 
 优先级：
 
 ```text
-Chapter
-> Novel
-> Project
-> Global
+局部 Override > Novel > Project > Global
 ```
 
 ---
 
-# 10. Quality Contract
+# 20. Quality Contract
 
-V4 的质量问题必须成为标准化对象。
+Quality Issue 必须成为标准化业务对象。
 
 ```json
 {
-  "code": "CHAPTER_SEMANTIC_REPETITION",
+  "code": "SCENE_CAUSAL_GAP",
   "severity": "major",
   "scope": {
     "novel_id": "novel_001",
-    "chapter_ids": ["ch_018", "ch_019"]
+    "scene_ids": ["sc_018", "sc_019"]
   },
-  "reason": "连续章节承担相同叙事动作",
+  "reason": "关键行为缺少足够动机或前置原因",
   "evidence": [],
   "repair_contract": {
-    "preserve": [
-      "canon",
-      "characters",
-      "source_ids"
-    ],
-    "allow_change": [
-      "chapter_goal",
-      "conflict",
-      "turn",
-      "title"
-    ]
+    "preserve": ["canon", "character_identity", "source_ids"],
+    "allow_change": ["scene_goal", "conflict", "turn", "outcome"]
   }
 }
 ```
 
-以后 UI、API、MCP 都使用同一 Quality Issue。
+UI / API / MCP 使用同一 Quality Issue。
 
 ---
 
-# 11. 质量闭环
+# 21. V4 的质量重点
 
-V4 默认生成流程：
+V4 不把“文学文笔优美”作为最核心 Quality Gate。
+
+质量闭环重点检查：
 
 ```text
-Generate
-   ↓
-Schema Validate
-   ↓
-Fact / Canon Check
-   ↓
-Continuity Check
-   ↓
-Semantic Repetition Check
-   ↓
-Character Consistency
-   ↓
-Causality
-   ↓
-Pacing
-   ↓
-Style
-   ↓
-Delivery Check
-   ↓
-PASS
-   └────→ Save
-   ↓ FAIL
-Repair Planner
-   ↓
-Targeted Repair
-   ↓
-Re-evaluate
+结构完整性
+Canon 一致性
+时间/地点连续性
+人物动机
+人物弧连续性
+因果链
+冲突升级
+剧情重复
+场景功能
+节奏
+信息释放
+setup / payoff
+伏笔回收
+章节/场景转折
+悬念与 hook
+故事状态变化
+交付完整性
+```
+
+语言风格检查只服务于：
+
+```text
+大纲表达是否清晰
+字段是否可理解
+是否模板化/空洞
+```
+
+而不是追求最终小说 prose 风格。
+
+---
+
+# 22. Quality Gate 层级
+
+```text
+Q0 Schema
+Q1 Integrity
+Q2 Canon
+Q3 Continuity
+Q4 Character / Motivation
+Q5 Causality
+Q6 Semantic / Repetition
+Q7 Structure / Pacing
+Q8 Setup-Payoff / Narrative Function
+Q9 Delivery
+```
+
+其中：
+
+```text
+Q0/Q1       → 尽量 deterministic
+Q2/Q3       → deterministic + retrieval + LLM-assisted
+Q4-Q8       → rule evidence + LLM-assisted critic
+Q9          → deterministic 为主
 ```
 
 ---
 
-# 12. 修订原则
+# 23. 质量闭环
+
+默认流程：
+
+```text
+Generate Blueprint Node
+    ↓
+Schema Validate
+    ↓
+Canon Check
+    ↓
+Continuity Check
+    ↓
+Character / Motivation Check
+    ↓
+Causality Check
+    ↓
+Semantic Repetition Check
+    ↓
+Structure / Pacing Check
+    ↓
+Setup / Payoff Check
+    ↓
+Delivery Check
+    ↓ PASS
+Revision Save
+    ↓ FAIL
+Repair Planner
+    ↓
+Targeted Repair
+    ↓
+Re-evaluate
+```
+
+必须限制 repair loop 次数和成本，禁止无限修订。
+
+---
+
+# 24. 修订原则
 
 禁止：
 
 ```text
-发现一个标题问题
-→ 整本小说重新生成
+发现一个场景问题
+→ 整部大纲全部重新生成
 ```
 
 应该：
@@ -1037,127 +980,116 @@ Re-evaluate
 ```text
 Issue
 ↓
-确定受影响 scope
+确定最小影响 scope
 ↓
 锁定 preserve fields
 ↓
-只允许修改必要字段
+只修改必要节点/字段
 ↓
-重新评估
+重新验证受影响邻域
 ```
 
-例如：
+例如重复场景只允许优先修改：
 
 ```text
-CHAPTER_SEMANTIC_REPETITION
+scene purpose
+goal
+conflict
+escalation
+turn
+outcome
+hook
 ```
 
-只允许改：
+不能随意修改：
 
-- chapter goal
-- conflict
-- turn
-- title
-
-不能修改：
-
-- 已发生 Canon
-- 人物 ID
-- 已确认世界规则
-- source_ids
+```text
+已确认 Canon
+人物 ID
+世界规则
+source_ids
+无关章节
+```
 
 ---
 
-# 13. Quality Gate 层级
+# 25. Blueprint Editor V4
 
-## Q0 Schema
+原“Writer V4”重定义为：
 
-结构是否有效。
+```text
+Blueprint Editor / Story Studio
+```
 
-## Q1 Safety / Integrity
+它是故事结构编辑器，不是长篇正文编辑器。
 
-数据是否损坏。
+必须支持：
 
-## Q2 Canon
-
-是否违反事实。
-
-## Q3 Continuity
-
-前后是否矛盾。
-
-## Q4 Character
-
-人物行为是否合理。
-
-## Q5 Causality
-
-事件是否存在因果。
-
-## Q6 Semantic
-
-是否重复、模板化、空洞。
-
-## Q7 Narrative
-
-节奏、冲突、转折、悬念。
-
-## Q8 Style
-
-文风、语言、可读性。
-
-## Q9 Delivery
-
-最终导出物是否可以交付。
-
-只有满足配置好的门禁，内容才能进入正式版本。
-
----
-
-# 14. Writer V4
-
-V4 Writer 必须成为真正的写作编辑器。
-
-支持：
-
-- 编辑正文
-- 保存
-- 自动保存
-- 历史版本
+- Premise / Theme 编辑
+- Character / Character Arc 编辑
+- Story Arc 编辑
+- Act / Volume / Arc 编辑
+- Chapter Card 编辑
+- Scene Card 编辑
+- 拖动/重排（在保持依赖校验的前提下）
+- Save
+- Auto Save
+- Revision History
 - Diff
 - Undo / Restore
-- AI 继续写
-- AI 重写
-- 扩写
-- 缩写
-- 增强对白
-- 增强冲突
-- 改节奏
-- 保持事实重新表达
-- 选择部分文字修订
-- 接受 / 拒绝 AI 修改
+- AI 扩展一个节点
+- AI 重写一个节点
+- AI 提供替代方案
+- AI 修复 Quality Issue
+- Accept / Reject AI Change
+- 显示受影响的 Canon / setup-payoff / downstream 节点
 
-AI 不允许静默覆盖作者文本。
+AI 不允许静默覆盖作者接受的 Story Blueprint。
 
-任何 AI 修改必须形成：
+每次 AI 修改形成 Revision。
+
+---
+
+# 26. Revision 模型
+
+所有核心 Story Blueprint 对象必须有 revision awareness。
+
+写操作：
 
 ```text
-Revision
+expected_revision
+```
+
+状态已变化时返回 conflict。
+
+防止：
+
+```text
+UI 覆盖 Agent
+Agent 重试重复写入
+并行 repair 相互覆盖
+```
+
+Revision 至少记录：
+
+```text
+revision_id
+parent_revision
+operation
+actor
+created_at
+changed_nodes
+quality_before
+quality_after
 ```
 
 ---
 
-# 15. NovelForge MCP Server
+# 27. NovelForge MCP Server
 
-V4 要把 NovelForge 本身做成 MCP。
+MCP 是外部 Agent 的协议入口，不承担业务逻辑。
 
-Agent 不需要操作浏览器也能驱动小说创作。
-
----
-
-## 15.1 MCP Resources
-
-只读资源示例：
+## 27.1 Resources
 
 ```text
 novelforge://projects
@@ -1165,17 +1097,16 @@ novelforge://novels/{novel_id}
 novelforge://novels/{novel_id}/state
 novelforge://novels/{novel_id}/canon
 novelforge://novels/{novel_id}/characters
+novelforge://novels/{novel_id}/blueprint
 novelforge://novels/{novel_id}/outline
-novelforge://novels/{novel_id}/chapters
+novelforge://novels/{novel_id}/scenes
 novelforge://novels/{novel_id}/quality
 novelforge://novels/{novel_id}/memory
 ```
 
----
+## 27.2 Tools
 
-## 15.2 MCP Tools
-
-### Project
+Project：
 
 ```text
 novelforge.create_novel
@@ -1184,7 +1115,7 @@ novelforge.archive_novel
 novelforge.get_journey
 ```
 
-### Creation
+Creation：
 
 ```text
 novelforge.generate_premise
@@ -1193,26 +1124,20 @@ novelforge.generate_characters
 novelforge.generate_world
 ```
 
-### Story
+Blueprint：
 
 ```text
 novelforge.generate_story_arc
 novelforge.generate_outline
 novelforge.generate_chapter_plan
 novelforge.generate_scene_plan
-```
-
-### Writer
-
-```text
-novelforge.generate_draft
-novelforge.rewrite_text
-novelforge.continue_draft
+novelforge.expand_blueprint_node
+novelforge.rewrite_blueprint_node
 novelforge.save_revision
 novelforge.restore_revision
 ```
 
-### Quality
+Quality：
 
 ```text
 novelforge.evaluate
@@ -1221,7 +1146,7 @@ novelforge.repair_issue
 novelforge.verify_repair
 ```
 
-### Memory
+Memory：
 
 ```text
 novelforge.search_memory
@@ -1230,20 +1155,30 @@ novelforge.update_memory
 novelforge.summarize_memory
 ```
 
-### Export
+Export：
 
 ```text
 novelforge.validate_delivery
-novelforge.export
+novelforge.export_blueprint
 ```
+
+旧的正文型：
+
+```text
+generate_draft
+continue_draft
+rewrite_text
+```
+
+不再作为 V4 核心 MCP Tool。
+
+未来若需要，可由非核心 Plugin 提供。
 
 ---
 
-# 16. MCP 操作安全
+# 28. MCP 操作安全
 
-Agent 写操作不能无限制执行。
-
-每个 Tool 必须声明：
+每个 Tool 声明：
 
 ```text
 read_only
@@ -1252,43 +1187,34 @@ destructive
 expensive
 ```
 
-重要操作支持：
+支持：
 
 ```text
-dry_run=true
+dry_run
+request_id
+idempotency_key
+expected_revision
 ```
 
-例如：
+高风险操作要求确认，例如：
 
 ```text
 archive novel
-overwrite accepted chapter
-mass regenerate
-delete revision
+mass regenerate blueprint
+restore old accepted revision
+bulk repair
 ```
-
-要求明确确认。
-
-所有 Tool 应支持：
-
-```text
-request_id
-idempotency_key
-revision
-```
-
-避免 Agent 重试导致重复写入。
 
 ---
 
-# 17. MCP Result 标准
+# 29. MCP Result Envelope
 
-所有 Tool 返回统一 Envelope：
+所有 Tool 统一：
 
 ```json
 {
   "ok": true,
-  "operation": "generate_outline",
+  "operation": "generate_scene_plan",
   "novel_id": "novel_001",
   "revision": 42,
   "result": {},
@@ -1305,17 +1231,15 @@ revision
 }
 ```
 
-这样 Agent 不需要理解不同 API 的特殊返回格式。
-
 ---
 
-# 18. Plugin Architecture
+# 30. Plugin Architecture
 
 MCP 是外部接口。
 
-Plugin 是 NovelForge 内部扩展机制。
+Plugin 是内部扩展机制。
 
-## Plugin 类型
+Plugin 类型：
 
 ```text
 GeneratorPlugin
@@ -1328,13 +1252,23 @@ MemoryPlugin
 ModelProviderPlugin
 ```
 
+可选未来插件：
+
+```text
+ProseDraftPlugin
+ScreenplayFormatPlugin
+DialogueExpansionPlugin
+```
+
+这些不能反过来改变 V4 的核心产品定位。
+
 插件必须通过 Registry 注册。
 
-禁止插件直接修改核心数据库。
+禁止插件绕过 Service / Repository Contract 直接修改核心数据库。
 
 ---
 
-# 19. Export V4
+# 31. Export V4
 
 所有导出统一经过：
 
@@ -1342,33 +1276,31 @@ ModelProviderPlugin
 ExportService
 ```
 
----
+核心输出：
 
-## 19.1 输出格式
-
-基础：
-
-- Markdown
+- Markdown Story Blueprint
 - JSON
 - DOCX
-
-建议新增：
-
-- EPUB
 - YAML / structured package
 - ZIP Project Package
 
----
+EPUB 不再是 V4 核心优先级，因为 V4 不以完整小说正文为主要交付物。
 
-## 19.2 Structured Export Package
-
-建议 V4 定义：
+未来可通过插件增加：
 
 ```text
-NovelForge Package
+Fountain
+Final Draft compatible adapter
+其他 screenplay-like formats
 ```
 
-目录：
+但不要求 V4 Core 实现。
+
+---
+
+# 32. Story Blueprint Package
+
+推荐：
 
 ```text
 novel-name.nfpack/
@@ -1379,19 +1311,23 @@ novel-name.nfpack/
 ├── story_state.json
 │
 ├── characters/
-├── locations/
-├── factions/
+│   ├── characters.json
+│   └── arcs.json
 │
-├── outline/
-│   ├── book.json
-│   ├── volumes.json
-│   ├── arcs.json
-│   └── chapters.json
+├── world/
+│   ├── locations.json
+│   ├── factions.json
+│   └── rules.json
 │
-├── chapters/
-│   ├── ch001.md
-│   ├── ch002.md
-│   └── ...
+├── blueprint/
+│   ├── premise.json
+│   ├── story_arc.json
+│   ├── acts.json
+│   ├── chapters.json
+│   ├── scenes.json
+│   ├── causal_graph.json
+│   ├── setup_payoff.json
+│   └── timeline.json
 │
 ├── memory/
 │   └── semantic.json
@@ -1405,63 +1341,57 @@ novel-name.nfpack/
     └── source_map.json
 ```
 
-这是 V4 最重要的“结构化结果导出”。
-
 ---
 
-# 20. Export Ownership
+# 33. Artifact Ownership
 
-每一个 artifact 必须带：
+所有 artifact 必须带足够 ownership metadata：
 
 ```text
-novel_id
 project_id
+novel_id
 revision
 created_at
 source_ids
 ```
 
-导出时：
+但最终用户可见的大纲文档不得泄漏内部机器字段。
 
-```text
-export(novel_id)
-```
-
-只能获取属于该 novel 的数据。
-
-彻底解决 V3 中 historical data 混入其他作品的问题。
+内部 metadata 和可读交付物必须分离。
 
 ---
 
-# 21. Delivery Validator
+# 34. Delivery Validator
 
-Export 之前检查：
+Export 前检查：
 
-- 是否有未处理 blocker
-- 内部 ID 是否泄漏
-- 是否存在 placeholder name
-- 是否存在机器枚举
-- 章节是否缺失
+- 是否有 unresolved blocker
+- 是否有内部 ID 泄漏到用户文档
+- 是否有 placeholder
+- Story Blueprint 是否结构完整
+- Character Arc 是否断裂
+- Scene 是否缺少 purpose / conflict / turn / outcome
+- 是否存在明显重复剧情功能
+- setup 是否无 payoff
+- payoff 是否无 setup
+- 时间线是否冲突
 - StoryState 是否一致
-- 章节标题是否大面积语义重复
 - 是否混入其他 novel 数据
-- 文档标题是否统一
-- 是否含调试字段
 - source trace 是否完整
+- debug 字段是否泄漏
 
 ---
 
-# 22. UI V4 简化
-
-V4 UI 不再不断增加 Tab。
+# 35. UI V4
 
 普通用户建议只看到：
 
 ```text
 创造
 世界
+人物
 故事
-写作
+场景
 检查
 ```
 
@@ -1472,16 +1402,42 @@ V4 UI 不再不断增加 Tab。
 设置
 ```
 
-Advanced Tools 独立隐藏。
+可进一步压缩成：
+
+```text
+创造
+世界
+故事
+大纲
+检查
+```
+
+Advanced Tools 单独隐藏。
+
+原“写作”Tab 不再以正文编辑器为中心，应改为：
+
+```text
+大纲 / Blueprint / Story Studio
+```
 
 ---
 
-# 23. Agent Mode
+# 36. Agent Mode
 
-UI 中建议增加：
+Agent 可以：
 
 ```text
-Agent Session
+读取项目
+分析故事结构
+读取 Canon / StoryState
+提出大纲计划
+生成或修改 Blueprint 节点
+执行 Quality 检查
+提出 Repair Plan
+等待确认
+定向修订
+重新验证
+导出 Story Blueprint
 ```
 
 用户可以看到：
@@ -1489,9 +1445,9 @@ Agent Session
 ```text
 Agent 正在做什么
 调用了哪个 MCP Tool
-修改了哪些数据
+修改了哪些 Blueprint 节点
 调用了哪个模型
-花费了多少 Token
+Token / Cost
 发现了哪些问题
 进行了哪些修订
 ```
@@ -1507,9 +1463,9 @@ Rollback
 
 ---
 
-# 24. Observability
+# 37. Observability
 
-每一次 AI 操作记录：
+每次 AI 操作记录：
 
 ```text
 request_id
@@ -1521,150 +1477,110 @@ input_tokens
 output_tokens
 latency
 cost
-prompt_contract
+contract_version
 context_refs
 quality_result
 revision_before
 revision_after
+changed_nodes
 ```
 
-默认不要永久保存完整敏感 Prompt。
+默认不永久保存完整敏感 Prompt。
 
 支持 debug mode。
 
 ---
 
-# 25. 成本控制
+# 38. 成本控制
 
-V4 必须支持预算。
-
-例如：
+支持：
 
 ```text
 Novel Budget
 Daily Budget
 Operation Budget
+Repair Loop Budget
 ```
 
 达到预算：
 
 ```text
 stop
-或
-降级模型
+或降级模型
+或只执行 deterministic checks
 ```
 
-Context Builder 应优先检索相关信息，而不是无限扩大 prompt。
+Context Builder 优先检索相关事实，避免无限扩大上下文。
 
 ---
 
-# 26. Cache
+# 39. Cache
 
-只缓存可安全缓存的结果：
+适合缓存：
 
 - embeddings
 - summaries
 - immutable entity description
-- evaluation result
+- deterministic evaluation result
+- revision-stable critic result
 
 不建议缓存：
 
-- 当前 StoryState 驱动的正文生成
+- 当前 StoryState / Blueprint revision 驱动的生成结果
 
 除非 revision 完全一致。
 
-Cache key 必须包含：
+Cache key 至少包含：
 
 ```text
 novel_id
 revision
-contract version
+contract_version
 model
-context digest
+context_digest
 ```
 
 ---
 
-# 27. 数据版本
+# 40. Legacy 策略
 
-所有核心对象必须有：
+V4-00 发现大量 frozen V3 模块。
 
-```text
-revision
-```
+V4-01 不应该为了目录整齐就移动所有 frozen 文件。
 
-Agent / UI 修改时：
+正确策略：
 
 ```text
-expected_revision
+Frozen V3 Module
+        ↑
+Legacy Adapter / Compatibility Boundary
+        ↑
+V4 Service
 ```
 
-如果状态已经被其他操作更新：
+只有在对应能力完成替换、测试稳定、frozen contract 不再需要后，才删除或移动。
 
-返回 conflict。
+但作者已明确判定的废弃**数据资产**不需要保留：
 
-防止 Agent 并发覆盖。
+```text
+novel/final/*.md
+570 章 historical
+```
+
+这两类进入 V4-01 直接清理范围。
 
 ---
 
-# 28. V4 使用现有开发 MCP
+# 41. V4 开发阶段
 
-当前已有 MCP：
+## V4-00 Architecture — COMPLETED / PASS
 
-```text
-chrome-devtools
-context7
-github
-node_repl
-playwright
-shadcn
-```
-
-建议用途：
-
-| MCP | V4 开发用途 |
-|---|---|
-| context7 | 查询 FastAPI / React / Pydantic / LLM SDK / MCP SDK 最新官方文档 |
-| github | branch / PR / issue / diff / release |
-| playwright | 完整 E2E / Writer / Export / Agent flow |
-| chrome-devtools | UI / Network / Performance |
-| node_repl | JS / TS / schema 快速实验 |
-| shadcn | UI 组件体系 |
-
-这些是**开发工具**，不应成为 NovelForge runtime 的强依赖。
-
----
-
-# 29. 当前插件用途
-
-现有插件建议：
-
-| Plugin | 用途 |
-|---|---|
-| Figma | UI / 信息架构 |
-| Computer Use | 真实用户验收 |
-| Documents | DOCX 导出质量 |
-| PDF | PDF 交付验证 |
-| Visualize | Quality Dashboard |
-| Spreadsheets | QA 数据分析 |
-| Presentations | 非核心 |
-| Remotion | 非核心 |
-| Template Creator | 后续模板生态 |
-
----
-
-# 30. V4 开发阶段
-
-## V4-00 Architecture
-
-只设计，不改业务。
-
-产出：
+已完成：
 
 ```text
+V4_CODEBASE_INVENTORY.md
+V4_MODULE_CLASSIFICATION.md
 V4_ARCHITECTURE.md
-V4_MODULE_BOUNDARIES.md
-V4_BRANCH_STRATEGY.md
 V4_LLM_CONTRACT.md
 V4_MCP_SPEC.md
 V4_PLUGIN_SPEC.md
@@ -1673,24 +1589,57 @@ V4_MEMORY_ARCHITECTURE.md
 V4_EXPORT_SPEC.md
 V4_MIGRATION_PLAN.md
 V4_DELETION_PLAN.md
+V4_ARCHITECTURE_RISKS.md
+ADR-001 ... ADR-010
+```
+
+V4-00 之后需根据作者新决策更新对应 ADR / 文档：
+
+```text
+旧正文删除
+historical 删除
+Story Blueprint 成为核心交付物
+Writer → Blueprint Editor
 ```
 
 ---
 
-## V4-01 Core Cleanup
+## V4-01 Boundary Foundation & Legacy Cleanup
 
 目标：
 
-- 根据 V4-00 已完成的分类执行 KEEP / REWRITE / DELETE / MIGRATE
-- 去掉重复 Service
-- 去掉重复状态逻辑
-- 落地新的 module boundary
-- 将主要能力迁入独立目录，建立公开 Contract 与 internal 边界
-- 为后续模块任务分支准备可独立维护、可独立测试的目录结构
+```text
+先建立 V4 稳定边界
+删除明确废弃资产
+不改变核心故事生成结果
+不接入新 LLM
+```
 
-暂时不改小说生成结果。
+范围：
 
-V4-01 完成后，后续阶段原则上按模块独立分支推进，不再使用一个长期“大 V4 分支”承载所有功能。
+- 同步 V4-00 文档与作者决策
+- 删除 `novel/final/*.md`
+- 删除 570 章 historical 废弃数据
+- 删除/改写只为这些废弃数据服务的硬编码路径
+- 建立 Application Service 边界骨架
+- 收编 JourneyProjection 为唯一状态投影入口
+- 参数化 persistence/path ownership
+- 建立 revision primitive
+- 建立 legacy adapter namespace / boundary
+- 落地模块目录与 Public Contract / internal 边界
+- 为后续独立模块分支准备测试结构
+- 建立 cross-novel / cross-project contamination 防护测试（即使未来是否完整支持多作品仍未最终决定）
+
+暂时不做：
+
+```text
+LLM Gateway
+Memory V4
+Quality Loop V4
+Blueprint Generation V4
+MCP Server
+UI 大改
+```
 
 ---
 
@@ -1700,20 +1649,21 @@ V4-01 完成后，后续阶段原则上按模块独立分支推进，不再使�
 
 - Provider
 - Router
-- Structured output
+- Structured Output
 - retry
 - timeout
 - usage
 - trace
 - cache
+- contract versioning
 
 ---
 
-## V4-03 Memory
+## V4-03 Story Memory
 
 实现：
 
-- Canon Memory
+- Canon retrieval
 - Story State Memory
 - Episodic Memory
 - Semantic Memory
@@ -1722,18 +1672,25 @@ V4-01 完成后，后续阶段原则上按模块独立分支推进，不再使�
 
 ---
 
-## V4-04 Structured Generation
+## V4-04 Structured Story Blueprint
 
-先实现：
+优先实现：
 
-- Character
-- World
-- Story Arc
-- Chapter Plan
+```text
+Premise
+Character
+Character Arc
+World
+Story Arc
+Act / Volume / Arc
+Chapter Plan
+Scene Plan
+Causal Graph
+Setup / Payoff
+Timeline
+```
 
-重点首先解决：
-
-NF-003。
+重点不是“多生成内容”，而是形成稳定 Story Blueprint contract。
 
 ---
 
@@ -1742,23 +1699,34 @@ NF-003。
 实现：
 
 - Quality Contract
-- Evaluators
+- Schema / Integrity
+- Canon
+- Continuity
+- Character / Motivation
+- Causality
+- Semantic Repetition
+- Structure / Pacing
+- Setup / Payoff
 - Repair Planner
 - Targeted Repair
 - Re-evaluate
 
 ---
 
-## V4-06 Writer
+## V4-06 Blueprint Editor
 
-实现真正：
+实现真正可编辑的 Story Studio：
 
 - edit
 - save
 - revisions
-- AI rewrite
-- accept / reject
 - diff
+- restore
+- AI expand node
+- AI rewrite node
+- alternatives
+- accept / reject
+- quality issue repair entry
 
 ---
 
@@ -1767,18 +1735,17 @@ NF-003。
 实现：
 
 - ownership
-- validator
+- Delivery Validator
+- Markdown / JSON / DOCX
 - structured export
 - nfpack
-- clean markdown/docx/json
+- clean Story Blueprint deliverable
 
 ---
 
 ## V4-08 MCP Server
 
-当内部 Contracts 稳定后再暴露。
-
-实现：
+内部 Contract 稳定后再暴露：
 
 - resources
 - tools
@@ -1786,6 +1753,7 @@ NF-003。
 - permission
 - dry-run
 - revision control
+- idempotency
 
 ---
 
@@ -1799,55 +1767,32 @@ NF-003。
 
 根据稳定后端能力重构 UI。
 
+核心 UI 围绕：
+
+```text
+Story Blueprint
+Scene Cards
+Character Arcs
+Quality Issues
+Revision
+```
+
 ---
 
 ## V4-11 Agent Mode
 
-让 Agent 可以：
+让 Agent 可以完整执行：
 
 ```text
 读取项目
-分析质量
-提出计划
-执行工具
-等待确认
-修订
-导出
+→ 理解设定/角色/状态
+→ 生成 Story Blueprint
+→ 质量检查
+→ Repair
+→ Verify
+→ 人工确认
+→ 导出
 ```
-
----
-
-## V4 阶段与推荐主模块分支
-
-V4-01 之后，阶段编号仍表示产品开发顺序，但代码实现尽量按模块拆分分支。
-
-建议：
-
-| 阶段 | 主模块 | 推荐分支 | 默认主要目录 |
-|---|---|---|---|
-| V4-02 | LLM Gateway | `v4/02-llm-gateway` | `ai/` |
-| V4-03 | Memory | `v4/03-memory-*` | `memory/` |
-| V4-04 | Structured Generation | `v4/04-generation-*` | `generation/` |
-| V4-05 | Quality | `v4/05-quality-*` | `quality/` |
-| V4-05 | Repair | `v4/05-repair-*` | `repair/` |
-| V4-06 | Writer | `v4/06-writer-*` | Writer 对应独立模块目录 |
-| V4-07 | Delivery / Export | `v4/07-export-*` | Export 对应独立模块目录 |
-| V4-08 | MCP | `v4/08-mcp-*` | `mcp/` |
-| V4-09 | Plugins | `v4/09-plugins-*` | `plugins/` |
-| V4-10 | UI | `v4/10-ui-*` | frontend / UI 目录 |
-| V4-11 | Agent Mode | `v4/11-agent-*` | Agent orchestration / adapter 目录 |
-
-一个阶段允许多个并行分支，但每个分支必须有清晰模块所有权。
-
-跨模块集成建议使用短生命周期 integration branch，例如：
-
-```text
-v4/integration-memory-generation
-v4/integration-quality-repair
-v4/integration-mcp-services
-```
-
-Integration branch 只负责验证 Contract 对接和解决必要冲突，不应继续开发新的模块内部功能。
 
 ---
 
@@ -1857,11 +1802,11 @@ Integration branch 只负责验证 Contract 对接和解决必要冲突，不应
 
 ```text
 Fresh Clone
-Fresh Novel
+Fresh Project / Novel
 UI E2E
 MCP E2E
 Agent E2E
-Writer
+Blueprint Editor
 Memory
 Quality Loop
 Export
@@ -1872,45 +1817,85 @@ Concurrent Revision
 Module Contract Tests
 Cross-module Dependency Check
 Parallel Branch Integration
+Legacy data absence
+No historical leakage
+No obsolete final正文 dependency
 ```
 
 ---
 
-# 31. V4 的完成定义
+# 42. V4 阶段与推荐模块分支
 
-V4 不是：
+| 阶段 | 主模块 | 推荐分支 | 主要责任 |
+|---|---|---|---|
+| V4-01 | Boundary | `v4-01-boundary-foundation` | Service / path / revision / legacy boundary |
+| V4-02 | LLM | `v4-02-llm-gateway` | LLM Gateway |
+| V4-03 | Memory | `v4-03-memory-*` | Story Memory / Context |
+| V4-04 | Blueprint | `v4-04-blueprint-*` | Structured Story Blueprint |
+| V4-05 | Quality | `v4-05-quality-*` | Evaluators |
+| V4-05 | Repair | `v4-05-repair-*` | Targeted Repair |
+| V4-06 | Editor | `v4-06-blueprint-editor-*` | Story Studio |
+| V4-07 | Delivery | `v4-07-delivery-*` | Export / Validator |
+| V4-08 | MCP | `v4-08-mcp-*` | MCP Adapter |
+| V4-09 | Plugins | `v4-09-plugins-*` | Plugin Platform |
+| V4-10 | UI | `v4-10-ui-*` | UI |
+| V4-11 | Agent | `v4-11-agent-*` | Agent orchestration |
+
+---
+
+# 43. 模块级测试要求
+
+每个主要模块至少区分：
 
 ```text
-API 接上了
+Unit Test
+Contract Test
+Integration Test
+E2E Test
 ```
 
-就算完成。
+原则：
 
-必须满足：
+```text
+Memory 测试不要求启动 React
+Quality 测试不要求启动 MCP
+LLM Router 测试不要求写生产数据库
+MCP schema 测试不负责故事质量
+Blueprint generation 测试使用明确 fixture
+```
+
+废弃 historical 不再作为隐式测试 fixture。
+
+---
+
+# 44. V4 完成定义
 
 ## Agent Ready
 
 外部 Agent 能通过 MCP 完成：
 
 ```text
-创建作品
+创建项目/作品
 → 设定
 → 人物
+→ 人物弧
 → 世界
-→ 大纲
-→ 质量检查
-→ 修订
-→ 写作
-→ 导出
+→ 故事弧
+→ 章节大纲
+→ 场景大纲
+→ Quality
+→ Repair
+→ Verify
+→ 导出 Story Blueprint
 ```
 
-不用操作浏览器。
+无需操作浏览器。
 
 ---
 
 ## Quality Closed Loop
 
-内容不是：
+不是：
 
 ```text
 Generate → Save
@@ -1919,22 +1904,40 @@ Generate → Save
 而是：
 
 ```text
-Generate → Evaluate → Repair → Verify → Save
+Generate → Evaluate → Repair → Verify → Revision Save
 ```
 
 ---
 
 ## Memory
 
-生成第 N 章时可以正确检索：
+生成任意 Story Blueprint 节点时能够正确检索：
 
 - 相关人物
-- 最近剧情
-- 已发生事实
+- 相关人物弧
+- 最近剧情状态
+- Canon
+- StoryState
 - 未完成伏笔
+- setup/payoff
 - 作者偏好
 
-不需要整本小说全部塞给模型。
+不需要加载废弃 historical 或完整正文。
+
+---
+
+## Blueprint Editor
+
+作者能够：
+
+```text
+直接编辑节点
+查看 Diff
+恢复 Revision
+接受/拒绝 AI 修改
+查看 Quality Issue
+定向 Repair
+```
 
 ---
 
@@ -1942,99 +1945,84 @@ Generate → Evaluate → Repair → Verify → Save
 
 最终结果：
 
-- 只属于当前小说
-- 不带内部机器字段
-- 不带其他小说历史数据
-- 结构完整
+- 只属于当前目标作品
+- Story Blueprint 结构完整
+- 不带旧 historical
+- 不带废弃正文
+- 不带内部调试字段
 - 可追溯
-- 可以交给其他 Agent / 工具继续处理
+- 可以交给其他 Agent / Writer / Screenplay Tool 继续处理
 
 ---
 
-# 32. V4 最重要的三个架构边界
+# 45. V4 最重要的四个边界
 
 ## 1. LLM 不是数据库
 
-模型生成内容。
-
-NovelForge 保存事实。
-
----
-
 ## 2. MCP 不是业务层
 
-MCP 只是协议入口。
+## 3. Quality 是正式业务能力
 
-UI / REST / MCP 必须调用同一 Service。
+## 4. Story Blueprint 是核心创作产物
+
+正文生成如果未来重新加入，应作为：
+
+```text
+下游能力 / Plugin / External Agent Workflow
+```
+
+而不是重新侵入 V4 Core。
 
 ---
 
-## 3. Quality 不是测试脚本
+# 46. 尚未完全冻结、但不阻塞 V4-01 的决策
 
-Quality 是正式业务架构。
-
-每一个生成产物都有：
+V4-00 中以下问题仍可后续定案：
 
 ```text
-quality status
-quality issues
-quality evidence
-repair history
+novel/runs 的长期保留策略
+novel/pipelines 中哪些旧能力最终保留
+novel/learning 的最终产品定位
+是否把“多作品”作为长期 UI 产品能力
 ```
+
+但 V4-01 必须先满足一个最低不变量：
+
+```text
+任何 artifact、state、export、cache 不得通过全局硬编码路径隐式混入其他作品/历史数据。
+```
+
+即使最终 UI 只支持一个 active novel，底层也不得依赖“磁盘上只有一个作品”这一假设。
 
 ---
 
-## 4. 模块目录就是维护边界
+# 47. V4 最终目标
 
-V4 不允许再次形成“所有功能都能互相直接调用”的大应用结构。
-
-原则：
+NovelForge V4 最终应成为：
 
 ```text
-模块拥有自己的目录
-模块拥有自己的内部实现
-模块通过公开 Contract 与其他模块协作
-模块的数据所有权必须明确
-模块应尽量可以独立测试
-模块应尽量可以由独立任务分支维护
-```
-
-Git 分支不是架构边界本身，但代码结构必须支持：
-
-```text
-多个 Agent / 多个开发者
-在不同模块分支并行工作
-并通过稳定 Contract 最后集成
-```
-
-如果一个模块任务经常必须修改大量其他模块内部文件，说明模块边界需要重新设计。
-
----
-
-# 33. V4 最终目标
-
-最终 NovelForge 应从：
-
-```text
-小说生成软件
-```
-
-升级成：
-
-```text
-Novel Creation Runtime
+Story Blueprint Runtime
 +
 Story State Engine
 +
-Long-term Memory
+Long-term Story Memory
 +
 LLM Orchestrator
 +
-Quality Engine
+Narrative Quality Engine
++
+Targeted Repair Engine
++
+Blueprint Editor
 +
 MCP Server
 +
 Plugin Platform
 ```
 
-这样 Codex、ChatGPT、Claude 或其他 Agent 都可以把 NovelForge 当作小说创作系统直接调用，而不是只能通过浏览器模拟用户点击。
+它的主要价值不是替作者把小说正文全部写完，而是：
+
+```text
+把一个故事从创意
+逐步推演成结构清晰、因果成立、人物连续、场景有效、伏笔可追踪、可以直接继续创作的高质量故事蓝图。
+```

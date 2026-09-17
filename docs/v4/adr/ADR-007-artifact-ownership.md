@@ -32,7 +32,17 @@ story_engine/historical_ir.py       HISTORY_DIR = "workspace/wasteland_001_expor
 4. 归属不明或跨作品的数据默认不可读/不可导出；只能在显式 `legacy` 命名空间中访问。
 5. 移除关键词启发式归属判断，改为显式绑定。
 
-## Open question（产品决定）
+## 作者决策更新（V4-01）
+
+```text
+novel/final/*.md        → DELETE（不迁移、不归档、不导入为 revision）
+570 章 historical 数据   → DELETE（不导入、不做 fixture、不进 legacy/）
+```
+
+V4-01 起本 ADR 不再有「无 owner 手稿如何归属」的待决项：这两类资产被作者判定为**废弃**，
+直接删除；对应代码路径必须同步移除，而不是保留为 fallback（见 `V4_DELETION_PLAN.md` §2.1）。
+
+## Open question（产品决定，仍未定）
 
 ```text
 project_id 与 novel_id 的最终关系：
@@ -41,6 +51,12 @@ project_id 与 novel_id 的最终关系：
 ```
 
 两种方案都会在 V4-01 建立兼容读取（同值映射），差别在于 MCP resource 树与导出包结构的最终形状。
+V4-01 的**最低不变量**（无论最终选哪个方案）：
+
+```text
+任何 artifact / state / export / cache 不得通过全局硬编码路径
+隐式混入其他作品或已删除的历史数据。
+```
 
 ## Consequences
 
@@ -58,4 +74,3 @@ src/novelforge/story_engine/historical_ir.py:41           wasteland 历史目录
 src/novelforge/story_builder/sessions.py:91               project_id 命名
 docs/V3_FINAL_FREEZE.md                                   NR-002 记录
 ```
-

@@ -1,7 +1,17 @@
 # NovelForge V4 — Memory Architecture（设计稿）
 
-> 状态：**V4-00 Architecture / Proposed — 只设计，不实现**
+> 状态：**V4-00 Architecture / Proposed**，已按 **V4-01 作者决策**对齐（2026-09-17）
 > 依据：`docs/v4/V4_ARCHITECTURE.md` §4（`memory/*` 只允许依赖 persistence 只读 + ai.gateway）、§6
+
+### 0.1 V4-01 对齐
+
+```text
+记忆服务的对象 = Story Blueprint 节点 + StoryState + Canon（正文不再是核心对象，ADR-011）
+Episodic Memory 来源改为：Blueprint 节点 revision + StoryState effect_log
+                         （原计划为"章节 revision / 正文"，正文已删除）
+生成第 N 章上下文 = Blueprint 的 Chapter/Scene 节点 + 相关 episodic + Canon + StoryState
+                    + 未完成 setup/payoff + 人物弧位置 + 作者结构偏好
+```
 
 ---
 
@@ -268,4 +278,3 @@ Export   ← ExportService 只读 truth + 显式允许的派生分区
 [ ] 上下文规模与 token 数有预算上限，且超限时按相关性裁剪（有测试）
 [ ] Canon 路径按 novel_id 参数化（非 wasteland_001 作品可正确检索）
 ```
-

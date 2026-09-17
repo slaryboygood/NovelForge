@@ -1,8 +1,20 @@
 # NovelForge V4 — Quality Contract（设计稿）
 
-> 状态：**V4-00 Architecture / Proposed — 只设计，不实现**
+> 状态：**V4-00 Architecture / Proposed**，已按 **V4-01 作者决策**对齐（2026-09-17）
 > 依据：`docs/v4/V4_ARCHITECTURE.md` §1.3、§4、§5；CHALLENGE-08
 > 原则：**Quality 是业务能力，不是测试脚本。**
+
+### 0.1 V4-01 对齐
+
+```text
+质量对象 = Story Blueprint 节点（Premise / Character Arc / Scene Card / Setup-Payoff / ...）
+不再以"小说正文的文学质量"为质量目标（正文非 V4 Core，ADR-011）。
+Q9 Delivery 校验对象 = Story Blueprint 交付物（结构完整性 / 内部字段泄漏 / 跨作品混入 /
+                      setup 无 payoff / Scene 缺 purpose-conflict-turn-outcome）。
+```
+
+与原文档的差异：原文 §5 的示例 issue 使用 chapter 字段；V4-04 起
+质量契约的 scope 以 Blueprint 节点为主（chapter / scene 作为子作用域保留）。
 
 ---
 
@@ -272,4 +284,3 @@ Export → 交付前必须拿到 status != failed 的 QualityResult（Q9）
 [ ] 未通过 Q9 的产物无法导出（有测试）
 [ ] M11 frozen repair contract / gate 未被引用或修改（有守卫测试）
 ```
-

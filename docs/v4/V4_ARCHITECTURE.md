@@ -1,9 +1,36 @@
 # NovelForge V4 — Target Architecture
 
-> 状态：**V4-00 Architecture / Proposed**
+> 状态：**V4-00 Architecture / Proposed**，已按 **V4-01 作者决策**对齐（2026-09-17）
 > 基线：`novelforge-product-v3-final`（commit `f02ca8c`）
 > 输入证据：`docs/v4/V4_CODEBASE_INVENTORY.md`、`docs/v4/V4_MODULE_CLASSIFICATION.md`
 > 本文只定义架构。**不含任何业务代码改动**；`Status: Proposed` 的部分明确标注。
+
+---
+
+## 0.A V4-01 作者决策对齐（覆盖本文以下相关段落）
+
+作者在 V4-01 冻结了三项决策，**优先级高于本文 V4-00 的对应假设**：
+
+```text
+Decision A  novel/final/*.md        → DELETE（不迁移 / 不归档 / 不导入）
+Decision B  570 章 historical 数据  → DELETE（不导入 / 不做 fixture / 不进 legacy/）
+Decision C  canonical creative artifact = StoryBlueprint（不是正文 draft）
+            Writer → Blueprint Editor / Story Studio
+            Draft 不再是核心 artifact；完整正文生成非 V4 Core
+```
+
+受影响段落（阅读时以本节为准）：
+
+| 位置 | V4-00 原假设 | V4-01 修正 |
+| --- | --- | --- |
+| §3 目录树 `persistence/writer_store.py` | canonical writer store（正文） | canonical **Blueprint** store；正文 draft 仅为兼容层 |
+| §3 目录树 `application/services/writer_service.py` | 写作 / 草稿 / revision | **Blueprint Editor** 服务（结构节点编辑，非正文） |
+| §6 ownership 表「正文的 source of truth」 | `ChapterRevision` 正文链 | **StoryBlueprint** 是 canonical creative artifact；正文不再有 owner 概念 |
+| §6 ownership 表「Export 从哪里读取」 | 含 writer revision | 只读 Blueprint / Canon / StoryState（无正文分区） |
+| §7 revision 模型 | 主要服务正文 | 服务 Blueprint 节点 / StoryState / Quality-Repair / Agent mutation |
+| §9 DoD「正文 source of truth」 | 待建 ChapterRevision | 改为「Blueprint 的来源与版本」；正文问题作废 |
+
+详见 `docs/v4/adr/ADR-011-story-blueprint-primary-artifact.md`（ADR-003 已被其取代）。
 
 ---
 
@@ -257,7 +284,8 @@ src/novelforge/
 │   │   ├── creation_service.py     # 创意 / 设定 / 自检（现 creative + settings_gen + settings_check）
 │   │   ├── simulation_service.py   # 推演（现 driver + candidates + director）
 │   │   ├── outline_service.py      # 四级大纲（现 outline_forge + outline_revision）
-│   │   ├── writer_service.py       # 写作 / 草稿 / revision（现 writer_integration）
+│   │   ├── blueprint_service.py    # Blueprint 节点编辑 / revision（原 writer_integration；
+│   │   │                           #   正文 draft 仅保留为兼容预览，非核心 artifact）
 │   │   ├── review_service.py       # 检查 / 修复（现 inspector + 新 Quality）
 │   │   ├── export_service.py       # 唯一导出出口（现 export_package）
 │   │   ├── journey_service.py      # JourneyProjection 唯一计算入口（现 v3_projection._journey_projection）
@@ -315,7 +343,8 @@ src/novelforge/
 ├── persistence/                # 基础设施：唯一允许碰文件系统 / SQLite 的地方
 │   ├── story_state.py          # [已存在 storage.py]
 │   ├── profile.py / content_pack.py / session.py / blueprint.py / outline.py
-│   ├── writer_store.py         # canonical writer store（唯一）
+│   ├── blueprint_store.py      # canonical Story Blueprint store（唯一）
+│   ├── writer_store.py         # 兼容层：既有 writer draft（preview，不再作为 canonical artifact）
 │   ├── canon_repo.py           # [已存在 canon/repository.py]
 │   ├── planning_repo.py        # [已存在 planning/repository.py]
 │   └── paths.py                # 所有路径常量的唯一来源（消灭模块级硬编码单作品路径）
@@ -434,7 +463,7 @@ Legacy       → 不允许被新的写路径依赖
 | **MCP 边界** | MCP 只是协议；tool 调 service；统一 Result Envelope | 不存在 | V4-08 新建 |
 | **Plugin 边界** | 插件通过 Registry 注册，声明 capability，经 Port 访问核心 | 不存在 | V4-09 新建 |
 | **Revision 边界** | 每个 artifact 带 `revision`；写操作带 `expected_revision` | blueprints / outlines / planning / StoryState 各自实现 | V4-01 统一语义 |
-| **Ownership 边界** | 每个 artifact 带 `project_id` / `novel_id` / `revision` / `created_at` / `source_ids` | `wasteland_001` 硬编码于 4 个模块；`novel/final/*.md` 无 owner | V4-01 + V4-07 |
+| **Ownership 边界** | 每个 artifact 带 `project_id` / `novel_id` / `revision` / `created_at` / `source_ids` | `wasteland_001` 曾硬编码于 4 个模块；`novel/final/*.md` 与 570 章 historical 已由 V4-01 删除 | V4-01（已落地路径边界）+ V4-07 |
 
 ---
 
@@ -442,24 +471,25 @@ Legacy       → 不允许被新的写路径依赖
 
 | 问题 | 答案（V4） | 当前 V3 事实 | 迁移动作 |
 | --- | --- | --- | --- |
-| **正文的 source of truth 是什么？** | `persistence.writer_store` 中的 `ChapterRevision`（`revision` + `status` + `source_ids` + `author_accepted`）。`novel/final/*.md` 不是，除非作者把它导入为 revision 0 | **不存在正文 owner**：产品只写 `writer/<novel_id>/drafts/*.json`（preview）；`novel/final/*.md` 无 owner（`historical_ir._has_wasteland_entities()` 仅作启发式防护） | V4-06 Writer：建立 `ChapterRevision` 与导入路径 |
+| **canonical creative artifact 是什么？** | **`StoryBlueprint`**（Premise / Characters / Arcs / Scene Cards / Causal Graph / Setup-Payoff / Quality / Revision）。正文不是 canonical artifact（V4-01 决策 C） | 当前没有 Blueprint 模型；最接近的是 `OutlinePackage`（四级大纲）+ `ChapterSemanticIR` + `StoryPlanningIR` | V4-04 建立 Blueprint contract；V4-06 Blueprint Editor |
+| **正文还归谁管？** | **不属于 V4 Core**。`WriterDraftService` 的 preview 草稿仅作兼容保留；`novel/final/*.md` 已删除 | `novel/final/*.md`（69 个 tracked 文件）已由 V4-01 删除；`writer/<novel_id>/drafts/*.json` 保留为 preview | 无（正文能力若需要，走 Plugin / 下游 Agent） |
 | **StoryState 谁拥有？** | `persistence.story_state`（现 `story_engine/storage.py`），唯一写入口 `ActionResolver` | 已成立 | 保持；补 `expected_revision` |
 | **Canon 谁拥有？** | `persistence.canon_repo`（现 `canon/repository.py`），唯一允许写 SQL 处；`CanonService` 管稳定身份生命周期 | 已成立，但 DB 路径按作品硬编码 | V4-01 参数化 `novel_id` |
 | **Journey 谁计算？** | `application.services.journey_service` 的**唯一** `JourneyProjection`；Landing / Command Center / API / MCP 全部消费它 | `v3_projection._journey_projection()` 已是唯一入口；但 `ui_flow.py` 另有一套 stage / next-step | V4-01 收敛为 1 个投影 |
-| **Export 从哪里读取？** | `ExportService` 只通过 repository 读：profile / content pack / StoryState / outline / canon（按 `novel_id`）/ writer revision；**不再有全局 hardcode 路径** | `export_package.build_export_projection()` 混用 5 类来源 + 3 个硬编码路径 | V4-07 重构 |
+| **Export 从哪里读取？** | `ExportService` 只通过 repository 读：profile / content pack / StoryState / outline / canon（按 `novel_id`）/ Blueprint 节点；**不再有全局 hardcode 路径，也不含历史分区** | `export_package.build_export_projection()` 曾混用 5 类来源 + 3 个硬编码路径（V4-01 已移除历史分区与单作品路径） | V4-07 重构为 Story Blueprint Package |
 | **What does the model see?** | `memory.context_builder` 按 contract 构建上下文（对应第 N 章：chapter plan + 最近 3 章 episodic + 相关角色/地点 + 当前 StoryState + 相关 Canon + 未完成伏笔 + 作者偏好） | `WriterContextBuilder` 的 6 层 block + 去重 + 预算 40 已经很接近 | V4-03 提升并参数化 |
 
 ### 6.1 Canonical 与非 canonical 对照
 
 ```text
 canonical（唯一）
+  StoryBlueprint      → 核心创作产物（V4 目标；承载 Premise / Arc / Scene / Setup-Payoff）
   StoryState          → 已发生事实
   Canon (sqlite)      → 稳定事实身份 + lineage
-  ChapterSemanticIR   → 章节机器语义
+  ChapterSemanticIR   → 章节机器语义（Blueprint 的结构子集）
   StoryPlanningIR     → 规划 revision
   OutlinePackage      → 四级大纲
   ContentPack         → 起点世界事实声明
-  ChapterRevision     → 正文（V4 新增）
 
 derived（可重建，永远不是 truth）
   JourneyProjection / 所有 *_view / Command Center DTO
@@ -467,9 +497,12 @@ derived（可重建，永远不是 truth）
   memory/*（episodic / semantic / embeddings）
   QualityResult / 报告 / 统计
 
-quarantined（只读、冻结）
-  workspace/wasteland_001_exports/**（570 章 IR / M11 证据）
-  novel/final/**（无 owner 手稿，待作者裁定）
+compatibility-only（非核心，保留但不再扩展）
+  writer/<novel_id>/drafts/*.json（预览草稿；非 canonical artifact）
+
+V4-01 已删除（作者判定为废弃资产）
+  novel/final/**（69 个 tracked 正文文件）
+  workspace/wasteland_001_exports/**（570 章 historical / M11 证据 / 旧导出）
 ```
 
 ---
@@ -539,7 +572,7 @@ Result Envelope（REST / MCP 同构）
 | DoD 问题 | 答案所在 |
 | --- | --- |
 | V4 每一层负责什么？ | 本文 §3、§4.1 |
-| 正文 source of truth / StoryState / Canon / Journey / Export 归属？ | 本文 §6 |
+| canonical artifact（StoryBlueprint）/ StoryState / Canon / Journey / Export 归属？ | 本文 §6 + §0.A |
 | 业务代码如何用模型但不依赖 provider？ | 本文 §4.1 + `V4_LLM_CONTRACT.md` |
 | 生成第 N 章时上下文从哪来？ | `V4_MEMORY_ARCHITECTURE.md` §5 |
 | 失败后谁发现 / 计划 / 执行 / 验证？ | `V4_QUALITY_CONTRACT.md` §7 |
@@ -564,4 +597,3 @@ Proposed（需要作者确认后才开工）：
 不得在 V4-00 期间执行：
   任何代码移动、重命名、删除、migration
 ```
-

@@ -1,9 +1,23 @@
 # NovelForge V4 — MCP Spec（设计稿）
 
-> 状态：**V4-00 Architecture / Proposed — 只定义协议，不实现 server**
+> 状态：**V4-00 Architecture / Proposed**，已按 **V4-01 作者决策**对齐（2026-09-17）
 > 依据：`docs/v4/V4_ARCHITECTURE.md` §1.2、§4、§5（MCP 边界）
 > 硬约束：**MCP 不是业务层。** 每个 tool 必须调用 `application.services`，
 > 禁止直接 import `domain.*` / `persistence.*` 或读写文件。
+
+### 0.1 V4-01 对齐
+
+```text
+Resource 根对象 = Story Blueprint（/blueprint、/scenes、/quality），不是正文
+Tools：generate_draft / continue_draft / rewrite_text 不再作为 V4 核心 tool
+       （改为 expand_blueprint_node / rewrite_blueprint_node / save_revision）
+```
+
+| 位置 | V4-00 原文 | V4-01 修正 |
+| --- | --- | --- |
+| §3.3 资源清单 | 含 `/chapters/{id}/revisions`（正文 revision） | 改为 `/blueprint`、`/scenes`；正文 revision 资源移除 |
+| §4.2 Tool 清单 #Writer | `generate_draft` / `continue_draft` / `rewrite_text` / `save_revision` | 改为 Blueprint 节点级：`expand_blueprint_node` / `rewrite_blueprint_node` / `save_revision` / `restore_revision` |
+| §9 阶段顺序 | V4-07 ownership + DeliveryValidator | 不变（V4-01 已完成路径/ownership 参数化与历史数据删除） |
 
 ---
 
@@ -325,4 +339,3 @@ V4-08  MCP server（此时 tool 实现体 ≤ 3 行）
 [ ] fallback 出现在 warnings（不静默）
 [ ] MCP 层不存在任何业务规则（源码守卫测试）
 ```
-

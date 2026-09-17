@@ -49,11 +49,13 @@ powershell -File scripts/bootstrap_dev.ps1 -SkipTests
 npm.cmd --prefix ui install
 ```
 
-关于模型：当前版本（NovelForge Product V3.0）**所有生成都是本地确定性流程**
-（题材 / 基调 / 卖点候选、设定候选、章纲），产品路径没有接入任何 LLM provider。
-`.env.example` 里的 `DEEPSEEK_API_KEY` / `ARK_API_KEY` 目前不会被使用——配置它们
-与不配置**行为完全一致**（响应里的 `source` 恒为 `rule`，`notes` 含 `AI_UNAVAILABLE`）。
-模型接入属于后续版本能力，届时会同时更新 README、`.env.example` 与 UI 文案。
+关于模型：V4-02 起所有模型调用统一经过 `src/novelforge/ai`（LLM Gateway：contract /
+router / provider / 结构化输出 / retry / timeout / usage / trace / cache）。
+但**默认不启用任何 provider**（`novel/config/ai/providers.json` 全部 `enabled=false`），
+因此开箱行为仍然是「不调用模型」：题材 / 基调 / 卖点候选、设定候选、章纲等生成
+依旧是本地确定性流程（响应的 `source` 恒为 `rule`，`notes` 含 `AI_UNAVAILABLE`）。
+要接模型，按 `.env.example` 的说明启用 provider 并配置对应环境变量；
+boundary 说明见 `docs/v4/V4_LLM_CONTRACT.md` 与 `docs/v4/adr/ADR-012-unified-llm-gateway.md`。
 
 ## 启动
 

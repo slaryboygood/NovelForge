@@ -17,6 +17,8 @@
 | [ADR-009](ADR-009-plugin-db-isolation.md) | Plugin DB Isolation | Proposed | V4-09 |
 | [ADR-010](ADR-010-structured-generation.md) | Structured Generation | Proposed | V4-04 |
 | [ADR-011](ADR-011-story-blueprint-primary-artifact.md) | Story Blueprint Is The Primary Creative Artifact | **Accepted**（V4-01 作者决策） | V4-01 起 |
+| [ADR-012](ADR-012-unified-llm-gateway.md) | Unified LLM Gateway | **Accepted**（V4-02 实施完成） | V4-02 起 |
+| [ADR-013](ADR-013-provider-config-and-secret-boundary.md) | Provider Configuration And Secret Boundary | **Accepted**（V4-02 实施完成） | V4-02 起 |
 
 ## 已被作者裁定的决策（原待决项）
 

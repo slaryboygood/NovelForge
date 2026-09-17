@@ -1,8 +1,31 @@
 # NovelForge V4 — LLM Contract（设计稿）
 
-> 状态：**V4-00 Architecture / Proposed — 只设计，不实现**
+> 状态：**V4-00 设计 / V4-02 已实施**（实现差异见 §13）
 > 依据：`docs/v4/V4_ARCHITECTURE.md` §4、§5（LLM 边界）
 > 硬约束：**业务 Service 不允许直接调用模型 SDK 或 HTTP 端点。**
+
+### 0.1 V4-02 实施状态
+
+```text
+已实施（src/novelforge/ai/）：
+  LLMGateway / LLMResult / LLMContract / PromptSpec / ValidationPolicy
+  ModelPolicy / ModelRoute / ModelRouter
+  LLMProvider 协议 + OpenAICompatibleProvider（配置驱动，不按厂商复制）
+  ProviderConfig / ModelSpec / ProviderRegistry / resolve_secret / redact_secrets
+  StructuredOutput（JSON fence 剥离 + strict 解析 + schema 校验）
+  RetryPolicy（可重试分类 + 上限 + 可注入 sleep）
+  UsageRecord / TraceRecord / InMemoryModelTraceStore / JsonlModelTraceStore
+  CacheKey / InMemoryCache（保守默认：contract 未声明 cacheable 就不缓存）
+  errors（LLMError 家族）/ factory / legacy_support
+  application.services.utility（最小 app-services → ai 集成路径）
+
+尚未实施（后续阶段）：
+  provider 级 max_retries 与 contract attempts 的联动（当前 attempts 只由 contract 决定）
+  落盘缓存 / revision-aware 缓存（revision 已进 cache key）
+  embedding / summary 专用 contract（V4-03 Memory）
+  成本预算闸门（Novel / Daily / Operation Budget，V4-05 / V4-07）
+  业务 prompt 模板库（V4-04 才设计故事 prompt）
+```
 
 ---
 
@@ -294,7 +317,9 @@ api key（永不记录，永不写入任何 artifact）
 
 | V3 现状 | V4 动作 | 阶段 |
 | --- | --- | --- |
-| `spec/llm.py`（urllib + 硬编码端点 + SYSTEM_PROMPT） | 拆为 `ai/providers/deepseek.py`（transport）+ `ai/contracts.py`（prompt 模板）+ gateway 调用 | V4-02 |
+| `spec/llm.py`（urllib + 硬编码端点 + SYSTEM_PROMPT） | ✅ 改为经 `ai.legacy_support.chat_completion_via_gateway` 调用；`DEFAULT_MODEL` / `DEFAULT_ENDPOINT` 已删除 | V4-02（done） |
+| `planning/plot_synthesis.py`、`planning/route_candidates.py`（V4-02 新盘点的另外两处 urllib 调用） | ✅ 同样接入 `ai.legacy_support`；不再自带 HTTP 客户端与写死端点 | V4-02（done） |
+| `ai/providers/deepseek.py`（本文件原设计） | ❌ 不创建 —— 协议完全兼容，用配置驱动的 `openai_compatible.py` 一个 adapter 覆盖全部兼容服务 | V4-02 |
 | `creative.CreativeIdeaProvider._prompt()` / `settings_gen.SettingsProvider._prompt()` | prompt 移入 contract 注册表；业务模块只传 `contract_id` | V4-02 |
 | `ai_recommendations.AIRecommendationSupplementer` | 改为 gateway 消费者；保留「AI 只能补充既有候选」的合并规则 | V4-02 |
 | `writer.fallback_text()` / `render_scene()` | 保留为显式降级路径，必须在 Result Envelope 标记 `fallback_used`，且不得进入交付物 | V4-05 / V4-06 |
@@ -324,4 +349,3 @@ Provider 只允许看到：messages、模型名、采样参数、超时。
 [ ] provider 单测完全离线（注入 fake transport）
 [ ] 无 API key 时行为可读且不产生半成品 artifact
 ```
-

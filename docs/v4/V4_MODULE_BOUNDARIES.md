@@ -42,7 +42,7 @@ Module Tests
 | Persistence | `persistence` | 散落于各模块的 `Path(...)` | `src/novelforge/persistence/` | NEW（`paths.py`） | V4-01 |
 | Legacy Compatibility | `legacy` | `story_engine/m11_*.py` 等 | `src/novelforge/legacy/` | NEW（adapter + manifest） | V4-01 |
 | Story Engine / Domain | `domain` | `src/novelforge/story_engine/` | 保持原位（不整体移动） | EXISTS | — |
-| LLM Gateway | `ai` | `story_engine/spec/llm.py` | `src/novelforge/ai/` | DEFERRED | V4-02 |
+| LLM Gateway | `ai` | `src/novelforge/ai/` | 不变（V4-02 已落地） | **EXISTS** | V4-02 ✅ |
 | Story Memory | `memory` | 无（`story_engine/memory.py` 是知识事实，需改名） | `src/novelforge/memory/` | DEFERRED | V4-03 |
 | Blueprint Generation | `blueprint-generation` | `story_engine/{creative,settings_gen,outline_forge,journey}.py` | `src/novelforge/generation/` | DEFERRED | V4-04 |
 | Story Quality | `quality` | 9 处 validator / finding | `src/novelforge/quality/` | DEFERRED | V4-05 |
@@ -51,7 +51,7 @@ Module Tests
 | Delivery / Export | `delivery` | `story_builder/export_package.py` | `application.services.export` | DEFERRED（V4-01 建 service 入口） | V4-07 |
 | MCP Adapter | `mcp` | 无 | `src/novelforge/interfaces/mcp/` | DEFERRED | V4-08 |
 | Plugin Platform | `plugins` | 无 | `src/novelforge/plugins/` | DEFERRED | V4-09 |
-| Observability | `observability` | 无 | `src/novelforge/observability/` | DEFERRED | V4-02 → V4-07 |
+| Observability | `observability` | `src/novelforge/observability/model_trace.py` | 不变（最小实现） | **NEW** | V4-02 ✅ → V4-07 |
 | UI | `ui` | `ui/src/` | `ui/src/` | EXISTS | V4-10 |
 
 > **V4-01 只落地 5 个边界**：`core` / `app-services` / `persistence` / `legacy` +
@@ -196,6 +196,42 @@ State Ownership      纯展示状态（含 localStorage 设计态参考位）
 Module Tests         tests/browser_*.cjs
 ```
 
+### 3.7 `ai` — LLM Gateway（V4-02 落地）
+
+```text
+Public Contract
+  LLMGateway / LLMResult
+  LLMProvider / LLMRequest / ProviderResponse
+  LLMContract / PromptSpec / ValidationPolicy / ContractRegistry / resolve_contract
+  ModelPolicy / ModelRoute / ModelRouter
+  ProviderConfig / ModelSpec / ProviderRegistry / load_provider_configs /
+    resolve_secret / redact_secrets / build_gateway / build_provider
+  UsageRecord / ModelPricing / TraceRecord / TraceSink / NullTraceSink
+  CacheKey / InMemoryCache / build_cache_key / cache_allowed
+  chat_completion_via_gateway / map_legacy_error_code（legacy 桥）
+  LLMError 家族（ProviderConfigurationError / AuthenticationError / RateLimitError /
+    ProviderUnavailableError / ModelUnavailableError / RequestTimeoutError /
+    StructuredOutputError / RetryExhaustedError / InvalidRequestError）
+Internal
+  ai/providers/*（provider 实现；HTTP client 与 provider SDK 只允许在这里）
+Allowed
+  core（request_id / digest）、python stdlib、pydantic、provider SDK / HTTP library
+Forbidden
+  story_engine / story_builder（domain）、application、persistence、api、mcp、ui、
+  observability（observability 依赖 ai，而不是反向）
+State Ownership
+  调用记录（usage / trace / cache），不拥有任何 story truth
+Module Tests
+  tests/ai/**（90 个离线测试）、tests/v4/isolation/test_module_boundaries.py（边界守卫）
+Exceptions（显式登记，只减不增）
+  domain 允许在 3 个 legacy 适配器中**函数内惰性** import novelforge.ai：
+    story_engine/spec/llm.py
+    story_engine/planning/plot_synthesis.py
+    story_engine/planning/route_candidates.py
+  （登记在 tests/v4/isolation/test_module_boundaries.py 的 DOMAIN_AI_IMPORT_ALLOWLIST；
+   移除条件写在 src/novelforge/legacy/manifest.py）
+```
+
 ---
 
 ## 4. 依赖矩阵（V4-01 生效部分）
@@ -258,4 +294,3 @@ tests/v4/isolation/test_module_boundaries.py
 | `quality/*`、`memory/*`、`ai/*` | 推迟到 V4-02 / V4-03 / V4-05 | 同上 |
 | `legacy/*` 隔离区 | **V4-01 建立** | 需要明确表达"哪些 frozen 代码仍被兼容使用" |
 | `persistence/paths.py` | **V4-01 建立** | ownership 是所有后续模块的前提 |
-

@@ -11,7 +11,9 @@
 | R-11 Historical data leakage | H / H（已发生） | **已修复**：路径按 `novel_id` 参数化；历史数据与历史分区从产品导出 / inspector / writer 移除；跨作品隔离测试落地 |
 | R-16 Export contamination | H / H（已发生） | **部分修复**：导出不再含历史分区与单作品硬编码；Q9 Delivery Validator 留待 V4-07 |
 | R-15 Writer overwrite | M / H | **风险对象改变**：正文不再是 canonical artifact（ADR-011）；风险转为「Blueprint Editor 覆盖作者接受的节点」，缓解手段不变（append-only revision + proposed 状态） |
-| R-05 Prompt sprawl / R-03 LLM coupling | H / H | 未变化（V4-02 处理） |
+| R-03 LLM coupling | M / H | **已修复（V4-02）**：唯一入口 `novelforge.ai`；3 处 legacy 调用点接入 Gateway；边界由源码守卫机械验证 |
+| R-04 Provider coupling | M / M | **已修复（V4-02）**：配置驱动 `openai_compatible` adapter；核心无厂商名 / 端点 / 模型常量 |
+| R-05 Prompt sprawl | H / M | **部分缓解（V4-02）**：prompt 收进 `LLMContract.prompt`（带 contract 版本）；业务 prompt 设计属于 V4-04 |
 
 ---
 
@@ -127,6 +129,10 @@ Detection   : 换 provider 演练（用假 provider 跑通全部 contract）
 ```
 
 ### R-05 Prompt sprawl
+
+（V4-02 后状态：**部分缓解** —— prompt 只能通过 `LLMContract.prompt`（`PromptSpec`）提供，
+contract 带 id + version；legacy 适配器的 system prompt 仍是模块常量，但已登记为
+compatibility adapter。业务 prompt 模板库与 prompt 版本关联质量结果属于 V4-04。）
 
 ```text
 Probability : H（prompt 已经散落在业务模块里）

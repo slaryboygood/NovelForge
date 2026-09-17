@@ -68,6 +68,23 @@ Contracts: GenerationContract / ModelPolicy（新增）
 Tests    : tests/test_ai_gateway.py, tests/test_ai_provider_offline.py
 ```
 
+### 3.1 已登记的任务分支声明
+
+| Branch | Module | Primary Paths | Shared / Allowed | Forbidden | Contracts | Tests |
+| --- | --- | --- | --- | --- | --- | --- |
+| `v4-01-boundary-foundation` | `boundary` | `src/novelforge/{persistence,application,core,legacy}/**` | `api/story_builder_routes.py`、`story_builder/{export_package,writer_integration,inspector,ui_flow,v3_projection,novel_admin}.py`、`tests/**`、`docs/**` | frozen 历史模块内部实现、`novel/authoring/**`、release tag | `ArtifactContext` / `RevisionRef` / `LegacyManifest`（新增） | `tests/v4/**` |
+| `v4-02-llm-gateway` | `ai` | `src/novelforge/ai/**` | `core`（revision/ids 复用）、`observability/model_trace.py`、`application/services/utility.py`、`story_engine/spec/llm.py`（仅 compatibility 适配）、`tests/ai/**`、`tests/v4/isolation/test_module_boundaries.py`、`docs/v4/**` | `story_engine` 其余部分、`persistence`、`api`、UI、frozen 模块内部实现 | `LLMContract` / `ModelPolicy` / `LLMProvider` / `LLMResult`（新增） | `tests/ai/**`、`tests/v4/isolation/test_module_boundaries.py` |
+
+> V4-02 的辅助修改理由：
+>
+> ```text
+> core        ：复用 request_id / digest（避免在 ai 内重复实现 id/digest）
+> observability：新增最小 model_trace sink（Gateway 需要落 trace；不建 metrics/dashboard）
+> application ：新增 utility service 证明「app-services → ai」单向依赖（§25）
+> spec/llm.py ：legacy 直接模型调用必须收编（§24），只保留 compatibility 适配
+> config      ：新增 provider 配置示例（不含 secret，secret 只从 environment 读取）
+> ```
+
 ---
 
 ## 4. 分支规则
@@ -117,4 +134,3 @@ fix(v4):      缺陷修复
 ```
 
 每个提交都必须保持：`pytest` 默认套件可运行、无 frozen boundary 变更。
-

@@ -66,6 +66,17 @@ def test_plugin_error_message_does_not_leak_path_or_secret(tmp_path: Path) -> No
     assert "C:\\\\Users" not in audit_text
 
 
+def test_studio_trust_note_matches_plugin_contract() -> None:
+    """UI（api/studio_routes）与插件平台必须对作者说同一句信任声明。"""
+
+    from novelforge.api.studio_routes import TRUST_MODEL, TRUST_MODEL_NOTE
+    from novelforge.plugins import TRUST_MODEL as PLUGIN_TRUST_MODEL
+    from novelforge.plugins import permission_note
+
+    assert TRUST_MODEL == PLUGIN_TRUST_MODEL
+    assert TRUST_MODEL_NOTE == permission_note()
+
+
 def test_no_automatic_remote_install_surface() -> None:
     """§16：V4-09 不提供 marketplace / 下载 / pip install 能力。"""
 

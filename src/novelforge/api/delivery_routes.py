@@ -68,11 +68,22 @@ def _status_for(exc: DeliveryError) -> int:
     return 400
 
 
-def install_delivery_api(app: FastAPI, project_root: Path) -> None:
+def install_delivery_api(app: FastAPI, project_root: Path, *,
+                         exporter_registry: Any = None) -> None:
+    """装配 delivery 路由。
+
+    `exporter_registry` 由宿主注入（V4-10）：注入后交付选择能看到插件 exporter 注册的
+    format；未注入时退化为 Core 4 种格式（与 V4-07 行为一致）。
+    """
+
     router = APIRouter(prefix="/api/story-builder/delivery", tags=["delivery"])
 
+    def _export_service(novel_id: str) -> Any:
+        return ExportService(project_root, novel_id,
+                             exporter_registry=exporter_registry)
+
     def _selection(body: DeliveryBody) -> Any:
-        service = ExportService(project_root, body.novel_id)
+        service = _export_service(body.novel_id)
         from novelforge.delivery import DeliveryPolicy
 
         policy = DeliveryPolicy(
@@ -92,7 +103,7 @@ def install_delivery_api(app: FastAPI, project_root: Path) -> None:
 
     @router.post("")
     def post_delivery(body: DeliveryBody) -> dict[str, Any]:
-        service = ExportService(project_root, body.novel_id)
+        service = _export_service(body.novel_id)
         selection = _selection(body)
         return service.deliver(selection, idempotency_key=body.idempotency_key,
                                dry_run=body.dry_run)
@@ -101,24 +112,24 @@ def install_delivery_api(app: FastAPI, project_root: Path) -> None:
     def list_snapshots(novel_id: str = Query(min_length=3, max_length=96)
                        ) -> dict[str, Any]:
         return {"novel_id": novel_id,
-                "snapshots": ExportService(project_root, novel_id).delivery_snapshots()}
+                "snapshots": _export_service(novel_id).delivery_snapshots()}
 
     @router.get("/{snapshot_id}")
     def get_snapshot(snapshot_id: str,
                      novel_id: str = Query(min_length=3, max_length=96)
                      ) -> dict[str, Any]:
-        return ExportService(project_root, novel_id).delivery_snapshot(snapshot_id)
+        return _export_service(novel_id).delivery_snapshot(snapshot_id)
 
     @router.get("/{snapshot_id}/manifest")
     def get_manifest(snapshot_id: str,
                      novel_id: str = Query(min_length=3, max_length=96)
                      ) -> dict[str, Any]:
-        return ExportService(project_root, novel_id).delivery_manifest(snapshot_id)
+        return _export_service(novel_id).delivery_manifest(snapshot_id)
 
     @router.get("/{snapshot_id}/artifacts/{artifact_path:path}")
     def get_artifact(snapshot_id: str, artifact_path: str,
                      novel_id: str = Query(min_length=3, max_length=96)) -> Response:
-        service = ExportService(project_root, novel_id)
+        service = _export_service(novel_id)
         data = service.delivery_artifact(snapshot_id, artifact_path)
         manifest = service.delivery_manifest(snapshot_id)
         mime = "application/octet-stream"

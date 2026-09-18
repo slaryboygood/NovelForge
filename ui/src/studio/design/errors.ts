@@ -86,11 +86,24 @@ export function mapError(reason: unknown): StudioErrorInfo {
   const known = STUDIO_ERROR_MESSAGES[code]
   if (known) return { code, ...known }
   const raw = String(error.message ?? reason ?? '').trim()
+  // 框架内部错误（Pydantic ValidationError / traceback / KeyError）：
+  // 只给作者可理解的通用文案，不把内部异常文本透出去（§58、§92）
+  if (looksInternal(raw)) {
+    return { code: code || 'STUDIO_VALIDATION_FAILED',
+      ...STUDIO_ERROR_MESSAGES.STUDIO_VALIDATION_FAILED }
+  }
   const cleaned = sanitize(raw)
   return {
     code: code || 'STUDIO_OPERATION_FAILED',
     message: cleaned || STUDIO_ERROR_MESSAGES.STUDIO_OPERATION_FAILED.message,
   }
+}
+
+/** 判断是否属于「内部错误文本」（不得原样展示给作者）。 */
+export function looksInternal(text: string): boolean {
+  const value = String(text || '')
+  return /traceback|validation error|field required|value_error|keyerror|typeerror|attributeerror|pydantic|stack trace/i
+    .test(value)
 }
 
 /** 永不向作者展示：绝对路径 / traceback / 原始 JSON / 内部目录。 */

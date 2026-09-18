@@ -47,6 +47,10 @@ export function isStudioView(value: string): value is StudioView {
   return VIEWS.has(value)
 }
 
+/** 一级 / 辅助导航文案（测试与门禁冻结此边界，§9）。 */
+export const PRIMARY_LABELS: string[] = STUDIO_NAV
+  .filter((row) => row.group === 'primary').map((row) => row.label)
+
 export interface StudioRoute {
   name: 'landing' | 'studio' | 'v3' | 'legacy'
   novelId: string

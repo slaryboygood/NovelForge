@@ -191,9 +191,42 @@ ISSUE_CODES: tuple[IssueCodeSpec, ...] = (
 
 CODE_REGISTRY: dict[str, IssueCodeSpec] = {spec.code: spec for spec in ISSUE_CODES}
 
+#: V4-09 §36：第三方（plugin）issue code 动态注册表（必须 namespaced）
+PLUGIN_CODE_REGISTRY: dict[str, IssueCodeSpec] = {}
+
+
+def register_plugin_code(code: str, *, gate: str, severity: str, plugin_id: str,
+                         description: str = "", repairable: bool = False
+                         ) -> IssueCodeSpec:
+    """注册插件 issue code：必须形如 `plugin.<plugin_id>.<CODE>`（§36）。"""
+
+    from .errors import QualityPolicyError
+
+    value = str(code or "").strip()
+    expected_prefix = f"plugin.{plugin_id}."
+    if not value.startswith(expected_prefix):
+        raise QualityPolicyError(
+            f"插件 issue code 必须使用 namespace {expected_prefix}*",
+            details={"code": value, "plugin_id": plugin_id})
+    if value in CODE_REGISTRY:
+        raise QualityPolicyError(f"插件 code 不得覆盖 Core code：{value}",
+                                 details={"code": value})
+    spec = IssueCodeSpec(code=value, gate=str(gate), severity=str(severity),
+                         repairable=bool(repairable), description=str(description))
+    PLUGIN_CODE_REGISTRY[value] = spec
+    return spec
+
+
+def unregister_plugin_codes(plugin_id: str) -> int:
+    before = len(PLUGIN_CODE_REGISTRY)
+    for code in [key for key in PLUGIN_CODE_REGISTRY
+                 if key.startswith(f"plugin.{plugin_id}.")]:
+        PLUGIN_CODE_REGISTRY.pop(code, None)
+    return before - len(PLUGIN_CODE_REGISTRY)
+
 
 def code_spec(code: str) -> IssueCodeSpec:
-    spec = CODE_REGISTRY.get(str(code))
+    spec = CODE_REGISTRY.get(str(code)) or PLUGIN_CODE_REGISTRY.get(str(code))
     if spec is None:
         raise KeyError(f"未注册的 issue code：{code}")
     return spec
@@ -204,9 +237,10 @@ def codes_for_gate(gate: str) -> tuple[str, ...]:
 
 
 def is_registered(code: str) -> bool:
-    return str(code) in CODE_REGISTRY
+    value = str(code)
+    return value in CODE_REGISTRY or value in PLUGIN_CODE_REGISTRY
 
 
-__all__ = ["CODE_REGISTRY", "ISSUE_CODES", "IssueCodeSpec", "code_spec",
-           "codes_for_gate", "is_registered"]
-
+__all__ = ["CODE_REGISTRY", "ISSUE_CODES", "PLUGIN_CODE_REGISTRY", "IssueCodeSpec",
+           "code_spec", "codes_for_gate", "is_registered", "register_plugin_code",
+           "unregister_plugin_codes"]

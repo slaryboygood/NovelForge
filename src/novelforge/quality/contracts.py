@@ -340,6 +340,10 @@ class QualityPolicy:
     stop_on_blocker: bool = True
     gate_thresholds: Mapping[str, int] = field(default_factory=dict)
     max_issues_per_gate: int = 50
+    #: V4-09 §78–§79：第三方（plugin）evaluator 只有显式列出才参与；
+    #: 默认不参与，且即使参与也默认 non-blocking（不因安装插件阻断交付）
+    plugin_evaluator_ids: tuple[str, ...] = ()
+    plugin_blocking: bool = False
 
     def __post_init__(self) -> None:
         unknown = [gate for gate in self.required_gates if gate not in GATES]
@@ -362,7 +366,9 @@ class QualityPolicy:
                 "cost_limit": self.cost_limit, "token_limit": self.token_limit,
                 "stop_on_blocker": self.stop_on_blocker,
                 "gate_thresholds": dict(self.gate_thresholds),
-                "max_issues_per_gate": self.max_issues_per_gate}
+                "max_issues_per_gate": self.max_issues_per_gate,
+                "plugin_evaluator_ids": list(self.plugin_evaluator_ids),
+                "plugin_blocking": bool(self.plugin_blocking)}
 
 
 def decide_status(issues: Sequence[QualityIssue], policy: QualityPolicy, *,

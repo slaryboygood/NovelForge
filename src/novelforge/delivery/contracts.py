@@ -129,6 +129,9 @@ class DeliverySelection:
     created_by: str = "author"
     request_id: str = ""
     policy: DeliveryPolicy = field(default_factory=DeliveryPolicy)
+    #: V4-09 §32：Host 额外允许的导出格式（= plugin exporter 注册的 format）。
+    #: 只在**构造期**用于校验；不参与 selection digest（core 语义不变）。
+    accepted_formats: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         if not str(self.novel_id or "").strip():
@@ -145,10 +148,12 @@ class DeliverySelection:
                 "explicit_revisions 模式必须提供 node_id → revision")
         if not self.formats:
             raise DeliveryFormatError("至少需要一种导出格式")
-        unknown = [str(fmt) for fmt in self.formats if str(fmt) not in EXPORT_FORMATS]
+        allowed = set(EXPORT_FORMATS) | {str(fmt) for fmt in self.accepted_formats
+                                        if str(fmt)}
+        unknown = [str(fmt) for fmt in self.formats if str(fmt) not in allowed]
         if unknown:
             raise DeliveryFormatError(f"不支持的导出格式：{unknown}",
-                                      details={"supported": list(EXPORT_FORMATS)})
+                                      details={"supported": sorted(allowed)})
         if not self.request_id:
             object.__setattr__(self, "request_id", new_request_id("delivery"))
 

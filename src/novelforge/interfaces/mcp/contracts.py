@@ -47,6 +47,9 @@ class ToolSpec:
     possible_errors: tuple[str, ...] = ()
     #: 实现必须是薄封装：这里记录它调用的 Application Service 方法（供审计与守卫）
     service: str = ""
+    #: V4-09 §75：注册归属（core | plugin + owner_id）
+    owner_type: str = "core"
+    owner_id: str = "novelforge"
 
     def __post_init__(self) -> None:
         if not str(self.name or "").strip():
@@ -79,7 +82,8 @@ class ToolSpec:
                 "idempotent": self.idempotent, "permission": self.permission,
                 "expensive": self.expensive, "destructive": self.destructive,
                 "possible_errors": list(self.possible_errors),
-                "service": self.service}
+                "service": self.service,
+                "owner_type": self.owner_type, "owner_id": self.owner_id}
 
 
 @dataclass(frozen=True)
@@ -93,12 +97,15 @@ class ResourceSpec:
     paginated: bool = False
     template: bool = False
     service: str = ""
+    owner_type: str = "core"
+    owner_id: str = "novelforge"
 
     def as_dict(self) -> dict[str, Any]:
         return {"uri": self.uri, "name": self.name,
                 "description": self.description, "mime_type": self.mime_type,
                 "paginated": self.paginated, "template": self.template,
-                "service": self.service}
+                "service": self.service,
+                "owner_type": self.owner_type, "owner_id": self.owner_id}
 
 
 @dataclass(frozen=True)

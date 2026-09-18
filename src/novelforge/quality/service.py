@@ -121,22 +121,25 @@ class QualityService:
             issues = list(merge_issues(issues))[
                 : max(1, resolved_policy.max_issues_per_gate)]
             all_issues.extend(issues)
-            status = "blocked" if any(row.severity == "blocker" for row in issues) \
+            deciding = self._deciding_issues(issues, resolved_policy)
+            status = "blocked" if any(row.severity == "blocker" for row in deciding) \
                 else "failed" if any(resolved_policy.blocks(row.severity)
-                                     for row in issues) else "passed"
+                                     for row in deciding) else "passed"
             gate_results.append(QualityGateResult(
                 gate=gate, status=status, issues=tuple(issues),
                 evaluator_ids=tuple(row.spec.evaluator_id for row in
                                     self.registry.for_gate(gate,
                                                            policy=resolved_policy))))
             if (resolved_policy.stop_on_blocker
-                    and any(row.severity == "blocker" for row in issues
+                    and any(row.severity == "blocker" for row in deciding
                             if row.gate in ("Q0", "Q1"))):
                 blocked_early = True
 
         all_issues = list(merge_issues(all_issues))
         gates_run = [row.gate for row in gate_results if row.status != "skipped"]
-        status = decide_status(all_issues, resolved_policy, gates_run=gates_run)
+        # V4-09 §79：插件 evaluator 的 issue 默认 non-blocking（除非 policy 显式提升）
+        status = decide_status(self._deciding_issues(all_issues, resolved_policy),
+                               resolved_policy, gates_run=gates_run)
         usage = build_usage(evaluation=context.usage.get("total"))
         report_id = f"QR_{new_request_id('report').split('_', 1)[1][:12]}"
         node_revisions = {node_id: int(context.nodes[node_id].revision)
@@ -159,14 +162,43 @@ class QualityService:
             spec = registration.spec
             key = self._cache_key(gate, context, spec.evaluator_id, spec.version)
             if use_cache and key in self._cache:
-                issues.extend(issue for issue in self._cache[key]
+                issues.extend(self._tag_owner(issue, spec)
+                              for issue in self._cache[key]
                               if issue.novel_id == self.novel_id)
                 continue
-            produced = tuple(registration.fn(context))
+            produced = tuple(self._tag_owner(issue, spec)
+                             for issue in registration.fn(context))
             if use_cache:
                 self._cache[key] = produced
             issues.extend(produced)
         return issues
+
+    @staticmethod
+    def _tag_owner(issue: QualityIssue, spec: Any) -> QualityIssue:
+        """把 evaluator 归属写进 issue provenance（V4-09 §55、§80、§96）。"""
+
+        if getattr(spec, "owner_type", "core") != "plugin":
+            return issue
+        from dataclasses import replace
+
+        return replace(issue, provenance={
+            **dict(issue.provenance), "owner_type": "plugin",
+            "plugin_id": str(getattr(spec, "owner_id", "")),
+            "plugin_evaluator_version": int(getattr(spec, "version", 1))})
+
+    @staticmethod
+    def _deciding_issues(issues: Sequence[QualityIssue],
+                         policy: QualityPolicy) -> list[QualityIssue]:
+        """判定 PASS/FAIL 时使用的 issue 集合。
+
+        V4-09 §78–§79：插件 evaluator 的 issue 默认不参与 blocking 判定
+        （仍会出现在 report / store 里，且带 plugin_id provenance）。
+        """
+
+        if bool(getattr(policy, "plugin_blocking", False)):
+            return list(issues)
+        return [row for row in issues
+                if str(dict(row.provenance).get("owner_type") or "") != "plugin"]
 
     def _cache_key(self, gate: str, context: EvaluationContext, evaluator_id: str,
                    version: int) -> str:

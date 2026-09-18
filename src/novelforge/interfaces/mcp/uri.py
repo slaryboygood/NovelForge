@@ -14,6 +14,10 @@ novelforge://novels/{novel_id}/delivery      交付快照列表
 novelforge://novels/{novel_id}/delivery/{snapshot_id}
 novelforge://novels/{novel_id}/delivery/{snapshot_id}/manifest
 novelforge://novels/{novel_id}/delivery/{snapshot_id}/artifacts/{artifact_path}
+
+V4-09（additive，插件扩展点）：
+
+novelforge://plugins/{plugin_id}/{path}    插件资源（kind = plugin_resource:<plugin_id>）
 ```
 
 查询参数：`limit` / `cursor`（分页）、`mode`（current | accepted）。
@@ -30,6 +34,10 @@ from urllib.parse import parse_qs, unquote, urlsplit
 from .errors import MCPInvalidArgument, MCPResourceNotFound
 
 SCHEME = "novelforge"
+
+#: V4-09（additive）：插件资源 namespace（URI 形状的唯一 SSOT）
+PLUGINS_HEAD = "plugins"
+PLUGIN_RESOURCE_KIND_PREFIX = "plugin_resource:"
 
 #: 分页上限（§47：不要一次返回整本大型作品的全部历史）
 DEFAULT_LIMIT = 50
@@ -60,6 +68,9 @@ class ResourceTarget:
     revision: int = 0
     snapshot_id: str = ""
     artifact_path: str = ""
+    #: V4-09：插件资源（`novelforge://plugins/<plugin_id>/<path>`）
+    plugin_id: str = ""
+    resource_path: str = ""
     mode: str = "current"
     limit: int = DEFAULT_LIMIT
     cursor: int = 0
@@ -71,6 +82,7 @@ class ResourceTarget:
                 "node_id": self.node_id, "revision": self.revision,
                 "snapshot_id": self.snapshot_id,
                 "artifact_path": self.artifact_path, "mode": self.mode,
+                "plugin_id": self.plugin_id, "resource_path": self.resource_path,
                 "limit": self.limit, "cursor": self.cursor, "uri": self.uri}
 
 
@@ -119,6 +131,15 @@ def parse_uri(uri: str) -> ResourceTarget:
     head = parts.netloc
     if head == "interface":
         return ResourceTarget(kind="interface", **base)
+    if head == PLUGINS_HEAD:
+        # V4-09：插件资源 namespace（`novelforge://plugins/<plugin_id>/<path>`）
+        if len(segments) < 2:
+            raise MCPResourceNotFound(f"未知插件资源 URI：{text}",
+                                      details={"uri": text})
+        plugin_id = segments[0]
+        return ResourceTarget(kind=plugin_resource_kind(plugin_id),
+                              plugin_id=plugin_id,
+                              resource_path="/".join(segments[1:]), **base)
     if head != "novels" or not segments:
         raise MCPResourceNotFound(f"未知资源 URI：{text}", details={"uri": text})
     novel_id = segments[0]
@@ -169,6 +190,19 @@ def parse_uri(uri: str) -> ResourceTarget:
 
 def novel_uri(novel_id: str) -> str:
     return f"{SCHEME}://novels/{novel_id}"
+
+
+def plugin_resource_kind(plugin_id: str) -> str:
+    """插件资源 kind：按 plugin_id 区分，保证 resolve 精确命中（V4-09 §38–§42）。"""
+
+    return f"{PLUGIN_RESOURCE_KIND_PREFIX}{plugin_id}"
+
+
+def plugin_resource_uri(plugin_id: str, path: str) -> str:
+    """插件资源 URI：`novelforge://plugins/<plugin_id>/<path>`（namespaced）。"""
+
+    cleaned = str(path or "").split("://")[-1].strip("/")
+    return f"{SCHEME}://{PLUGINS_HEAD}/{plugin_id}/{cleaned}"
 
 
 def blueprint_uri(novel_id: str) -> str:
@@ -224,8 +258,10 @@ def paginate(rows: list[Any], *, limit: int, cursor: int) -> dict[str, Any]:
 
 
 __all__ = [
-    "DEFAULT_LIMIT", "MAX_LIMIT", "SCHEME", "ResourceTarget", "artifact_uri",
-    "blueprint_uri", "decode_cursor", "delivery_uri", "encode_cursor",
-    "issues_uri", "manifest_uri", "node_uri", "novel_uri", "paginate",
-    "parse_uri", "quality_uri", "review_uri", "revision_uri", "scenes_uri",
+    "DEFAULT_LIMIT", "MAX_LIMIT", "PLUGIN_RESOURCE_KIND_PREFIX", "PLUGINS_HEAD",
+    "SCHEME", "ResourceTarget", "artifact_uri", "blueprint_uri", "decode_cursor",
+    "delivery_uri", "encode_cursor", "issues_uri", "manifest_uri", "node_uri",
+    "novel_uri", "paginate", "parse_uri", "plugin_resource_kind",
+    "plugin_resource_uri", "quality_uri", "review_uri", "revision_uri",
+    "scenes_uri",
 ]

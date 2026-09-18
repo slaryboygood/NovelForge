@@ -46,6 +46,25 @@ class MCPToolRegistry:
         self._rows[spec.name] = ToolRegistration(spec=spec, handler=handler)
         return spec
 
+    def unregister_owner(self, owner_id: str) -> int:
+        """按 owner 卸载（Core owner 不允许卸载，V4-09 §74）。"""
+
+        before = len(self._rows)
+        self._rows = {key: value for key, value in self._rows.items()
+                      if value.spec.owner_id != str(owner_id)
+                      or value.spec.owner_type == "core"}
+        return before - len(self._rows)
+
+    def core_names(self) -> tuple[str, ...]:
+        return tuple(sorted(key for key, value in self._rows.items()
+                            if value.spec.owner_type == "core"))
+
+    def owners(self) -> dict[str, tuple[str, ...]]:
+        result: dict[str, list[str]] = {}
+        for key, value in self._rows.items():
+            result.setdefault(value.spec.owner_id, []).append(key)
+        return {owner: tuple(sorted(names)) for owner, names in sorted(result.items())}
+
     def get(self, name: str) -> ToolRegistration:
         row = self._rows.get(str(name))
         if row is None:
@@ -82,6 +101,23 @@ class MCPResourceRegistry:
                 return row
         raise MCPToolNotFound(f"没有可处理 {target.kind} 的资源处理器",
                               details={"kind": target.kind})
+
+    def unregister_owner(self, owner_id: str) -> int:
+        before = len(self._rows)
+        self._rows = [row for row in self._rows
+                      if row.spec.owner_id != str(owner_id)
+                      or row.spec.owner_type == "core"]
+        return before - len(self._rows)
+
+    def core_uris(self) -> tuple[str, ...]:
+        return tuple(sorted(row.spec.uri for row in self._rows
+                            if row.spec.owner_type == "core"))
+
+    def owners(self) -> dict[str, tuple[str, ...]]:
+        result: dict[str, list[str]] = {}
+        for row in self._rows:
+            result.setdefault(row.spec.owner_id, []).append(row.spec.uri)
+        return {owner: tuple(sorted(uris)) for owner, uris in sorted(result.items())}
 
     def specs(self) -> tuple[ResourceSpec, ...]:
         return tuple(row.spec for row in self._rows)

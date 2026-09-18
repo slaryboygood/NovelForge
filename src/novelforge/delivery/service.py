@@ -205,9 +205,13 @@ class DeliveryService:
                 notes=("post-build 校验失败：未发布（§81）", post.blocking_reason))
         secret_hits: list[str] = []
         for artifact in artifacts:
-            if str(artifact.format) == "nfpack":
+            spec = self.registry.spec(artifact.format)
+            # V4-09 §34：插件 exporter 的输出同样经过敏感内容扫描
+            # （不是 plugin 就可以绕过 DeliveryValidator / secret scan）
+            if str(artifact.format) == "nfpack" or \
+                    str(getattr(spec, "owner_type", "core")) == "plugin":
                 hits = package_exporter.scan_for_secrets(artifact.content)
-                secret_hits.extend(hits)
+                secret_hits.extend(f"{artifact.format}:{token}" for token in hits)
         if secret_hits:
             self.store.discard(snapshot.snapshot_id)
             return DeliveryResult(

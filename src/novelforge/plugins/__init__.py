@@ -37,6 +37,7 @@ untrusted 插件的进程级隔离不在本阶段实现。
 ```
 """
 
+from .adapters import build_adapters
 from .compatibility import CompatibilityResult, check_compatibility
 from .contracts import (
     CONTRIBUTION_TYPES,
@@ -82,6 +83,7 @@ from .lifecycle import (
     lifecycle_table,
     next_statuses,
 )
+from .manager import SUPPORTED_CAPABILITIES, PluginManager
 from .permissions import (
     check_approval,
     declared_permissions,
@@ -94,8 +96,8 @@ from .registry import PluginRecord, PluginRegistry
 from .state import EnablementStore, PluginAuditLog, PluginStateStore
 
 __all__ = [
-    # registry
-    "PluginRegistry", "PluginRecord",
+    # manager / registry
+    "PluginManager", "PluginRegistry", "PluginRecord", "SUPPORTED_CAPABILITIES",
     # contracts
     "CONTRIBUTION_TYPES", "PLUGIN_API_VERSION", "PLUGIN_ENTRY_POINT_GROUP",
     "PLUGIN_PERMISSIONS", "PLUGIN_STATUSES", "PLUGIN_TRANSITIONS",
@@ -110,8 +112,8 @@ __all__ = [
     "assert_transition", "can_transition", "lifecycle_table", "next_statuses",
     "check_approval", "declared_permissions", "permission_diff", "permission_note",
     "normalise_permissions", "requires_reapproval",
-    # state
-    "EnablementStore", "PluginAuditLog", "PluginStateStore",
+    # state / adapters
+    "EnablementStore", "PluginAuditLog", "PluginStateStore", "build_adapters",
     # errors
     "PluginCompatibilityError", "PluginConfigError", "PluginConflictError",
     "PluginError", "PluginExecutionError", "PluginLoadError", "PluginManifestError",

@@ -47,7 +47,7 @@ const PACK_ID = process.env.STORY_PACK_ID || 'xianxia_demo'
         failures.push(response.status() + ' ' + response.url())
       }
     })
-    await page.goto(BASE)
+    await page.goto(`${BASE}/?ui=v2`)
     await page.getByLabel('小说', { exact: true }).selectOption(novelId)
     const checks = [
       ['世界面板', '世界正在发生什么', (text, api) => text.includes(String(api.timeline.tick))],

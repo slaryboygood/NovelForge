@@ -65,7 +65,7 @@ async function panelAccessibility(page) {
   })
 
   const load = async (hash) => {
-    await page.goto(`${BASE}/?t=${Date.now()}${hash}`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3&t=${Date.now()}${hash}`, { waitUntil: 'networkidle' })
     await page.waitForTimeout(900)
   }
   const noOverflow = async (label) => {

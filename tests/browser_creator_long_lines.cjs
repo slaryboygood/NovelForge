@@ -79,7 +79,7 @@ async function runJourney(http, bp, steps = 3) {
         failures.push(response.status() + ' ' + response.url())
       }
     })
-    await page.goto(BASE)
+    await page.goto(`${BASE}/?ui=v2`)
     for (const novel of novels) {
       await page.getByLabel('小说', { exact: true }).selectOption(novel.novelId)
       for (const tab of ['世界面板', '角色面板', '剧情面板', '成长面板', '记忆面板', '导演面板', '大纲联动']) {

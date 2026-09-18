@@ -6,7 +6,7 @@ const assert = require('node:assert/strict')
   const browser = await chromium.launch({ channel: 'msedge', headless: true })
   try {
     const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } })
-    await page.goto(process.env.STORY_TEST_URL || 'http://127.0.0.1:8012')
+    await page.goto(`${process.env.STORY_TEST_URL || 'http://127.0.0.1:8012'}/?ui=v2`)
     await page.locator('.story-builder-empty, .story-builder-page').waitFor()
     // 每次都用新会话，保证本脚本可以重复运行。
     await page.request.post(new URL('/api/story-builder/sessions', page.url()).href, { data: { project_id: 'novel_project' } })

@@ -118,7 +118,7 @@ const report = (error) => {
   })
 
   const load = async (hash) => {
-    await page.goto(`${BASE}/?t=${Date.now()}${hash}`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3&t=${Date.now()}${hash}`, { waitUntil: 'networkidle' })
     await page.waitForTimeout(700)
   }
   const bodyText = () => page.evaluate(() => document.body.innerText)

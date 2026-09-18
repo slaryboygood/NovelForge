@@ -151,6 +151,14 @@ async function noOverflow(page, label) {
   await generate('generate-structural_unit')
   await generate('generate-chapter')
 
+  // 视觉证据（§23）：创造 / 人物 / 故事 三页在数据齐备时截图
+  for (const [view, name] of [['creation', '03a-creation'],
+    ['characters', '03b-characters'], ['story', '03c-story']]) {
+    await page.click(`[data-testid="nav-${view}"]`)
+    await page.waitForSelector('[data-testid^="node-card-"]', { timeout: 15000 })
+    await shot(page, name)
+  }
+
   // §5：再建一个 chapter（走 REST，等价于作者的第二次创建），随后验证
   // 「多个 chapter + 未显式指定父节点 → UI 不猜，要求作者选择」。
   const chapterId = await page.evaluate(async (novelId) => {

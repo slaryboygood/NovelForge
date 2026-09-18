@@ -106,7 +106,7 @@ const report = (error) => {
   const load = async (route) => {
     const hash = route === 'landing' ? '#/'
       : route === 'novel' || !route ? `#/n/${NOVEL}` : `#/n/${NOVEL}/${route}`
-    await page.goto(`${BASE}/?t=${Date.now()}${hash}`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3&t=${Date.now()}${hash}`, { waitUntil: 'networkidle' })
     await page.waitForTimeout(700)
     await primeLazyImages()
   }
@@ -291,7 +291,7 @@ const report = (error) => {
     fallbackPage.on('pageerror', (error) => fallbackPageErrors.push(String(error)))
     // 故意把所有默认美术请求打断：模拟资源缺失 / CDN 失败。
     await fallbackPage.route('**/assets/default_*', (route) => route.abort())
-    await fallbackPage.goto(`${BASE}/#/n/${NOVEL}/characters`, { waitUntil: 'domcontentloaded' })
+    await fallbackPage.goto(`${BASE}/?ui=v3#/n/${NOVEL}/characters`, { waitUntil: 'domcontentloaded' })
     await fallbackPage.getByTestId('v3-characters-block').waitFor({ timeout: 30000 })
     await fallbackPage.waitForTimeout(1500)
     const fallback = await fallbackPage.evaluate(() => {

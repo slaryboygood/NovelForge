@@ -99,7 +99,7 @@ const report = (error) => {
   try {
     // ------------------------------------------------- 1. Landing → 新建作品
     phase = 'landing'
-    await page.goto(`${BASE}/?t=${Date.now()}#/`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3&t=${Date.now()}#/`, { waitUntil: 'networkidle' })
     await page.getByTestId('v3-landing').waitFor({ timeout: 30000 })
     const landing = await page.evaluate(() => ({
       cta: (document.querySelector('[data-testid="v3-landing-new"]') || {}).innerText || '',
@@ -158,7 +158,7 @@ const report = (error) => {
     await page.waitForFunction(() => document
       .querySelector('[data-testid="v3-flow-step-runtime"]')
       ?.className.includes('is-done'), null, { timeout: 90000 })
-    await page.goto(`${BASE}/#/n/${novelId}`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3#/n/${novelId}`, { waitUntil: 'networkidle' })
     await page.getByTestId('v3-command-center').waitFor({ timeout: 30000 })
 
     // ------------------------------- 3. Objective / Next Action 真实变化
@@ -180,7 +180,7 @@ const report = (error) => {
     // ------------------------------- 4. 九个 AuthorJourney 工作区 + First-Time 检查
     phase = 'workspaces'
     for (const view of WORKSPACES) {
-      await page.goto(`${BASE}/?t=${Date.now()}#/n/${novelId}/${view}`,
+      await page.goto(`${BASE}/?ui=v3&t=${Date.now()}#/n/${novelId}/${view}`,
         { waitUntil: 'networkidle' })
       await page.waitForTimeout(700)
       await assertWorkspaceAnswers(view)
@@ -197,7 +197,7 @@ const report = (error) => {
 
     // ------------------------------- 5. 推演 → 大纲 → 检查 → 导出 主链
     phase = 'journey-simulation'
-    await page.goto(`${BASE}/#/n/${novelId}/simulation`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3#/n/${novelId}/simulation`, { waitUntil: 'networkidle' })
     await page.getByTestId('v3-simulation-routes').waitFor({ timeout: 30000 })
     await page.getByTestId('v3-simulation-advance').click()
     await page.getByTestId('v3-simulation-feedback').waitFor({ timeout: 60000 })
@@ -213,7 +213,7 @@ const report = (error) => {
       `/api/story-builder/v3/novels/${novelId}/command-center`)).json()
     assert.ok(outlineJson.outline.started,
       `锻造后投影必须看到大纲：${JSON.stringify(outlineJson.outline).slice(0, 300)}`)
-    await page.goto(`${BASE}/#/n/${novelId}/outline`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3#/n/${novelId}/outline`, { waitUntil: 'networkidle' })
     await page.reload({ waitUntil: 'networkidle' })
     try {
       await page.getByTestId('v3-outline-levels').waitFor({ timeout: 30000 })
@@ -235,12 +235,12 @@ const report = (error) => {
     assert.ok(outline.chapters > 0, '锻造后必须有真实章节')
 
     phase = 'journey-review'
-    await page.goto(`${BASE}/#/n/${novelId}/review`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3#/n/${novelId}/review`, { waitUntil: 'networkidle' })
     await page.getByTestId('v3-review-findings').waitFor({ timeout: 30000 })
     await page.getByTestId('v3-review-repair').waitFor({ timeout: 30000 })
 
     phase = 'journey-export'
-    await page.goto(`${BASE}/#/n/${novelId}/export`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3#/n/${novelId}/export`, { waitUntil: 'networkidle' })
     await page.getByTestId('v3-export-readiness').waitFor({ timeout: 30000 })
     const exportBefore = await page.evaluate(() => ({
       done: document.querySelectorAll('[data-testid="v3-export-steps"] li[data-done="true"]').length,
@@ -279,7 +279,7 @@ const report = (error) => {
       }
     }
     for (const view of WORKSPACES) {
-      await page.goto(`${BASE}/?t=${Date.now()}#/n/${novelId}/${view}`,
+      await page.goto(`${BASE}/?ui=v3&t=${Date.now()}#/n/${novelId}/${view}`,
         { waitUntil: 'networkidle' })
       await page.waitForTimeout(500)
       const text = await bodyText()
@@ -297,7 +297,7 @@ const report = (error) => {
 
     // --------------------- 6. Refresh restore / Deep-link / Back / Switch Novel
     phase = 'refresh-deeplink-back'
-    await page.goto(`${BASE}/#/n/${novelId}/characters`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3#/n/${novelId}/characters`, { waitUntil: 'networkidle' })
     await page.getByTestId('v3-characters-block').waitFor({ timeout: 30000 })
     const charsBefore = await page.evaluate(() => document.querySelectorAll('.v3-character').length)
     await page.reload({ waitUntil: 'networkidle' })
@@ -308,7 +308,7 @@ const report = (error) => {
     await page.waitForTimeout(700)
     assert.ok(await page.evaluate(() => Boolean(document.querySelector('.v3-root'))),
       '浏览器 Back 必须仍停留在 V3 应用内')
-    await page.goto(`${BASE}/#/`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3#/`, { waitUntil: 'networkidle' })
     await page.getByTestId('v3-landing').waitFor({ timeout: 30000 })
     const switchTarget = page.getByTestId(`v3-novel-card-${novelId}`)
     assert.ok(await switchTarget.count() > 0, '新建的作品必须出现在作品列表里')
@@ -317,7 +317,7 @@ const report = (error) => {
 
     // ------------------------------- 7. Advanced Tools reachable（19 页签）
     phase = 'advanced-tools'
-    await page.goto(`${BASE}/#/story-builder?novel_id=${novelId}&tab=builder`,
+    await page.goto(`${BASE}/?ui=v3#/story-builder?novel_id=${novelId}&tab=builder`,
       { waitUntil: 'networkidle' })
     await page.getByTestId('legacy-back-to-v3').waitFor({ timeout: 60000 })
     await page.waitForTimeout(1200)
@@ -336,7 +336,7 @@ const report = (error) => {
       await page.setViewportSize({ width, height })
       for (const view of ['home', 'creation', 'world', 'characters', 'story',
         'simulation', 'outline', 'review', 'export']) {
-        await page.goto(`${BASE}/#/n/${novelId}/${view === 'home' ? '' : view}`,
+        await page.goto(`${BASE}/?ui=v3#/n/${novelId}/${view === 'home' ? '' : view}`,
           { waitUntil: 'networkidle' })
         await page.waitForTimeout(500)
         await noOverflow(`${view}@${width}`)

@@ -65,7 +65,7 @@ const VIEWPORTS = [[1440, 1000], [1280, 900], [1024, 900], [390, 844]]
   })
 
   const load = async (hash) => {
-    await page.goto(`${BASE}/?t=${Date.now()}${hash}`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3&t=${Date.now()}${hash}`, { waitUntil: 'networkidle' })
     await page.waitForTimeout(900)
   }
   const outlineState = () => page.evaluate(() => {

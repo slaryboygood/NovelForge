@@ -47,7 +47,7 @@ async function createStory(http, packId, novelId) {
     page.on('response', (response) => {
       if (response.status() >= 400) failedRequests.push(response.status() + ' ' + response.url())
     })
-    await page.goto(BASE)
+    await page.goto(`${BASE}/?ui=v2`)
     await page.getByLabel('小说', { exact: true }).selectOption(first.novelId)
     await page.getByRole('tab', { name: '世界面板' }).click()
     const panel = page.locator('.world-panel')

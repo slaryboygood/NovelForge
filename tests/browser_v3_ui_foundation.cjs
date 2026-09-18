@@ -55,7 +55,7 @@ async function noHorizontalOverflow(page, label) {
     })
 
     // ---------------------------------------------------------- 1 启动 / Landing
-    await page.goto(BASE, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3`, { waitUntil: 'networkidle' })
     await page.getByTestId('v3-landing').waitFor({ timeout: 20000 })
     await page.getByTestId('v3-landing-new').waitFor()
     await page.screenshot({ path: path.join(SHOTS, 'v3_01_landing_1440.png') })
@@ -171,7 +171,7 @@ async function noHorizontalOverflow(page, label) {
       `推演后阶段应进入产出侧，实际 ${afterRuntime.journey.current_stage}`)
 
     // ------------------------------------------------------- 9 刷新恢复
-    await page.goto(`${BASE}/#/n/${novelId}`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3#/n/${novelId}`, { waitUntil: 'networkidle' })
     await page.getByTestId('v3-command-center').waitFor({ timeout: 30000 })
     const restoredStage = await page.getByTestId('v3-hero-stage').innerText()
     assert.ok(restoredStage.includes(afterRuntime.journey.current_stage_label),
@@ -180,13 +180,13 @@ async function noHorizontalOverflow(page, label) {
       afterRuntime.next_action.title)
 
     // ------------------------------------------------------- 10 深链接恢复
-    await page.goto(`${BASE}/#/n/${novelId}/creation?step=check`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3#/n/${novelId}/creation?step=check`, { waitUntil: 'networkidle' })
     await page.getByTestId('v3-flow-check').waitFor({ timeout: 30000 })
     assert.ok(await page.getByTestId('v3-flow-step-check').getAttribute('class')
       .then((value) => value.includes('is-active')), '深链接必须直接打开对应步骤')
 
     // ------------------------------------------------- 11 Next Action 深度链接
-    await page.goto(`${BASE}/#/n/${novelId}`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3#/n/${novelId}`, { waitUntil: 'networkidle' })
     await page.getByTestId('v3-command-center').waitFor({ timeout: 30000 })
     await page.getByTestId('v3-next-action-cta').click()
     await page.waitForFunction((expected) => {
@@ -197,7 +197,7 @@ async function noHorizontalOverflow(page, label) {
     assert.ok(activeNav.length > 0, 'Next Action 必须把作者带到对应工作区')
 
     // ------------------------------------------------------- 12 Objective 面板
-    await page.goto(`${BASE}/#/n/${novelId}`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3#/n/${novelId}`, { waitUntil: 'networkidle' })
     await page.getByTestId('v3-command-center').waitFor({ timeout: 30000 })
     await page.getByTestId('v3-current-objective-cta').click()
     await page.getByTestId('v3-context-panel').waitFor({ timeout: 20000 })
@@ -212,7 +212,7 @@ async function noHorizontalOverflow(page, label) {
     // 高级工具仍然可达（同一个应用内的 legacy 面板）。
     await page.getByTestId('v3-nav-legacy').click()
     await page.getByTestId('legacy-back-to-v3').waitFor({ timeout: 20000 })
-    await page.goto(`${BASE}/#/n/${novelId}`, { waitUntil: 'networkidle' })
+    await page.goto(`${BASE}/?ui=v3#/n/${novelId}`, { waitUntil: 'networkidle' })
     await page.getByTestId('v3-command-center').waitFor({ timeout: 20000 })
 
     // ------------------------------------------------------- 14 视觉 / 响应式

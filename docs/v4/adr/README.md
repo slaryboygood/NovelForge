@@ -37,6 +37,8 @@
 | [ADR-029](ADR-029-plugins-use-explicit-public-extension-points.md) | Plugins Use Explicit Public Extension Points | **Accepted**（V4-09 实施完成） | V4-09 起 |
 | [ADR-030](ADR-030-v4-09-executes-only-explicitly-approved-trusted-plugins.md) | V4-09 Executes Only Explicitly Approved Trusted Plugins | **Accepted**（V4-09 实施完成） | V4-09 起 |
 | [ADR-031](ADR-031-plugin-contributions-cannot-override-core-registrations.md) | Plugin Contributions Cannot Override Core Registrations | **Accepted**（V4-09 实施完成） | V4-09 起 |
+| [ADR-032](ADR-032-story-studio-is-the-primary-v4-product-surface.md) | Story Studio Is The Primary V4 Product Surface | **Accepted**（V4-10 实施完成） | V4-10 起 |
+| [ADR-033](ADR-033-ui-displays-business-truth-but-does-not-derive-it.md) | UI Displays Business Truth But Does Not Derive It | **Accepted**（V4-10 实施完成） | V4-10 起 |
 
 ## 已被作者裁定的决策（原待决项）
 

@@ -1,6 +1,10 @@
-# NovelForge V4-10 — Story Studio 阶段状态（进行中）
+# NovelForge V4-10 — Story Studio 阶段状态（过程记录）
 
-> 状态：**V4-10 = BLOCKED（进行中，未完成）**
+> 状态：**SUPERSEDED —— 已被 `docs/v4/V4_10_STORY_STUDIO_REPORT.md` 取代**
+> 当前唯一有效状态来源 = [V4_10_STORY_STUDIO_REPORT.md](V4_10_STORY_STUDIO_REPORT.md)（**V4-10 = PASS**）。
+> 本文件保留为过程记录（记录 blocker 定位与修复路径），不再代表最新状态。
+>
+> 历史状态（已被取代）：`V4-10 = BLOCKED（进行中，未完成）`
 > 分支：`v4-10-story-studio-ui`（integration）
 > 契约：`docs/v4/V4_UI_CONTRACT.md`（已冻结）；盘点：`docs/v4/V4_10_UI_INVENTORY.md`
 > 本文件是**接续点记录**；最终 41 节报告（`V4_10_STORY_STUDIO_REPORT.md`）在门禁全绿后写。

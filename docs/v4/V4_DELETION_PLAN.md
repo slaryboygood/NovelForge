@@ -115,6 +115,27 @@ Decision        : 作者决策 B —— DELETE / NO IMPORT / NO FIXTURE / NO leg
 | 重复的 DOCX 生成路径（`outline_revision.docx_bytes` vs `delivery/exporters/docx_exporter.py`） | 看起来可以合并 | **保留两条**：前者服务 outline 产品面（V3），后者是 Blueprint 交付物；数据源不同、生命周期不同。移除条件随 outline 导出路径一并退出 |
 | V4-09 无删除项 | — | **V4-09 评估结论**：插件平台只做 additive 扩展，不删除任何既有路径。它把 V4-07/V4-05/V4-08 的注册表从「无 owner / last wins」升级为「owner + 不可覆盖 Core + 可按插件卸载」（见 `V4_PLUGIN_CONTRACT.md` §8）。`story_builder` / `story_engine` 的 legacy 面随 V4-10 UI 切换后按本表既有条件退出 |
 
+### 2.2 V4-10 主产品面迁移（不删除任何后端）
+
+```text
+Story Studio primary migration = DONE
+  /                     → Story Studio（默认产品面，ADR-032）
+  ?ui=v3 / #/v3...      → V3 工作台 = explicit compatibility
+  ?ui=v2 / #/story-builder... → V2 面板 = explicit compatibility
+
+Legacy entry = explicit compatibility
+  8 个 tests/browser_v3_*.cjs 与 4 个 V2/creator 脚本只改启动参数（断言未改）；
+  可执行门禁 tests/browser_v4_legacy_entry.cjs = PASS。
+
+Legacy backend removal = NOT YET ELIGIBLE
+  V3 工作台 / V2 creator 面板 / legacy writer / outline revision /
+  legacy export backend endpoints 仍有真实兼容消费者（V2/V3 界面与历史验收脚本），
+  V4-10 不删除它们；下表逐条保留移除条件。
+
+Historical V3/V2 acceptance suites = NOT RUN（本环境缺少作者 acceptance data root）
+  没有制造假数据、没有降低门槛、没有宣称 PASS。
+```
+
 ---
 
 ## 4. 删除顺序（依赖图）

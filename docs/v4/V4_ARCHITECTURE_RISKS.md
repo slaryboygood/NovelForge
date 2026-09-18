@@ -280,6 +280,34 @@ Owner Layer : persistence / legacy / services.export
 Detection   : 跨作品导出测试（novel A 导出中不得出现 novel B 的任何 id / 文本）
 ```
 
+### R-09 / R-16 / R-10 —— V4-10 后状态（UI 面）
+
+```text
+R-09 Revision race（M / H）→ **UI 面已行使**：
+  Story Studio 的保存路径强制 expected_revision；409 必须进入冲突面板
+  （我的版本 / 当前版本 / 差异 / 查看最新 / 复制我的修改 / 重新编辑），
+  无 force overwrite 默认项。真实浏览器门禁覆盖该流程
+  （tests/browser_v4_studio_golden.cjs，conflict step）。
+  仍未解决的部分：并发写入仍由后端 revision 契约保证，UI 不提供自动合并。
+
+R-16 Export contamination（H / H）→ **UI 侧已行使真实下载路径**：
+  Delivery 页走 accepted selection + preflight，浏览器真实下载
+  Markdown(5557B) / DOCX(3845B) / nfpack(~20.7KB)，并在四视口下不溢出。
+  仍未解决的部分：历史 legacy 导出端点仍在（兼容消费者存在），
+  删除条件见 V4_DELETION_PLAN。
+
+UI duplicated truth（新增观察项，M / M）→ **已缓解**：
+  Studio 使用单一 HTTP 客户端（ui/src/api/studio.ts）+ 单一状态语义表
+  （UI_STATUS_MAP）+ 单一错误映射表；父节点解析等结构决策由 Host 契约给出
+  （先 reload 再解析；2+ 候选必须作者选择）。见 ADR-033。
+  残余风险：新增页面时可能「顺手」加前端推导 —— 由 UI Contract + 本 ADR 约束。
+
+Legacy compatibility（M / M）→ **已显式化**：
+  默认 URL = Story Studio；V3/V2 走 ?ui=v3 / ?ui=v2；
+  可执行兼容门禁 tests/browser_v4_legacy_entry.cjs PASS；
+  历史 V3/V2 完整验收需要作者 acceptance data root（本环境缺失，未运行、未削弱）。
+```
+
 ### R-12 Plugin privilege escalation
 
 ```text

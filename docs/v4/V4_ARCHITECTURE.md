@@ -352,6 +352,21 @@ src/novelforge/
 │   ├── api/                    # [已存在 src/novelforge/api] FastAPI 路由（薄）
 │   ├── mcp/                    # resources/ tools/ prompts/ schemas/
 │   └── cli/                    # 可选：批处理入口（Deferred，暂不建）
+
+V4-10 产品面（已落地）：
+
+```text
+Story Studio（ui/src/studio/**，默认产品面）
+        ↓  HTTP（ui/src/api/studio.ts，唯一客户端）
+REST Adapter（src/novelforge/api/{studio,editor,delivery,canon}_routes.py，薄路由）
+        ↓
+Application Services（application.services.**）
+        ↓
+V4 modules（blueprint / quality / editor / delivery / plugins）
+
+并行 adapter：MCP（interfaces/mcp）与 REST 平级；UI 不得经 MCP 调自己的后端。
+兼容入口：?ui=v3（V3 工作台）/ ?ui=v2（V2 面板）—— 见 ADR-032。
+```
 │
 ├── persistence/                # 基础设施：唯一允许碰文件系统 / SQLite 的地方
 │   ├── story_state.py          # [已存在 storage.py]
@@ -459,6 +474,10 @@ UI           → 只允许通过 API / approved client 调用业务能力
 LLM Provider → 不允许知道 NovelForge 的任何业务概念（只认 messages / 模型 / 参数）
 Plugin       → 不允许直接修改核心数据库 / 文件系统
 Legacy       → 不允许被新的写路径依赖
+UI（Story Studio）→ 只经 HTTP：UI → REST Adapter → Application Services；
+               REST 与 MCP 是**平级 adapter**（UI 不得走 MCP 调自己的后端）
+UI           → 不推导业务事实（ADR-033）；默认产品面 = Story Studio，
+               V3/V2 为显式兼容入口（?ui=v3 / ?ui=v2，ADR-032）
 Plugin       → 不允许覆盖 Core 注册（exporter format / MCP tool / MCP resource /
                quality evaluator / issue code）
 Plugin       → 不允许 import api / ui / ai.providers / BlueprintRepository /

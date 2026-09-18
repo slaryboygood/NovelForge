@@ -190,11 +190,29 @@ Module Tests
 ### 3.6 `ui`
 
 ```text
-Public Contract      仅通过 HTTP API 消费后端能力（ui/src/v3/api.ts）
-Allowed              REST API
-Forbidden            直接推导业务事实、直接读写文件、复制后端质量 / 进度逻辑
-State Ownership      纯展示状态（含 localStorage 设计态参考位）
-Module Tests         tests/browser_*.cjs
+V4-10 起主产品面 = Story Studio（ui/src/studio/**）；V3（ui/src/v3/**）与
+V2（ui/src/*.tsx）是**显式兼容入口**（?ui=v3 / ?ui=v2，ADR-032）。
+
+Public Contract
+  ui/src/api/studio.ts          Story Studio 唯一 HTTP 客户端 + DTO 来源
+  ui/src/api.ts                 V2/V3 兼容客户端（既有）
+  ui/src/studio/**              Story Studio（默认产品面）
+  ui/src/v3/design-system/**    Design System（tokens / icons / primitives，唯一主题）
+  ui/src/v3/**, ui/src/*.tsx    兼容入口（不再是默认）
+Allowed
+  仅 HTTP/REST：`/api/story-builder/**`（经 api client；feature 组件不得直接 fetch）
+Forbidden
+  UI 不 import 或读取：blueprint storage / quality store / editor store /
+  delivery store / plugin registry / 文件系统产物
+  UI 不直接调 Python、不经 MCP 调自己的后端（REST 与 MCP 是平级 adapter）
+  UI 不推导业务事实（quality / acceptance / delivery eligibility / repair scope /
+  story truth）；不复制后端进度与质量公式
+  UI 不建立第二套主题与第二套状态语义
+State Ownership
+  纯展示状态（选中项 / 抽屉开关 / 本地草稿）；无业务 truth
+Module Tests
+  ui/**/*.test.ts(x)（vitest + testing-library）、tests/browser_v4_*.cjs、
+  tests/browser_v3_*.cjs / browser_creator_*.cjs（显式兼容入口）
 ```
 
 ### 3.7 `ai` — LLM Gateway（V4-02 落地）
@@ -520,6 +538,9 @@ interfaces   → 不允许 import domain（必须经 app-services）
 persistence  → 不允许 import app-services / interfaces / ai
 legacy       → 不允许被 app-services 之外的模块 import
 ui           → 不允许 import 任何 Python 模块（只走 HTTP）
+ui           → 不允许推导业务事实（quality / acceptance / delivery eligibility /
+               repair scope / story truth）；只展示 HTTP 返回的真相（ADR-033）
+ui           → 默认产品面 = Story Studio；V3/V2 必须显式入口（?ui=v3 / ?ui=v2，ADR-032）
 quality      → 不允许 import api / ai.providers / HTTP client，不允许自行拼 artifact 路径
 quality      → 不允许修改 Blueprint 节点 / Canon / StoryState
 generation   → 不允许 import quality / repair（否则形成依赖环）

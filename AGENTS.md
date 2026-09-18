@@ -769,6 +769,15 @@ docs/CANON_DEFENSE_COVERAGE_MATRIX.md           Canon 防冲突矩阵（由测�
 docs/CHANGELOG.md                               Release history（V3.0 / V2.0 / 更早）
 ```
 
+> 2026-09 之后，**V4 current 架构 / 边界的权威文档**是
+> `docs/v4/V4_ARCHITECTURE.md`（目标架构）、
+> `docs/v4/V4_MODULE_BOUNDARIES.md`（物理目录与依赖边界）、
+> 各 `docs/v4/V4_*_CONTRACT.md`（能力契约）与
+> `docs/v4/V4_POST_RELEASE_CLEANUP_REPORT.md`（current tree 的真实清理状态与证据）。
+> `docs/ARCHITECTURE.md` / `docs/DATA_MODEL.md` / `docs/STORY_BUILDER_USER_GUIDE.md`
+> 描述的是 V3 Story Builder 时代的分层，其中 story_builder / 引导流 / 模拟运行时
+> 相关章节已随 backend retirement 失效（保留为历史记录）。
+
 Release / 验收 artifact：
 
 ```text
@@ -803,29 +812,44 @@ docs/NOVELFORGE_PRODUCT_V2_RELEASE.md           V2 release 记录（frozen）
 
 ## 18. 主要代码区域
 
-Story Builder：
+> **2026-09 post-release cleanup 之后**：V2/V3 Story Builder 后端已整体退休，
+> `src/novelforge/story_builder/**`、`src/novelforge/legacy/**` 与
+> `src/novelforge/api/story_builder_routes.py` **不再存在**，
+> `novel/config` 只剩 `ai/providers.json`。下表是当前真实代码区域。
 
-`src/novelforge/story_builder/`
+核心 primitive 与路径：
 
-Story Engine：
+```text
+src/novelforge/core/            id / digest / revision / OperationContext
+src/novelforge/persistence/     artifact 路径唯一入口（按 novel_id 隔离，禁隐式当前作品）
+```
 
-`src/novelforge/story_engine/`
+current 能力 owner：
 
-API：
+```text
+src/novelforge/blueprint/       Story Blueprint 节点与 canonical store
+src/novelforge/generation/      结构化生成（proposal）
+src/novelforge/quality/         Q0–Q9 gate + 定向修复 + verifier
+src/novelforge/editor/          patch / diff / accept / restore
+src/novelforge/delivery/        revision-pinned 交付（snapshot / manifest / nfpack）
+src/novelforge/ai/              唯一 LLM 入口
+src/novelforge/memory/          派生记忆与上下文装配
+src/novelforge/plugins/         插件 Host
+src/novelforge/agent/           有界 Agent orchestration
+src/novelforge/interfaces/mcp/  MCP 适配层
+src/novelforge/story_engine/    current 边界残留：canon / profile / state / storage /
+                                entities / context / templates / repair(frozen)
+                                + chapter_ir frozen slice
+src/novelforge/application/     用例编排（services/*）
+src/novelforge/api/             current REST（project / canon / editor / delivery /
+                                studio / agent 路由）
+ui/src/                         Story Studio（唯一产品面）
+tests/                          current 套件 + frozen 守卫 + 浏览器验收
+```
 
-`src/novelforge/api/story_builder_routes.py`
-
-配置：
-
-`novel/config/story_builder/step_catalogs.yaml`
-
-Web UI：
-
-`ui/src/`
-
-测试：
-
-`tests/`
+配置只有一处仍被 current 代码读取：`novel/config/ai/providers.json`（LLM Gateway）。
+作者运行数据（Blueprint / Quality / Delivery / Memory / Agent / profiles / StoryState）
+在 `novel/authoring/story_engine/**`，一律 gitignored。
 
 修改之前先搜索相关实现，不假设文件职责。
 

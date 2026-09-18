@@ -144,3 +144,14 @@ Frozen guard        tests/test_v2_frozen_guard.py（V2 tag / release 记录 / au
 * `workspace/` 与 `novel/authoring/` 为运行 / 作者数据；frozen 证据不可修改。
 * 不在引擎内做题材判断（源码守卫：`tests/test_story_engine_cross_genre.py`、
   `tests/test_story_engine_templates.py`）；题材差异只能来自 Template / ContentPack / NovelProfile。
+# NovelForge 架构（V3 Story Builder 时代的 SSOT）
+
+> **2026-09 更新**：V4（Story Blueprint Runtime + Story Studio）的架构 SSOT 是
+> **`docs/v4/V4_ARCHITECTURE.md`** 与 **`docs/v4/V4_MODULE_BOUNDARIES.md`**，
+> current tree 的真实状态与证据见 `docs/v4/V4_POST_RELEASE_CLEANUP_REPORT.md` §96b–§96h。
+>
+> 本文保留 V3 时代的分层描述作为历史记录，但以下内容**已经不存在于 current tree**：
+> `story_builder/**`（含 `v3_projection` / `ui_flow` / `inspector` / `sessions` / `blueprints`）、
+> `story_engine` 的模拟运行时与 `*_view`、引导流、旧大纲 / writer / planning / chapter IR /
+> spec 通道、`novelforge/legacy/**`、`api/story_builder_routes.py`。
+> 当前领域层只保留 Canon / NovelProfile / StoryState / NovelContext / 模板 / frozen Repair 实现。

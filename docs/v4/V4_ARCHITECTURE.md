@@ -4,6 +4,30 @@
 > 基线：`novelforge-product-v3-final`（commit `f02ca8c`）
 > 输入证据：`docs/v4/V4_CODEBASE_INVENTORY.md`、`docs/v4/V4_MODULE_CLASSIFICATION.md`
 > 本文只定义架构。**不含任何业务代码改动**；`Status: Proposed` 的部分明确标注。
+>
+> **post-release cleanup（Round 2）状态**：本文是 V4-00 的目标架构设计记录。
+> backend retirement 之后 **current tree** 的实际状态是（证据见
+> `V4_POST_RELEASE_CLEANUP_REPORT.md` §96b–§96h）：
+>
+> ```text
+> 已删除（本文中作为"现状 / 待迁移"提到的对象，现在都已落地）：
+>   api/story_builder_routes.py（1,317 行 God router）
+>   story_builder/**（sessions / blueprints / outlines / adventures / design_tree /
+>                     inspector / ui_flow / models / catalog / recommendations / v3_projection …）
+>   story_engine legacy（planning / chapter_ir 提取校验 / spec / route_lab / writer /
+>                        outline_* / creative / settings_* / *_view / historical_* /
+>                        reconstruction / milestone_acceptance / phase_snapshot / 模拟运行时）
+>   novelforge/legacy/**（frozen 模块清单机制：清单对象删除后机制失去意义）
+>   Journey 投影实现（现在直接写在 application/services/journey.py，不再委托 v3_projection）
+>
+> 保留（真实 current）：core / persistence / blueprint / generation / quality / editor /
+>   delivery / ai / memory / plugins / agent / observability / interfaces(mcp) / api /
+>   story_engine{canon, profile, state, storage, entities, context, templates,
+>                repair(frozen) + chapter_ir frozen slice}
+>
+> 因此本文 §3 的目录树里出现的 `story_builder/`、`legacy/`、`projections/` 条目
+> **不代表当前磁盘状态**。
+> ```
 
 ---
 

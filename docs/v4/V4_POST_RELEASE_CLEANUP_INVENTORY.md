@@ -5,6 +5,14 @@
 > 规则：**只整理 current tree**；不改 Git history、不移动 tag、不 force push（任务书 §2）。
 > Decision 取值：`KEEP` / `MIGRATE` / `DELETE` / `LOCAL_DELETE` / `REVIEW_REQUIRED`
 > 证据方法：`git ls-files` / `git check-ignore` / 静态 import-closure 扫描 / 运行期回归（pytest + 浏览器门禁）
+>
+> **Round 2 更新（backend retirement 已执行）**：作者已接受 `E1_STATIC_SUBSTITUTE = ACCEPTED`
+> （本环境没有 code-intelligence / symbol-reference MCP），因此 §0b 的"E1 恒不可满足 →
+> 一律 REVIEW_REQUIRED"不再适用：删除判定使用
+> `E1' AST/import closure · E2 rg/git grep · E3 runtime routes/registries · E4 tests/contracts/frozen/browser · E5 Git/data ownership`。
+> 执行结果见 `V4_POST_RELEASE_CLEANUP_REPORT.md` §96b–§96h：
+> §3/§4/§5 的 `DELETE` 与 `MIGRATE` 条目已全部落地（含 story_builder/**、story_engine legacy、
+> api/story_builder_routes.py、legacy/**、legacy config 与 88 个 legacy 测试文件）。
 
 ## 0. 判定标准（任务书 §7/§97）
 

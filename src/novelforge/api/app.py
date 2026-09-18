@@ -69,7 +69,7 @@ def create_app(project_root: Path | str = ROOT, *,
 
     @app.get("/api/health")
     def health() -> dict[str, Any]:
-        return {"status": "ok", "product": "story-builder",
+        return {"status": "ok", "product": "story-studio",
                 "plugins": plugin_service is not None,
                 "ai": gateway is not None}
 

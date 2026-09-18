@@ -3,6 +3,21 @@
 > 状态：**V4-00 Architecture — 只识别，不处理**；已按 **V4-01 作者决策**更新受影响条目
 > 每条风险必须有 `Evidence`（代码 / 数据事实）。没有证据的担忧不进入本表。
 > Probability / Impact 采用 `H / M / L`（High / Medium / Low）。
+>
+> **post-release cleanup（Round 2）风险状态**：
+>
+> ```text
+> R-01 Big Bang Rewrite          → 已消解：本轮就是"迁移后再删除"的收尾；删除前后
+>                                   full pytest 全绿（924 passed），未做重写
+> R-08 Canon drift               → 未变：Canon 包整体保留、测试与 mutation matrix 全绿
+> R-11 Historical data leakage   → 已闭合：历史模块与历史配置全部删除，
+>                                  只有 frozen repair 实现保留历史路径常量（tests/v4/isolation 守卫）
+> R-16 Export contamination      → 已闭合：legacy 导出通道物理删除，交付只有 deliver()
+> "legacy 通道长期散落"（CHALLENGE-04） → 已消解：novelforge/legacy/** 与 story_builder/**
+>                                  整体退休，历史证据交给 Git + FROZEN_EVIDENCE_MANIFEST
+> ```
+>
+> 详细证据：`V4_POST_RELEASE_CLEANUP_REPORT.md` §96b–§96h。
 
 ### 0.1 V4-01 风险状态更新
 

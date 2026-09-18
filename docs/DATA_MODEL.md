@@ -2,6 +2,13 @@
 
 > 本文件是数据模型 SSOT。每类对象都标注：**authoritative / derived**、
 > **mutable / frozen**、以及它属于哪一层 truth。架构分层见 `docs/ARCHITECTURE.md`。
+>
+> **2026-09 更新**：V4 的数据模型权威文档是各 `docs/v4/V4_*_CONTRACT.md`
+> 与 `docs/v4/V4_ARCHITECTURE.md`；current truth layers =
+> `Canon`（已发生事实）/ `StoryState`（runtime truth）/`Story Blueprint`（提案层）/
+> `Quality Store`（质量真相）/`Delivery Store`（交付快照）/`Memory`（派生、可重建）。
+> 本文里 V3 工作台投影（v3_projection）、引导流 session、旧大纲 / writer 草稿等条目
+> 已随 backend retirement 失效，保留为历史记录。
 
 ## 权威层级（truth layers）
 

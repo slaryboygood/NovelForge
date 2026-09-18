@@ -3,7 +3,13 @@
 > 阶段：**V4.0.0 之后的 current-tree 深度清理**
 > 分支：`v4-post-release-cleanup`（基线 `baa81ef39b8f4563923a28a2b2d2d28e77e423a4` = `v4.0.0`）
 > 判据：`docs/v4/V4_POST_RELEASE_CLEANUP_INVENTORY.md`（KEEP / MIGRATE / DELETE / LOCAL_DELETE / REVIEW_REQUIRED）
-> 结论：**本轮完成 UI 与数据层清理并被门禁验证；backend legacy 层尚未移除 → 整体 verdict = BLOCKED**（见 §96）
+> 结论：
+> **Round 1**（`e2b8de7`…`e0bb657`）完成 UI 与数据层清理并门禁验证 → backend legacy 层仍 BLOCKED（见 §96）。
+> **Round 2**（`b62de3a`…`fbf1874`，见本文件 §96b）完成 **V2/V3 Story Builder 后端整体退休**：
+> `/api/story-builder/v3/*`、route_lab、writer、outline、planning、chapter IR、spec、
+> `story_builder/**`、legacy manifest、legacy config 全部移除，`v3_projection` /
+> `export_package` / `writer_integration` / `creator` / `blueprints` / `sessions` 物理删除。
+> 最终 verdict（§96c）= **PASS**（§81 的全部 PASS 条件逐项有证据）。
 
 ## 1. Starting commit
 
@@ -527,3 +533,175 @@ clean（本轮结束时；临时 workspace 根在收尾时删除）
 建议：先完成 §11 后再决定版本号；候选为 patch 级（例如 v4.0.1 —— 仅含"移除兼容产品面 + 清理"），
 而不是 minor（没有新增能力）。不要在本轮直接发布。
 ```
+
+---
+
+# Round 2 — V2/V3 Story Builder Backend Retirement
+
+> 起点：`e0bb657`（Round 1 结束，working tree clean，未 push / 未 merge / 未打 tag）
+> 终点：`fbf1874`（本文件随 docs 收敛一并提交）
+> 授权：作者已接受 `E1_STATIC_SUBSTITUTE = ACCEPTED`（本环境没有 code-intelligence MCP），
+> 删除证据链 = `E1' AST/import closure` + `E2 rg/git grep` + `E3 runtime routes/registries`
+> + `E4 tests/contracts/frozen/browser` + `E5 Git/data ownership`。
+
+## 96b. 每个 blocker 的处理（任务书 §75）
+
+| Blocker | Before | Action | After | Evidence | Status |
+| ------- | -----: | ------ | ----- | -------- | ------ |
+| Journey/v3_projection | `application/services/journey.py` 委托 `story_builder.v3_projection` | 投影实现改为只读 current 层（Profile / Blueprint / Quality / Delivery），删除 `v3_projection.py` + `/v3/*` 端点 | 0 引用，模块不存在 | `b62de3a`；`rg v3_projection src tests` = 0；`pytest tests/v4 tests/studio tests/mcp tests/acceptance` PASS | **CLOSED** |
+| export_package | `ExportService` 曾包装 `story_builder.export_package`（Round 1 已切走调用点） | 物理删除 `story_builder/export_package.py` | 模块不存在 | `b3d2ffc`；`rg export_package src` = 文档历史说明 | **CLOSED** |
+| writer_integration | `/writer/*` 端点 + 草稿 SSOT 仍在 | 删除模块 + 端点；frozen repair 回归先去耦 | 模块与端点不存在 | `b3d2ffc`；`rg writer_integration src tests` = 0（仅历史文档） | **CLOSED** |
+| creator | `story_engine/creator.py`（V2 creator context，含 blueprint 槽） | surviving helpers 迁到 `story_engine/context.py`（NovelContext / resolve_novel_context / story_state_preview / runtime_key_for），删除 creator.py | 0 引用，`rg story_engine.creator` = 0 | `95d5db6`；`tests/memory tests/generation tests/delivery` PASS | **CLOSED** |
+| blueprints | `story_builder/blueprints.py`（第二套 Blueprint 存储） | 与 V2 session 引导流一起退休；canonical owner = `novelforge.blueprint` | 模块不存在 | `fbf1874`；`rg story_builder.blueprints src tests` = 0 | **CLOSED** |
+| sessions | `story_builder/sessions.py`（V2 UI session） | 退休（不是 context helper：只服务 V2 引导流） | 模块不存在 | 同上 | **CLOSED** |
+| writer backend | `story_engine/writer.py` + `/writer/*` | 退休（V4 Core 无整段正文 Writer；正文预览由插件承担） | 模块不存在 | `fbf1874`；`novel/runs/**`、`novel/workspace/**` 未触碰 | **CLOSED** |
+| outline backend | `outline_forge` / `outline_revision` / outline 模型与端点 | 退休；canonical creative artifact = StoryBlueprint | 模块与端点不存在 | `fbf1874`；`canon/outline_adapter.py` 同步删除（会重建第二套 outline 存储） | **CLOSED** |
+| story_engine legacy | planning(43) / chapter_ir(11) / spec(5) / route_lab / creative / settings_gen / settings_check / `*_view` / historical_* / reconstruction / milestone_acceptance / phase_snapshot / writer / 模拟运行时 | 用 E1'–E5 判定后删除；**保留** Canon、StoryState、Profile、templates、context、frozen Repair 实现 + chapter IR frozen slice | `story_engine` 只剩 9 个模块 + canon + 3 文件 frozen slice | `fbf1874`；`tests/v4/isolation/test_legacy_boundary.py` 守卫 | **CLOSED** |
+| story_builder routes | 1317 行 God router（86 端点） | `api/project_routes.py` 接管 `/novels`（URL 不变，owner = ProjectService）；God router 删除；`create_app` 去掉 `with_legacy` | `/api` 路径 46 → 全部登记在 `tests/test_product_surface.py` | `fbf1874`；`tests/test_product_surface.py` + `tests/test_v3_frozen_guard.py` 断言 21 个 legacy 端点 404 | **CLOSED** |
+| LegacyManifest | `novelforge/legacy/**`（10 条 frozen 模块登记，含已删条目） | 模块整体退休（无 runtime consumer）；历史证据交给 Git + `FROZEN_EVIDENCE_MANIFEST` | 包不存在 | `fbf1874`；`tests/v4/isolation/test_legacy_boundary.py` | **CLOSED** |
+| legacy config | `novel/config` 103 files（step_catalogs / story_engine packs / schemas / bible / outline / planning / spec / author / human / 根级 yaml） | 逐文件确认「哪个 current loader 打开它」→ 无 loader 的全部删除 | `novel/config` 只剩 `ai/providers.json` | `fbf1874`；`rg novel/config src` 只剩 `ai/factory.py` | **CLOSED** |
+
+## 96c. 最终验证（任务书 §52–§71 / §81）
+
+```text
+Starting HEAD  e0bb657（Round 1 结束）
+Ending HEAD    fbf1874 + 本 docs 收敛提交
+Cleanup commits（Round 2）= 5
+
+Journey               V4-native（Profile / Blueprint / Quality / Delivery）；v3_projection 删除
+MCP journey 消费者    facade.summary / studio overview / MCP novel resource 三段同源断言（tests/test_acceptance_repair_regressions.py）
+Export                legacy export channel 退休；current 交付 = ExportService.deliver（唯一出口）
+frozen repair         回归保留：tests/test_acceptance_repair_regressions.py 10 项全绿（fixture 迁移，语义未放宽）
+
+Routes before/after   1317 行 God router（86 端点）→ 46 个 current API 路径（/novels 迁到 project_routes）
+LegacyManifest        10 entries → 包整体退休
+Config before/after   103 files → 1（ai/providers.json）
+Legacy tests removed  88 个文件（story_builder 20 / story_engine 43 / planning 14 / chapter_ir 10 / ai+generation legacy migration 2 / v3 projection 5 / 其它 4）
+Tracked files         1132 → 818（−314）
+Python LOC            src 84,811 → 39,116（−45,695，−54%）；tests 36,763 → 18,559（−18,204）
+Frontend bundle       232.65 kB JS / 27.36 kB CSS（不变：UI 侧本轮无改动）
+
+Full pytest           924 passed, 1 skipped, 0 failed（6:43）＝新 baseline
+Acceptance            tests/acceptance PASS
+Frozen guards         test_v2_frozen_guard PASS / test_v3_frozen_guard PASS（边界改挂 current owner，断言强度不降低）
+Repair frozen         test_acceptance_repair_regressions PASS（10 passed）
+Memory / Generation / Delivery / MCP / Plugins / Agent / Studio / v4 isolation  PASS（522 passed 专项组合）
+MCP                   build_tool_registry = 23 tools / build_resource_registry = 13 resources（未变）
+Frontend              npm ci exit 0；npm test 60 passed（8 files）；npm run build PASS
+Browsers              browser_v4_studio_golden PASS（downloads: blueprint.md 5,557 B / blueprint.docx 3,845 B / novelforge-package.nfpack 20,697 B）
+                      browser_v4_11_agent PASS；browser_v4_legacy_entry PASS（0 page error）
+Isolation             tests/v4/isolation/** PASS（含 cross-novel isolation）
+Canon/StoryState      canon 全量测试 PASS；canon mutation matrix kill_rate 100% / pollution 0%
+validate_project      PASS（46 个 API 路径全部登记）
+Clean install         全新 temp venv（`.python311 -m venv`）→ `pip install -r requirements.txt` exit 0（**不升级 pip**）
+                      → import novelforge / create_app() / GET /api/health = 200（product=story-studio）
+Empty-runtime smoke   空数据根（无任何 legacy 目录）→ app 启动、health 200、/novels 200、
+                      POST /novels 201 且只创建 `novel/authoring/story_engine/profiles`
+Frozen tags           v4.0.0 / novelforge-product-v4-final → baa81ef…；novelforge-product-v3-final 未移动
+Working tree          clean
+```
+
+## 96d. 剩余 current legacy paths（每一个都有 justification）
+
+```text
+src/novelforge/story_engine/repair.py
+  frozen Repair Contract / REPAIR_GATE_V1 实现（AGENTS.md §16.1/§34）→ 保留
+src/novelforge/story_engine/chapter_ir/{__init__,models,function_policy}.py
+  repair.py 依赖的 frozen slice（FUNCTION_REQUIREMENTS + ChapterSemanticIR）→ 保留
+src/novelforge/story_engine/canon/**
+  Canon Infrastructure（C01–C13：identity / dependency / graph / gate / validator /
+  planner / mutation / prose / bootstrap / sync / service）→ **整体保留**。
+  判定依据（偏离 inventory §4.2 的一行结论，理由如下）：Canon 是 AGENTS.md §3.3 明确保护的
+  frozen truth boundary；planner / mutation / prose 是 Canon 自己的工程能力（fault injection
+  corpus、Canon-aware planning、prose integrity audit），不是 V2 Story Builder 产品代码，
+  其测试是 Canon 测试而不是 legacy 产品测试。删除它们等于削减 Canon 覆盖，
+  属于需要作者确认的 frozen boundary 变更，不在"backend retirement"授权范围内。
+  唯一例外：`canon/outline_adapter.py`（把 Canon-aware 章纲写回 V2 StoryOutlineRepository）
+  确实是 legacy 第二套 outline 存储的适配器 → 已随 outline 后端删除。
+tests/test_v2_frozen_guard.py / test_v3_frozen_guard.py / test_acceptance_repair_regressions.py
+  frozen 证据文件（§49）→ 保留；其中 V3 守卫与验收回归按 AGENTS.md §20
+  「历史 timepoint → 永久不变式」改挂在 current owner 上（见 §96e）
+docs/v4/V4_00…V4_12_*、docs/CHANGELOG.md、docs/LEGACY_COMPAT.md、docs/V3_*、docs/FROZEN_EVIDENCE_MANIFEST.json
+  历史事实与冻结证据 → 不修改（§51）
+```
+
+## 96e. 需要作者知情的两处判定（frozen 证据文件的边界迁移）
+
+```text
+1. tests/test_v3_frozen_guard.py
+   原文件固定的是 V3-P1 对 `route_lab.list_branches` 的放宽边界。route_lab 整体退休后，
+   这条不变式改挂在 current owner：
+     只读空态 → JourneyService 空投影（不报错）
+     受门前置 → /studio/generate 缺少模型能力给稳定错误码 GENERATION_UNAVAILABLE
+     legacy 端点 → 21 个路径必须 404
+   断言强度不降低（三条都要求"真实结果或带稳定错误码的真实拒绝"）。
+
+2. tests/test_acceptance_repair_regressions.py
+   NF-001…NF-012 原本在 V3 Command Center 上断言。命令中心退休后：
+     NF-002 唯一 canonical store → BlueprintRepository + Studio REST
+     NF-003/004 作者语言 / 不泄漏引擎 id → Studio 蓝图投影 + 交付物
+     NF-005 单一阶段公式 → JourneyService（REST / MCP / 服务层三方一致）
+     NF-008 推荐下一步必须可执行 → journey next_action → /studio/generate
+     NF-011 删除＝整体归档不留孤儿 → ProjectService.archive_novel（并修好 V4 产物未纳入归档清单的真实缺陷）
+     NF-012 有问题报真实 blocker → DeliveryValidator preflight
+   随能力退休的项（writer 草稿路径 / outline 章节导出 / 引导流 onboarding）不再作为 current 断言。
+
+这两处是"历史 timepoint 断言 → 永久不变式 + current owner"的迁移，
+不是删除 frozen 文件、也不是放宽断言；frozen Repair Contract / Gate / truth boundary 未改动。
+```
+
+## 96f. 本轮修掉的真实缺陷（不是清理副作用）
+
+```text
+1. novel_admin.novel_artifact_paths 只列举 V2 产物（profile / pack / runtime state / writer /
+   旧 outline），V4 的 blueprint / quality / editor / delivery / memory / agent / plugin state
+   都不在归档清单里 → "删除作品＝整体归档不留孤儿"（NF-011）在 V4 其实是**假的**。
+   现在全部经 `persistence.paths` 枚举 → NF-011 断言重新成立（并新增守护断言）。
+2. JourneyService 的文档声称是"唯一投影"，实现却委托 V3 模块 → 已改为真正唯一实现。
+3. story_engine/context.py（原 creator）文档声称"只读"，实现却 `profiles.ensure()`
+   隐式写 profile → 改为 `load()`，读操作不再写文件。
+```
+
+## 96g. Public API removals（任务书 §77）
+
+```text
+删除的 externally reachable 端点（全部为 undocumented legacy compatibility）：
+  /api/story-builder/v3/novels
+  /api/story-builder/v3/novels/{novel_id}/command-center
+  /api/story-builder/v3/novels/{novel_id}/journey
+  /api/story-builder/catalogs | /steps/{step_id} | /content-packs
+  /api/story-builder/sessions/**（含 selections / back / recommendations / compile-blueprint …）
+  /api/story-builder/blueprints/**（adventures / confirm / outlines）
+  /api/story-builder/outlines/**（export / confirm / items 编辑）
+  /api/story-builder/outline/**（plan / forge / chain / export / versions / version-diff /
+                                impact / revise / restore / merge-versions / confirm）
+  /api/story-builder/runtime/**（branches / state / start / advance / tick / fork）
+  /api/story-builder/creator/**（world / characters / plot / progression / memory / director / linkage）
+  /api/story-builder/settings/**（seed / check / impact / overview / regions / relationships）
+  /api/story-builder/inspector/**（overview / search / record）
+  /api/story-builder/repair/**（diagnosis / history）
+  /api/story-builder/writer/**（context / drafts / sync-facts）
+  /api/story-builder/guided-flow
+  /api/story-builder/export/package | /api/story-builder/export/writer-bundle（Round 1 已删）
+
+每一个都是：
+  documented V4 API? NO（V4 契约只有 /novels + /studio + /editor + /delivery + /agent + /canon）
+  current consumer? NO（Story Studio / MCP / Agent / Delivery / Plugin 都不调用）
+  legacy compatibility only? YES → 随 legacy 后端一起退休
+保留 URL：/api/story-builder/novels（GET/POST/GET id/PATCH/DELETE）→ owner 从 God router 迁到
+  `api/project_routes.py`（行为不变：409 二次确认、404 PROFILE_NOT_FOUND、422 校验）。
+```
+
+## 96h. 版本建议（任务书 §78）
+
+```text
+本轮只删除了 **未被 V4 文档化为 public API 的 legacy compatibility 端点**，
+没有删除任何 documented / supported V4 public API（/novels 的 URL 与语义保持不变，
+Studio / Editor / Delivery / Agent / Canon / MCP 全部不变）。
+按项目版本策略：
+  · 兼容 surface 被移除（V2/V3 端点 404）→ 属于"移除已退役兼容层"；
+  · V4 支持面没有变化、没有新增能力 → **patch 级**，建议 `v4.0.1`。
+不建议 minor / major：没有任何 documented V4 能力被删除或改变。
+（发布动作不在本轮范围内：不 push / 不 merge / 不打 tag。）
+```
+

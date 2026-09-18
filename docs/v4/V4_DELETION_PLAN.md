@@ -3,6 +3,27 @@
 > 状态：**V4-00 Architecture — 只登记，不删除**
 > 铁律：**禁止「看起来没用，所以删」。** 每条删除必须有证据、替代物、移除阶段与验证方式。
 > 与 `V4_MIGRATION_PLAN.md` 的关系：迁移计划定义「怎么换」，本文件定义「什么时候可以删」。
+>
+> **post-release cleanup（Round 2）执行结果**：本表登记的 legacy 条目已在
+> `v4-post-release-cleanup` 上执行完毕（`b62de3a`…`fbf1874`）：
+>
+> ```text
+> AD-004 v3_projection           → 已删除（Journey 投影改由 application 实现）
+> story_builder/**               → 已删除（sessions / blueprints / outlines / adventures /
+>                                  design_tree / inspector / ui_flow / models / catalog /
+>                                  recommendations / exporter / writer / novel_admin 迁移）
+> story_engine legacy            → 已删除（planning / chapter_ir 提取校验 / spec / route_lab /
+>                                  writer / outline_* / creative / settings_* / *_view /
+>                                  historical_* / reconstruction / phase_snapshot …）
+> novelforge/legacy/**           → 已删除（清单对象消失后机制无意义）
+> api/story_builder_routes.py    → 已删除（/novels 迁到 api/project_routes.py）
+> novel/config 的 legacy 子树    → 已删除（只保留 ai/providers.json）
+> ```
+>
+> 保留例外（每条都有 frozen / current 依据）：`story_engine/repair.py`（frozen Repair 实现）、
+> `chapter_ir/{models,function_policy}.py`（repair 依赖的 frozen slice）、`canon/**`
+> （Canon 是受保护的 truth boundary）、三个 frozen 测试文件。
+> 逐项证据见 `V4_POST_RELEASE_CLEANUP_REPORT.md` §96b/§96d。
 
 ---
 

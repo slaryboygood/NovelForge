@@ -4,6 +4,14 @@
 > 依据：`docs/NOVELFORGE_V4_MASTER_PLAN.md` §8–13、§43；`docs/v4/V4_ARCHITECTURE.md` §3–§4
 > 定位：本文件是**物理目录与依赖边界的最终依据**。任何新模块、目录改名、跨模块导入都要先改这里，
 > 再改代码（Master Plan §13：先 Contract，再适配）。
+>
+> **post-release cleanup（Round 2）更新**：`story_builder/**` 与 `novelforge/legacy/**`
+> 两个包已整体退休，`story_engine` 只保留 `canon / profile / state / storage / entities /
+> context / templates / repair(frozen) + chapter_ir frozen slice`。
+> `/novels` 的 REST owner 从 `api/story_builder_routes.py` 迁到 `api/project_routes.py`
+> （URL 不变，业务能力仍在 `application/services/project.py`）。
+> 边界守卫测试（`tests/v4/isolation/test_module_boundaries.py`、
+> `test_legacy_boundary.py`）已同步更新；细节见 `V4_POST_RELEASE_CLEANUP_REPORT.md` §96b–§96h。
 
 ---
 

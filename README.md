@@ -11,6 +11,12 @@
 > 旧历史版本（`novelforge-product-v3.0` / `novelforge-product-v2.0` / `story-engine-v2.0`）
 > 已归档：**historical / archived / not an active Git ref**，完整恢复由外部 bundle
 > `NovelForge_pre_V4_full_history.bundle` 承担，见 `docs/FROZEN_EVIDENCE_MANIFEST.json`。
+>
+> **V2/V3 Story Builder 后端已整体退休**（post-release cleanup）：引导流会话、旧蓝图与大纲存储、
+> 模拟运行时、route_lab、writer、planning / chapter IR / spec、`api/story_builder_routes.py`
+> 与 `novelforge/legacy/**` 都不在 current tree 里，相关 URL 一律返回 404。
+> `/api/story-builder/novels` 保留（owner = `application/services/project.py`）。
+> 逐项证据见 `docs/v4/V4_POST_RELEASE_CLEANUP_REPORT.md` §96b–§96h。
 
 ## V4 核心能力
 
@@ -65,8 +71,9 @@ npm.cmd --prefix ui install
 关于模型：V4-02 起所有模型调用统一经过 `src/novelforge/ai`（LLM Gateway：contract /
 router / provider / 结构化输出 / retry / timeout / usage / trace / cache）。
 但**默认不启用任何 provider**（`novel/config/ai/providers.json` 全部 `enabled=false`），
-因此开箱行为仍然是「不调用模型」：题材 / 基调 / 卖点候选、设定候选、章纲等生成
-依旧是本地确定性流程（响应的 `source` 恒为 `rule`，`notes` 含 `AI_UNAVAILABLE`）。
+因此开箱行为是「不调用模型」：`/studio/generate` 会返回**稳定错误码**
+`GENERATION_UNAVAILABLE`（422），不会静默降级成规则式假内容
+（V2 的规则式创意 / 设定 / 章纲生成链已随 Story Builder 后端一起退休）。
 要接模型，按 `.env.example` 的说明启用 provider 并配置对应环境变量；
 boundary 说明见 `docs/v4/V4_LLM_CONTRACT.md` 与 `docs/v4/adr/ADR-012-unified-llm-gateway.md`。
 
@@ -214,13 +221,29 @@ V4 边界守卫（跨作品污染 / 废弃资产 / 模块依赖）现在默认�
 ## 代码地图
 
 ```text
-src/novelforge/story_engine/     领域层：StoryState / 行动-条件-效果 / 事件 / 伏笔 / 路线 / 大纲 / Canon / 修复
-src/novelforge/story_builder/    应用层：创意与设定 / 会话与蓝图 / 导出 / Writer 集成 / Inspector / V3 投影
-src/novelforge/api/              业务 API（FastAPI，唯一入口 /api/story-builder/*）
+src/novelforge/core/             语义稳定的 primitive（id / digest / revision / OperationContext）
+src/novelforge/persistence/      artifact 路径的唯一解析入口（按 novel_id 隔离）
+src/novelforge/blueprint/        Story Blueprint 节点模型与 canonical store（append-only revision）
+src/novelforge/generation/       逐级结构化生成（AI 产出 = proposal）
+src/novelforge/quality/          Q0–Q9 gate + 定向修复 + verifier
+src/novelforge/editor/           字段级 patch / diff / accept / restore（metadata 与 canonical 分离）
+src/novelforge/delivery/         revision-pinned 交付（snapshot / manifest / checksum / nfpack）
+src/novelforge/ai/               唯一 LLM 入口（contract / router / provider / structured output）
+src/novelforge/memory/           派生且可重建的检索与上下文装配
+src/novelforge/plugins/          插件 Host（approval / permission / adapter）
+src/novelforge/agent/            有界 Agent orchestration（plan → execute → verify → checkpoint）
+src/novelforge/interfaces/mcp/   官方 SDK 薄适配层（23 tools / 13 resources）
+src/novelforge/story_engine/     领域层残留的 current 边界：Canon / NovelProfile / StoryState /
+                                 NovelContext（读取上下文）/ 模板 / frozen Repair 实现
+src/novelforge/application/      用例编排（services：project / blueprint / review / editor /
+                                 export / journey / agent）
+src/novelforge/api/              current REST（/api/story-builder/{novels,canon,editor,delivery,
+                                 studio,agent}）
 ui/src/studio/                   Story Studio（V4 唯一产品面：工作区 / 编辑 / 检查 / 交付 / 插件 / Agent）
 ui/src/design-system/            共享 Design System（components / tokens / primitives / 默认美术）
-novel/config/                    题材模板、内容包、十步目录（数据，不是事实）
-novel/authoring/                 作者产物（profiles / StoryState / 会话 / 大纲）——本地运行数据
+novel/config/ai/providers.json   LLM provider 配置（唯一仍被 current 代码读取的 config）
+novel/authoring/                 作者产物（profiles / StoryState / Blueprint / Quality / Delivery /
+                                 Memory / Agent 运行数据）——本地运行数据
 scripts/                         启动、校验、隔离测试服务
-tests/                           应用层测试 + 浏览器验收脚本
+tests/                           current 套件 + frozen 守卫 + 浏览器验收脚本
 ```

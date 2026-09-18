@@ -2,6 +2,11 @@
 
 > 状态：**V4-01 Boundary Foundation**
 > 依据：`docs/NOVELFORGE_V4_MASTER_PLAN.md` §12–13、§42、§43；`docs/v4/V4_MODULE_BOUNDARIES.md`
+>
+> **post-release cleanup（Round 2）**：本轮全部工作在**本地分支 `v4-post-release-cleanup`**
+> 上完成（起点 `e0bb657`，终点见 `V4_POST_RELEASE_CLEANUP_REPORT.md`），
+> **未 push / 未 merge / 未打 tag / 未改写成历史**；`v4.0.0`、`novelforge-product-v4-final`、
+> `novelforge-product-v3-final` 三个 frozen tag 均未移动。
 
 ---
 

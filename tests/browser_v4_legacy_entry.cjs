@@ -1,17 +1,17 @@
 /*
- * NovelForge V4-10 Closure Gate §19：兼容入口 smoke gate（当前环境可执行）。
+ * NovelForge V4 legacy-entry gate（post-release cleanup 版本）。
  *
- * 验证三件事（不改动任何历史验收断言）：
- *   · 默认 URL            → Story Studio（V4 主产品面）
- *   · ?ui=v3 / #/v3...    → V3 工作台（显式兼容入口）
- *   · ?ui=v2 / #/story-builder → V2 / Story Builder（显式兼容入口）
- *   · 无页面错误、无重定向循环、兼容模式必须是显式的
+ * 背景：V4.0.0 之后的清理移除了 V2 / V3 两套产品 UI。旧入口不再加载旧 bundle，
+ * 而是**回落（fallback）到 Story Studio**，保证旧书签不会 404 或空白。
  *
- * 历史 V3/V2 完整验收（tests/browser_v3_*.cjs 等）需要作者 acceptance data root；
- * 本环境不存在这些数据 → 完整验收 NOT RUN（见最终报告 §20/§26）。
+ * 验证四件事：
+ *   · 默认 URL                     → Story Studio
+ *   · `?ui=v3` / `#/v3...`         → Story Studio（不再渲染 V3 外壳）
+ *   · `?ui=v2` / `#/story-builder` → Story Studio（不再渲染 V2 面板）
+ *   · 0 page errors、0 redirect loop（只做一次 replaceState，不重新加载）
  *
  * 运行：
- *   .venv\\Scripts\\python.exe scripts/studio_ui_test_server.py --port 8040 --root workspace/studio_ui_test_root
+ *   .venv\Scripts\python.exe scripts/studio_ui_test_server.py --port 8040 --root workspace/studio_ui_test_root
  *   node tests/browser_v4_legacy_entry.cjs
  */
 const { chromium } = require('playwright')
@@ -23,6 +23,7 @@ const errors = []
 async function open(page, url) {
   errors.length = 0
   page.removeAllListeners('pageerror')
+  page.removeAllListeners('framenavigated')
   page.on('pageerror', (error) => errors.push(error.message))
   const navigations = []
   page.on('framenavigated', (frame) => {
@@ -33,62 +34,67 @@ async function open(page, url) {
   return navigations
 }
 
+async function expectStudio(page, label) {
+  await page.waitForSelector('[data-testid="studio-landing"], [data-testid="studio-shell"]',
+    { timeout: 15000 })
+  assert.deepEqual(errors, [], `${label} 出现页面错误：${errors.join('; ')}`)
+  assert.ok(!(await page.locator('.v3-root').count()), `${label} 仍渲染 V3 外壳`)
+  assert.ok(!(await page.locator('.story-builder-page, .story-builder-empty').count()),
+    `${label} 仍渲染 V2 面板`)
+}
+
+/** 归一化必须是 replaceState（不重新加载）：PerformanceNavigationTiming 只应有 1 条。 */
+async function expectSingleDocumentLoad(page, label) {
+  const navigations = await page.evaluate(
+    () => window.performance.getEntriesByType('navigation').length)
+  assert.equal(navigations, 1, `${label} 发生了页面重载（redirect loop）`)
+}
+
 ;(async () => {
   const browser = await chromium.launch({ channel: 'msedge' })
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } })
 
   // 1) 默认入口 = Story Studio
   await open(page, `${BASE}/#/studio`)
-  await page.waitForSelector('[data-testid="studio-landing"]', { timeout: 15000 })
-  assert.deepEqual(errors, [], `默认入口出现页面错误：${errors.join('; ')}`)
+  await expectStudio(page, '默认入口')
 
-  // 2) V3 显式兼容入口
-  const v3Nav = await open(page, `${BASE}/?ui=v3`)
-  await page.waitForSelector('.v3-root', { timeout: 15000 })
-  // V3 首屏是 Novel Landing（没有作品数据时），进入作品后才是 AppShell；
-  // 这里只验证「V3 产品面渲染」而不断言具体数据。
-  await page.waitForSelector('[data-testid="v3-landing"], [data-testid="v3-app-shell"]',
-    { timeout: 15000 })
-  assert.deepEqual(errors, [], `V3 入口出现页面错误：${errors.join('; ')}`)
-  assert.ok(v3Nav.every((url) => url.includes('ui=v3')),
-    `V3 入口发生非预期跳转：${v3Nav.join(' -> ')}`)
-  assert.ok(!(await page.locator('[data-testid="studio-shell"]').count()),
-    'V3 入口错误地渲染了 Story Studio')
+  // 2) ?ui=v3 → Story Studio（旧 V3 显式入口已移除）
+  await open(page, `${BASE}/?ui=v3`)
+  await expectStudio(page, '?ui=v3 入口')
+  await expectSingleDocumentLoad(page, '?ui=v3 归一化')
 
-  // 2b) #/v3 深链接同样进入 V3
+  // 2b) #/v3 深链接 → Story Studio
   await open(page, `${BASE}/?ui=v3#/v3`)
-  await page.waitForSelector('.v3-root', { timeout: 15000 })
-  assert.ok(!(await page.locator('[data-testid="studio-landing"]').count()),
-    '#/v3 深链接错误地渲染了 Story Studio')
+  await expectStudio(page, '#/v3 深链接')
 
-  // 3) V2 显式兼容入口
-  const v2Nav = await open(page, `${BASE}/?ui=v2`)
-  await page.waitForSelector('.story-builder-page, .story-builder-empty',
-    { timeout: 15000 })
-  assert.deepEqual(errors, [], `V2 入口出现页面错误：${errors.join('; ')}`)
-  assert.ok(v2Nav.every((url) => url.includes('ui=v2')),
-    `V2 入口发生非预期跳转：${v2Nav.join(' -> ')}`)
-  assert.ok(!(await page.locator('[data-testid="studio-shell"]').count()),
-    'V2 入口错误地渲染了 Story Studio')
+  // 2c) 裸 #/v3（无 query）→ Story Studio
+  await open(page, `${BASE}/#/v3`)
+  await expectStudio(page, '#/v3（无 query）')
 
-  // 3b) #/story-builder 深链接进入 V2（显式入口之外的 hash 兼容）
+  // 3) ?ui=v2 → Story Studio
+  await open(page, `${BASE}/?ui=v2`)
+  await expectStudio(page, '?ui=v2 入口')
+  await expectSingleDocumentLoad(page, '?ui=v2 归一化')
+
+  // 3b) #/story-builder 深链接 → Story Studio
   await open(page, `${BASE}/?ui=v2#/story-builder`)
-  await page.waitForSelector('.story-builder-page, .story-builder-empty',
-    { timeout: 15000 })
+  await expectStudio(page, '#/story-builder 深链接')
 
-  // 4) 兼容模式必须是显式的：默认 URL 绝不渲染 V3 / V2 外壳
+  // 4) 默认 URL 也不渲染任何旧外壳
   await open(page, `${BASE}/`)
-  await page.waitForSelector('[data-testid="studio-landing"]', { timeout: 15000 })
-  assert.ok(!(await page.locator('.v3-root').count()),
-    '默认 URL 渲染了 V3 外壳（兼容入口没有显式化）')
-  assert.ok(!(await page.locator('.story-builder-page').count()),
-    '默认 URL 渲染了 V2 外壳（兼容入口没有显式化）')
-  assert.deepEqual(errors, [], `默认 URL 出现页面错误：${errors.join('; ')}`)
+  await expectStudio(page, '默认 URL')
+
+  // 5) 旧 URL 归一化后 query 中的 ui 参数被清掉（书签自愈）
+  await open(page, `${BASE}/?ui=v3&novel_id=studio_demo`)
+  await expectStudio(page, '?ui=v3 + novel_id')
+  const search = await page.evaluate(() => window.location.search)
+  assert.ok(!search.includes('ui='), `归一化后仍保留 ui 参数：${search}`)
+  assert.ok(search.includes('novel_id='), `归一化不得丢弃业务参数：${search}`)
 
   await browser.close()
-  console.log('V4-10 legacy entry compatibility gate: PASS')
+  console.log('V4 legacy-entry fallback gate: PASS')
 })().catch((error) => {
-  console.error('V4-10 legacy entry compatibility gate: FAIL')
+  console.error('V4 legacy-entry fallback gate: FAIL')
   console.error(error)
   process.exit(1)
 })

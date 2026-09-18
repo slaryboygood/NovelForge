@@ -19,6 +19,7 @@ editor_service  : EditorService（Blueprint 编辑 / revision / diff / approve�
 from .blueprint import BlueprintService, blueprint_service
 from .editor import EditorService, editor_service
 from .export import ExportService, export_service
+from .facade import ApplicationServices, application_services
 from .journey import JourneyService, journey_service
 from .project import ProjectService, project_service
 from .review import (
@@ -32,7 +33,7 @@ from .utility import UTILITY_LABEL_CONTRACT, UtilityService, utility_service
 
 __all__ = [
     "BlueprintService", "EditorService", "ExportService", "JourneyService",
-    "ProjectService",
+    "ProjectService", "ApplicationServices", "application_services",
     "QualityLoopResult", "QualityLoopService", "RepairOutcome", "ReviewService",
     "UtilityService", "UTILITY_LABEL_CONTRACT", "blueprint_service",
     "editor_service", "export_service", "journey_service", "project_service",

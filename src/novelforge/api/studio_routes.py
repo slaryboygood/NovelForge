@@ -54,6 +54,36 @@ TRUST_MODEL_NOTE = ("permission 是 Host API capability governance，"
                     "恶意 in-process 插件仍可直接访问解释器能力")
 
 #: 业务 error code → HTTP 状态（只读 UI 需要稳定语义；未知 code → 400）
+_SIBLING_NODE_TYPES: Mapping[str, str] = {
+    "chapter": "chapter", "scene": "scene", "structural_unit": "structural_unit",
+    "character": "character", "character_arc": "character_arc",
+}
+
+#: 需要「兄弟序号」才能产生稳定节点 id 的生成任务（§15）
+SIBLING_TASKS: tuple[str, ...] = ("chapter", "scene", "structural_unit", "character")
+
+
+def _sibling_ordinal(services: Any, task: str, parent_id: str) -> int:
+    """该父节点下同类型子节点数 + 1（Host 侧推导，不由 UI 猜）。"""
+
+    node_type = _SIBLING_NODE_TYPES.get(task, "")
+    blueprint = getattr(services, "blueprint", None)
+    if not node_type or blueprint is None or not parent_id:
+        return 1
+    try:
+        rows = blueprint.children(parent_id, node_type=node_type)
+    except Exception:  # noqa: BLE001 - 读不到就当第一个，不阻断生成
+        return 1
+    return len(list(rows)) + 1
+
+
+def _chapter_ordinal(node_id: str) -> int:
+    """`ch_007` → 7（scene node id 需要 chapter 序号）。"""
+
+    digits = "".join(ch for ch in str(node_id).split("_")[-1] if ch.isdigit())
+    return int(digits) if digits else 0
+
+
 _CODE_STATUS: Mapping[str, int] = {
     "EDITOR_NODE_NOT_FOUND": 404,
     "BLUEPRINT_NODE_NOT_FOUND": 404,
@@ -277,9 +307,27 @@ def install_studio_api(app: FastAPI, project_root: Path, *,
                 task_input["task"] = body.instruction
             if body.unit_type:
                 task_input["unit_type"] = body.unit_type
-            if body.index:
-                # 兄弟序号（chapter / structural_unit / character 的节点 id 依据）
-                task_input["index"] = int(body.index)
+            # 父节点存在时补齐「兄弟序号」：节点 id 由契约决定
+            # （chapter→ch_<index>，scene→sc_<chapter_index>_<seq>），
+            # 缺省时由 Host 取“该父节点下已有同类型子节点数 + 1”，
+            # 避免第二次生成覆盖第一个节点（§15）。
+            index = int(body.index or 0)
+            sequence = int(body.sequence or 0)
+            if body.parent_id and task in SIBLING_TASKS and not (index or sequence):
+                computed = _sibling_ordinal(services, task, body.parent_id)
+                if task == "scene":
+                    sequence = sequence or computed
+                else:
+                    index = index or computed
+            if index:
+                task_input["index"] = index
+            if sequence:
+                task_input["sequence"] = sequence
+                task_input.setdefault("seq", sequence)
+            if task == "scene":
+                chapter_index = _chapter_ordinal(body.parent_id)
+                if chapter_index:
+                    task_input["chapter_index"] = chapter_index
             if body.node_id and body.expected_revision:
                 result = services.blueprint.regenerate(
                     task=task, node_id=body.node_id,
@@ -290,7 +338,7 @@ def install_studio_api(app: FastAPI, project_root: Path, *,
                     task, parent_id=body.parent_id,
                     idempotency_key=body.idempotency_key,
                     expected_revision=body.expected_revision,
-                    sequence=int(body.sequence or 0),
+                    sequence=sequence,
                     task_input=task_input)
             payload = result.as_dict()
             payload["next_status"] = "proposed"

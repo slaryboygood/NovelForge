@@ -169,7 +169,13 @@ def test_delivery_api_layer_is_thin() -> None:
                                      "novelforge.generation", "novelforge.editor"))]
     assert forbidden == [], f"delivery 路由不得直接依赖业务实现：{forbidden}"
     text = path.read_text(encoding="utf-8")
-    assert text.count("ExportService(") >= 5
+    # V4-10：构造点从“每个路由各写一次”收敛为**唯一 helper**（_export_service），
+    # 因此这里断言的不变式是「路由只通过 ExportService facade 访问交付能力」，
+    # 且构造点唯一（比计数更严格，不是放宽）。
+    assert "ExportService(" in text, "delivery 路由必须经 ExportService facade"
+    assert text.count("ExportService(") == 1, (
+        "delivery 路由只允许一个 ExportService 构造点（_export_service helper）")
+    assert text.count("_export_service(") >= 5, "每个路由都必须经 facade helper"
 
 
 def test_application_facade_routes_delivery_through_service() -> None:

@@ -51,6 +51,9 @@ stub_gateway = _gen.stub_gateway
 premise_payload = _gen.premise_payload
 world_payload = _gen.world_payload
 character_payload = _gen.character_payload
+character_arc_payload = _gen.character_arc_payload
+story_arc_payload = _gen.story_arc_payload
+unit_payload = _gen.unit_payload
 chapter_payload = _gen.chapter_payload
 scene_payload = _gen.scene_payload
 
@@ -106,6 +109,7 @@ def empty_studio(tmp_path: Path, *, novel_id: str = "studio_empty",
 __all__ = [
     "EXPORTER_PLUGIN", "NOVEL_ID", "ROOT", "active_plugin", "build_novel",
     "chapter_payload", "clean_studio", "character_payload", "delivery_stack",
+    "character_arc_payload", "story_arc_payload", "unit_payload",
     "empty_studio", "exporter_manifest", "plugin_host", "premise_payload",
     "repair_script", "repaired_chapter_payload", "repaired_scene_payload",
     "scene_payload", "stub_gateway", "studio_app", "world_payload",

@@ -566,7 +566,7 @@ clean（本轮结束时；临时 workspace 根在收尾时删除）
 ```text
 Starting HEAD  e0bb657（Round 1 结束）
 Ending HEAD    fbf1874 + 本 docs 收敛提交
-Cleanup commits（Round 2）= 5
+Cleanup commits（Round 2）= 8
 
 Journey               V4-native（Profile / Blueprint / Quality / Delivery）；v3_projection 删除
 MCP journey 消费者    facade.summary / studio overview / MCP novel resource 三段同源断言（tests/test_acceptance_repair_regressions.py）
@@ -576,7 +576,10 @@ frozen repair         回归保留：tests/test_acceptance_repair_regressions.py
 Routes before/after   1317 行 God router（86 端点）→ 46 个 current API 路径（/novels 迁到 project_routes）
 LegacyManifest        10 entries → 包整体退休
 Config before/after   103 files → 1（ai/providers.json）
-Legacy tests removed  88 个文件（story_builder 20 / story_engine 43 / planning 14 / chapter_ir 10 / ai+generation legacy migration 2 / v3 projection 5 / 其它 4）
+Legacy tests removed  93 个文件（story_builder 20 / story_engine 40 / story_planning 14 /
+                      chapter_ir 10 / v3 projection 5 / ai+generation legacy migration 2 / 其它 2）
+Deleted files total   316（src py 121 / tests py 93 / novel 数据 102）+ 新增 2
+                      （api/project_routes.py、story_engine/context.py）；修改 42
 Tracked files         1132 → 818（−314）
 Python LOC            src 84,811 → 39,116（−45,695，−54%）；tests 36,763 → 18,559（−18,204）
 Frontend bundle       232.65 kB JS / 27.36 kB CSS（不变：UI 侧本轮无改动）
@@ -621,8 +624,13 @@ src/novelforge/story_engine/canon/**
 tests/test_v2_frozen_guard.py / test_v3_frozen_guard.py / test_acceptance_repair_regressions.py
   frozen 证据文件（§49）→ 保留；其中 V3 守卫与验收回归按 AGENTS.md §20
   「历史 timepoint → 永久不变式」改挂在 current owner 上（见 §96e）
-docs/v4/V4_00…V4_12_*、docs/CHANGELOG.md、docs/LEGACY_COMPAT.md、docs/V3_*、docs/FROZEN_EVIDENCE_MANIFEST.json
-  历史事实与冻结证据 → 不修改（§51）
+docs/v4/V4_00…V4_12_*、docs/CHANGELOG.md、docs/V3_*、docs/FROZEN_EVIDENCE_MANIFEST.json
+  历史事实与冻结证据 → 不修改（§51；CHANGELOG 只登记已发布版本，本轮未发布 → 不新增条目）
+docs/ARCHITECTURE.md、docs/DATA_MODEL.md、docs/STORY_BUILDER_USER_GUIDE.md、
+docs/NEW_NOVEL_GUIDE.md、docs/CONTENT_PACK.md、docs/LEGACY_COMPAT.md
+  current 文档 → 顶部加"V2/V3 后端已退休"状态说明并指向 V4 SSOT；历史正文不改写
+novel/config/ai/providers.json
+  唯一仍被 current 代码读取的 config（LLM Gateway）
 ```
 
 ## 96e. 需要作者知情的两处判定（frozen 证据文件的边界迁移）

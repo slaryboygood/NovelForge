@@ -4,3 +4,11 @@ pydantic>=2.9,<3
 httpx>=0.27,<1
 PyYAML>=6,<7
 networkx>=3,<4
+
+# V4-08 MCP：官方 MCP Python SDK（stdio transport；协议解析不做手写实现）。
+# 注意：mcp 1.x 依赖 sse-starlette；若解析器选到 sse-starlette>=3 会要求
+# starlette>=1，与 fastapi 0.115 的 starlette<0.47 冲突（会破坏现有 REST 应用）。
+# 因此这里固定 starlette 区间，并把 sse-starlette 限制在 <2。
+mcp>=1.9,<2
+sse-starlette<2
+starlette<0.47

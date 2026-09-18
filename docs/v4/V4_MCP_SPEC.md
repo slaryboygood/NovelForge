@@ -1,6 +1,8 @@
 # NovelForge V4 — MCP Spec（设计稿）
 
-> 状态：**V4-00 Architecture / Proposed**，已按 **V4-01 作者决策**对齐（2026-09-17）
+> 状态：**V4-00 设计稿（历史依据）** —— 自 V4-08 起，MCP 接口的 SSOT 是
+> **[`V4_MCP_CONTRACT.md`](V4_MCP_CONTRACT.md)**。本文件保留为设计输入与评估依据
+> （记录 V4-00 对 resource / tool 清单的逐条评估），**不再单独作为 SSOT**。
 > 依据：`docs/v4/V4_ARCHITECTURE.md` §1.2、§4、§5（MCP 边界）
 > 硬约束：**MCP 不是业务层。** 每个 tool 必须调用 `application.services`，
 > 禁止直接 import `domain.*` / `persistence.*` 或读写文件。

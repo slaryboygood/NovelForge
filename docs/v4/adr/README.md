@@ -32,6 +32,8 @@
 | [ADR-024](ADR-024-delivery-is-revision-pinned.md) | Delivery Is Revision-Pinned | **Accepted**（V4-07 实施完成） | V4-07 起 |
 | [ADR-025](ADR-025-accepted-and-quality-passed-are-independent-delivery-requirements.md) | Accepted And Quality-Passed Are Independent Delivery Requirements | **Accepted**（V4-07 实施完成） | V4-07 起 |
 | [ADR-026](ADR-026-novelforge-package-is-a-selected-artifact-not-a-repository-backup.md) | NovelForge Package Is A Selected Artifact, Not A Repository Backup | **Accepted**（V4-07 实施完成） | V4-07 起 |
+| [ADR-027](ADR-027-mcp-is-an-interface-adapter-not-a-business-layer.md) | MCP Is An Interface Adapter, Not A Business Layer | **Accepted**（V4-08 实施完成） | V4-08 起 |
+| [ADR-028](ADR-028-mcp-mutations-preserve-revision-and-approval-semantics.md) | MCP Mutations Preserve Revision And Approval Semantics | **Accepted**（V4-08 实施完成） | V4-08 起 |
 
 ## 已被作者裁定的决策（原待决项）
 

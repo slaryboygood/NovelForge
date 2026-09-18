@@ -89,7 +89,11 @@ def test_product_modules_do_not_reference_historical_assets() -> None:
 
 
 def test_no_historical_fallback_in_export(tmp_path: Path) -> None:
-    """导出不得包含历史分区 / 冻结契约 digest（V3 缺陷 NR-002 的永久守卫）。"""
+    """交付投影不得包含历史分区 / 冻结契约 digest（V3 缺陷 NR-002 的永久守卫）。
+
+    post-release cleanup：legacy `ExportService.projection()` 已退休，
+    同一不变式改由 current 交付路径（selection + describe）证明。
+    """
 
     pack_id = write_minimal_novel(tmp_path, "novel_no_hist", title="无历史作品")
     assert pack_id
@@ -97,31 +101,32 @@ def test_no_historical_fallback_in_export(tmp_path: Path) -> None:
     from novelforge.application.services import ExportService
 
     service = ExportService(tmp_path, "novel_no_hist")
-    projection = service.projection()
-    section_ids = [row["section_id"] for row in projection["sections"]]
+    described = service.describe_delivery(service.delivery_selection())
+    section_ids = [row["section_id"] for row in described.get("sections", [])]
 
     assert "historical_ir" not in section_ids
     assert "spine" not in section_ids
-    payload = json.dumps(projection, ensure_ascii=False)
+    payload = json.dumps(described, ensure_ascii=False, default=str)
     assert "wasteland" not in payload.lower()
     assert "historical" not in payload.lower()
 
-    manifest = projection["manifest"]
-    assert "repair_gate" not in manifest["source_digests"]
-    assert "historical_foundation" not in manifest["source_digests"]
-    assert set(manifest["source_digests"]) == set(section_ids)
+    # 交付投影整体不得出现冻结契约 / 历史 foundation 的 digest 痕迹。
+    assert "repair_gate" not in payload
+    assert "historical_foundation" not in payload
 
 
 def test_export_works_without_historical_data(tmp_path: Path) -> None:
-    """历史数据完全不存在时，核心导出链路仍可用。"""
+    """历史数据完全不存在时，current 交付链路仍可用。"""
 
     write_minimal_novel(tmp_path, "novel_export_only", title="只有设定")
     from novelforge.application.services import ExportService
 
-    result = ExportService(tmp_path, "novel_export_only").export(fmt="markdown")
-    assert result["validation"]["status"] in ("PASS", "FAIL")
-    assert result["artifact"]["filename"].endswith(".md")
-    assert "wasteland" not in result["artifact"]["content"].lower()
+    service = ExportService(tmp_path, "novel_export_only")
+    selection = service.delivery_selection(formats=("markdown",))
+    described = service.describe_delivery(selection)
+    assert described["write"] is False
+    assert "wasteland" not in json.dumps(described, ensure_ascii=False,
+                                        default=str).lower()
 
 
 def test_historian_layers_are_gone_from_inspector() -> None:

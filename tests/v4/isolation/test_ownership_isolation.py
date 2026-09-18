@@ -59,13 +59,16 @@ def test_export_projection_is_novel_scoped(tmp_path: Path) -> None:
     alpha, beta = _prepare_two_novels(tmp_path)
     from novelforge.application.services import ExportService
 
-    projection = ExportService(tmp_path, alpha).projection()
-    manifest = projection["manifest"]
-    blob = json.dumps(projection, ensure_ascii=False, default=str)
+    # post-release cleanup：legacy `projection()` 已退休；同一"作品隔离"不变式
+    # 改由 current 交付投影（selection + describe）证明。
+    service = ExportService(tmp_path, alpha)
+    described = service.describe_delivery(service.delivery_selection())
+    blob = json.dumps(described, ensure_ascii=False, default=str)
 
-    assert manifest["novel_id"] == alpha
-    for section in projection["sections"]:
-        assert section["identity"] in {"", alpha, "main"} or alpha in section["identity"], (
+    assert described["selection"]["novel_id"] == alpha
+    for section in described.get("sections", []):
+        identity = section.get("identity", "")
+        assert identity in {"", alpha, "main"} or alpha in identity, (
             f"section {section['section_id']} 的 identity 不属于 {alpha}")
     assert beta not in blob
     assert "贝塔计划" not in blob

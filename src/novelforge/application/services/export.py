@@ -36,12 +36,19 @@ from novelforge.delivery import (
 )
 from novelforge.editor import EditorStore
 from novelforge.quality import QualityStore
-from novelforge.story_builder import export_package as _legacy_export
-from novelforge.story_engine.creator import DEFAULT_BRANCH
+
+#: Story Blueprint 只有一条主线（V4-01 起不再有分支存档产品面）；
+#: 该常量原属 legacy creator，post-release cleanup 后由 application 自己持有。
+DEFAULT_BRANCH = "main"
 
 
 class ExportService:
-    """按 (project_root, novel_id, branch) 生成只读导出物。"""
+    """V4 交付 facade：只经 `novelforge.delivery` 生成交付物。
+
+    post-release cleanup：legacy `export_package` / `writer_export_bundle` 通道
+    （`projection()` / `validate()` / `export()` / `writer_bundle()`）已随 V2/V3
+    产品面退休。当前唯一交付出口是 `deliver()`（revision-pinned + manifest + checksum）。
+    """
 
     SUPPORTED_FORMATS: tuple[str, ...] = ("json", "markdown", "docx")
     #: V4 Story Blueprint 交付格式（`deliver`）
@@ -57,33 +64,6 @@ class ExportService:
         self.branch_id = branch_id or DEFAULT_BRANCH
         #: V4-09：插件 exporter 通过 composition 注入的 exporter registry
         self.exporter_registry = exporter_registry
-
-    def projection(self) -> dict[str, Any]:
-        """只读导出投影（不含序列化产物）。"""
-
-        return _legacy_export.build_export_projection(
-            self.project_root, self.novel_id, branch_id=self.branch_id)
-
-    def validate(self, projection: dict[str, Any] | None = None) -> dict[str, Any]:
-        """导出校验（schema / identity / provenance / truth separation / stability）。"""
-
-        return _legacy_export.validate_export_package(projection or self.projection())
-
-    def export(self, *, fmt: str = "json", include_projection: bool = False
-               ) -> dict[str, Any]:
-        """唯一导出出口：projection → validation → serializer。"""
-
-        return _legacy_export.export_package(
-            self.project_root, self.novel_id, branch_id=self.branch_id, fmt=fmt,
-            include_projection=include_projection)
-
-    def writer_bundle(self) -> dict[str, Any]:
-        """Writer-ready 联合入口（导出 projection + 分层上下文）。"""
-
-        from novelforge.story_builder.writer_integration import writer_export_bundle
-
-        return writer_export_bundle(self.project_root, self.novel_id,
-                                    branch_id=self.branch_id)
 
     # ------------------------------------------------- V4 交付路径（V4-07）
     def delivery(self, *, store: DeliveryStore | None = None,

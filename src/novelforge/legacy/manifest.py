@@ -60,22 +60,6 @@ FROZEN_MODULES: tuple[FrozenModule, ...] = (
         removal_condition="同 repair：随 M11 历史流程整体退役",
     ),
     FrozenModule(
-        module_id="story_engine.m11_*",
-        path="src/novelforge/story_engine/m11_*.py（18 个文件）",
-        capability="M11 production runs / blocker / content design / closeout",
-        status="historical_milestone",
-        used_by=(),
-        removal_condition="V2 里程碑记录不再需要时可整体退役（当前仅保留源码）",
-    ),
-    FrozenModule(
-        module_id="story_engine.m12_*..m18_*",
-        path="src/novelforge/story_engine/m1{2..8}_*.py（7 个文件）",
-        capability="M12–M18 milestone acceptance / readiness",
-        status="historical_milestone",
-        used_by=(),
-        removal_condition="同上；V4 里程碑验收改用新机制后评估",
-    ),
-    FrozenModule(
         module_id="story_engine.phase_snapshot",
         path="src/novelforge/story_engine/phase_snapshot.py",
         capability="phase snapshot 机制（write-once + digest manifest）",

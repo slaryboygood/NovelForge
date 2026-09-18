@@ -15,16 +15,20 @@ from delivery_support import delivery_stack
 BASE = "/api/story-builder/delivery"
 
 
-def test_facade_keeps_legacy_projection_and_export(tmp_path: Path) -> None:
-    """§60–§61：legacy 方法仍是 compatibility，但 V4 主路径走 delivery。"""
+def test_legacy_export_channel_is_retired(tmp_path: Path) -> None:
+    """post-release cleanup：legacy 导出通道已退休，交付只有 `deliver()` 一条路。
+
+    旧契约（V4-07 §60–§61）允许 `projection()` / `export()` / `writer_bundle()` 作为
+    compatibility 方法继续存在。作者已明确取消 V2/V3 兼容产品面（任务书 §54），
+    因此 current contract 改为：这些方法必须**不存在**，防止死通道回流。
+    """
 
     stack = delivery_stack(tmp_path)
     service = ExportService(tmp_path, stack["novel_id"])
-    projection = service.projection()
-    assert projection["manifest"]["novel_id"] == stack["novel_id"]
-    legacy = service.export(fmt="markdown")
-    assert legacy["artifact"]["filename"].endswith(".md")
-    assert service.validate()["status"] in ("PASS", "FAIL")
+    for name in ("projection", "validate", "export", "writer_bundle"):
+        assert not hasattr(service, name), f"{name} 属于已退休的 legacy 导出通道"
+    # 当前唯一交付出口仍然是 delivery 路径
+    assert hasattr(service, "deliver") and hasattr(service, "delivery_selection")
 
 
 def test_facade_delivery_methods(tmp_path: Path) -> None:

@@ -126,7 +126,6 @@ from novelforge.story_builder.v3_projection import (
     novel_cards as v3_novel_cards,
 )
 from novelforge.application.services import (
-    export_service,
     journey_service,
     project_service,
 )
@@ -1331,28 +1330,6 @@ def create_story_builder_router(
         """M15-02：修复历史 / effect log（只读）。"""
 
         return repair_history(project_root, novel_id)
-
-    @router.get("/export/package")
-    def get_export_package(novel_id: str = Query(default=DEFAULT_NOVEL_ID,
-                                                 min_length=3, max_length=96),
-                           branch_id: str = Query(default=DEFAULT_BRANCH,
-                                                  max_length=80),
-                           format: str = Query(default="json", max_length=16),
-                           include_projection: bool = Query(default=False)
-                           ) -> dict[str, Any]:
-        """M16A：Planning Export（json / markdown / docx）+ validation。"""
-
-        return export_service(project_root, novel_id, branch_id=branch_id).export(
-            fmt=format, include_projection=include_projection)
-
-    @router.get("/export/writer-bundle")
-    def get_writer_bundle(novel_id: str = Query(default=DEFAULT_NOVEL_ID,
-                                                min_length=3, max_length=96),
-                          branch_id: str = Query(default=DEFAULT_BRANCH, max_length=80)
-                          ) -> dict[str, Any]:
-        """M16A：Writer-ready Package（export manifest + 分层 writer context）。"""
-
-        return export_service(project_root, novel_id, branch_id=branch_id).writer_bundle()
 
     @router.get("/writer/context")
     def get_writer_context(novel_id: str = Query(default=DEFAULT_NOVEL_ID,

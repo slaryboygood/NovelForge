@@ -39,7 +39,7 @@ from .outline_forge import (
     load_forge_chain,
     naming_table,
 )
-from .creator import resolve_creator_context
+from .context import resolve_novel_context
 
 LEVEL_ORDER = (OutlineLevel.BOOK, OutlineLevel.VOLUME, OutlineLevel.ARC, OutlineLevel.CHAPTER)
 EDITABLE_FIELDS = ("title", "summary", "start_state", "end_state", "ending_hook", "goals",
@@ -362,7 +362,7 @@ def export_structured_json(project_root: Path, novel_id: str, *,
     # artifact identity 与可追溯性字段，保留原样（它们不是「内容」）。
     labels = {}
     try:
-        context = resolve_creator_context(project_root, novel_id)
+        context = resolve_novel_context(project_root, novel_id)
         labels = naming_table(context.state, context.pack)
     except Exception:  # noqa: BLE001 - 名称表不可用时保留领域值，不阻断导出
         labels = {}

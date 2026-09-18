@@ -19,7 +19,7 @@ from novelforge.story_engine.route_lab import (
     merge_branches,
     merge_preview,
 )
-from novelforge.story_engine.creator import runtime_key_for
+from novelforge.story_engine.context import runtime_key_for
 from novelforge.story_engine.profile import NovelProfileRepository
 from novelforge.story_engine.storage import StoryStateRepository
 
@@ -240,7 +240,7 @@ def test_branch_lab_layer_has_no_second_state_or_genre_logic(tmp_path: Path) -> 
     for pattern in ("class StoryState(", "class EventCard(", "if genre ==", "if world_type ==",
                     "硅基升维", "silicon"):
         assert pattern not in source, f"route_lab.py 违反约束：{pattern}"
-    for marker in ("StoryStateRepository", "apply_effects", "EffectSpec", "resolve_creator_context",
+    for marker in ("StoryStateRepository", "apply_effects", "EffectSpec", "resolve_novel_context",
                    "plot_tracks"):
         assert marker in source, f"route_lab.py 必须复用：{marker}"
     routes = (PROJECT_ROOT / "src/novelforge/api/story_builder_routes.py").read_text(

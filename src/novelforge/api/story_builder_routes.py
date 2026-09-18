@@ -11,12 +11,12 @@ from novelforge.story_builder.adventures import AdventureEngine
 from novelforge.story_builder.design_tree import design_view, save_design
 from novelforge.story_engine import (
     DEFAULT_NOVEL_ID,
-    CreatorContextError,
+    NovelContextError,
     GenreTemplateError,
     NovelProfileError,
     NovelProfileRepository,
     apply_template,
-    resolve_creator_context,
+    resolve_novel_context,
     list_templates,
 )
 from novelforge.story_engine.world_view import world_snapshot
@@ -32,8 +32,8 @@ from novelforge.story_engine.driver import (
     runtime_tick,
 )
 from novelforge.story_engine.storage import StoryStateRepository, StoryStateStorageError
-from novelforge.story_engine.creator import DEFAULT_BRANCH
-from novelforge.story_engine.creator import without_preview_flag
+from novelforge.story_engine.context import DEFAULT_BRANCH
+from novelforge.story_engine.context import without_preview_flag
 from novelforge.story_engine.creative import (
     CreativeBrief,
     CreativeBriefError,
@@ -515,8 +515,8 @@ def create_story_builder_router(
         """V2-I-01 世界面板：时间 / 地点 / 势力 / 世界事件 / 自主行动（只读）。"""
 
         try:
-            context = resolve_creator_context(project_root, novel_id)
-        except CreatorContextError as exc:
+            context = resolve_novel_context(project_root, novel_id)
+        except NovelContextError as exc:
             raise HTTPException(status_code=404, detail=exc.as_dict()) from exc
         return world_snapshot(context)
 
@@ -529,8 +529,8 @@ def create_story_builder_router(
         """V2-I-02 角色面板：目标 / 记忆 / 关系 / 人物弧 / 自主行动 / 反应理由（只读）。"""
 
         try:
-            context = resolve_creator_context(project_root, novel_id)
-        except CreatorContextError as exc:
+            context = resolve_novel_context(project_root, novel_id)
+        except NovelContextError as exc:
             raise HTTPException(status_code=404, detail=exc.as_dict()) from exc
         return character_snapshot_payload(context, character_id, include_reactions=reactions)
 
@@ -542,8 +542,8 @@ def create_story_builder_router(
         """V2-I-03 剧情面板：候选行动、当前事件、支线、事件连锁、世界影响（只读）。"""
 
         try:
-            context = resolve_creator_context(project_root, novel_id)
-        except CreatorContextError as exc:
+            context = resolve_novel_context(project_root, novel_id)
+        except NovelContextError as exc:
             raise HTTPException(status_code=404, detail=exc.as_dict()) from exc
         return plot_snapshot(context, actor=actor)
 
@@ -556,8 +556,8 @@ def create_story_builder_router(
         """V2-I-04 成长面板：七类 Progression 的 owned / available / locked（只读）。"""
 
         try:
-            context = resolve_creator_context(project_root, novel_id)
-        except CreatorContextError as exc:
+            context = resolve_novel_context(project_root, novel_id)
+        except NovelContextError as exc:
             raise HTTPException(status_code=404, detail=exc.as_dict()) from exc
         payload = progression_snapshot(context, actor=actor)
         if category:
@@ -574,8 +574,8 @@ def create_story_builder_router(
         """V2-I-05 记忆面板：三视角知识、承诺 / 债务 / 人情、仇恨来源、未解决冲突与伏笔（只读）。"""
 
         try:
-            context = resolve_creator_context(project_root, novel_id)
-        except CreatorContextError as exc:
+            context = resolve_novel_context(project_root, novel_id)
+        except NovelContextError as exc:
             raise HTTPException(status_code=404, detail=exc.as_dict()) from exc
         return memory_snapshot(context)
 
@@ -587,8 +587,8 @@ def create_story_builder_router(
         """V2-I-06 导演面板：候选事件排序、chosen、逐维得分与权重（只读）。"""
 
         try:
-            context = resolve_creator_context(project_root, novel_id)
-        except CreatorContextError as exc:
+            context = resolve_novel_context(project_root, novel_id)
+        except NovelContextError as exc:
             raise HTTPException(status_code=404, detail=exc.as_dict()) from exc
         return director_snapshot(context, actor=actor)
 
@@ -597,8 +597,8 @@ def create_story_builder_router(
         """权重调整只改配置；评分仍然由 director.py 计算。"""
 
         try:
-            context = resolve_creator_context(project_root, novel_id)
-        except CreatorContextError as exc:
+            context = resolve_novel_context(project_root, novel_id)
+        except NovelContextError as exc:
             raise HTTPException(status_code=404, detail=exc.as_dict()) from exc
         if not body.weights:
             raise HTTPException(status_code=422, detail={"message": "请至少提交一个权重字段"})
@@ -606,7 +606,7 @@ def create_story_builder_router(
             profile = apply_director_weights(context, body.weights)
         except Exception as exc:  # noqa: BLE001 - 权重非法时返回 422
             raise HTTPException(status_code=422, detail={"message": f"权重不合法：{exc}"}) from exc
-        refreshed = resolve_creator_context(project_root, novel_id)
+        refreshed = resolve_novel_context(project_root, novel_id)
         return {"novel": profile.model_dump(mode="json"), "director": director_snapshot(refreshed)}
 
     @router.get("/creator/linkage")
@@ -619,8 +619,8 @@ def create_story_builder_router(
         """V2-I-07 大纲联动面板：StoryState → 路线 → 全书 / 卷 / 篇章 / 章节（只读，可预览重规划）。"""
 
         try:
-            context = resolve_creator_context(project_root, novel_id)
-        except CreatorContextError as exc:
+            context = resolve_novel_context(project_root, novel_id)
+        except NovelContextError as exc:
             raise HTTPException(status_code=404, detail=exc.as_dict()) from exc
         try:
             return linkage_snapshot(context, changed_stage=changed_stage, note=note, preview=preview)
@@ -637,7 +637,7 @@ def create_story_builder_router(
         `require_started=True` 时，没有蓝图也没有显式开始过的小说会被拒绝写入。
         """
 
-        context = resolve_creator_context(project_root, novel_id)
+        context = resolve_novel_context(project_root, novel_id)
         if context.pack is None:
             raise HTTPException(status_code=422, detail={
                 "code": "CONTENT_PACK_REQUIRED",
@@ -652,7 +652,7 @@ def create_story_builder_router(
                 raise HTTPException(status_code=404, detail=exc.as_dict()) from exc
         else:
             state = without_preview_flag(state)
-        if require_started and not context.persisted and not context.blueprint_id:
+        if require_started and not context.persisted:
             raise HTTPException(status_code=409, detail={
                 "code": "STORY_NOT_STARTED",
                 "message": "这本小说还没有开始推演；请先执行开始推演（runtime/start）。"})
@@ -944,7 +944,7 @@ def create_story_builder_router(
 
         try:
             context, _, state, resolved_branch = _runtime_context(novel_id, branch_id)
-        except CreatorContextError as exc:
+        except NovelContextError as exc:
             raise HTTPException(status_code=404, detail=exc.as_dict()) from exc
         payload = runtime_candidates(state, context.pack, actor=actor)
         payload["meta"] = context.meta()
@@ -958,8 +958,8 @@ def create_story_builder_router(
         """W1-04：自检通过后显式开始推演，把起点事实落盘（幂等）。"""
 
         try:
-            context = resolve_creator_context(project_root, novel_id)
-        except CreatorContextError as exc:
+            context = resolve_novel_context(project_root, novel_id)
+        except NovelContextError as exc:
             raise HTTPException(status_code=404, detail=exc.as_dict()) from exc
         if context.pack is None:
             raise HTTPException(status_code=422, detail={
@@ -1000,7 +1000,7 @@ def create_story_builder_router(
         try:
             context, states, state, branch_id = _runtime_context(novel_id, body.branch_id,
                                                                  require_started=True)
-        except CreatorContextError as exc:
+        except NovelContextError as exc:
             raise HTTPException(status_code=404, detail=exc.as_dict()) from exc
         actor = body.actor or next(iter(state.characters), "protagonist")
         result = advance_story(state, context.pack, action_id=body.action_id, actor=actor,
@@ -1029,7 +1029,7 @@ def create_story_builder_router(
         try:
             context, states, state, branch_id = _runtime_context(novel_id, body.branch_id,
                                                                  require_started=True)
-        except CreatorContextError as exc:
+        except NovelContextError as exc:
             raise HTTPException(status_code=404, detail=exc.as_dict()) from exc
         actor = body.actor or next(iter(state.characters), "protagonist")
         result = runtime_tick(state, context.pack, actor=actor,
@@ -1052,7 +1052,7 @@ def create_story_builder_router(
         try:
             context, states, state, source_branch = _runtime_context(novel_id, body.source_branch,
                                                                      require_started=True)
-        except CreatorContextError as exc:
+        except NovelContextError as exc:
             raise HTTPException(status_code=404, detail=exc.as_dict()) from exc
         source_path = states.path_for(context.runtime_id, context.runtime_version, source_branch)
         if not source_path.is_file():

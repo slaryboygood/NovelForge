@@ -26,7 +26,7 @@ from pydantic import Field
 
 from novelforge.models import StrictModel
 
-from .creator import DEFAULT_BRANCH, CreatorContextError, resolve_creator_context
+from .context import DEFAULT_BRANCH, NovelContextError, resolve_novel_context
 from .effects import EffectSpec, apply_effects
 from .linkage import plot_tracks
 from .profile import NovelProfileRepository
@@ -293,8 +293,8 @@ def list_branches(project_root: Path, novel_id: str) -> dict[str, Any]:
     """列出这本小说的所有分支（含正式路线标记）。"""
 
     try:
-        context = resolve_creator_context(project_root, novel_id)
-    except CreatorContextError as exc:
+        context = resolve_novel_context(project_root, novel_id)
+    except NovelContextError as exc:
         raise BranchLabError(exc.code, exc.message, novel_id=novel_id) from exc
     if context.pack is None:
         # 还没有内容包 == 这本书还没有开始推演。对“列出分支”这种只读列表接口来说，
@@ -337,7 +337,7 @@ def fork_branch(project_root: Path, novel_id: str, *, source_branch: str = DEFAU
                 label: str = "") -> dict[str, Any]:
     """从某条分支复制出新的试演分支；只读源分支，不改历史。"""
 
-    context = resolve_creator_context(project_root, novel_id)
+    context = resolve_novel_context(project_root, novel_id)
     if context.pack is None:
         raise BranchLabError("CONTENT_PACK_REQUIRED", "当前小说没有可用的内容包", novel_id=novel_id)
     states = StoryStateRepository(project_root)
@@ -369,7 +369,7 @@ def _new_branch_id(label: str = "") -> str:
 
 def compare_branches(project_root: Path, novel_id: str, *, base_branch: str = DEFAULT_BRANCH,
                      target_branch: str = "") -> BranchComparison:
-    context = resolve_creator_context(project_root, novel_id)
+    context = resolve_novel_context(project_root, novel_id)
     if context.pack is None:
         raise BranchLabError("CONTENT_PACK_REQUIRED", "当前小说没有可用的内容包", novel_id=novel_id)
     states = StoryStateRepository(project_root)
@@ -405,7 +405,7 @@ def merge_branches(project_root: Path, novel_id: str, *, target_branch: str,
     if target_branch in source_branches:
         raise BranchLabError("MERGE_SAME_BRANCH", "目标分支不能同时作为来源分支",
                              novel_id=novel_id)
-    context = resolve_creator_context(project_root, novel_id)
+    context = resolve_novel_context(project_root, novel_id)
     if context.pack is None:
         raise BranchLabError("CONTENT_PACK_REQUIRED", "当前小说没有可用的内容包", novel_id=novel_id)
     states = StoryStateRepository(project_root)
@@ -458,7 +458,7 @@ def freeze_branch(project_root: Path, novel_id: str, *, branch_id: str = DEFAULT
                   label: str = "") -> dict[str, Any]:
     """把某条分支标记为正式路线，并留一份只读快照；其它实验分支继续独立。"""
 
-    context = resolve_creator_context(project_root, novel_id)
+    context = resolve_novel_context(project_root, novel_id)
     if context.pack is None:
         raise BranchLabError("CONTENT_PACK_REQUIRED", "当前小说没有可用的内容包", novel_id=novel_id)
     states = StoryStateRepository(project_root)

@@ -22,14 +22,14 @@ class StoryStateMemorySource:
         self.revision = revision
 
     def _context(self, novel_id: str):
-        from novelforge.story_engine.creator import (
-            CreatorContextError,
-            resolve_creator_context,
+        from novelforge.story_engine.context import (
+            NovelContextError,
+            resolve_novel_context,
         )
 
         try:
-            return resolve_creator_context(self.project_root, novel_id)
-        except CreatorContextError as exc:
+            return resolve_novel_context(self.project_root, novel_id)
+        except NovelContextError as exc:
             raise MemorySourceError(f"StoryState 解析失败：{exc.message}",
                                     details={"novel_id": novel_id}) from exc
 

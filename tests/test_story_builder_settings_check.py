@@ -11,7 +11,7 @@ from fastapi.testclient import TestClient
 from novelforge.api.story_builder_routes import install_story_builder_api
 from novelforge.story_builder import load_story_catalog
 from novelforge.story_engine.creative import CreativeBrief, save_creative_brief
-from novelforge.story_engine.creator import preview_state
+from novelforge.story_engine.context import story_state_preview
 from novelforge.story_engine.driver import advance_story, runtime_tick
 from novelforge.story_engine.profile import NovelProfileRepository
 from novelforge.story_engine.settings_check import (
@@ -112,7 +112,7 @@ def test_initial_relationship_network_is_real_story_state(tmp_path: Path) -> Non
     prepare(tmp_path)
     pack = load_pack_draft(tmp_path, "novel_w1_pack")
     profile = NovelProfileRepository(tmp_path).load("novel_w1")
-    state = preview_state(profile, pack)
+    state = story_state_preview(profile, pack)
     assert state.relationships, "起点关系网必须真的写进 StoryState"
     character_ids = set(state.characters)
     for row in state.relationships:
@@ -132,7 +132,7 @@ def test_locations_reachable_and_gates_drive_available_set(tmp_path: Path) -> No
     prepare(tmp_path)
     pack = load_pack_draft(tmp_path, "novel_w1_pack")
     profile = NovelProfileRepository(tmp_path).load("novel_w1")
-    state = preview_state(profile, pack)
+    state = story_state_preview(profile, pack)
     moved = advance_story(state, pack, action_id="act_go_work", actor="protagonist")
     assert moved.ok and moved.state.location.current == "work_place"
     gated = advance_story(state, pack, action_id="act_go_hidden", actor="protagonist")
@@ -208,7 +208,7 @@ def test_check_layer_reuses_engine_and_has_no_hardcoding(tmp_path: Path) -> None
     for pattern in ("if genre ==", "if world_type ==", "if novel_id ==", "硅基升维", "silicon",
                     "class StoryState(", "class EventCard("):
         assert pattern not in source, f"settings_check.py 违反约束：{pattern}"
-    for marker in ("preview_state", "candidates_for", "evaluate", "EventCard.model_validate",
+    for marker in ("story_state_preview", "candidates_for", "evaluate", "EventCard.model_validate",
                    "validate_pack_draft"):
         assert marker in source, f"settings_check.py 必须复用：{marker}"
     # 检查结果对两本完全不同题材的小说都成立，说明没有题材分支。

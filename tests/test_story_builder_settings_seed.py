@@ -13,7 +13,7 @@ from novelforge.api.story_builder_routes import install_story_builder_api
 from novelforge.story_builder import load_story_catalog
 from novelforge.story_engine.content import list_packs_from_project
 from novelforge.story_engine.creative import CreativeBrief, save_creative_brief
-from novelforge.story_engine.creator import preview_state
+from novelforge.story_engine.context import story_state_preview
 from novelforge.story_engine.driver import advance_story
 from novelforge.story_engine.profile import NovelProfileRepository
 from novelforge.story_engine.settings_gen import (
@@ -176,7 +176,7 @@ def test_settings_seed_can_enter_runtime_and_candidates_follow_state(tmp_path: P
     save_setting_seed(tmp_path, "novel_w1", seed=seed)
     pack = load_pack_draft(tmp_path, "novel_w1_pack")
     profile = NovelProfileRepository(tmp_path).load("novel_w1")
-    state = preview_state(profile, pack)
+    state = story_state_preview(profile, pack)
     opening = advance_story(state, pack, action_id="", actor="protagonist")
     assert opening.ok is False and opening.blocked == "action_required"
     available = [row["action_id"] for row in opening.next_candidates if row["available"]]

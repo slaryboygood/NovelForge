@@ -11,7 +11,7 @@ from fastapi.testclient import TestClient
 from novelforge.api.story_builder_routes import install_story_builder_api
 from novelforge.story_builder import load_story_catalog
 from novelforge.story_engine.creative import CreativeBrief, save_creative_brief
-from novelforge.story_engine.creator import preview_state
+from novelforge.story_engine.context import story_state_preview
 from novelforge.story_engine.driver import advance_story, candidates_for
 from novelforge.story_engine.effects import EffectSpec, apply_effects
 from novelforge.story_engine.foreshadow import foreshadow_timeline
@@ -43,7 +43,7 @@ def prepared(tmp_path: Path, novel_id: str = "novel_w5"):
     save_setting_seed(tmp_path, novel_id, seed=build_setting_seed(tmp_path, novel_id))
     pack = load_pack_draft(tmp_path, f"{novel_id}_pack")
     profile = NovelProfileRepository(tmp_path).load(novel_id)
-    return pack, profile, preview_state(profile, pack)
+    return pack, profile, story_state_preview(profile, pack)
 
 
 def test_stage_auto_advances_with_completed_plots(tmp_path: Path) -> None:

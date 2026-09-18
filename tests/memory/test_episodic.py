@@ -10,9 +10,9 @@ from support import build_novel, service_for
 
 
 def _state(tmp_path: Path, novel_id: str = "novel_alpha"):
-    from novelforge.story_engine.creator import resolve_creator_context
+    from novelforge.story_engine.context import resolve_novel_context
 
-    return resolve_creator_context(tmp_path, novel_id).state
+    return resolve_novel_context(tmp_path, novel_id).state
 
 
 def test_derive_episodes_from_story_state_effects(tmp_path: Path) -> None:

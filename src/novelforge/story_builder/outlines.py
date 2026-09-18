@@ -215,7 +215,7 @@ class StoryOutlineRepository:
         except Exception:  # noqa: BLE001 - 非蓝图槽不是错误，继续尝试运行槽
             pass
         try:
-            from novelforge.story_engine.creator import runtime_key_for
+            from novelforge.story_engine.context import runtime_key_for
             from novelforge.story_engine.outline_forge import state_digest
             from novelforge.story_engine.storage import StoryStateRepository
 

@@ -219,10 +219,10 @@ from .storage import (
     StoryStateRepository,
     StoryStateStorageError,
 )
-from .creator import (
-    CreatorContext,
-    CreatorContextError,
-    resolve_creator_context,
+from .context import (
+    NovelContext,
+    NovelContextError,
+    resolve_novel_context,
 )
 from .world_view import (
     action_ids,
@@ -428,9 +428,9 @@ __all__ = [
     "StoredStoryState",
     "StoryStateRepository",
     "StoryStateStorageError",
-    "CreatorContext",
-    "CreatorContextError",
-    "resolve_creator_context",
+    "NovelContext",
+    "NovelContextError",
+    "resolve_novel_context",
     "recent_autonomous_actions",
     "recent_world_events",
     "world_snapshot",

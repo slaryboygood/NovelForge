@@ -20,9 +20,9 @@ from typing import Any, Mapping
 
 from novelforge.persistence.paths import canon_db_path
 from novelforge.story_engine.canon.repository import CanonRepository
-from novelforge.story_engine.creator import CreatorContextError, resolve_creator_context
+from novelforge.story_engine.context import NovelContextError, resolve_novel_context
 from novelforge.story_engine.memory_view import memory_snapshot
-from novelforge.story_engine.creator import DEFAULT_BRANCH
+from novelforge.story_engine.context import DEFAULT_BRANCH
 from novelforge.story_engine.outline_forge import (
     OutlineForgeError,
     StructureSpec,
@@ -45,8 +45,8 @@ def _read_json(path: Path) -> Any:
 
 def _context(project_root: Path | str, novel_id: str):
     try:
-        return resolve_creator_context(project_root, novel_id)
-    except CreatorContextError:
+        return resolve_novel_context(project_root, novel_id)
+    except NovelContextError:
         return None
 
 

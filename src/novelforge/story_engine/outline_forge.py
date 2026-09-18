@@ -38,7 +38,7 @@ from novelforge.story_builder.models import (
 from novelforge.story_builder.outlines import StoryOutlineError, StoryOutlineRepository
 
 from .content import ContentPack
-from .creator import DEFAULT_BRANCH, CreatorContextError, resolve_creator_context
+from .context import DEFAULT_BRANCH, NovelContextError, resolve_novel_context
 from .linkage import FuturePlan, StageGoal, plot_tracks
 from .narrative import RoutePackage, RouteRecord, build_route, verify_outline_sources
 from .profile import NovelProfileRepository
@@ -532,8 +532,8 @@ def build_forge_plan(project_root: Path, novel_id: str, *, branch_id: str = DEFA
     """把一条路线的 StoryState 变成四级大纲计划（不落盘）。"""
 
     try:
-        context = resolve_creator_context(project_root, novel_id)
-    except CreatorContextError as exc:
+        context = resolve_novel_context(project_root, novel_id)
+    except NovelContextError as exc:
         raise OutlineForgeError(exc.code, exc.message, novel_id=novel_id) from exc
     if context.pack is None:
         raise OutlineForgeError("CONTENT_PACK_REQUIRED", "当前小说没有可用的内容包",

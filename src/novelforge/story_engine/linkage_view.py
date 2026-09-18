@@ -94,8 +94,9 @@ def linkage_snapshot(context, *, changed_stage: str = "", note: str = "",
         "unresolved": [item["item_id"] for item in trace.unsourced],
         "plans": [{"id": stage.id, "title": stage.title, "goal": stage.goal,
                    "status": stage.status, "note": stage.note} for stage in plan.stages],
-        "existing_outlines": _outline_packages(context.project_root, context.blueprint_id,
-                                               context.blueprint_version),
+        # V2 story_builder 蓝图 / 大纲包存储已随 creator context 退休：
+        # 这本书不再有"蓝图槽"，因此没有 legacy outline 包可列。
+        "existing_outlines": [],
         "history_immutable": True,
     }
     if preview:

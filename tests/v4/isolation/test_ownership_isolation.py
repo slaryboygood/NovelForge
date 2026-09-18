@@ -76,12 +76,12 @@ def test_export_projection_is_novel_scoped(tmp_path: Path) -> None:
 
 def test_story_state_reads_are_novel_scoped(tmp_path: Path) -> None:
     alpha, beta = _prepare_two_novels(tmp_path)
-    from novelforge.story_engine.creator import resolve_creator_context
+    from novelforge.story_engine.context import resolve_novel_context
     from novelforge.story_engine.profile import NovelProfileRepository
     from novelforge.story_engine.storage import StoryStateRepository
 
-    alpha_context = resolve_creator_context(tmp_path, alpha)
-    beta_context = resolve_creator_context(tmp_path, beta)
+    alpha_context = resolve_novel_context(tmp_path, alpha)
+    beta_context = resolve_novel_context(tmp_path, beta)
     assert alpha_context.novel_id == alpha
     assert beta_context.novel_id == beta
     assert alpha_context.profile.title != beta_context.profile.title

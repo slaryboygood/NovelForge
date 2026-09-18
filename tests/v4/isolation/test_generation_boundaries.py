@@ -30,7 +30,7 @@ GENERATION_ALLOWED_PREFIXES = (
 )
 
 FORBIDDEN_IDENTIFIERS = ("CanonRepository", "StoryStateRepository",
-                         "resolve_creator_context", "MemoryIndex",
+                         "resolve_novel_context", "MemoryIndex",
                          "SemanticIndex", "EpisodicStore")
 
 

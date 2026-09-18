@@ -27,7 +27,7 @@ from novelforge.models import StrictModel
 
 from .conditions import Condition, evaluate
 from .content import ContentPack
-from .creator import preview_state
+from .context import story_state_preview
 from .driver import candidates_for, runtime_candidates
 from .events import EventCard
 from .profile import NovelProfileRepository
@@ -362,7 +362,7 @@ def run_settings_check(project_root: Path, novel_id: str, *,
     _check_plots(payload, findings)
     _check_foreshadows(payload, findings)
     profile = NovelProfileRepository(project_root).ensure(novel_id)
-    state = preview_state(profile, resolved_pack)
+    state = story_state_preview(profile, resolved_pack)
     available = _check_actions(payload, state, findings, resolved_pack)
     _check_events(payload, state, findings)
     snapshot = runtime_candidates(state, resolved_pack)

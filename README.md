@@ -90,12 +90,10 @@ boundary 说明见 `docs/v4/V4_LLM_CONTRACT.md` 与 `docs/v4/adr/ADR-012-unified
 更多说明：`docs/NEW_NOVEL_GUIDE.md`、`docs/STORY_BUILDER_USER_GUIDE.md`、
 `docs/NOVELFORGE_REAL_NOVEL_PRODUCTION_GUIDE.md`。
 
-旧版界面仍可通过显式入口访问（兼容，不再是默认）：
-
-```text
-?ui=v3   → V3 工作台        #/v3… 同样进入 V3
-?ui=v2   → V2 / Story Builder 面板（高级工具）
-```
+旧版 URL 仍然可用，但**不再加载旧界面**：`?ui=v3` / `#/v3…` / `?ui=v2` /
+`#/story-builder…` 会一次性归一化并回落到 Story Studio（旧书签不会 404，也不会
+出现第二套产品 UI）。V2 / V3 产品面已在 V4.0.0 之后的清理中移除；旧版产品体验见
+独立归档仓库 [slaryboygood/NovelForge-v3-archive](https://github.com/slaryboygood/NovelForge-v3-archive)。
 
 ## 运行测试
 
@@ -127,12 +125,12 @@ V4 浏览器验收（真实 Edge + stub 模型，0 次真实模型网络调用�
 $env:NODE_PATH = "$PWD\ui\node_modules"
 node tests/browser_v4_studio_golden.cjs     # Story Studio golden（含真实下载）
 node tests/browser_v4_11_agent.cjs          # Agent（plan → start → approval → complete）
-node tests/browser_v4_legacy_entry.cjs      # 默认→Studio，?ui=v3→V3，?ui=v2→V2
+node tests/browser_v4_legacy_entry.cjs      # 旧 URL → Story Studio 回落（0 page error / 0 重定向循环）
 ```
 
-历史 V3/V2 浏览器验收需要作者 acceptance data root（当前 workspace 不含该数据，
-因此 V4-12 记为 **NOT RUN**，未降低任何旧断言）；入口已改为显式
-`?ui=v3` / `?ui=v2`（`tests/browser_v3_*.cjs`、`tests/browser_creator_*.cjs`）。
+V2 / V3 产品面（及其浏览器门禁 `tests/browser_v3_*.cjs` / `browser_creator_*.cjs`）已在
+post-release cleanup 中移除；历史 V3/V2 验收数据根在本 workspace 不存在，V4-12 记为
+**NOT RUN**（未降低任何旧断言）。旧版产品历史见 `NovelForge-v3-archive` 归档仓库。
 
 已知依赖提示（非产品缺陷）：`npm.cmd audit --prefix ui` 会报告 2 条 vite / esbuild 相关
 advisory（1 moderate、1 high）。它们只影响本地 `vite dev server`；产品以构建产物
@@ -179,8 +177,10 @@ V3 Final — Functional Closure      tag `novelforge-product-v3-final`（V4 的�
                                    Gate 均未改动）
 V3.0 / V2.0 / Story Engine V2.0    已归档 historical / archived / not an active Git ref
 
-V3 工作台与 V2 面板作为**显式兼容入口**保留（?ui=v3 / ?ui=v2），
-其移除条件见 `docs/v4/V4_DELETION_PLAN.md`；
+V4.0.0 之后的清理已删除 V3 工作台与 V2 面板（含其浏览器门禁与 Design System 的
+V3 命名空间）；旧 URL 只回落到 Story Studio。旧版产品体验见独立归档仓库
+https://github.com/slaryboygood/NovelForge-v3-archive 。
+清理范围与判据见 `docs/v4/V4_POST_RELEASE_CLEANUP_INVENTORY.md`；
 V4 迁移与验收证据见 `docs/v4/V4_12_EVIDENCE_INDEX.md`。
 ```
 
@@ -217,8 +217,8 @@ V4 边界守卫（跨作品污染 / 废弃资产 / 模块依赖）现在默认�
 src/novelforge/story_engine/     领域层：StoryState / 行动-条件-效果 / 事件 / 伏笔 / 路线 / 大纲 / Canon / 修复
 src/novelforge/story_builder/    应用层：创意与设定 / 会话与蓝图 / 导出 / Writer 集成 / Inspector / V3 投影
 src/novelforge/api/              业务 API（FastAPI，唯一入口 /api/story-builder/*）
-ui/src/v3/                       V3 工作台（Novel Landing / Command Center / 工作区 / Design System）
-ui/src/                          既有面板（高级工具 bridge）
+ui/src/studio/                   Story Studio（V4 唯一产品面：工作区 / 编辑 / 检查 / 交付 / 插件 / Agent）
+ui/src/design-system/            共享 Design System（components / tokens / primitives / 默认美术）
 novel/config/                    题材模板、内容包、十步目录（数据，不是事实）
 novel/authoring/                 作者产物（profiles / StoryState / 会话 / 大纲）——本地运行数据
 scripts/                         启动、校验、隔离测试服务

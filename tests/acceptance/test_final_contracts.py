@@ -35,18 +35,22 @@ def test_all_v4_ssot_documents_exist_and_are_current() -> None:
 
 
 def test_no_conflicting_ssot_for_the_same_capability() -> None:
-    """同一能力不能有两个文档同时自称 SSOT（旧稿必须已降级，§6）。"""
+    """同一能力不能有两个文档同时自称 SSOT（§6）。
+
+    post-release cleanup（§59）：MCP / Delivery / Plugin 三份**已被正式 Contract 取代的
+    设计稿**（`V4_MCP_SPEC.md` / `V4_EXPORT_SPEC.md` / `V4_PLUGIN_SPEC.md`）已移除，
+    收敛为「一个能力一个 current SSOT」。本断言因此从"旧稿必须已降级"升级为
+    "旧稿必须不存在"，防止它们以副本形式回流。
+    """
 
     base = ROOT / "docs" / "v4"
-    pairs = [("V4_MCP_CONTRACT.md", "V4_MCP_SPEC.md"),
-             ("V4_DELIVERY_CONTRACT.md", "V4_EXPORT_SPEC.md"),
-             ("V4_PLUGIN_CONTRACT.md", "V4_PLUGIN_SPEC.md")]
-    for contract, legacy in pairs:
-        legacy_text = (base / legacy).read_text(encoding="utf-8")
-        head = "\n".join(legacy_text.splitlines()[:12])
-        assert "设计稿" in head or "设计输入" in head, \
-            f"{legacy} 未明确降级为设计输入"
-        assert contract in head, f"{legacy} 未指向 {contract}"
+    contracts = ["V4_MCP_CONTRACT.md", "V4_DELIVERY_CONTRACT.md", "V4_PLUGIN_CONTRACT.md"]
+    retired = ["V4_MCP_SPEC.md", "V4_EXPORT_SPEC.md", "V4_PLUGIN_SPEC.md"]
+    for name in contracts:
+        assert (base / name).is_file(), f"缺少 current SSOT：{name}"
+    for name in retired:
+        assert not (base / name).exists(), (
+            f"{name} 已被正式 Contract 取代，不应继续存在于 current tree")
 
 
 def test_schema_and_interface_versions_are_independent() -> None:

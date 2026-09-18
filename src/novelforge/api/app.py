@@ -7,6 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from .story_builder_routes import install_story_builder_api
 from .canon_routes import install_canon_api
 from .editor_routes import install_editor_api
+from .delivery_routes import install_delivery_api
 
 ROOT = Path(__file__).resolve().parents[3]
 UI_DIST = ROOT / "ui" / "dist"
@@ -14,6 +15,7 @@ app = FastAPI(title="NovelForge 故事构筑", version="2.0.0")
 install_story_builder_api(app, ROOT)
 install_canon_api(app, ROOT)
 install_editor_api(app, ROOT)
+install_delivery_api(app, ROOT)
 
 
 @app.get("/api/health")

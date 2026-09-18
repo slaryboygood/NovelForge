@@ -78,6 +78,19 @@ class QualityStore:
         rows = sorted(folder.glob("*.json"), key=lambda item: item.stat().st_mtime)
         return self._read(rows[-1]) if rows else {}
 
+    def reports(self) -> list[dict[str, Any]]:
+        """全部质量报告（V4-07 交付需要按 revision 核对质量结论）。"""
+
+        folder = quality_reports_dir(self.project_root, self.novel_id)
+        if not folder.is_dir():
+            return []
+        rows: list[dict[str, Any]] = []
+        for path in sorted(folder.glob("*.json")):
+            payload = self._read(path)
+            if payload:
+                rows.append(payload)
+        return rows
+
     # ------------------------------------------------------------------ issues
     def save_issues(self, issues: Iterable[QualityIssue]) -> int:
         count = 0

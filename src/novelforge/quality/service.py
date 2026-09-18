@@ -139,10 +139,14 @@ class QualityService:
         status = decide_status(all_issues, resolved_policy, gates_run=gates_run)
         usage = build_usage(evaluation=context.usage.get("total"))
         report_id = f"QR_{new_request_id('report').split('_', 1)[1][:12]}"
+        node_revisions = {node_id: int(context.nodes[node_id].revision)
+                          for node_id in sorted(context.nodes)
+                          if node_id in context.nodes}
         report = QualityReport(
             report_id=report_id, novel_id=self.novel_id, scope=resolved_scope,
             status=status, gate_results=tuple(gate_results),
-            issues=tuple(all_issues), usage=usage, policy=resolved_policy.as_dict())
+            issues=tuple(all_issues), usage=usage, policy=resolved_policy.as_dict(),
+            node_revisions=node_revisions)
         self.store.save_issues(all_issues)
         self.store.save_report(report)
         return report

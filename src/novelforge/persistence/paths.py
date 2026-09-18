@@ -35,6 +35,7 @@ ARTIFACT_KINDS: frozenset[str] = frozenset({
     "memory",
     "quality",
     "editor",
+    "delivery",
 })
 
 _NOVEL_ID_RE = re.compile(NOVEL_ID_PATTERN)
@@ -311,6 +312,49 @@ def editor_manifest_path(project_root: Path | str, novel_id: str) -> Path:
     return editor_dir(project_root, novel_id) / "MANIFEST.json"
 
 
+def delivery_dir(project_root: Path | str, novel_id: str) -> Path:
+    """Delivery Store 根目录：novel/authoring/story_engine/delivery/<novel_id>
+
+    V4-07：交付快照 / manifest / artifact 的 canonical 落盘位置。
+    交付**只读** story truth（blueprint / quality / editor metadata），
+    这里只保存"某一次交付选了哪些 revision"以及生成物本身。
+    """
+
+    context = novel_context(project_root, novel_id, artifact_kind="delivery")
+    return context.resolve("novel", "authoring", "story_engine", "delivery",
+                           context.novel_id)
+
+
+def delivery_snapshots_dir(project_root: Path | str, novel_id: str) -> Path:
+    return delivery_dir(project_root, novel_id) / "snapshots"
+
+
+def delivery_manifests_dir(project_root: Path | str, novel_id: str) -> Path:
+    return delivery_dir(project_root, novel_id) / "manifests"
+
+
+def delivery_packages_dir(project_root: Path | str, novel_id: str) -> Path:
+    return delivery_dir(project_root, novel_id) / "packages"
+
+
+def delivery_snapshot_path(project_root: Path | str, novel_id: str,
+                           snapshot_id: str) -> Path:
+    return delivery_snapshots_dir(project_root, novel_id) / f"{snapshot_id}.json"
+
+
+def delivery_manifest_path(project_root: Path | str, novel_id: str,
+                           snapshot_id: str) -> Path:
+    return delivery_manifests_dir(project_root, novel_id) / f"{snapshot_id}.json"
+
+
+def delivery_artifact_path(project_root: Path | str, novel_id: str,
+                           snapshot_id: str, relative_path: str) -> Path:
+    """一次交付内某个 artifact 的路径（相对路径必须由调用方校验安全，§70）。"""
+
+    return delivery_packages_dir(project_root, novel_id) / snapshot_id / \
+        str(relative_path).replace("\\", "/")
+
+
 __all__ = [
     "ARTIFACT_KINDS", "NOVEL_ID_PATTERN", "ArtifactContext", "OwnershipError",
     "canon_db_path", "content_pack_path", "novel_context", "planning_dir",
@@ -323,4 +367,7 @@ __all__ = [
     "quality_repair_history_dir", "quality_reports_dir",
     "editor_dir", "editor_manifest_path", "editor_operations_dir",
     "editor_reviews_dir",
+    "delivery_dir", "delivery_snapshots_dir", "delivery_manifests_dir",
+    "delivery_packages_dir", "delivery_snapshot_path", "delivery_manifest_path",
+    "delivery_artifact_path",
 ]

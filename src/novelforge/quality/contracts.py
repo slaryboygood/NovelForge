@@ -291,6 +291,9 @@ class QualityReport:
     generated_at: str = ""
     schema_version: int = QUALITY_SCHEMA_VERSION
     digest: str = ""
+    #: 本次评估实际覆盖的节点 revision（V4-07 §12–§13：交付必须能证明
+    #: "质量结论针对的就是这些 revision"）。缺失时视为未记录。
+    node_revisions: Mapping[str, int] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         if not self.generated_at:
@@ -319,7 +322,9 @@ class QualityReport:
                 "issues": [row.as_dict() for row in self.issues],
                 "usage": dict(self.usage), "policy": dict(self.policy),
                 "generated_at": self.generated_at,
-                "schema_version": self.schema_version, "digest": self.digest}
+                "schema_version": self.schema_version, "digest": self.digest,
+                "node_revisions": {str(key): int(value) for key, value
+                                   in dict(self.node_revisions).items()}}
 
 
 @dataclass(frozen=True)

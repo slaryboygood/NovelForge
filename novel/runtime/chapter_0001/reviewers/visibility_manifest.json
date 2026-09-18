@@ -1,7 +1,0 @@
-{
-  "role": "reviewer",
-  "chapter_id": "0001",
-  "writer_can_read_restricted_author_intent": false,
-  "excluded_author_intent_ids": [],
-  "reviewer_can_read_restricted_for_audit": true
-}

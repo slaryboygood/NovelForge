@@ -404,14 +404,16 @@ def plugin_state_dir(project_root: Path | str, novel_id: str, plugin_id: str) ->
 def agent_dir(project_root: Path | str, novel_id: str) -> Path:
     """Agent orchestration metadata 根目录（**作品级**）：
 
-    `novel/authoring/story_engine/agent/`
+    `novel/authoring/story_engine/agent/<novel_id>/`
 
     V4-11：只存 orchestration metadata（session / run / plan / checkpoint / audit），
     **不是** story truth（不是 Canon / StoryState / Blueprint / Quality）。
+    V4-12 隔离修复：路径包含 novel_id，作品之间互不可见（§19）。
     """
 
     context = novel_context(project_root, novel_id, artifact_kind="agent_runtime")
-    return context.resolve("novel", "authoring", "story_engine", "agent")
+    return context.resolve("novel", "authoring", "story_engine", "agent",
+                           context.novel_id)
 
 
 def agent_sessions_dir(project_root: Path | str, novel_id: str) -> Path:
@@ -419,10 +421,13 @@ def agent_sessions_dir(project_root: Path | str, novel_id: str) -> Path:
 
 
 def agent_sessions_root(project_root: Path | str) -> Path:
-    """agent sessions 根目录（**不依赖 novel_id**，用于 session → novel 反查，§97）。"""
+    """agent 数据根目录（**不依赖 novel_id**，用于 session → novel 反查，§97）。
+
+    结构：`.../agent/<novel_id>/sessions/<session_id>.json`
+    """
 
     return Path(project_root).resolve() / "novel" / "authoring" / "story_engine" \
-        / "agent" / "sessions"
+        / "agent"
 
 
 def agent_session_path(project_root: Path | str, novel_id: str,

@@ -705,11 +705,13 @@ def session_novel_id(project_root: Path | str, session_id: str) -> str:
 
     from novelforge.persistence.paths import agent_sessions_root
 
-    path = agent_sessions_root(project_root) / f"{session_id}.json"
-    if not path.is_file():
-        return ""
-    row = json.loads(path.read_text(encoding="utf-8"))
-    return str(row.get("novel_id") or "")
+    base = agent_sessions_root(project_root)
+    for sessions in sorted(base.glob("*/sessions")):
+        path = sessions / f"{session_id}.json"
+        if path.is_file():
+            row = json.loads(path.read_text(encoding="utf-8"))
+            return str(row.get("novel_id") or "")
+    return ""
 
 
 __all__ = [

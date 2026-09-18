@@ -47,6 +47,7 @@ repair_script = _delivery.repair_script
 NOVEL_ID = _delivery.NOVEL_ID
 
 build_novel = _gen.build_novel
+service_for = _gen.service_for
 stub_gateway = _gen.stub_gateway
 premise_payload = _gen.premise_payload
 world_payload = _gen.world_payload

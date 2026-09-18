@@ -121,14 +121,7 @@ from novelforge.story_builder.inspector import (
     repair_diagnosis,
     repair_history,
 )
-from novelforge.story_builder.v3_projection import (
-    command_center as v3_command_center,
-    novel_cards as v3_novel_cards,
-)
-from novelforge.application.services import (
-    journey_service,
-    project_service,
-)
+from novelforge.application.services import project_service
 from novelforge.story_builder.novel_admin import (
     NovelAdminError,
     archive_novel,
@@ -1225,28 +1218,6 @@ def create_story_builder_router(
         """W6-01 / W6-03：引导流状态（当前阶段 + 下一步）；只读，不写任何事实。"""
 
         return guided_flow_state(project_root, novel_id)
-
-    # --------------------------------------------------------- Product V3 UI
-    @router.get("/v3/novels")
-    def v3_novels() -> dict[str, Any]:
-        """Product V3 Landing：真实作品列表（游戏式存档选择），只读投影。"""
-
-        return v3_novel_cards(project_root)
-
-    @router.get("/v3/novels/{novel_id}/command-center")
-    def v3_command_center_route(novel_id: str) -> dict[str, Any]:
-        """Product V3 Novel Command Center：旅程 / 目标 / 下一步 / 风险，只读投影。"""
-
-        return v3_command_center(project_root, novel_id)
-
-    @router.get("/v3/novels/{novel_id}/journey")
-    def v3_journey_route(novel_id: str) -> dict[str, Any]:
-        """V4-01：canonical JourneyProjection（唯一阶段 / 进度 / 下一步入口）。
-
-        UI / REST / 未来的 MCP resource 都消费这一个投影（ADR-004）。
-        """
-
-        return journey_service(project_root, novel_id).projection()
 
     @router.get("/settings/impact")
     def get_settings_impact(novel_id: str = Query(default=DEFAULT_NOVEL_ID, min_length=3,

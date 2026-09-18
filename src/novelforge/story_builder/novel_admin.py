@@ -23,6 +23,21 @@ import shutil
 from pathlib import Path
 from typing import Any
 
+from novelforge.persistence.paths import (
+    agent_dir,
+    blueprint_dir,
+    canon_db_path,
+    content_pack_path,
+    delivery_dir,
+    editor_dir,
+    memory_dir,
+    planning_dir,
+    plugin_host_dir,
+    profiles_path,
+    quality_dir,
+    story_state_dir,
+    writer_store_dir,
+)
 from novelforge.story_engine.profile import NovelProfile, NovelProfileRepository
 
 ARCHIVE_DIR = "workspace/archived_novels"
@@ -40,21 +55,55 @@ class NovelAdminError(ValueError):
 
 
 def novel_artifact_paths(project_root: Path | str, novel_id: str) -> list[Path]:
-    """这本书的全部产物路径（真实存在才返回；用于删除时的完整性检查）。"""
+    """这本书的全部产物路径（真实存在才返回；用于删除时的完整性检查）。
+
+    V4 修正：产物清单必须覆盖**所有**按 novel_id 隔离的 canonical store，
+    否则「删除＝整体归档」会留下孤儿目录（V4 的 blueprint / quality / editor /
+    delivery / memory / agent / plugin state 曾经不在清单里，这正是 NF-011 的
+    真实缺陷）。路径只能经 `novelforge.persistence.paths` 取得，不在这里拼字面量。
+    """
 
     root = Path(project_root).resolve()
-    candidates = [
-        root / "novel" / "authoring" / "story_engine" / "profiles" / f"{novel_id}.json",
-        root / "novel" / "config" / "story_engine" / f"{novel_id}_pack.json",
-        root / "novel" / "authoring" / "story_engine" / "state" / f"runtime_{novel_id}",
-        root / "novel" / "authoring" / "story_engine" / "writer" / novel_id,
+    profile = NovelProfileRepository(root).load(novel_id)
+    candidates: list[Path] = [
+        profiles_path(root, novel_id),
+        canon_db_path(root, novel_id),
+        blueprint_dir(root, novel_id),
+        quality_dir(root, novel_id),
+        editor_dir(root, novel_id),
+        delivery_dir(root, novel_id),
+        agent_dir(root, novel_id),
+        memory_dir(root, novel_id),
+        writer_store_dir(root, novel_id) / novel_id,
+        planning_dir(root, novel_id),
     ]
+    if profile.content_pack_id:
+        candidates.append(content_pack_path(root, novel_id,
+                                            pack_id=profile.content_pack_id))
+    candidates.append(content_pack_path(root, novel_id))
+
+    # StoryState 运行槽按 runtime_key(novel_id) 命名（<slug> 可能与 novel_id 不完全相同）
+    state_root = story_state_dir(root, novel_id)
+    if state_root.is_dir():
+        candidates.extend(sorted(path for path in state_root.iterdir()
+                                 if novel_id in path.name))
+    # 插件状态：plugins/state/<novel_id>/
+    plugin_state = plugin_host_dir(root) / "state" / novel_id
+    candidates.append(plugin_state)
+    # legacy outline 包（V2/V3 story_builder store；存在则一并归档）
     outlines = root / "novel" / "authoring" / "story_builder" / "outlines"
     if outlines.is_dir():
         for level_dir in outlines.iterdir():
             if level_dir.is_dir():
                 candidates.extend(sorted(level_dir.glob(f"ol_*{novel_id}*")))
-    return [path for path in candidates if path.exists()]
+    seen: set[Path] = set()
+    unique: list[Path] = []
+    for path in candidates:
+        if path in seen or not path.exists():
+            continue
+        seen.add(path)
+        unique.append(path)
+    return unique
 
 
 def rename_novel(project_root: Path | str, novel_id: str, title: str

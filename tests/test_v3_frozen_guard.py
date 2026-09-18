@@ -15,8 +15,11 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
+from novelforge.api.story_builder_routes import install_story_builder_api
+from novelforge.story_builder import load_story_catalog
 from novelforge.story_engine.route_lab import (
     BranchLabError,
     compare_branches,
@@ -25,9 +28,24 @@ from novelforge.story_engine.route_lab import (
     list_branches,
     merge_preview,
 )
-from test_v3_ui_projection import client_for, new_novel
 
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 FRESH = "novel_frozen_guard_fresh"
+
+
+def client_for(tmp_path: Path) -> TestClient:
+    """最小 fixture：只装配作品 API（不再依赖别的测试模块的 helper）。"""
+
+    app = FastAPI()
+    install_story_builder_api(app, tmp_path,
+                              catalog=load_story_catalog(PROJECT_ROOT))
+    return TestClient(app)
+
+
+def new_novel(client: TestClient, novel_id: str) -> None:
+    created = client.post("/api/story-builder/novels",
+                          json={"novel_id": novel_id, "title": novel_id})
+    assert created.status_code in (201, 409), created.text
 
 
 def _fresh_novel(tmp_path: Path) -> TestClient:

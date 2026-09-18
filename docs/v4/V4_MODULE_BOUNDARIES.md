@@ -49,7 +49,7 @@ Module Tests
 | Story Quality | `quality` | 9 处 validator / finding | `src/novelforge/quality/` | **NEW** | V4-05 ✅ |
 | Story Repair | `repair` | `story_engine/repair.py`（冻结历史用途，**不复用**） | `src/novelforge/quality/repair/` | **NEW** | V4-05 ✅ |
 | Blueprint Editor | `editor` | `story_builder/writer_integration.py`（正文草稿，**不复用**） | `src/novelforge/editor/` | **NEW** | V4-06 ✅ |
-| Delivery / Export | `delivery` | `story_builder/export_package.py` | `application.services.export` | DEFERRED（V4-01 建 service 入口） | V4-07 |
+| Delivery / Export | `delivery` | `story_builder/export_package.py` 等 4 条路径 | `src/novelforge/delivery/` + `application.services.export`（facade） | **NEW** | V4-07 ✅ |
 | MCP Adapter | `mcp` | 无 | `src/novelforge/interfaces/mcp/` | DEFERRED | V4-08 |
 | Plugin Platform | `plugins` | 无 | `src/novelforge/plugins/` | DEFERRED | V4-09 |
 | Observability | `observability` | `src/novelforge/observability/model_trace.py` | 不变（最小实现） | **NEW** | V4-02 ✅ → V4-07 |
@@ -412,6 +412,35 @@ Application 组合（§67）：`application.services.editor.EditorService` 把
 `editor` + `quality` + `generation` 组装起来；**editor 模块本身不依赖 quality**，
 从而避免 `editor → application` 的循环。
 
+### 3.14 `delivery` — Delivery / Export（V4-07 落地）
+
+```text
+Public Contract（精简，§19）
+  DeliveryService / delivery_service / DeliveryStore
+  DeliveryRequest / DeliveryResult / DeliveryPolicy / DeliverySelection
+  DeliverySnapshot / DeliveryManifest / DeliveryValidationResult / DeliveryIssue
+  ExportArtifact / NovelForgePackage / ExporterRegistry / ExporterSpec
+  DeliveryError 家族
+Internal
+  delivery/{selection,snapshot,validation,compiler,manifest,store}.py 的实现细节、
+  delivery/exporters/*（具体 exporter 模块不导出）
+Allowed（只读）
+  blueprint（canonical revision graph）、quality（Quality Store：issue / report）、
+  editor（EditorStore：review / operation metadata）、core、persistence.paths
+Forbidden
+  api / application / ai（LLM）/ memory（retrieval）/ story_engine（Canon · StoryState）、
+  任何 HTTP client、自行拼 artifact 路径、修改 Blueprint · Canon · StoryState、
+  调用 Quality Repair / Editor 写操作（§50、§87–§88）
+State Ownership
+  **交付快照 / manifest / artifact**（delivery/<novel_id>/…）；不拥有 story truth
+Module Tests
+  tests/delivery/**、tests/v4/isolation/test_delivery_boundaries.py
+```
+
+Application facade（§21、§60）：`application.services.export.ExportService` 是唯一入口 ——
+V4 主路径走 `deliver(...)` → `DeliveryService`；legacy `projection / validate / export /
+writer_bundle` 保留为 V3 compatibility（移除条件登记在 `V4_DELETION_PLAN.md` §3）。
+
 ### 4.1 明文禁令
 
 ```text
@@ -429,6 +458,10 @@ editor       → 不允许自行拼 artifact 路径，不允许写 Canon / Story
                不允许自建第二套 Blueprint store
 core / persistence / domain / ai / memory / blueprint / generation / quality
              → 不允许 import editor（Application 可以依赖 editor）
+delivery     → 不允许 import api / application / ai / memory / story_engine / HTTP client
+               / 自行拼路径 / 修改 Blueprint · Canon · StoryState / 调用 repair 或 editor 写操作
+core / domain / ai / memory / blueprint / generation / quality / editor
+             → 不允许 import delivery（Application 可以依赖 delivery）
 ```
 
 ### 4.2 守卫测试
@@ -451,6 +484,14 @@ tests/v4/isolation/test_editor_boundaries.py（V4-06）
   · editor 顶层不 import application / api / ai / memory / quality
   · Public Contract 精简；REST 路由只调用 application.services.editor（+ 错误模型）
   · editor metadata store 不含 BlueprintNode（不是第二套 truth）
+tests/v4/isolation/test_delivery_boundaries.py（V4-07）
+  · delivery 不 import interface / application / ai / memory / domain / HTTP client
+  · delivery 只依赖 blueprint / quality / editor metadata / core / persistence.paths
+  · delivery 不自行拼 artifact 路径；不写 Blueprint · Canon · StoryState；不调用 repair
+  · delivery 无模型调用面（gateway / LLMContract / model_policy）
+  · 下层不得反向 import delivery；delivery 顶层不 import application / api / ai / memory
+  · Public Contract 精简（不导出具体 exporter 模块）；REST 路由只调用 application.services.export
+  · Application facade 必须经 DeliveryService / DeliveryRequest
 ```
 
 ---

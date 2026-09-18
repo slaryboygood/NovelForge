@@ -109,6 +109,10 @@ Decision        : 作者决策 B —— DELETE / NO IMPORT / NO FIXTURE / NO leg
 | `story_builder/cross_genre_e2e.py` | 看起来像测试代码 | 它是 3 题材 13 步的回归 harness，V4 迁移的主要安全网 |
 | `story_builder/writer_integration.py`（`WriterDraftService` / `WriterContextBuilder` / `writer_export_bundle`） | 正文草稿能力，V4 的 canonical artifact 已改为 StoryBlueprint（ADR-011） | **V4-06 已评估（docs/v4/V4_06_EDITOR_INVENTORY.md）**：它是正文 preview 能力，仍被 `/api/story-builder/writer/*` 路由与 legacy 产品面使用；Blueprint Editor **不复用**它。移除条件：V4-10 UI 不再依赖 writer 草稿入口 + legacy 测试退出。当前保留 = compatibility |
 | `story_engine/outline_revision.py`（`revise_item` / `restore_version` / `impact_of_change`） | 与 Blueprint Editor 的编辑 / 恢复 / 影响面功能重叠 | **V4-06 已评估**：它们服务 outline package（V3 大纲产品面，UI 与测试仍在使用），只是**思路**被 ADAPT（append-only restore / 结构 diff / 受影响下游列表）。移除条件：V4 产品路径完全切到 Blueprint Editor 且 V4-10 不再渲染 outline 编辑 |
+| `story_builder/export_package.py`（planning export）+ `/export/package` 路由 | V4 交付物已改为 Story Blueprint Package（Delivery） | **V4-07 已评估**：仍被 V3 导出 UI / 既有隔离测试使用，且 `ExportService.projection()` 仍是 legacy 兼容面。移除条件：V4-10 导出 UI 切到 `/api/story-builder/delivery/**` + legacy 浏览器门禁退出 → `DELETE after V4-10 UI switch` |
+| `story_builder/outlines.py` / `story_engine/outline_revision.py` 的导出入口（`/outline/export`、`/outlines/{id}/export`） | Delivery 已提供 JSON / Markdown / DOCX | **V4-07 已评估**：服务 V3 大纲产品面。移除条件同上一行（`DELETE after V4-10 UI switch`） |
+| `story_builder/writer_integration.py::writer_export_bundle` + `/export/writer-bundle` | 交付链已改为 Delivery | **V4-07 已评估（§58）**：只服务旧正文 Writer 的联合入口 → `COMPATIBILITY_ONLY`。移除条件：正文 writer 路径随 V4-10 退出 |
+| 重复的 DOCX 生成路径（`outline_revision.docx_bytes` vs `delivery/exporters/docx_exporter.py`） | 看起来可以合并 | **保留两条**：前者服务 outline 产品面（V3），后者是 Blueprint 交付物；数据源不同、生命周期不同。移除条件随 outline 导出路径一并退出 |
 
 ---
 

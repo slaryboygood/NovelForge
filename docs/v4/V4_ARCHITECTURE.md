@@ -421,6 +421,7 @@ src/novelforge/
 | `generation.*` | 生成编排 → 既有 domain 模型 | `ai.gateway`、`memory.*`、`domain.*`（模型定义） | 直接读写文件、直接写 StoryState | 无（产出 proposal） |
 | `quality.*` | 评估 / 门禁 / 定向修复编排 | `blueprint`（只读）、`ai.gateway`（critic）、`memory.*`（只读）、`core`、`persistence.paths`；`quality/repair` 另允许 `generation` Public Contract | 直接写 truth（Canon / StoryState）、修改 Blueprint 节点、绕过 approval、被下层反向依赖 | Quality Store（report / issue / evidence / repair history）；不拥有 story truth |
 | `editor.*` | 作者编辑 / 比较 / 审批 / 恢复 / 审计（Blueprint revision 工作流） | `blueprint`、`generation` Public Contract、`core`、`persistence.paths`；Quality 由 Application 层组合 | 自建 Blueprint store、写 Canon / StoryState、自动语义 merge、被下层反向依赖 | editor metadata（operation / review / session）；不拥有 story truth |
+| `delivery.*` | 交付编排：选择 revision → 快照 → 校验 → 编译 → 导出 → manifest | `blueprint`、`quality`（Quality Store 只读）、`editor`（metadata 只读）、`core`、`persistence.paths` | 调用 LLM、修 Quality issue、修改 Blueprint / Canon / StoryState、自行拼路径、被下层反向依赖 | 交付快照 / manifest / artifact；不拥有 story truth |
 | `plugins.*` | 扩展点加载与 capability 声明 | 通过 `plugins.base` 暴露的 Port | **直接操作数据库 / 文件系统 / 绕过 service** | Plugin 自身配置（lifespan 内） |
 | `persistence.*` | 唯一物理存储访问点 | `core.*`、`domain.*`（模型定义） | `interfaces.*`、`ai.*`、`application.services`（反向依赖） | 物理存储 |
 | `observability.*` | 日志 / 指标 / 审计 / token 用量 | `core.*` | 业务规则 | 遥测数据 |
@@ -474,7 +475,7 @@ Legacy       → 不允许被新的写路径依赖
 | **Memory 边界** | Canon / StoryState 是 truth；`memory/*` 是派生、可重建、非权威 | ✅ V4-03 已落地：`novelforge.memory`（检索契约 + 四类视图 + 偏好 + ContextBuilder），条目带 source_ids / revision / stale 语义；`story_engine/memory.py` 保持原义不改名 | V4-03 完成 |
 | **Quality 边界** | 每次生成经过 QualityService；issue 是业务对象 | ✅ V4-05 已落地：`novelforge.quality`（Q0–Q9 evaluator + code registry + Quality Store）、`quality/repair`（minimal-scope / revisioned repair）、`application.services.ReviewService`（闭环编排）；判定是 gate-based，不是分数（ADR-018） | V4-05 完成 |
 | **Editor 边界** | 作者通过 Editor 掌握生成结果；Editor 不拥有 story truth | ✅ V4-06 已落地：`novelforge.editor`（patch / diff / history / rewrite / accept / reject / restore / move / audit）+ `application.services.EditorService`（组合 editor + quality + generation）；全部 mutation 是 append-only revision（ADR-021） | V4-06 完成 |
-| **Export 边界** | 唯一 `ExportService`；不允许 UI / API 各自拼产物 | `export_package` + `outlines` 导出 + `docx_bytes` 三处 | V4-07 收敛 |
+| **Export 边界** | 唯一 `ExportService`；不允许 UI / API 各自拼产物 | ✅ V4-07 已落地：`novelforge.delivery`（selection → snapshot → validator → compiler → exporters → manifest）+ `application.services.export.ExportService` 作为唯一 facade；交付 revision-pinned、只读、0 LLM 调用（ADR-024/025/026） | V4-07 完成 |
 | **Blueprint 边界** | canonical Story Blueprint = `blueprint` 节点图 + repository；生成只产出 proposal | ✅ V4-04 已落地：`novelforge.blueprint` + `novelforge.generation`（逐级生成 / 局部重生成 / revision / 幂等 / 结构校验） | V4-04 完成 |
 | **MCP 边界** | MCP 只是协议；tool 调 service；统一 Result Envelope | 不存在 | V4-08 新建 |
 | **Plugin 边界** | 插件通过 Registry 注册，声明 capability，经 Port 访问核心 | 不存在 | V4-09 新建 |

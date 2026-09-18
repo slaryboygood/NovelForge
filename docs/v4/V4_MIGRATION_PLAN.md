@@ -131,9 +131,17 @@ V4-06 实际交付（docs/v4/V4_EDITOR_CONTRACT.md）：
 ### V4-07 Delivery / Export
 
 ```text
-动作：ExportService + ExportPlan + DeliveryValidator(Q9) + nfpack；移除跨作品分区。
-兼容：export_package.export_package() 变为 wrapper（返回结构保持向后兼容一段时间）。
-验收：见 V4_EXPORT_SPEC.md §8（特别是「无其他 novel 数据」与「无内部字段」）。
+动作（V4-07 实际交付，SSOT = docs/v4/V4_DELIVERY_CONTRACT.md）：
+  novelforge.delivery：DeliverySelection → Revision Resolution → DeliverySnapshot →
+    preflight DeliveryValidator → BlueprintCompiler → Exporters（staging 原子发布）→
+    DeliveryManifest + checksums；Application ExportService 收敛为唯一 facade；
+    最小 REST /api/story-builder/delivery/**
+兼容：4 条 legacy 导出路径（planning export / outlines / outline_revision /
+      writer_export_bundle）保留为 V3 compatibility；其 removal condition 登记在
+      V4_DELETION_PLAN.md §3（V4-10 UI 切换后删除）。
+验收：revision pinning（含并发）/ accepted 与 quality 独立 / stale 可检 /
+      atomic publish（失败不留伪成功）/ checksum / no secrets / no other novel /
+      0 LLM 调用 / JSON·Markdown 可复现。
 ```
 
 ### V4-08 MCP / V4-09 Plugins / V4-10 UI

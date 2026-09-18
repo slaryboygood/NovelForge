@@ -59,7 +59,7 @@ DELETE 需要同时成立：
 | `.env.example` | TRACKED(1) | — | 环境变量示例 | README / provider 配置说明 | 否 | 否 | KEEP | 当前 LLM Gateway 需要 |
 | `.env.local` | IGNORED | — | 本机覆盖配置 | `create_app` 不读取（仅 provider 环境变量） | 是 | 否 | LOCAL_DELETE | `.gitignore: .env.local` |
 | `AGENTS.md` | TRACKED(1) | — | 仓库执行规则 | Codex 会话读取 | 否 | 否 | KEEP（精简 V2/V3 专属内容） | §17 |
-| `novelforge.project.yaml` | TRACKED(1) | — | V2/V3 项目边界配置 | 零 src/scripts/tests consumer（仅历史报告提及） | 否 | 否 | DELETE | §18（rg 结果：只出现在历史 docs） |
+| `novelforge.project.yaml` | TRACKED(1) | — | V2/V3 项目边界配置 | 零 src/scripts/tests consumer（仅历史报告提及） | 否 | 否 | **KEEP**（frozen） | 表面零消费者，但 `docs/FROZEN_EVIDENCE_MANIFEST.json:historical_reference_policy.checked_documents` 列出它，且 `tests/test_v2_frozen_guard.py::test_documents_marking_old_release_refs_stay_honest` 断言该文件**存在** → 删除需改 frozen evidence（AGENTS.md §3.3） |
 | `pytest.ini` | TRACKED(1) | — | 测试配置 | pytest | 否 | 否 | KEEP | 当前 testpaths/markers |
 | `README.md` | TRACKED(1) | — | 产品入口文档 | 用户 | 否 | 否 | KEEP（去掉 V2/V3 入口教学） | §87 |
 | `requirements.txt` / `requirements-dev.txt` | TRACKED(2) | — | Python 依赖 | 见 §9 | 否 | 否 | KEEP（按 §60 审计） | §9 |

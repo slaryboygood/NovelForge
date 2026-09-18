@@ -29,6 +29,9 @@
 | [ADR-021](ADR-021-editor-mutations-are-append-only-revisions.md) | Editor Mutations Are Append-Only Revisions | **Accepted**（V4-06 实施完成） | V4-06 起 |
 | [ADR-022](ADR-022-quality-pass-does-not-mean-author-accepted.md) | Quality Pass Does Not Mean Author Accepted | **Accepted**（V4-06 实施完成） | V4-06 起 |
 | [ADR-023](ADR-023-restore-creates-a-new-revision.md) | Restore Creates A New Revision | **Accepted**（V4-06 实施完成） | V4-06 起 |
+| [ADR-024](ADR-024-delivery-is-revision-pinned.md) | Delivery Is Revision-Pinned | **Accepted**（V4-07 实施完成） | V4-07 起 |
+| [ADR-025](ADR-025-accepted-and-quality-passed-are-independent-delivery-requirements.md) | Accepted And Quality-Passed Are Independent Delivery Requirements | **Accepted**（V4-07 实施完成） | V4-07 起 |
+| [ADR-026](ADR-026-novelforge-package-is-a-selected-artifact-not-a-repository-backup.md) | NovelForge Package Is A Selected Artifact, Not A Repository Backup | **Accepted**（V4-07 实施完成） | V4-07 起 |
 
 ## 已被作者裁定的决策（原待决项）
 

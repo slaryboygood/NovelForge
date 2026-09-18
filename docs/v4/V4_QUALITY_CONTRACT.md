@@ -221,6 +221,10 @@ QualityEvidence = evidence_id / kind / source_ids / node_ids / revision /
 ```
 
 `kind ∈ {node_field, comparison, metric, graph, retrieval}`；
+
+> **V4-07 增补**：`QualityReport` 还记录 `node_revisions`（`node_id → revision`），
+> 声明"本次评估覆盖了哪些节点 revision"。交付（Delivery）据此判断质量结论是否
+> 针对被选 revision（stale / unevaluated 判定），见 `V4_DELIVERY_CONTRACT.md` §4。
 `comparison` / `metric` 保存结构化对照（相似度、run length、字符数等）——
 这些是 **diagnostic**，不参与 PASS / FAIL（ADR-018）。
 `revision` 记录 evidence 来自哪个 revision；**issue identity 与 revision 无关**

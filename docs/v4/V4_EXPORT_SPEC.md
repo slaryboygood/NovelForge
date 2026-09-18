@@ -1,6 +1,8 @@
 # NovelForge V4 — Export Spec（设计稿）
 
-> 状态：**V4-00 Architecture / Proposed**，已按 **V4-01 作者决策**对齐（2026-09-17）
+> 状态：**V4-00 设计稿（历史依据）** —— 自 V4-07 起，交付契约的 SSOT 是
+> **[`V4_DELIVERY_CONTRACT.md`](V4_DELIVERY_CONTRACT.md)**。本文件保留为设计输入与
+> 迁移依据（记录 V3 缺陷 NR-002/003/004 与初始 ExportPlan 设想），**不再单独作为 SSOT**。
 > 依据：`docs/v4/V4_ARCHITECTURE.md` §1.6（ownership）、§6（Export 归属）、§5（Export 边界）
 > 硬约束：**所有导出必须经过 `ExportService`。UI / API / MCP 不允许各自拼装导出内容。**
 

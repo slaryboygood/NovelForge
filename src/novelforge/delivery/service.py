@@ -113,6 +113,41 @@ class DeliveryService:
     def stats(self) -> dict[str, Any]:
         return self.store.stats()
 
+    # ------------------------------------------------------- 机器可读视图（只读）
+    def machine_representation(self, selection: DeliverySelection) -> dict[str, Any]:
+        """只读机器视图（V4-08 §14）：不写 snapshot / 不生成 artifact。
+
+        与 deliver 的区别：这里只回答"当前会交付的内容长什么样"，
+        因此 MCP resource / 客户端探测可以直接消费它，而不会产生副作用。
+        """
+
+        outcome = self.selector.select(selection)
+        snapshot = self._build_snapshot(selection, outcome)
+        compiled = self.compiler.compile(snapshot.node_revisions)
+        nodes: list[dict[str, Any]] = []
+        for node in compiled.nodes:
+            state = outcome.quality.get(node.node_id)
+            row = node.as_dict(include_internal=True)
+            row["review_status"] = self._review_status(node.node_id, node.revision)
+            row["quality"] = state.as_dict() if state is not None else {}
+            nodes.append(row)
+        return {"novel_id": self.novel_id, "selection": selection.as_dict(),
+                "snapshot": snapshot.as_dict(),
+                "blueprint": {"ordering": list(compiled.ordering),
+                              "node_count": compiled.node_count,
+                              "node_revisions": {str(key): int(value) for key, value
+                                                 in sorted(compiled.node_revisions.items())},
+                              "digest": compiled.digest, "nodes": nodes},
+                "excluded": [dict(row) for row in outcome.excluded],
+                "quality_summary": self.validator._quality_summary(outcome),
+                "read_only": True, "artifacts": []}
+
+    def _review_status(self, node_id: str, revision: int) -> str:
+        if self.editor_store is None:
+            return ""
+        row = self.editor_store.review_for(node_id, int(revision))
+        return str(row.get("decision") or "")
+
     # ------------------------------------------------------------------ 交付
     def deliver(self, request: DeliveryRequest) -> DeliveryResult:
         selection = request.selection

@@ -28,6 +28,21 @@ DeliverySelection → Revision Resolution → DeliverySnapshot → preflight Val
 
 **0 次 LLM 调用**（§49）；**不修 Quality Issue**（§50）；**不写 Blueprint / Canon / StoryState**。
 
+**V4-09 additive 扩展（插件 exporter，不改变 Core 语义）**：
+
+```text
+· ExporterSpec 增加 owner_type（core|plugin）+ owner_id（§75）
+· ExporterRegistry.register：同 format 且 owner 不同 → DeliveryFormatError；
+  同 owner 重复注册 = 该 owner 更新自己的 handler（Core 行为不变）
+· ExporterRegistry 增加 unregister_owner / owners（Core 注册永不被卸载）
+· DeliverySelection 增加只用于构造期校验的 accepted_formats（= Host 注入 registry 的 formats）；
+  不参与 selection digest → Core 交付语义不变（未知格式仍被拒绝）
+· 插件 exporter 产出的 artifact 与 nfpack 一样经过 secret scan；post-build 校验 /
+  path validation / manifest / checksum 一律不可绕过
+
+见 `V4_PLUGIN_CONTRACT.md` §9。
+```
+
 ---
 
 ## 2. Public Contract（§19）
@@ -281,4 +296,3 @@ Interfaces  → 只依赖 application.services.export
 [x] JSON / Markdown 可复现（同 snapshot 字节一致）
 [x] 0 LLM 调用；legacy 导出路径盘点 + 移除条件登记
 ```
-

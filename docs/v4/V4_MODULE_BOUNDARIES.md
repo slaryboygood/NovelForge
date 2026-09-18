@@ -51,7 +51,7 @@ Module Tests
 | Blueprint Editor | `editor` | `story_builder/writer_integration.py`（正文草稿，**不复用**） | `src/novelforge/editor/` | **NEW** | V4-06 ✅ |
 | Delivery / Export | `delivery` | `story_builder/export_package.py` 等 4 条路径 | `src/novelforge/delivery/` + `application.services.export`（facade） | **NEW** | V4-07 ✅ |
 | MCP Adapter | `mcp` | 无 | `src/novelforge/interfaces/mcp/` | **NEW** | V4-08 ✅ |
-| Plugin Platform | `plugins` | 无 | `src/novelforge/plugins/` | DEFERRED | V4-09 |
+| Plugin Platform | `plugins` | 无 | `src/novelforge/plugins/` | **NEW** | V4-09 ✅ |
 | Observability | `observability` | `src/novelforge/observability/model_trace.py` | 不变（最小实现） | **NEW** | V4-02 ✅ → V4-07 |
 | UI | `ui` | `ui/src/` | `ui/src/` | EXISTS | V4-10 |
 
@@ -473,6 +473,44 @@ ExportService.blueprint_view()                  （只读机器视图）
 DeliveryService.machine_representation()        （只读；不写 snapshot / artifact）
 ```
 
+### 3.16 `plugins` — Plugin Platform（V4-09 落地）
+
+```text
+Public Contract（精简）
+  PluginManager / PluginRegistry / PluginRecord / PluginStatus
+  PluginManifest / PluginDescriptor / PluginContribution / PluginConfig / PluginResult
+  PLUGIN_API_VERSION / PLUGIN_PERMISSIONS / PLUGIN_STATUSES / PLUGIN_TRANSITIONS /
+  CONTRIBUTION_TYPES / RESERVED_NAMESPACES / TRUST_MODEL
+  discover_installed / discover_manifest_paths / check_compatibility /
+  declared_permissions / check_approval / requires_reapproval /
+  EnablementStore / PluginStateStore / PluginAuditLog / build_adapters / PluginError 家族
+Internal
+  adapters/exporter|quality|mcp（Host 侧注册细节）、compatibility / lifecycle /
+  permissions / registry / discovery / state 内部实现、sdk/*（对插件作者另成稳定边界）
+Composition Root
+  plugins/host.py::PluginHost —— 唯一允许同时接触 application.services 与
+  interfaces.mcp 的模块（application 层不得依赖 interfaces，见 §3.2）
+Allowed
+  core（ids / errors）、persistence.paths（插件状态路径 SSOT）、
+  delivery / quality registry 契约（ownership 扩展）、interfaces.mcp registry 契约、
+  application.services（仅 plugins/host.py）
+Forbidden
+  api / ui / ai.providers / BlueprintRepository / QualityStore / DeliveryStore /
+  自行拼 story artifact path / fastapi / httpx / 直接执行插件代码于 import 期
+State Ownership
+  enablement（host 级批准记录）、audit（host 级事件）、
+  plugin state（按 novel_id + plugin_id 隔离，**不是 story truth**）
+Module Tests
+  tests/plugins/**、tests/v4/isolation/test_plugin_boundaries.py
+```
+
+插件侧稳定边界是两个文件级契约（§8、§71）：
+
+```text
+novelforge.plugins.sdk        插件作者唯一稳定依赖（Contribution / PluginContext / …）
+Host Adapter                  唯一触碰 registry 的地方；插件拿不到 registry
+```
+
 ### 4.1 明文禁令
 
 ```text
@@ -500,6 +538,14 @@ interfaces.mcp
                ai / persistence / story_engine / api / HTTP client
 application 与所有业务模块
              → 不允许 import interfaces.mcp（MCP 是 adapter，不是被依赖方）
+plugins      → 不允许 import api / ui / ai.providers / BlueprintRepository /
+               QualityStore / DeliveryStore / 自行拼 story artifact 路径；
+               只允许 plugins/host.py 接触 application.services
+core / domain / ai / memory / blueprint / generation / quality / editor / delivery / api
+             → 不允许 import novelforge.plugins（Core 不依赖具体插件）
+interfaces   → 不允许 import novelforge.plugins（只使用注入的 registry）
+插件不得覆盖 Core：exporter format / MCP tool / MCP resource / quality evaluator /
+               quality issue code 一律不可被插件注册覆盖
 ```
 
 ### 4.2 守卫测试

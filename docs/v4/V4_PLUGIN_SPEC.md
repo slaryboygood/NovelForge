@@ -1,8 +1,21 @@
-# NovelForge V4 — Plugin Spec（设计稿）
+# NovelForge V4 — Plugin Spec（设计输入，**已不再是契约**）
 
-> 状态：**V4-00 Architecture / Proposed — 只定义，不实现**
+> 状态：**设计输入（V4-00 起草 → V4-09 起降级为历史设计稿）**
+> 正式契约：**`docs/v4/V4_PLUGIN_CONTRACT.md`（V4-09 冻结，SSOT）**
+> 验证：本文件描述与真实实现冲突时，以 `V4_PLUGIN_CONTRACT.md` + 代码 + 测试结果为准。
 > 依据：`docs/v4/V4_ARCHITECTURE.md` §4.1（`plugins.*` 行）、§5（Plugin 边界）
 > 硬禁止：**Plugin 不允许直接任意修改核心数据库 / 文件系统。**
+>
+> V4-09 实际落地与本文的差异（以契约为准）：
+>
+> ```text
+> · 本文 §2/§3 列举的抽象（PluginCapability / PluginHost Port / lifespan）未按字面实现；
+>   V4-09 采用 Manifest + Contribution + Host Adapter（见契约 §2、§8）。
+> · 本文提出的 provider 类插件 → DEFER（模型入口唯一 = ai.gateway，ADR-012）。
+> · 原评估"真实需求集中在导出 / 质量 / provider / 生成器"保留：
+>   V4-09 落地 exporter / quality evaluator / MCP tool·resource 三类，其余 DEFER。
+> · 信任模型按 §20–§21 诚实声明：只执行显式批准的 trusted in-process 插件。
+> ```
 
 ---
 
@@ -260,4 +273,3 @@ V4 明确：**MCP 是接口层，插件是能力层**，两者不共用注册机
 [ ] EvaluatorPlugin 能产生 QualityIssue，但无法改变 severity 与放行规则（测试）
 [ ] 至少一个 builtin 示例插件（建议 exporter.markdown.v2 或 evaluator.repetition）
 ```
-

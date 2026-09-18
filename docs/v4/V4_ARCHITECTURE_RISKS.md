@@ -34,7 +34,7 @@
 | R-09 | Revision race | M | **H** | `persistence` / `application` |
 | R-10 | Agent duplicate writes | **H** | **H** | `interfaces.mcp` / `application` |
 | R-11 | Historical data leakage | **H**（已发生） | **H** | `persistence` / `legacy` |
-| R-12 | Plugin privilege escalation | M | **H** | `plugins` |
+| R-12 | Plugin privilege escalation | M | **H**（**已缓解（V4-09）**：显式批准 + 最小权限 + 不可覆盖 Core + owner 可卸载 + 失败隔离；但无进程级 sandbox） | `plugins` |
 | R-13 | Quality cost explosion | M | M | `quality` / `ai.usage` |
 | R-14 | Quality infinite repair loop | M | **H** | `quality.repair` |
 | R-15 | Writer overwrite | M | **H** | `application.services.writer` |
@@ -297,6 +297,33 @@ Mitigation
 
 Owner Layer : plugins
 Detection   : 结构性测试（host 无 db() / write_file()）+ 未声明 capability 拒绝测试
+```
+
+### R-12（V4-09 后状态：**已缓解**，但**明确不做 untrusted sandbox**）
+
+```text
+V4-09 落地事实（证据见 docs/v4/V4_09_PLUGIN_PLATFORM_REPORT.md）
+  · 默认不执行：discovered 不能直接 active；必须 compatible → approved → enabled → loaded
+  · capability 白名单：manifest 声明 permissions，Host 只提供已批准 capability
+    （PluginContext.require 拒绝未批准的 blueprint.read / ai.invoke / plugin.state）
+  · 最小权限：插件拿不到 ApplicationServices / repository / store / project_root
+  · 不可覆盖 Core：exporter format / MCP tool·resource / evaluator / issue code 冲突即
+    PLUGIN_REGISTRATION_CONFLICT；注册原子回滚（不留半激活）
+  · 可按 owner 卸载：每个注册项带 owner_type + owner_id，disable 只影响该插件
+  · 失败隔离：插件坏掉 → status=failed，Core 与其它插件继续（含降级启动）
+  · 净化：错误信息不带绝对路径 / secret / traceback（redact_message）
+  · 不自动安装：无 marketplace / 下载 / pip install / 自动升级
+
+仍然存在的（诚实声明，不当成已解决）
+  · in-process trusted plugin 仍可直接 import os / 打开文件 / 建立 socket
+    → permission 是 Host API capability governance，不是 OS sandbox
+  · 无进程级 timeout / 强杀（重 exporter / AI 调用可能长时间占用）
+  · restart 后不热重载：enablement 记录 enabled 的插件在宿主启动时重新加载
+    （incompatible → failed，不阻塞启动）
+
+Owner Layer : plugins
+Detection   : tests/plugins/**（§92 越权 / §90 覆盖 / §98 失败隔离 / §100 无泄漏）+
+              tests/v4/isolation/test_plugin_boundaries.py
 ```
 
 ### R-13 Quality cost explosion（V4-05 后状态：**已缓解**）

@@ -34,6 +34,9 @@
 | [ADR-026](ADR-026-novelforge-package-is-a-selected-artifact-not-a-repository-backup.md) | NovelForge Package Is A Selected Artifact, Not A Repository Backup | **Accepted**（V4-07 实施完成） | V4-07 起 |
 | [ADR-027](ADR-027-mcp-is-an-interface-adapter-not-a-business-layer.md) | MCP Is An Interface Adapter, Not A Business Layer | **Accepted**（V4-08 实施完成） | V4-08 起 |
 | [ADR-028](ADR-028-mcp-mutations-preserve-revision-and-approval-semantics.md) | MCP Mutations Preserve Revision And Approval Semantics | **Accepted**（V4-08 实施完成） | V4-08 起 |
+| [ADR-029](ADR-029-plugins-use-explicit-public-extension-points.md) | Plugins Use Explicit Public Extension Points | **Accepted**（V4-09 实施完成） | V4-09 起 |
+| [ADR-030](ADR-030-v4-09-executes-only-explicitly-approved-trusted-plugins.md) | V4-09 Executes Only Explicitly Approved Trusted Plugins | **Accepted**（V4-09 实施完成） | V4-09 起 |
+| [ADR-031](ADR-031-plugin-contributions-cannot-override-core-registrations.md) | Plugin Contributions Cannot Override Core Registrations | **Accepted**（V4-09 实施完成） | V4-09 起 |
 
 ## 已被作者裁定的决策（原待决项）
 

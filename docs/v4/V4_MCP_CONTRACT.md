@@ -43,6 +43,22 @@ InvocationRecord                       接口层 observability
 
 Application 侧依赖（唯一）：`application.services.facade.ApplicationServices`。
 
+**V4-09 additive 扩展（插件扩展点，不改变 Core 语义）**：
+
+```text
+· ToolSpec / ResourceSpec 增加 owner_type（core|plugin）+ owner_id（§75）
+· MCPToolRegistry / MCPResourceRegistry 增加 unregister_owner / core_names / core_uris /
+  owners（disable 一个插件只卸载它自己的注册项；Core 注册永不被卸载）
+· ResourceTarget 增加 plugin_id / resource_path；URI 新增
+  `novelforge://plugins/<plugin_id>/<path>`（kind = `plugin_resource:<plugin_id>`）
+· 插件 tool / resource 由 Host adapter 注册，`interfaces` 本身**不 import**
+  `novelforge.plugins`（装配在 `plugins.host.PluginHost`）
+
+Core 基线不变：23 tools / 13 resources（1 static + 12 template）；URI 解析对既有
+形状的行为不变（新增分支只在 netloc == "plugins" 时生效）。
+见 `V4_PLUGIN_CONTRACT.md` §8、§11。
+```
+
 ---
 
 ## 3. MCP 版本（§53）
@@ -208,4 +224,3 @@ interfaces.mcp → application.services / core（ids·errors）/ MCP SDK
 注入：create_mcp_server(project_root, services_factory=…, gateway=…, memory=…)
 惰性：每次调用按 novel_id 构造 ApplicationServices（不预加载全部作品、不在 import 时扫描项目）
 ```
-

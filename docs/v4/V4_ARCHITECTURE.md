@@ -384,7 +384,7 @@ src/novelforge/
 | `quality/` | **保留**，新增 `gates/`（映射既有 validator） | 见 CHALLENGE-08 |
 | `repair/` | **降级为 `quality/repair/`** | 见 CHALLENGE-03 |
 | `services/` | **改名 `application/services/`** | 与 `mcp/tools`、`plugins` 区分「业务服务」与「协议工具」 |
-| `plugins/` | **保留**，V4-09 才落地 | 现在只有 1 个扩展点需求（题材包）且已由配置文件满足 |
+| `plugins/` | **V4-09 已落地**（`src/novelforge/plugins/`，DEFERRED → NEW） | 扩展点从"必须改核心代码"变为"注册贡献"；契约见 `V4_PLUGIN_CONTRACT.md` |
 | `mcp/` | **改名 `interfaces/mcp/`**，与 `api/` 同级 | MCP 是接口层，不是独立能力层 |
 | `api/` | **改名 `interfaces/api/`** | 同上 |
 | `persistence/` | **保留**，`migrations/` 标记 Deferred | 见 CHALLENGE-06 |
@@ -422,7 +422,7 @@ src/novelforge/
 | `quality.*` | 评估 / 门禁 / 定向修复编排 | `blueprint`（只读）、`ai.gateway`（critic）、`memory.*`（只读）、`core`、`persistence.paths`；`quality/repair` 另允许 `generation` Public Contract | 直接写 truth（Canon / StoryState）、修改 Blueprint 节点、绕过 approval、被下层反向依赖 | Quality Store（report / issue / evidence / repair history）；不拥有 story truth |
 | `editor.*` | 作者编辑 / 比较 / 审批 / 恢复 / 审计（Blueprint revision 工作流） | `blueprint`、`generation` Public Contract、`core`、`persistence.paths`；Quality 由 Application 层组合 | 自建 Blueprint store、写 Canon / StoryState、自动语义 merge、被下层反向依赖 | editor metadata（operation / review / session）；不拥有 story truth |
 | `delivery.*` | 交付编排：选择 revision → 快照 → 校验 → 编译 → 导出 → manifest | `blueprint`、`quality`（Quality Store 只读）、`editor`（metadata 只读）、`core`、`persistence.paths` | 调用 LLM、修 Quality issue、修改 Blueprint / Canon / StoryState、自行拼路径、被下层反向依赖 | 交付快照 / manifest / artifact；不拥有 story truth |
-| `plugins.*` | 扩展点加载与 capability 声明 | 通过 `plugins.base` 暴露的 Port | **直接操作数据库 / 文件系统 / 绕过 service** | Plugin 自身配置（lifespan 内） |
+| `plugins.*` | 插件发现 / 批准 / 启用 / 贡献注册（exporter · quality evaluator · MCP tool·resource） | `core`、`persistence.paths`、`quality` / `delivery` registry 契约、`interfaces.mcp` registry 契约；`plugins.host`（composition root）另允许 `application.services` | **直接操作数据库 / 文件系统 / 绕过 service**、覆盖 Core 注册、import api / ui / ai.providers / repository / store | Plugin state（按 novel+plugin 隔离，非 story truth）+ enablement / audit（host 级） |
 | `persistence.*` | 唯一物理存储访问点 | `core.*`、`domain.*`（模型定义） | `interfaces.*`、`ai.*`、`application.services`（反向依赖） | 物理存储 |
 | `observability.*` | 日志 / 指标 / 审计 / token 用量 | `core.*` | 业务规则 | 遥测数据 |
 | `legacy.*` | 冻结历史能力的只读封装 | 只读访问历史证据 | 被新业务路径写入依赖 | frozen 证据（不可变） |
@@ -440,7 +440,7 @@ src/novelforge/
 | `memory` | ✓ | ✓ | ✗ | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | △ | ✓ | ✗ |
 | `generation` | ✓ | ✓ | ✗ | ✓ | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
 | `quality` | ✓ | ✓ | ✗ | ✓ | ✓ | ✗ | ✓ | ✗ | ✗ | △ | ✓ | ✗ |
-| `plugins` | ✓ | △ | △ | △ | △ | △ | △ | ✓ | ✗ | ✗ | ✓ | ✗ |
+| `plugins` | ✓ | ✗ | △ | △ | ✗ | ✗ | △ | ✓ | △ | ✓ | ✗ | ✗ |
 | `interfaces` | ✓ | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | ✗ | ✓ | ✗ |
 | `persistence` | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ | ✓ |
 | `observability` | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
@@ -459,6 +459,12 @@ UI           → 只允许通过 API / approved client 调用业务能力
 LLM Provider → 不允许知道 NovelForge 的任何业务概念（只认 messages / 模型 / 参数）
 Plugin       → 不允许直接修改核心数据库 / 文件系统
 Legacy       → 不允许被新的写路径依赖
+Plugin       → 不允许覆盖 Core 注册（exporter format / MCP tool / MCP resource /
+               quality evaluator / issue code）
+Plugin       → 不允许 import api / ui / ai.providers / BlueprintRepository /
+               QualityStore / DeliveryStore，不允许自拼 story artifact 路径
+Core / 业务模块 → 不允许 import novelforge.plugins（Core 不依赖具体插件）
+interfaces   → 不允许 import novelforge.plugins（只消费注入的 registry）
 ```
 
 **验收方式（V4-01 起）**：新增 import 边界测试（类似现有

@@ -39,6 +39,9 @@
 | [ADR-031](ADR-031-plugin-contributions-cannot-override-core-registrations.md) | Plugin Contributions Cannot Override Core Registrations | **Accepted**（V4-09 实施完成） | V4-09 起 |
 | [ADR-032](ADR-032-story-studio-is-the-primary-v4-product-surface.md) | Story Studio Is The Primary V4 Product Surface | **Accepted**（V4-10 实施完成） | V4-10 起 |
 | [ADR-033](ADR-033-ui-displays-business-truth-but-does-not-derive-it.md) | UI Displays Business Truth But Does Not Derive It | **Accepted**（V4-10 实施完成） | V4-10 起 |
+| [ADR-034](ADR-034-agent-orchestrates-application-capabilities.md) | Agent Orchestrates Application Capabilities, It Does Not Own Business Logic | **Accepted**（V4-11 实施完成） | V4-11 起 |
+| [ADR-035](ADR-035-agent-autonomy-is-bounded-by-policy-revision-budget-and-approval.md) | Agent Autonomy Is Bounded By Policy, Revision, Budget And Approval | **Accepted**（V4-11 实施完成） | V4-11 起 |
+| [ADR-036](ADR-036-agent-plans-and-execution-are-auditable-and-resumable.md) | Agent Plans And Execution Are Auditable And Resumable | **Accepted**（V4-11 实施完成） | V4-11 起 |
 
 ## 已被作者裁定的决策（原待决项）
 

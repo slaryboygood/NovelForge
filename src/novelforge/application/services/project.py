@@ -12,7 +12,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from novelforge.story_builder.novel_admin import archive_novel, rename_novel
+from .novel_admin import archive_novel, rename_novel
 from novelforge.story_engine.profile import NovelProfile, NovelProfileRepository
 from novelforge.story_engine.wizard import apply_template
 

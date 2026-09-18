@@ -1,6 +1,10 @@
 """StoryState retrieval view（V4-03 §6）。
 
 StoryState Memory ≠ StoryState source of truth：只投影当前状态，不维护第二套状态。
+
+post-release cleanup：本模块不再经 V2 `world_view` / `story_engine.memory` 取数，
+直接读 `NovelContext.state`（StoryState 是它的 canonical owner），
+因此 memory → domain 的依赖只剩 context / state / entities。
 """
 
 from __future__ import annotations
@@ -13,7 +17,7 @@ from ..errors import MemorySourceError
 
 
 class StoryStateMemorySource:
-    """从 StoryState（经 creator context + view 投影）生成只读检索条目。"""
+    """从 StoryState 生成只读检索条目（canonical owner 是 StoryState 本身）。"""
 
     source_prefix = "story_state"
 
@@ -22,10 +26,7 @@ class StoryStateMemorySource:
         self.revision = revision
 
     def _context(self, novel_id: str):
-        from novelforge.story_engine.context import (
-            NovelContextError,
-            resolve_novel_context,
-        )
+        from novelforge.story_engine.context import NovelContextError, resolve_novel_context
 
         try:
             return resolve_novel_context(self.project_root, novel_id)
@@ -35,18 +36,13 @@ class StoryStateMemorySource:
 
     def revision_of(self, novel_id: str) -> int | None:
         context = self._context(novel_id)
-        state = context.state
         if not context.persisted:
             return None
-        effects = len(getattr(state, "effect_log", []) or [])
-        return effects
+        return len(getattr(context.state, "effect_log", []) or [])
 
     def provide(self, novel_id: str) -> Sequence[MemoryItem]:
-        from novelforge.story_engine.world_view import world_snapshot
-
         context = self._context(novel_id)
         state = context.state
-        world = world_snapshot(context)
         revision = self.revision if self.revision is not None else len(
             getattr(state, "effect_log", []) or [])
         revision_key = f"story_state:{novel_id}"
@@ -62,16 +58,17 @@ class StoryStateMemorySource:
                                     metadata={"revision_key": revision_key}),
                 metadata={**metadata, "revision_key": revision_key}))
 
-        timeline = world["timeline"]
-        add("timeline", f"当前时间：{timeline['current_time'] or '未指定'}"
-                        f"（tick {timeline['tick']}）",
+        timeline = state.timeline
+        add("timeline", f"当前时间：{timeline.current_time or '未指定'}"
+                        f"（第 {timeline.tick} 回合）",
             metadata={"label": "时间线", "kind": "timeline",
                       "revision": revision})
-        location = world["location"]
+        current_location = state.location.current
+        entry = state.location.known.get(current_location) if current_location else None
         add("location.current",
-            f"当前位置：{location['name'] or location['current'] or '未指定'}",
+            f"当前位置：{(entry.name if entry is not None else '') or current_location or '未指定'}",
             metadata={"label": "当前位置", "kind": "location",
-                      "locations": [location["current"]] if location["current"] else []})
+                      "locations": [current_location] if current_location else []})
 
         for character_id, character in sorted(state.characters.items()):
             flags = []
@@ -101,12 +98,7 @@ class StoryStateMemorySource:
                           "kind": "relationship",
                           "entities": [relationship.source_id, relationship.target_id]})
 
-        from novelforge.story_engine.memory import (
-            outstanding_promises,
-            unresolved_conflicts,
-        )
-
-        for promise in outstanding_promises(state):
+        for promise in _open_promises(state):
             add(f"promise.{promise.id}",
                 f"未完成承诺：{promise.description}"
                 + (f"（{promise.debtor} → {promise.creditor}）"
@@ -116,12 +108,12 @@ class StoryStateMemorySource:
                           "entities": [value for value in
                                        (promise.debtor, promise.creditor) if value]})
 
-        for conflict in unresolved_conflicts(state):
-            add(f"conflict.{conflict.kind}.{conflict.id}",
-                f"未解决冲突：{conflict.title or conflict.id}"
-                f"（{conflict.kind}，pressure {conflict.pressure}）",
-                metadata={"label": conflict.id, "kind": "conflict", "open": True,
-                          "entities": list(conflict.participants)})
+        for conflict in _unresolved_conflicts(state):
+            add(f"conflict.{conflict['kind']}.{conflict['id']}",
+                f"未解决冲突：{conflict['title'] or conflict['id']}"
+                f"（{conflict['kind']}，pressure {conflict['pressure']}）",
+                metadata={"label": conflict["id"], "kind": "conflict", "open": True,
+                          "entities": list(conflict["participants"])})
         return rows
 
     def episodes(self, novel_id: str, *, limit: int = 50) -> Sequence[Any]:
@@ -137,6 +129,47 @@ class StoryStateMemorySource:
         revision = self.revision if self.revision is not None else len(
             getattr(context.state, "effect_log", []) or [])
         return derive_episodes(context.state, revision=revision, limit=limit)
+
+
+def _open_promises(state: Any) -> list[Any]:
+    """未完成承诺（open），按到期 / 创建顺序排序（确定性）。"""
+
+    rows = [item for item in state.promises if item.status == "open"]
+    return sorted(rows, key=lambda item: (item.due_tick or 10 ** 6,
+                                          item.created_tick, item.id))
+
+
+def _unresolved_conflicts(state: Any) -> list[dict[str, Any]]:
+    """未解决冲突：从支线 / 承诺 / 关系推导，**不新存一份**。"""
+
+    rows: list[dict[str, Any]] = []
+    for plot in state.plots.values():
+        status = str(plot.get("status") or "")
+        if status not in ("active", "paused"):
+            continue
+        data = plot.get("data") or {}
+        rows.append({"kind": "plot", "id": str(plot.get("id", "")),
+                     "title": str(plot.get("title", "")),
+                     "participants": list(data.get("participants", [])),
+                     "pressure": float(data.get("pressure", 0))})
+    for promise in _open_promises(state):
+        rows.append({"kind": "promise", "id": promise.id,
+                     "title": promise.description,
+                     "participants": [value for value in
+                                      (promise.debtor, promise.creditor) if value],
+                     "pressure": 1.0 if (promise.due_tick
+                                         and promise.due_tick <= state.timeline.tick)
+                     else 0.5})
+    for relationship in state.relationships:
+        hostility = relationship.dimensions.get("hostility", 0)
+        if hostility > 0:
+            rows.append({"kind": "relationship",
+                         "id": f"{relationship.source_id}->{relationship.target_id}",
+                         "title": "敌意",
+                         "participants": [relationship.source_id,
+                                          relationship.target_id],
+                         "pressure": float(hostility)})
+    return sorted(rows, key=lambda item: (-item["pressure"], item["kind"], item["id"]))
 
 
 __all__ = ["StoryStateMemorySource"]

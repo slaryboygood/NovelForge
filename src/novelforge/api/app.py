@@ -21,6 +21,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from .canon_routes import install_canon_api
+from .agent_routes import install_agent_api
 from .delivery_routes import install_delivery_api
 from .editor_routes import install_editor_api
 from .story_builder_routes import install_story_builder_api
@@ -69,6 +70,7 @@ def create_app(project_root: Path | str = ROOT, *,
                        exporter_registry=exporter_registry,
                        evaluator_registry=evaluator_registry,
                        plugin_service=plugin_service)
+    install_agent_api(app, root, gateway=gateway, memory=memory)
 
     @app.get("/api/health")
     def health() -> dict[str, Any]:

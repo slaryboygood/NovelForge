@@ -22,6 +22,61 @@ DELETE 需要同时成立：
 
 名称不是证据：`v2` / `v3` / `legacy` / `runtime` 只是路径，不构成删除或保留理由（§8）。
 
+## 0b. MCP Analysis Environment（任务书 §5/§89）
+
+通过 `tool_search` 实测枚举本会话真实可用的 MCP，并逐一验证**是否可调用**：
+
+| MCP server | capability | scope | read/write | used for | 实际可用性（实测） |
+| ---------- | ---------- | ----- | ---------- | -------- | ------------------ |
+| `figma` | 设计文件读取 / 设计系统搜索 / Code Connect | Figma 文件 | read + write | 不适用（本任务无 Figma 文件） | 已编目（design-only，与代码分析无关） |
+| `node_repl` | JS 执行（可做文件/符号扫描） | 本地 | read + write | **本可作 E1 替代** | **`unsupported call`** —— 已编目但本会话不可调用 |
+| `chrome_devtools` | 页面 console / network 检查 | 浏览器 | read | 不适用（无浏览器自动化需求） | **`unsupported call`** |
+| `playwright` | `browser_navigate` | 浏览器 | read | 不适用 | 已编目但不在可调用集 |
+| `codex_app`（内置） | 线程 / 项目 / 自动化 / 屏幕上下文 | Codex 应用 | read + write | 与本清理无关 | 可用（非代码分析工具） |
+| `context7`（按 AGENTS.md） | 第三方库文档 | 文档 | read | 不适用（本任务无库 API 变更） | 未使用 |
+| NovelForge 自身 MCP（`python -m novelforge.interfaces.mcp`） | 产品 machine-facing surface | 本仓库 | read + write | **§61/§62 surface before/after** | 可运行（进程内 registry 实测） |
+
+```text
+关键限制（必须显式记录，§89"cases where MCP disagreed with static search"）：
+  本会话 **不存在 code-intelligence / language-server / symbol-reference MCP**。
+  唯一与"引用分析"沾边的 node_repl/chrome_devtools 在本会话返回 `unsupported call`，
+  因此 **E1（MCP/code-index references）在本环境不可获得**。
+
+  按任务书 §7（"MCP 不足时必须补静态分析"）执行替代证据链：
+    E1 → 由 Python AST import-closure（含相对 import 解析与字符串式动态引用）替代
+    E2 → rg / git grep 全文引用
+    E3 → 运行时 registry / FastAPI route installer / MCP registry 扫描
+    E4 → pytest 套件 + acceptance contract + frozen guard
+    E5 → git ls-files / check-ignore / FROZEN_EVIDENCE_MANIFEST
+
+  因此：本环境 **E1 恒不可满足**；按 §10（HIGH 需要 E1+E2+E3+E4+E5 一致）
+  剩余未执行删除的候选一律 **MEDIUM → REVIEW_REQUIRED**，不自动删除。
+  已执行的两波删除（§3/§4/§5）的全部对象都满足：
+    AST 闭包 = 0 消费者 ∧ rg = 0 消费者 ∧ 运行时 registry = 0 消费者
+    ∧ 全套 pytest（1690 passed）+ 3 个浏览器门禁 + tsc/build 全绿 ∧ 无唯一用户数据
+  —— 即 E2–E5 全部为空且被回归证明，E1 因环境缺失由闭包替代。
+```
+
+## 0c. MCP Surface Before / After（任务书 §61/§62/§75）
+
+```text
+NovelForge core MCP surface（进程内 registry 实测）：
+  CORE TOOLS     = 23
+  CORE RESOURCES = 13
+
+tools：accept_revision, create_delivery_snapshot, deliver_blueprint, diff_revisions,
+       evaluate_blueprint, generate_chapter_plan, generate_character, generate_character_arc,
+       generate_premise, generate_scene_plan, generate_story_arc, generate_structural_unit,
+       generate_theme, generate_world, patch_blueprint_node, plan_repair,
+       regenerate_blueprint_node, reject_revision, repair_issue, restore_revision,
+       rewrite_blueprint_node, validate_delivery, verify_repair
+resources：blueprint, delivery, delivery-artifact, delivery-manifest, delivery-snapshot,
+       interface, node, novel, quality, quality-issues, review, revision, scenes
+
+after：与 before 完全一致（本轮未触碰 MCP adapter / registry / application facade；
+       `pytest -q tests/acceptance` 中的 MCP baseline 断言 23/13 仍 PASS）。
+```
+
 ## 1. 当前 V4 的真实消费面（先确定“谁是消费者”）
 
 ```text

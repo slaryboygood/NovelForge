@@ -17,6 +17,51 @@ baa81ef39b8f4563923a28a2b2d2d28e77e423a4（main = v4 = v4.0.0 tag target）
 v4-post-release-cleanup（本地；未 push、未 merge、未建 tag —— 任务书 §95）
 ```
 
+## 2b. MCP environment（任务书 §5/§89）
+
+```text
+通过 tool_search 实测枚举 + 逐项调用验证（见 inventory §0b）：
+  figma             已编目；design-only，与本任务无关
+  node_repl         **unsupported call**（本可作引用分析，实际不可用）
+  chrome_devtools   **unsupported call**
+  playwright        已编目，不在可调用集
+  codex_app         可用，但与代码分析无关
+  NovelForge MCP    可运行（§61/§62 surface 实测）
+
+结论：本会话没有 code-intelligence / LSP / symbol-reference MCP。
+```
+
+## 2c. MCP methodology（任务书 §6–§10/§96）
+
+```text
+五证据模型的实际执行：
+  E1 MCP/code-index references   → 环境不可获得（唯一硬缺口，见 §2b）
+  E2 textual/static references   → rg + Python AST import-closure（含相对 import 与字符串式动态引用）
+  E3 runtime registry/route refs → FastAPI route installer / plugin host / MCP registry 扫描
+  E4 test/contract/release resp. → pytest 1690 + acceptance + frozen guards
+  E5 Git/data ownership          → git ls-files / check-ignore / FROZEN_EVIDENCE_MANIFEST
+
+已执行删除的判定：E2=E3=E4=E5 全部为"无消费者/无职责"且被回归证明，E1 由静态闭包替代。
+未执行删除的候选（§11 backend legacy）：因 E1 缺失，按 §10 判为 MEDIUM → REVIEW_REQUIRED，
+不进入自动删除（这也解释了为什么 §11 是 BLOCKED 而不是"悄悄删掉"）。
+
+MCP 与静态搜索不一致的案例：**无**——因为本环境没有可用的 symbol 分析 MCP 可供对照。
+这一条本身就是需要上报的环境限制，而不是"两方一致"的证据。
+```
+
+## 2d. MCP surface before / after（任务书 §61/§62/§75）
+
+```text
+在删除前实测（进程内 registry）：
+  CORE TOOLS = 23（generate_* / patch_blueprint_node / repair_issue / deliver_blueprint …）
+  CORE RESOURCES = 13（blueprint / quality / scenes / delivery-manifest / revision …）
+删除后：完全一致（23 / 13）。
+  · 本轮只删除 UI 产品面、孤儿模块、legacy 数据与 legacy 门禁，
+    未触碰 interfaces/mcp/**、application facade、registry 注册表；
+  · tests/acceptance/test_final_release.py::test_mcp_core_baseline_and_plugin_increment
+    仍断言 23 tools / 13 resources 并 PASS。
+```
+
 ## 3. Root directory audit
 
 逐项结论（完整证据表见 inventory §2）：
@@ -463,6 +508,10 @@ clean（本轮结束时；临时 workspace 根在收尾时删除）
 ## 57. Remaining risks / 待办
 
 ```text
+0. **E1 证据缺口**：本会话没有可调用的 code-intelligence MCP（§2b/§2c）→
+   剩下的候选删除只能达到 MEDIUM 置信度 → 按 §10 全部 REVIEW_REQUIRED。
+   若要按任务书 §8 的"五证据齐备才删"执行后端 legacy 收缩，需要先提供
+   可用的 symbol/reference 分析工具（或明确接受"静态闭包替代 E1"这一降级）。
 1. §11 backend legacy 层未移除（route 收缩 + journey/export/creator 迁移 + manifest 收敛）
 2. legacy/manifest.py 仍登记已删除的 m11_*/m12–m18 条目 → stale（必须与 §11 一起收敛）
 3. novel/config 的 legacy 子树、novel/{runs,workspace}、workspace/** 的用户资料判定

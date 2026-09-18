@@ -10,7 +10,7 @@ describe('studio navigation', () => {
       .map((row) => row.label)
     const aux = STUDIO_NAV.filter((row) => row.group === 'aux').map((row) => row.label)
     expect(primary).toEqual(['总览', '创造', '世界', '人物', '故事', '场景', '检查'])
-    expect(aux).toEqual(['交付', '插件'])
+    expect(aux).toEqual(['Agent', '交付', '插件'])
     expect(PRIMARY_LABELS).toEqual(primary)
     expect(STUDIO_NAV.length).toBeLessThanOrEqual(10)
   })

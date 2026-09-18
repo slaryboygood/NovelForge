@@ -10,7 +10,7 @@
  */
 
 export type StudioView = 'overview' | 'creation' | 'world' | 'characters' | 'story'
-  | 'scenes' | 'quality' | 'delivery' | 'plugins' | 'settings'
+  | 'scenes' | 'quality' | 'agent' | 'delivery' | 'plugins' | 'settings'
 
 export interface StudioNavItem {
   view: StudioView
@@ -35,6 +35,8 @@ export const STUDIO_NAV: StudioNavItem[] = [
     hint: '每场戏为什么存在' },
   { view: 'quality', label: '检查', icon: 'review', group: 'primary',
     hint: '质量问题与定向修复' },
+  { view: 'agent', label: 'Agent', icon: 'objective', group: 'aux',
+    hint: '给出目标，先看计划再执行' },
   { view: 'delivery', label: '交付', icon: 'export', group: 'aux',
     hint: '选择 / 预检 / 下载' },
   { view: 'plugins', label: '插件', icon: 'locked', group: 'aux',

@@ -27,6 +27,7 @@ import { NodeWorkspace } from './workspaces/NodeWorkspace'
 import { Quality } from './workspaces/Quality'
 import { Delivery } from './workspaces/Delivery'
 import { Plugins } from './workspaces/Plugins'
+import { Agent } from './workspaces/Agent'
 import { STUDIO_NAV, parseStudioRoute, studioHash, type StudioRoute,
   type StudioView } from './nav'
 import './studio.css'
@@ -492,6 +493,11 @@ function StudioShell({ novelId, view, drawerNode, setDrawerNode, go, busy, setBu
       case 'plugins':
         return plugins.data ? <Plugins data={plugins.data as PluginListDto} />
           : <LoadingState label="正在读取插件状态…" />
+      case 'agent':
+        return (
+          <Agent novelId={novelId} notify={notify}
+            onOpenNode={(nodeId) => setDrawerNode(nodeId)} />
+        )
       case 'settings':
         return (
           <section className="studio-workspace">

@@ -71,6 +71,15 @@ export const UI_STATUS_MAP: Record<string, StatusSpec> = {
     shape: 'dashed' },
   /* 通用 */
   ask: { label: '需要补充', icon: 'objective', tone: 'primary', shape: 'outline' },
+  /* Agent（V4-11） */
+  planning: { label: '规划中', icon: 'progress', tone: 'progress', shape: 'outline' },
+  executing: { label: '执行中', icon: 'progress', tone: 'progress', shape: 'outline' },
+  awaiting_approval: { label: '等待你确认', icon: 'conflict', tone: 'warning',
+    shape: 'solid' },
+  paused: { label: '已暂停', icon: 'current', tone: 'warning', shape: 'outline' },
+  completed: { label: '已完成', icon: 'complete', tone: 'success', shape: 'solid' },
+  cancelled: { label: '已取消', icon: 'close', tone: 'muted', shape: 'stripe' },
+  verifying: { label: '复核中', icon: 'progress', tone: 'progress', shape: 'outline' },
 }
 
 const BADGE_TONES: Record<StatusTone, 'neutral' | 'primary' | 'progress' | 'success'

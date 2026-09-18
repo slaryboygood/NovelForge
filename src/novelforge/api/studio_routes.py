@@ -85,6 +85,7 @@ class GenerateBody(StrictModel):
     expected_revision: int | None = Field(default=None, ge=1)
     instruction: str = Field(default="", max_length=600)
     sequence: int = Field(default=0, ge=0, le=999)
+    index: int = Field(default=0, ge=0, le=999)
     unit_type: str = Field(default="", max_length=24)
     idempotency_key: str = Field(default="", max_length=128)
     dry_run: bool = False
@@ -274,10 +275,11 @@ def install_studio_api(app: FastAPI, project_root: Path, *,
             task_input: dict[str, Any] = {}
             if body.instruction:
                 task_input["task"] = body.instruction
-            if body.sequence:
-                task_input["sequence"] = body.sequence
             if body.unit_type:
                 task_input["unit_type"] = body.unit_type
+            if body.index:
+                # 兄弟序号（chapter / structural_unit / character 的节点 id 依据）
+                task_input["index"] = int(body.index)
             if body.node_id and body.expected_revision:
                 result = services.blueprint.regenerate(
                     task=task, node_id=body.node_id,
@@ -288,6 +290,7 @@ def install_studio_api(app: FastAPI, project_root: Path, *,
                     task, parent_id=body.parent_id,
                     idempotency_key=body.idempotency_key,
                     expected_revision=body.expected_revision,
+                    sequence=int(body.sequence or 0),
                     task_input=task_input)
             payload = result.as_dict()
             payload["next_status"] = "proposed"

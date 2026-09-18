@@ -348,6 +348,13 @@ export function useToasts() {
   const push = (tone: ToastTone, message: string) => {
     const id = `${Date.now()}-${Math.random().toString(16).slice(2, 8)}`
     setRows((current) => [...current, { id, tone, message }].slice(-4))
+    // 通知自动消失（不堆叠遮挡操作）：6 秒后淡出，仍可手动关闭
+    const timer = setTimeout(() => {
+      setRows((current) => current.filter((row) => row.id !== id))
+    }, 6000)
+    if (typeof window !== 'undefined') {
+      window.setTimeout(() => clearTimeout(timer), 10000)
+    }
   }
   const dismiss = (id: string) => setRows((current) => current.filter((row) => row.id !== id))
   return { rows, push, dismiss }
@@ -383,6 +390,45 @@ export function StatusLegend({ statuses }: { statuses: string[] }) {
         </span></li>
       ))}
     </ul>
+  )
+}
+
+/** 父节点选择（多候选时要求作者显式选择；§3.6 不允许 latest-wins）。 */
+export function ParentPrompt({ open, taskLabel, message, options, selectedId,
+  onSelect, onConfirm, onCancel }: {
+  open: boolean
+  taskLabel: string
+  message: string
+  options: { nodeId: string; label: string }[]
+  selectedId: string
+  onSelect: (nodeId: string) => void
+  onConfirm: () => void
+  onCancel: () => void
+}) {
+  return (
+    <Drawer open={open} title={`${taskLabel}：选择上级内容`} subtitle={message}
+      onClose={onCancel} testId="parent-prompt"
+      footer={(
+        <div className="studio-drawer-actions">
+          <Button variant="secondary" onClick={onCancel}>取消</Button>
+          <Button variant="primary" icon="complete" disabled={!selectedId}
+            onClick={onConfirm} testId="parent-confirm">用这个上级生成</Button>
+        </div>
+      )}>
+      <ul className="studio-parent-list">
+        {options.map((row) => (
+          <li key={row.nodeId}>
+            <button type="button" className={`studio-option ${selectedId === row.nodeId
+              ? 'is-active' : ''}`} aria-pressed={selectedId === row.nodeId}
+              onClick={() => onSelect(row.nodeId)}
+              data-testid={`parent-option-${row.nodeId}`}>
+              <Icon name={selectedId === row.nodeId ? 'complete' : 'current'} size={16} />
+              <span>{row.label}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </Drawer>
   )
 }
 

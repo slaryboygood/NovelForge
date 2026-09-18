@@ -33,7 +33,11 @@ const badResponses = []
 function track(page, phase) {
   page.on('pageerror', (error) => errors.push(`${phase}: ${error.message}`))
   page.on('console', (message) => {
-    if (message.type() === 'error') errors.push(`${phase}: console ${message.text()}`)
+    if (message.type() !== 'error') return
+    const text = message.text()
+    // 409（revision conflict）与 422（校验/缺模型）是**被覆盖的预期路径**
+    if (/409 \(Conflict\)/.test(text) || /422 \(/.test(text)) return
+    errors.push(`${phase}: console ${text}`)
   })
   page.on('response', (response) => {
     const status = response.status()
@@ -51,6 +55,20 @@ async function open(page, hash, phase) {
 async function shot(page, name) {
   fs.mkdirSync(SHOTS, { recursive: true })
   await page.screenshot({ path: path.join(SHOTS, `${name}.png`), fullPage: true })
+}
+
+async function step(label, action) {
+  console.log(`[step] ${label}`)
+  await action()
+}
+
+/** 关闭当前通知（避免覆盖抽屉按钮；产品 6 秒会自动消失）。 */
+async function clearToasts(page) {
+  const closers = page.locator('[data-testid="studio-toasts"] button')
+  const count = await closers.count()
+  for (let index = 0; index < count; index += 1) {
+    await closers.nth(index).click({ timeout: 2000 }).catch(() => {})
+  }
 }
 
 async function noOverflow(page, label) {
@@ -82,13 +100,44 @@ async function noOverflow(page, label) {
   await shot(page, '02-overview-empty')
 
   // 逐级生成：每步都是 proposal（待接受），不是自动接受
+  /** 父节点选择面板：多候选时出现（§3.6）。返回提示文案，便于断言。 */
+  const resolveParentPrompt = async (expectText = '') => {
+    const prompt = page.locator('[data-testid="parent-prompt"]')
+    await prompt.waitFor({ state: 'visible', timeout: 15000 })
+    const text = await prompt.textContent()
+    if (expectText) {
+      assert.ok(text.includes(expectText), `父节点提示文案不符：${text}`)
+    }
+    await clearToasts(page)
+    await page.locator('[data-testid^="parent-option-"]').first().click()
+    await clearToasts(page)
+    await page.click('[data-testid="parent-confirm"]')
+    await page.waitForSelector('[data-testid="parent-prompt"]',
+      { state: 'detached', timeout: 15000 })
+    return text
+  }
+
   const generate = async (testId) => {
+    console.log(`[step] generate ${testId}`)
     await page.waitForSelector(`[data-testid="${testId}"]`, { timeout: 15000 })
     await page.click(`[data-testid="${testId}"]`)
-    await page.waitForSelector('[data-testid="studio-operation"]', { timeout: 5000 })
-      .catch(() => {})
+    // 确定性等待「两种可能信号」之一：父节点选择面板（多候选）或长操作面板。
+    const signal = await Promise.race([
+      page.waitForSelector('[data-testid="parent-prompt"]', { state: 'visible',
+        timeout: 8000 }).then(() => 'prompt').catch(() => 'waiting'),
+      page.waitForSelector('[data-testid="studio-operation"]', { state: 'visible',
+        timeout: 8000 }).then(() => 'operation').catch(() => 'waiting'),
+    ])
+    if (signal === 'prompt') {
+      await resolveParentPrompt()
+    }
     await page.waitForSelector('[data-testid="studio-operation"]',
       { state: 'detached', timeout: 30000 }).catch(() => {})
+    // 失败必须立刻暴露（不要静默跳过生成步骤）
+    const failure = page.locator('[data-testid="toast-error"]')
+    if (await failure.count() > 0) {
+      throw new Error(`生成失败（${testId}）：${await failure.first().textContent()}`)
+    }
   }
 
   await page.click('[data-testid="nav-creation"]')
@@ -101,11 +150,34 @@ async function noOverflow(page, label) {
   await generate('generate-story_arc')
   await generate('generate-structural_unit')
   await generate('generate-chapter')
-  await page.click('[data-testid="nav-scenes"]')
-  await generate('generate-scene')
 
-  await page.waitForSelector('[data-testid^="node-card-"]', { timeout: 15000 })
+  // §5：再建一个 chapter（走 REST，等价于作者的第二次创建），随后验证
+  // 「多个 chapter + 未显式指定父节点 → UI 不猜，要求作者选择」。
+  const chapterId = await page.evaluate(async (novelId) => {
+    const blueprint = await (await fetch(
+      `/api/story-builder/studio/blueprint?novel_id=${novelId}`)).json()
+    const chapter = blueprint.nodes.find((row) => row.node_type === 'chapter')
+    await fetch('/api/story-builder/studio/generate', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ novel_id: novelId, task: 'chapter',
+        parent_id: chapter ? chapter.parent_id || '' : '', index: 2 }),
+    })
+    const after = await (await fetch(
+      `/api/story-builder/studio/blueprint?novel_id=${novelId}`)).json()
+    return after.nodes.filter((row) => row.node_type === 'chapter').length
+  }, NOVEL)
+  assert.ok(chapterId >= 2, `第二次 chapter 未创建（chapter=${chapterId}）`)
+
+  // §1/§5 回归：chapter 就绪后**立即**生成 scene（不刷新页面、不等待 React 重渲染），
+  // 且多 chapter 时不得 latest-wins —— 必须出现父节点选择面板。
+  await page.click('[data-testid="nav-scenes"]')
+  await page.click('[data-testid="generate-scene"]')
+  await resolveParentPrompt('选择上级内容')
+  await page.waitForSelector('[data-testid^="node-card-"]', { timeout: 20000 })
   await shot(page, '03-scenes')
+  await page.waitForSelector('[data-testid="studio-operation"]',
+    { state: 'detached', timeout: 30000 }).catch(() => {})
+  await shot(page, '03b-parent-prompt')
 
   // 场景卡片正面必须回答「这场戏为什么存在」
   const functionText = await page.textContent('[data-testid="scene-function"]')
@@ -131,6 +203,10 @@ async function noOverflow(page, label) {
   // 接受（作者决定；与质量通过无关）
   await page.click('[data-testid="accept-node"]')
   await page.waitForSelector('[data-testid="toast-success"]', { timeout: 20000 })
+  // 接受后抽屉会重新读取节点（异步）：轮询直到状态徽章变为「已接受」
+  await page.waitForFunction(
+    () => (document.querySelector('[data-testid="node-status"]')?.textContent || '')
+      .includes('已接受'), null, { timeout: 20000 })
   const statusText = await page.textContent('[data-testid="node-status"]')
   assert.ok(statusText.includes('已接受'), `节点未变为 accepted：${statusText}`)
 
@@ -205,9 +281,11 @@ async function noOverflow(page, label) {
   assert.ok(formatIds >= 4, `交付格式列表不完整：${formatIds}`)
   assert.ok(await page.locator('[data-testid="format-tlist"]').count() > 0,
     '插件 exporter 的格式没有出现在交付列表（§55）')
-  await page.click('[data-testid="format-markdown"]')
-  await page.click('[data-testid="format-docx"]')
-  await page.click('[data-testid="format-nfpack"]')
+  // 默认已勾选 json + markdown：只补选缺失的格式（不误取消）
+  for (const format of ['markdown', 'docx', 'nfpack']) {
+    const chip = page.locator(`[data-testid="format-${format}"]`)
+    if (await chip.getAttribute('aria-pressed') !== 'true') await chip.click()
+  }
   await page.click('[data-testid="deliver-submit"]')
   await page.waitForSelector('[data-testid="delivery-result"]', { timeout: 60000 })
   const deliveryStatus = await page.textContent('[data-testid="delivery-status"]')

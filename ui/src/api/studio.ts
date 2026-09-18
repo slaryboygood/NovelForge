@@ -475,6 +475,8 @@ export const studioApi = {
     expected_revision?: number
     instruction?: string
     sequence?: number
+    /** 兄弟序号（章节 / 单元 / 人物的节点 id 依据；后端 task 契约字段）。 */
+    index?: number
     unit_type?: string
     idempotency_key?: string
     dry_run?: boolean

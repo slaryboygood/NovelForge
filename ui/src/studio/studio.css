@@ -829,6 +829,27 @@
 
 .studio-history-actions { display: flex; gap: 6px; align-items: center; }
 
+.studio-parent-list { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.studio-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  text-align: left;
+  cursor: pointer;
+}
+
+.studio-option.is-active {
+  border-color: var(--color-border-active);
+  background: var(--color-bg-elevated);
+}
+
 @media (max-width: 1279px) {
   .studio-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

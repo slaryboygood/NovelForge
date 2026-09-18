@@ -5,7 +5,8 @@
  * UI 只消费 backend 契约；没有本地业务推导。
  */
 import {
-  Component, useCallback, useEffect, useMemo, useState, type ErrorInfo, type ReactNode,
+  Component, useCallback, useEffect, useMemo, useRef, useState, type ErrorInfo,
+  type ReactNode,
 } from 'react'
 import Icon from '../v3/design-system/icons/IconRegistry'
 import {
@@ -16,9 +17,10 @@ import {
   type QualityCenterDto, type StudioNode, type StudioOverview,
 } from '../api/studio'
 import { mapError } from './design/errors'
+import { resolveParent, type ParentOption } from './design/parents'
 import { StatusBadge } from './design/status'
 import { nodeTypeLabel } from './design/fields'
-import { OperationPanel, ToastStack, useToasts } from './components'
+import { OperationPanel, ParentPrompt, ToastStack, useToasts } from './components'
 import { NodeDrawer } from './NodeDrawer'
 import { Overview } from './workspaces/Overview'
 import { NodeWorkspace } from './workspaces/NodeWorkspace'
@@ -69,16 +71,20 @@ function useAsync<T>(loader: () => Promise<T>, deps: unknown[]) {
   const [data, setData] = useState<T | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const reload = useCallback(async () => {
+  const reload = useCallback(async (): Promise<T | null> => {
     setLoading(true)
     setError('')
+    let payload: T | null = null
     try {
-      setData(await loader())
+      payload = await loader()
+      setData(payload)
     } catch (reason) {
+      payload = null
       setError(mapError(reason).message)
     } finally {
       setLoading(false)
     }
+    return payload
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps)
   useEffect(() => { void reload() }, [reload])
@@ -260,6 +266,18 @@ function StudioShell({ novelId, view, drawerNode, setDrawerNode, go, busy, setBu
 }) {
   const overview = useAsync(() => studioApi.overview(novelId), [novelId])
   const nodes = useAsync(() => studioApi.blueprint(novelId), [novelId])
+  /** 最近一次生成结果里的新节点（§4：generation result = 新节点 id 的真相）。 */
+  const lastCreated = useRef<{ nodeType: string; nodeId: string }>(
+    { nodeType: '', nodeId: '' })
+  const [parentPrompt, setParentPrompt] = useState<{
+    open: boolean
+    task: string
+    taskLabel: string
+    message: string
+    options: ParentOption[]
+    selectedId: string
+  }>({ open: false, task: '', taskLabel: '', message: '', options: [],
+    selectedId: '' })
   const quality = useAsync(
     () => (view === 'quality' ? studioApi.quality(novelId) : Promise.resolve(null)),
     [novelId, view])
@@ -285,21 +303,39 @@ function StudioShell({ novelId, view, drawerNode, setDrawerNode, go, busy, setBu
   }, [overview, nodes, quality, formats, snapshots, plugins, view])
 
   const generate = useCallback(async (task: string, parentId = '', nodeType = '') => {
-    // 生成任务的父节点来自后端 task 契约（requires_parent / parent_types）；
-    // UI 只按当前 Blueprint 选出第一个可用父节点，不自己推断结构规则。
-    let resolvedParent = parentId
-    if (!resolvedParent) {
-      const candidates = PARENT_CANDIDATES[task] ?? []
-      const parent = blueprintNodes.find((row) => candidates.includes(row.node_type))
-      resolvedParent = parent?.node_id ?? ''
+    // 父节点解析（Completion Gate §3/§4，完全 deterministic）：
+    //   显式 parent → 直接用；否则**先 reload**再解析（不使用任何本地缓存候选）：
+    //   唯一候选自动 → 0 个报缺 → 多个要求作者显式选择（绝不 latest-wins）。
+    let resolution
+    if (String(parentId || '').trim()) {
+      resolution = resolveParent(task, parentId, [])
+    } else {
+      const fresh = await nodes.reload()
+      const freshNodes = (fresh?.nodes ?? []) as StudioNode[]
+      resolution = resolveParent(task, '', freshNodes, lastCreated.current.nodeId)
     }
+    if (resolution.status === 'missing') {
+      notify('warning', resolution.message)
+      return
+    }
+    if (resolution.status === 'ambiguous') {
+      setParentPrompt({ open: true, task, taskLabel: TASK_LABELS[task] ?? '生成',
+        message: resolution.message, options: resolution.options,
+        selectedId: resolution.parentId })
+      return
+    }
+    const resolvedParent = resolution.parentId
     setBusy(task)
     setOperation(TASK_LABELS[task] ?? '生成中')
     try {
       const result = await studioApi.generate({ novel_id: novelId, task,
         parent_id: resolvedParent, node_type: nodeType })
       notify('success', `${TASK_LABELS[task] ?? '生成'}完成：这是 AI 建议，等待你接受`)
-      void result
+      // 生成结果是新节点 id 的唯一真相（§4）：交给下一次父节点解析优先使用
+      if (result?.node?.node_id) {
+        lastCreated.current = { nodeType: result.node.node_type,
+          nodeId: result.node.node_id }
+      }
       reloadAll()
     } catch (reason) {
       notify('error', mapError(reason).message)
@@ -307,7 +343,7 @@ function StudioShell({ novelId, view, drawerNode, setDrawerNode, go, busy, setBu
       setBusy('')
       onCloseOperation()
     }
-  }, [novelId, blueprintNodes, notify, reloadAll, setBusy, setOperation,
+  }, [novelId, blueprintNodes, nodes, notify, reloadAll, setBusy, setOperation,
     onCloseOperation])
 
   const status = overview.data
@@ -371,10 +407,7 @@ function StudioShell({ novelId, view, drawerNode, setDrawerNode, go, busy, setBu
             hint="每场戏存在的理由（故事功能）写在卡片正面"
             nodes={nodesOf(['scene'])} nodeTypes={['scene']} groupByParent
             generateActions={[{ task: 'scene', label: '生成场景', needsParent: true }]}
-            generating={busy} onGenerate={(task) => {
-              const chapter = blueprintNodes.find((row) => row.node_type === 'chapter')
-              void generate(task, chapter?.node_id ?? '')
-            }}
+            generating={busy} onGenerate={(task) => void generate(task)}
             onOpen={(nodeId) => setDrawerNode(nodeId)} testId="workspace-scenes" />
         )
       case 'quality':
@@ -554,6 +587,18 @@ function StudioShell({ novelId, view, drawerNode, setDrawerNode, go, busy, setBu
         onChanged={(message) => { notify('success', message); reloadAll() }}
         notify={notify} />
 
+      <ParentPrompt open={parentPrompt.open} taskLabel={parentPrompt.taskLabel}
+        message={parentPrompt.message} options={parentPrompt.options}
+        selectedId={parentPrompt.selectedId}
+        onSelect={(nodeId) => setParentPrompt({ ...parentPrompt, selectedId: nodeId })}
+        onCancel={() => setParentPrompt({ ...parentPrompt, open: false })}
+        onConfirm={() => {
+          const chosen = parentPrompt.selectedId
+          const task = parentPrompt.task
+          setParentPrompt({ ...parentPrompt, open: false })
+          void generate(task, chosen)
+        }} />
+
       <OperationPanel open={operation.open} label={operation.label}
         onClose={onCloseOperation} />
       <ToastStack rows={toasts} onDismiss={dismiss} />
@@ -571,14 +616,6 @@ const TASK_LABELS: Record<string, string> = {
   structural_unit: '生成结构单元',
   chapter: '生成章节',
   scene: '生成场景',
-}
-
-/** 生成任务的父节点候选（来自 generation task 契约的 parent_types）。 */
-const PARENT_CANDIDATES: Record<string, string[]> = {
-  character_arc: ['character'],
-  structural_unit: ['story_arc'],
-  chapter: ['structural_unit', 'story_arc'],
-  scene: ['chapter'],
 }
 
 export { nodeTypeLabel }

@@ -127,7 +127,9 @@ class ApplicationServices:
 def application_services(project_root: Path | str, novel_id: str, *,
                          gateway: Any = None, memory: Any = None,
                          policy: QualityPolicy | None = None,
-                         with_ai: bool | None = None) -> ApplicationServices:
+                         with_ai: bool | None = None,
+                         exporter_registry: Any = None,
+                         evaluator_registry: Any = None) -> ApplicationServices:
     """构造一个作品的 Application 能力束。
 
     ```text
@@ -156,7 +158,8 @@ def application_services(project_root: Path | str, novel_id: str, *,
     blueprint = (BlueprintService(root, novel_id, generation=generation,
                                   repository=repository)
                  if generation is not None else None)
-    quality = QualityService(root, novel_id, repository=repository, memory=memory)
+    quality = QualityService(root, novel_id, repository=repository, memory=memory,
+                             registry=evaluator_registry)
     review = ReviewService(root, novel_id, quality=quality, generation=generation,
                            repository=repository, policy=resolved_policy)
     editor = EditorService(root, novel_id,
@@ -165,7 +168,7 @@ def application_services(project_root: Path | str, novel_id: str, *,
                                generation=generation, store=EditorStore(root, novel_id)),
                            quality=quality, review=review, generation=generation,
                            repository=repository, policy=resolved_policy)
-    export = ExportService(root, novel_id)
+    export = ExportService(root, novel_id, exporter_registry=exporter_registry)
     return ApplicationServices(
         novel_id=novel_id, project_root=root, project=ProjectService(root),
         journey=JourneyService(root, novel_id), blueprint=blueprint, review=review,

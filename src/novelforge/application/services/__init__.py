@@ -21,6 +21,7 @@ from .editor import EditorService, editor_service
 from .export import ExportService, export_service
 from .facade import ApplicationServices, application_services
 from .journey import JourneyService, journey_service
+from .plugins import PluginService
 from .project import ProjectService, project_service
 from .review import (
     QualityLoopResult,
@@ -34,6 +35,7 @@ from .utility import UTILITY_LABEL_CONTRACT, UtilityService, utility_service
 __all__ = [
     "BlueprintService", "EditorService", "ExportService", "JourneyService",
     "ProjectService", "ApplicationServices", "application_services",
+    "PluginService",
     "QualityLoopResult", "QualityLoopService", "RepairOutcome", "ReviewService",
     "UtilityService", "UTILITY_LABEL_CONTRACT", "blueprint_service",
     "editor_service", "export_service", "journey_service", "project_service",

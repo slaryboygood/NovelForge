@@ -48,12 +48,15 @@ class ExportService:
     DELIVERY_FORMATS: tuple[str, ...] = ("json", "markdown", "docx", "nfpack")
 
     def __init__(self, project_root: Path | str, novel_id: str, *,
-                 branch_id: str = DEFAULT_BRANCH) -> None:
+                 branch_id: str = DEFAULT_BRANCH,
+                 exporter_registry: Any = None) -> None:
         self.project_root = Path(project_root)
         self.novel_id = str(novel_id or "").strip()
         if not self.novel_id:
             raise ValueError("ExportService 需要显式 novel_id（不允许隐式当前作品）")
         self.branch_id = branch_id or DEFAULT_BRANCH
+        #: V4-09：插件 exporter 通过 composition 注入的 exporter registry
+        self.exporter_registry = exporter_registry
 
     def projection(self) -> dict[str, Any]:
         """只读导出投影（不含序列化产物）。"""
@@ -92,7 +95,7 @@ class ExportService:
             repository=BlueprintRepository(self.project_root, self.novel_id),
             quality_store=QualityStore(self.project_root, self.novel_id),
             editor_store=EditorStore(self.project_root, self.novel_id),
-            store=store, title=title)
+            store=store, title=title, registry=self.exporter_registry)
 
     def delivery_selection(self, *, selection_mode: str = "accepted",
                            profile: str = DEFAULT_PROFILE,
@@ -104,6 +107,9 @@ class ExportService:
                            **overrides: Any) -> DeliverySelection:
         """构造 DeliverySelection（默认 accepted + 不可放宽的 policy）。"""
 
+        #: V4-09 §32：插件 exporter 注册的 format 也允许被选择（Host 注入的 registry）
+        accepted = (tuple(self.exporter_registry.formats())
+                    if self.exporter_registry is not None else ())
         return DeliverySelection(
             novel_id=self.novel_id, selection_mode=selection_mode,
             explicit_revisions=dict(explicit_revisions or {}),
@@ -111,7 +117,8 @@ class ExportService:
                                      if str(value)),
             formats=tuple(str(value) for value in formats),
             profile=profile, created_by=created_by,
-            policy=policy or DeliveryPolicy(), **overrides)
+            policy=policy or DeliveryPolicy(), accepted_formats=accepted,
+            **overrides)
 
     def describe_delivery(self, selection: DeliverySelection) -> dict[str, Any]:
         return self.delivery().describe(selection)
@@ -162,8 +169,10 @@ class ExportService:
 
 
 def export_service(project_root: Path | str, novel_id: str, *,
-                   branch_id: str = DEFAULT_BRANCH) -> ExportService:
-    return ExportService(project_root, novel_id, branch_id=branch_id)
+                   branch_id: str = DEFAULT_BRANCH,
+                   exporter_registry: Any = None) -> ExportService:
+    return ExportService(project_root, novel_id, branch_id=branch_id,
+                         exporter_registry=exporter_registry)
 
 
 __all__ = ["ExportService", "export_service"]

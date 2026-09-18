@@ -37,6 +37,7 @@ ARTIFACT_KINDS: frozenset[str] = frozenset({
     "editor",
     "delivery",
     "plugin_state",
+    "agent_runtime",
 })
 
 _NOVEL_ID_RE = re.compile(NOVEL_ID_PATTERN)
@@ -400,6 +401,61 @@ def plugin_state_dir(project_root: Path | str, novel_id: str, plugin_id: str) ->
                            context.novel_id, str(plugin_id))
 
 
+def agent_dir(project_root: Path | str, novel_id: str) -> Path:
+    """Agent orchestration metadata 根目录（**作品级**）：
+
+    `novel/authoring/story_engine/agent/`
+
+    V4-11：只存 orchestration metadata（session / run / plan / checkpoint / audit），
+    **不是** story truth（不是 Canon / StoryState / Blueprint / Quality）。
+    """
+
+    context = novel_context(project_root, novel_id, artifact_kind="agent_runtime")
+    return context.resolve("novel", "authoring", "story_engine", "agent")
+
+
+def agent_sessions_dir(project_root: Path | str, novel_id: str) -> Path:
+    return agent_dir(project_root, novel_id) / "sessions"
+
+
+def agent_sessions_root(project_root: Path | str) -> Path:
+    """agent sessions 根目录（**不依赖 novel_id**，用于 session → novel 反查，§97）。"""
+
+    return Path(project_root).resolve() / "novel" / "authoring" / "story_engine" \
+        / "agent" / "sessions"
+
+
+def agent_session_path(project_root: Path | str, novel_id: str,
+                       session_id: str) -> Path:
+    if not str(session_id or "").strip():
+        raise OwnershipError("AGENT_SESSION_ID_REQUIRED", "agent session 路径必须显式携带 session_id",
+                             novel_id=novel_id)
+    return agent_sessions_dir(project_root, novel_id) / f"{session_id}.json"
+
+
+def agent_runs_dir(project_root: Path | str, novel_id: str,
+                   session_id: str) -> Path:
+    return agent_dir(project_root, novel_id) / "runs" / str(session_id)
+
+
+def agent_run_path(project_root: Path | str, novel_id: str, session_id: str,
+                   run_id: str) -> Path:
+    if not str(run_id or "").strip():
+        raise OwnershipError("AGENT_RUN_ID_REQUIRED", "agent run 路径必须显式携带 run_id",
+                             novel_id=novel_id)
+    return agent_runs_dir(project_root, novel_id, session_id) / f"{run_id}.json"
+
+
+def agent_audit_path(project_root: Path | str, novel_id: str,
+                     session_id: str) -> Path:
+    return agent_dir(project_root, novel_id) / "audit" / f"{session_id}.json"
+
+
+def agent_checkpoint_path(project_root: Path | str, novel_id: str,
+                          session_id: str) -> Path:
+    return agent_dir(project_root, novel_id) / "checkpoints" / f"{session_id}.json"
+
+
 __all__ = [
     "ARTIFACT_KINDS", "NOVEL_ID_PATTERN", "ArtifactContext", "OwnershipError",
     "canon_db_path", "content_pack_path", "novel_context", "planning_dir",
@@ -417,4 +473,7 @@ __all__ = [
     "delivery_artifact_path",
     "plugin_audit_path", "plugin_enablement_path", "plugin_host_dir",
     "plugin_state_dir",
+    "agent_audit_path", "agent_checkpoint_path", "agent_dir", "agent_run_path",
+    "agent_runs_dir", "agent_session_path", "agent_sessions_dir",
+    "agent_sessions_root",
 ]

@@ -4,9 +4,10 @@
 `outline_revision.docx_bytes` / `writer_export_bundle`），UI、API、未来的 MCP 各自调用，
 导致「导出内容由谁拼装」无法回答，也导致历史数据混入导出（NR-002）。
 
-迁移策略（Strangler）：V4-01 的服务层包装既有 `export_package`（已完成历史分区与
-单作品路径的清除），并把**调用点**收敛到服务层；真正的 Story Blueprint Package
-与 DeliveryValidator 属于 V4-07。
+迁移历史（Strangler 已完成）：V4-01 先把调用点收敛到服务层，V4-07 落地 Story
+Blueprint Package 与 DeliveryValidator；post-release cleanup 之后，那四个 legacy
+导出通道（`export_package` / `outlines` 导出 / `outline_revision` / `writer_export_bundle`）
+已随 V2/V3 后端整体删除，本模块只剩 `deliver()` 一条路径。
 
 V4-07 落地：
 

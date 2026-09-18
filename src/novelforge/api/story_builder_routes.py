@@ -127,12 +127,6 @@ from novelforge.story_builder.novel_admin import (
     archive_novel,
     rename_novel,
 )
-from novelforge.story_builder.writer_integration import (
-    WriterContextBuilder,
-    WriterDraftService,
-    writer_export_bundle,
-)
-
 
 class APIRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -251,19 +245,6 @@ class SettingsCheckRequest(APIRequest):
 
     repair: bool = False
     seed: dict[str, Any] | None = None
-
-
-class WriterDraftRequest(APIRequest):
-    """M16B：writer 草稿输入（writer 声明的事实 claim 由既有校验处理）。"""
-
-    novel_id: str = Field(default=DEFAULT_NOVEL_ID, min_length=3, max_length=96)
-    branch_id: str = Field(default=DEFAULT_BRANCH, max_length=80)
-    chapter_id: str = Field(default="", max_length=128)
-    event_id: str = Field(default="", max_length=128)
-    narration: str = Field(default="", max_length=20000)
-    claims: list[dict[str, Any]] = Field(default_factory=list)
-    new_facts: list[dict[str, Any]] = Field(default_factory=list)
-    style: dict[str, str] = Field(default_factory=dict)
 
 
 class BranchForkRequest(APIRequest):
@@ -1301,51 +1282,6 @@ def create_story_builder_router(
         """M15-02：修复历史 / effect log（只读）。"""
 
         return repair_history(project_root, novel_id)
-
-    @router.get("/writer/context")
-    def get_writer_context(novel_id: str = Query(default=DEFAULT_NOVEL_ID,
-                                                 min_length=3, max_length=96),
-                           branch_id: str = Query(default=DEFAULT_BRANCH, max_length=80),
-                           chapter_id: str = Query(default="", max_length=128),
-                           event_id: str = Query(default="", max_length=128)
-                           ) -> dict[str, Any]:
-        """M16B：分层 writer context（canon / occurred / repair / planned / guidance）。"""
-
-        return WriterContextBuilder(project_root, novel_id).build(
-            branch_id=branch_id, chapter_id=chapter_id, event_id=event_id)
-
-    @router.post("/writer/drafts", status_code=201)
-    def post_writer_draft(body: WriterDraftRequest) -> dict[str, Any]:
-        """M16B：writer 产品入口（生成 preview 草稿 + 既有事实校验）。"""
-
-        return WriterDraftService(project_root, body.novel_id).create_draft(
-            branch_id=body.branch_id, chapter_id=body.chapter_id, event_id=body.event_id,
-            claims=body.claims, new_facts=body.new_facts, narration=body.narration,
-            style=body.style)
-
-    @router.get("/writer/drafts")
-    def get_writer_drafts(novel_id: str = Query(default=DEFAULT_NOVEL_ID,
-                                                min_length=3, max_length=96)
-                          ) -> dict[str, Any]:
-        service = WriterDraftService(project_root, novel_id)
-        return {"novel_id": novel_id, "drafts": service.list_drafts(),
-                "read_only": True}
-
-    @router.get("/writer/drafts/{draft_id}")
-    def get_writer_draft(draft_id: str,
-                         novel_id: str = Query(default=DEFAULT_NOVEL_ID,
-                                               min_length=3, max_length=96)
-                         ) -> dict[str, Any]:
-        return WriterDraftService(project_root, novel_id).get_draft(draft_id)
-
-    @router.post("/writer/drafts/{draft_id}/sync-facts")
-    def post_writer_sync_facts(draft_id: str,
-                               novel_id: str = Query(default=DEFAULT_NOVEL_ID,
-                                                     min_length=3, max_length=96)
-                               ) -> dict[str, Any]:
-        """M16B Draft Fact Sync：只产生 proposal，不写 StoryState / Canon。"""
-
-        return WriterDraftService(project_root, novel_id).sync_facts(draft_id)
 
     @router.get("/catalogs")
     def get_catalog() -> dict[str, Any]:

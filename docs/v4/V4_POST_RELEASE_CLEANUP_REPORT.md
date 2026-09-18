@@ -565,8 +565,8 @@ clean（本轮结束时；临时 workspace 根在收尾时删除）
 
 ```text
 Starting HEAD  e0bb657（Round 1 结束）
-Ending HEAD    fbf1874 + 本 docs 收敛提交
-Cleanup commits（Round 2）= 8
+Ending HEAD    9308316（后端退休 `fbf1874` + 4 个 docs / test 收敛提交）
+Cleanup commits（Round 2）= 9
 
 Journey               V4-native（Profile / Blueprint / Quality / Delivery）；v3_projection 删除
 MCP journey 消费者    facade.summary / studio overview / MCP novel resource 三段同源断言（tests/test_acceptance_repair_regressions.py）

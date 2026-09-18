@@ -177,15 +177,24 @@ def test_domain_does_not_import_ai_module_level() -> None:
         + "\n".join(offenders))
 
 
-def test_legacy_llm_adapter_uses_nested_imports_only() -> None:
-    path = ROOT / "src" / "novelforge" / "story_engine" / "spec" / "llm.py"
-    assert path.is_file(), "legacy LLM 适配器必须存在（V4-02 迁移而非删除）"
-    module_level = [name for name, _ in module_level_imports(path)]
-    assert not any(name.startswith("novelforge.ai") for name in module_level), (
-        "legacy 适配器不得在模块顶层 import ai（会破坏 domain 边界）")
-    nested = [name for name, _ in iter_imports(path)
-              if name.startswith("novelforge.ai")]
-    assert nested, "legacy 适配器必须通过 ai（Gateway）调用模型"
+def test_legacy_llm_adapters_are_retired() -> None:
+    """V4-02 登记的 legacy LLM 适配器随 V2 后端整体退休（不再有 domain → ai 的桥）。
+
+    post-release cleanup 之前，domain 里有一批 legacy structured provider 通过
+    函数内惰性 import `novelforge.ai` 调用模型；这些模块（spec/llm、
+    planning/plot_synthesis、planning/route_candidates、creative、settings_gen、
+    outline_forge、ai_recommendations）已经全部删除，因此 allowlist 只剩空集：
+    domain 现在**完全不得** import ai。
+    """
+
+    offenders: list[str] = []
+    for path in python_files("story_engine"):
+        relative = _relative(path)
+        for name, line in iter_imports(path):
+            if name.startswith("novelforge.ai"):
+                offenders.append(f"{relative}:{line} → {name}")
+    assert offenders == [], (
+        "domain 不得再 import ai（legacy 适配器已退休）：\n" + "\n".join(offenders))
 
 
 # ---------------------------------------------------------------- V4-03（memory）

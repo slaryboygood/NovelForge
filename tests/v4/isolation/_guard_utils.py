@@ -117,29 +117,13 @@ def identifier_names(path: Path) -> list[tuple[str, int]]:
 
 
 def write_minimal_novel(root: Path, novel_id: str, *, title: str) -> str:
-    """在隔离数据根里造一本最小作品（profile + 内容包），返回 pack_id。
+    """在隔离数据根里造一本最小作品（只建 NovelProfile），返回 pack_id。
 
-    只写 design 态数据（profile / content pack），不写 StoryState 事实，
-    也不依赖任何历史资产。
+    post-release cleanup：content pack / creative brief 已随 V2 Story Builder 后端退休，
+    最小作品只需要 profile；不写 StoryState 事实，也不依赖任何历史资产。
     """
 
-    from novelforge.story_engine.creative import CreativeBrief, save_creative_brief
     from novelforge.story_engine.profile import NovelProfileRepository
-    from novelforge.story_engine.settings_gen import (
-        content_pack_draft,
-        default_pack_id,
-        deterministic_seed,
-        validate_pack_draft,
-        write_content_pack,
-    )
 
-    repository = NovelProfileRepository(root)
-    repository.create(novel_id, title=title)
-    brief = CreativeBrief(original_idea=f"{title}：一个只属于 {novel_id} 的开局创意。",
-                          tone="冷峻写实")
-    save_creative_brief(root, novel_id, brief)
-    seed = deterministic_seed(brief)
-    pack_id = default_pack_id(novel_id)
-    pack = validate_pack_draft(content_pack_draft(seed, pack_id=pack_id, brief=brief))
-    write_content_pack(root, pack)
-    return pack_id
+    NovelProfileRepository(root).create(novel_id, title=title)
+    return ""

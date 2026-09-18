@@ -17,27 +17,13 @@ from novelforge.memory import (
 CHARACTERS = ("hero", "rival")
 
 
-def _write_profile_and_pack(root: Path, novel_id: str, title: str) -> str:
-    from novelforge.story_engine.creative import CreativeBrief, save_creative_brief
-    from novelforge.story_engine.profile import NovelProfileRepository
-    from novelforge.story_engine.settings_gen import (
-        content_pack_draft,
-        default_pack_id,
-        deterministic_seed,
-        validate_pack_draft,
-        write_content_pack,
-    )
+def _write_profile(root: Path, novel_id: str, title: str) -> str:
+    """最小 design 态输入：只建 NovelProfile（content pack 已随 V2 后端退休）。"""
 
-    repository = NovelProfileRepository(root)
-    repository.create(novel_id, title=title)
-    brief = CreativeBrief(original_idea=f"{title}：一个只属于 {novel_id} 的开局创意。",
-                          tone="冷峻写实")
-    save_creative_brief(root, novel_id, brief)
-    seed = deterministic_seed(brief)
-    pack_id = default_pack_id(novel_id)
-    pack = validate_pack_draft(content_pack_draft(seed, pack_id=pack_id, brief=brief))
-    write_content_pack(root, pack)
-    return pack_id
+    from novelforge.story_engine.profile import NovelProfileRepository
+
+    NovelProfileRepository(root).create(novel_id, title=title)
+    return ""
 
 
 def _write_canon(root: Path, novel_id: str, *, fact_text: str) -> int:
@@ -101,7 +87,7 @@ def _write_state(root: Path, novel_id: str, *, injury: bool = True) -> int:
 
 def build_novel(root: Path, novel_id: str, *, title: str, fact_text: str,
                 injury: bool = True) -> dict[str, object]:
-    pack_id = _write_profile_and_pack(root, novel_id, title)
+    pack_id = _write_profile(root, novel_id, title)
     facts = _write_canon(root, novel_id, fact_text=fact_text)
     effects = _write_state(root, novel_id, injury=injury)
     return {"novel_id": novel_id, "pack_id": pack_id, "facts": facts,

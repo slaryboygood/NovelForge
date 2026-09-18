@@ -3,7 +3,8 @@
 断言四件事：
 
 1. 已删除的历史资产在磁盘上确实不存在（不会被悄悄恢复）；
-2. 产品侧模块（api / application / story_builder / persistence / core / legacy）
+2. 产品侧模块（api / application / persistence / core / memory / blueprint / quality /
+   editor / delivery / generation / agent / plugins / story_engine）
    不再出现历史路径常量（frozen story_engine 历史模块允许保留内部常量）；
 3. 导出结果不再包含历史分区（spine / historical_ir）或冻结契约 digest；
 4. 产品运行时不需要 historical 数据即可完成一次导出。
@@ -25,7 +26,13 @@ from _guard_utils import (
 )
 
 #: 产品侧模块：这里绝不允许再出现历史资产引用
-PRODUCT_DIRS = ("api", "application", "story_builder", "persistence", "core", "legacy")
+#: （story_builder / legacy 整个包已退休，因此不在扫描范围内 —— 它们不存在了）
+PRODUCT_DIRS = ("api", "application", "persistence", "core", "memory", "blueprint",
+                "quality", "editor", "delivery", "generation", "agent", "plugins")
+
+#: 唯一允许保留历史路径常量的位置：frozen Repair Contract 实现
+#: （AGENTS.md §16.1 / §34：`story_engine/repair.py` 是 frozen 只读实现）
+FROZEN_REPAIR_PATH = "src/novelforge/story_engine/repair.py"
 
 #: 禁止作为**路径字面量**出现（文档里可以提到"已删除"，但不能当路径用）
 FORBIDDEN_PATH_PREFIXES = (
@@ -95,8 +102,7 @@ def test_no_historical_fallback_in_export(tmp_path: Path) -> None:
     同一不变式改由 current 交付路径（selection + describe）证明。
     """
 
-    pack_id = write_minimal_novel(tmp_path, "novel_no_hist", title="无历史作品")
-    assert pack_id
+    write_minimal_novel(tmp_path, "novel_no_hist", title="无历史作品")
 
     from novelforge.application.services import ExportService
 
@@ -130,11 +136,33 @@ def test_export_works_without_historical_data(tmp_path: Path) -> None:
 
 
 def test_historian_layers_are_gone_from_inspector() -> None:
-    """Inspector 不再暴露 historical_repair 层。"""
+    """V2 Inspector / story_builder 后端整体退休：不再存在 historical_repair 层。"""
 
-    from novelforge.story_builder import inspector
+    import importlib
 
-    assert "historical_repair" not in inspector.LAYERS
-    assert not hasattr(inspector, "CANON_DB")
-    with pytest.raises(AttributeError):
-        getattr(inspector, "history_dir")
+    with pytest.raises(ModuleNotFoundError):
+        importlib.import_module("novelforge.story_builder.inspector")
+    with pytest.raises(ModuleNotFoundError):
+        importlib.import_module("novelforge.story_builder")
+    with pytest.raises(ModuleNotFoundError):
+        importlib.import_module("novelforge.legacy")
+
+
+def test_frozen_repair_is_the_only_historical_path_holder() -> None:
+    """frozen Repair 实现（只读历史）之外，domain 不得再持有历史资产路径常量。"""
+
+    offenders: list[str] = []
+    for path in python_files("story_engine"):
+        if str(path.relative_to(ROOT)).replace("\\", "/") == FROZEN_REPAIR_PATH:
+            continue
+        relative = path.relative_to(ROOT)
+        for value, line in string_literals(path):
+            cleaned = value.strip().strip("`").replace("\\", "/")
+            if any(cleaned.startswith(prefix) for prefix in FORBIDDEN_PATH_PREFIXES):
+                offenders.append(f"{relative}:{line} 路径字面量 {value!r}")
+        for name, line in identifier_names(path):
+            if name in FORBIDDEN_IDENTIFIERS:
+                offenders.append(f"{relative}:{line} 标识符 {name}")
+    assert offenders == [], (
+        f"只有 {FROZEN_REPAIR_PATH}（frozen 只读实现）可以保留历史路径常量：\n"
+        + "\n".join(offenders))

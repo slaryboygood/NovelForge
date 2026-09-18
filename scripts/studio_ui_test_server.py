@@ -185,7 +185,9 @@ def main() -> int:
     data_root = (Path(sys.argv[sys.argv.index("--root") + 1]) if "--root" in sys.argv
                  else ROOT / "workspace" / "studio_ui_test_root")
     data_root.mkdir(parents=True, exist_ok=True)
-    for relative in ("novel/config/story_engine", "novel/config/story_builder"):
+    # post-release cleanup：V2 内容包 / story catalog 配置已退休，
+    # 浏览器门禁的数据根只需要一个空目录（current 能力会自行建所需目录）。
+    for relative in ("novel/config/ai",):
         source, target = ROOT / relative, data_root / relative
         if source.is_dir() and not target.exists():
             shutil.copytree(source, target)

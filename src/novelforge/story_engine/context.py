@@ -1,9 +1,9 @@
-"""Novel 运行时读取上下文（current domain owner，取代 V2 `story_engine.creator`）。
+"""Novel 读取上下文（current domain owner，取代 V2 `story_engine.creator`）。
 
 把「一本小说当前的事实态」解析成一个稳定的读取入口：
 
 ```text
-novel_id → Novel Profile → 内容包 → StoryState（或只读预览状态）
+novel_id → Novel Profile → StoryState（本作品运行槽里已落盘的事实）
 ```
 
 与 V2 creator 的差别（post-release cleanup）：
@@ -11,6 +11,8 @@ novel_id → Novel Profile → 内容包 → StoryState（或只读预览状态�
 ```text
 · 不再读取 V2 引导流 session / story_builder.blueprints（那两套存储已退休）；
   「蓝图槽」概念随之消失，StoryState 只按本作品的运行槽读取；
+· 不再有「由内容包推导的预览态」：配置不是事实（AGENTS.md §15），
+  没有落盘事实时 state 就是一个空的 StoryState（persisted=False）；
 · 不再隐式创建 profile —— profile 必须已经存在，否则报 PROFILE_NOT_FOUND
   （读操作不得写文件）；
 · 只读：解析过程不写回任何文件；写路径属于各自的 canonical store。
@@ -26,7 +28,6 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-from .content import ContentPack, ContentPackError, load_pack_from_project
 from .profile import NovelProfile, NovelProfileError, NovelProfileRepository
 from .state import StoryState
 from .storage import StoryStateRepository, StoryStateStorageError
@@ -73,19 +74,17 @@ class NovelContextError(ValueError):
 
 @dataclass(frozen=True)
 class NovelContext:
-    """一本小说的读取上下文：profile + 内容包 + 当前事实（可能是只读预览）。"""
+    """一本小说的读取上下文：profile + 当前事实（未开始时是空 StoryState）。"""
 
     novel_id: str
     project_root: Path
     profile: NovelProfile
-    pack: ContentPack | None
     state: StoryState
     #: 事实态真正的存储槽（小说级运行槽）
     runtime_id: str = ""
     runtime_version: int = RUNTIME_VERSION
     branch_id: str = DEFAULT_BRANCH
     persisted: bool = False
-    pack_error: str = ""
 
     @property
     def preview(self) -> bool:
@@ -99,69 +98,25 @@ class NovelContext:
         return {
             "novel_id": self.novel_id,
             "title": self.title,
-            "content_pack_id": (self.pack.pack_id if self.pack is not None
-                                else self.profile.content_pack_id),
-            "content_pack_title": self.pack.title if self.pack is not None else "",
+            "content_pack_id": self.profile.content_pack_id,
             "branch_id": self.branch_id,
             "persisted": self.persisted,
             "preview": self.preview,
-            "pack_error": self.pack_error,
         }
 
 
-def _load_pack(project_root: Path, pack_id: str) -> tuple[ContentPack | None, str]:
-    if not pack_id:
-        return None, ""
-    try:
-        return load_pack_from_project(project_root, pack_id), ""
-    except ContentPackError as exc:
-        return None, exc.message
+def story_state_preview(profile: NovelProfile, *,
+                        actor: str = "") -> StoryState:
+    """还没有落盘事实时的只读占位状态。
 
+    post-release cleanup 之前，这里会按内容包推导一份"预览事实"；
+    现在**不再这样做**：配置不是事实，没有落盘就没有事实。
+    `actor` 只用于兼容旧调用签名，不再注入任何角色。
+    """
 
-def story_state_preview(profile: NovelProfile, pack: ContentPack | None, *,
-                        actor: str = "protagonist") -> StoryState:
-    """只读预览状态：与引擎首次开始的初始事实同源，但不落盘。"""
-
-    from .entities import Character, Faction, Location
-    from .journey import initial_journey_state
-
-    base = (initial_journey_state(pack, novel_id=profile.novel_id, actor=actor)
-            if pack is not None else StoryState(novel_id=profile.novel_id))
-    working = base.model_copy(deep=True)
-    for character_id, entry in profile.cast.items():
-        working.characters.setdefault(character_id, entry.model_copy(deep=True))
-        if character_id == actor:
-            existing = working.characters[character_id]
-            working.characters[character_id] = existing.model_copy(
-                update={"kind": existing.kind or "player"})
-    for faction_id, entry in profile.factions.items():
-        working.factions.setdefault(faction_id, entry.model_copy(deep=True))
-    locations = profile.world_profile.get("locations", [])
-    for location_id in locations if isinstance(locations, list) else []:
-        if isinstance(location_id, str) and location_id:
-            working.location.known.setdefault(
-                location_id, Location(id=location_id, name=location_id))
-    for ability_id, entry in profile.ability_catalog.items():
-        working.abilities.setdefault(ability_id, entry.model_copy(deep=True))
-    if pack is not None:
-        for location_id, payload in pack.initial_locations.items():
-            working.location.known.setdefault(location_id, Location.model_validate(
-                {"id": location_id, **payload}))
-        if pack.initial_current_location:
-            working.location.current = pack.initial_current_location
-        for faction_id, payload in pack.initial_factions.items():
-            working.factions.setdefault(faction_id, Faction.model_validate(
-                {"id": faction_id, **payload}))
-        for character_id, payload in pack.initial_characters.items():
-            working.characters.setdefault(character_id, Character.model_validate(
-                {"id": character_id, **payload}))
-        for track in pack.initial_plots:
-            payload = dict(track)
-            plot_id = str(payload.pop("id", "")) or str(payload.pop("plot_id", ""))
-            if plot_id:
-                working.plots.setdefault(plot_id, {"id": plot_id, **payload})
-    working.flags[PREVIEW_FLAG] = True
-    return working
+    state = StoryState(novel_id=profile.novel_id)
+    state.flags[PREVIEW_FLAG] = True
+    return state
 
 
 def resolve_novel_context(project_root: Path | str, novel_id: str) -> NovelContext:
@@ -173,25 +128,21 @@ def resolve_novel_context(project_root: Path | str, novel_id: str) -> NovelConte
         profile = profiles.load(novel_id)
     except NovelProfileError as exc:
         raise NovelContextError(exc.code, exc.message, novel_id=novel_id) from exc
-    pack, pack_error = _load_pack(root, profile.content_pack_id)
-
     states = StoryStateRepository(root)
     runtime_id = runtime_key_for(profile.novel_id)
     if states.exists(runtime_id, RUNTIME_VERSION, DEFAULT_BRANCH):
         try:
             return NovelContext(
                 novel_id=profile.novel_id, project_root=root, profile=profile,
-                pack=pack, state=states.load(runtime_id, RUNTIME_VERSION,
-                                             DEFAULT_BRANCH),
+                state=states.load(runtime_id, RUNTIME_VERSION, DEFAULT_BRANCH),
                 runtime_id=runtime_id, runtime_version=RUNTIME_VERSION,
-                branch_id=DEFAULT_BRANCH, persisted=True, pack_error=pack_error)
+                branch_id=DEFAULT_BRANCH, persisted=True)
         except StoryStateStorageError:
             pass
     return NovelContext(novel_id=profile.novel_id, project_root=root, profile=profile,
-                        pack=pack, state=story_state_preview(profile, pack),
+                        state=story_state_preview(profile),
                         runtime_id=runtime_id, runtime_version=RUNTIME_VERSION,
-                        branch_id=DEFAULT_BRANCH, persisted=False,
-                        pack_error=pack_error)
+                        branch_id=DEFAULT_BRANCH, persisted=False)
 
 
 __all__ = [

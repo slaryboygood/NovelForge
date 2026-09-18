@@ -1,12 +1,18 @@
-"""Chapter Semantic IR V1（S01 起）：章节机器语义事实 + 字段编译。
+"""Chapter Semantic IR V1 —— **frozen slice**（post-release cleanup 保留部分）。
 
-三层严格区分：
+历史：Chapter IR（S01 起）曾包含 models / state / evidence / extractor / validator /
+verifier / migration / compiler / builder / schemas 全套。V4 post-release cleanup 后，
+只有 **frozen Repair Contract 实现**（`story_engine/repair.py`）仍然依赖
+`FUNCTION_REQUIREMENTS`（ChapterFunctionPolicy，S10）与它引用的
+`ChapterSemanticIR` 模型，因此仅保留这两块：
 
-- Canon：长程稳定事实（不可被 IR 覆盖）
-- Chapter IR：某一章的叙事执行计划（结构即事实）
-- StoryState：已发生 runtime truth
+```text
+chapter_ir/models.py           ChapterSemanticIR 等 IR 模型（frozen slice）
+chapter_ir/function_policy.py  FUNCTION_REQUIREMENTS（S10 章节功能策略）
+```
 
-Writer-visible 文本只是 IR 的投影；文本不得反过来当事实源。
+其余 chapter IR 能力（提取 / 校验 / 迁移 / 编译）随 570 章 historical 资产
+一起退休；历史证据由 Git 与 `docs/FROZEN_EVIDENCE_MANIFEST.json` 承担。
 """
 
 from .models import (
@@ -19,10 +25,8 @@ from .models import (
     FieldEvidence,
     IRFlags,
 )
-from .state import TypedStateRegistry, default_registry
 
 __all__ = [
     "ChapterEffect", "ChapterEventFrame", "ChapterSemanticIR", "ChapterStateTransition",
     "CompiledChapter", "DogRoleBinding", "FieldEvidence", "IRFlags",
-    "TypedStateRegistry", "default_registry",
 ]

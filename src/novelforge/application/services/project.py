@@ -1,10 +1,13 @@
 """ProjectService —— 作品生命周期（V4-01，ADR-001）。
 
-收编 `api/story_builder_routes.py` 里关于作品本身的编排：
+收编 interface 层里关于作品本身的编排：
 列表 / 读取 / 创建 / 重命名 / 归档（= 删除）。
 
 注意：这里**不**做作品个数、当前作品一类的隐式推断；每个方法都必须显式给出 novel_id
 （除列表方法外）。任何"磁盘上有别的作品就混进当前操作"的行为都是被禁止的。
+
+接口层只 import 本模块（含 `NovelProfileError` / `DEFAULT_NOVEL_ID` 的重导出），
+不直接依赖 domain ——这是 `tests/v4/isolation/test_module_boundaries.py` 守卫的边界。
 """
 
 from __future__ import annotations
@@ -12,9 +15,15 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from novelforge.story_engine.profile import (
+    DEFAULT_NOVEL_ID,
+    NovelProfile,
+    NovelProfileError,
+    NovelProfileRepository,
+)
+from novelforge.story_engine.templates import apply_template
+
 from .novel_admin import archive_novel, rename_novel
-from novelforge.story_engine.profile import NovelProfile, NovelProfileRepository
-from novelforge.story_engine.wizard import apply_template
 
 
 class ProjectService:
@@ -59,5 +68,6 @@ def project_service(project_root: Path | str) -> ProjectService:
     return ProjectService(project_root)
 
 
-__all__ = ["ProjectService", "project_service"]
+__all__ = ["DEFAULT_NOVEL_ID", "NovelProfileError", "ProjectService",
+           "project_service"]
 

@@ -1,4 +1,9 @@
-"""C10：CanonBootstrap / 原子 rebuild / 既有 Outline 适配器 / 只读 API。"""
+"""C10：CanonBootstrap / 原子 rebuild / 只读 API。
+
+post-release cleanup：`canon/outline_adapter.py`（把 Canon-aware 章纲写进 V2
+`StoryOutlineRepository`）随 V2 outline 存储一并退休 —— 那个适配器没有 current
+消费者，且会重新引入第二套 outline 存储。对应断言随能力删除。
+"""
 
 from __future__ import annotations
 
@@ -8,10 +13,6 @@ from fastapi.testclient import TestClient
 from novelforge.api.canon_routes import install_canon_api
 from novelforge.story_engine.canon.bootstrap import CanonBootstrap
 from novelforge.story_engine.canon.models import CanonEvent, CanonFact
-from novelforge.story_engine.canon.outline_adapter import (
-    OutlineRepositoryAdapter,
-    item_payload_from_chapter,
-)
 from novelforge.story_engine.canon.repository import CanonRepository
 
 
@@ -69,22 +70,6 @@ def test_rebuild_keeps_original_on_failure(tmp_path) -> None:
     assert "REBUILD_REJECTED" in result.report.note
     assert sorted(f.fact_id for f in repo.facts("n1")) == before   # 原 Canon 保留
     repo.close()
-
-
-def test_outline_adapter_maps_to_existing_item_fields() -> None:
-    chapter = {"chapter_uuid": "uuid_a", "title": "门后的第一层", "goal": "打开门禁",
-               "concrete_events": ["他把铭牌按进凹槽等待回应"], "start_state": "站在门前",
-               "end_state": "门已打开", "hook": "长廊传来第二种脚步", "location": "gate",
-               "participants": ["protagonist"], "canon_fact_ids": ["FACT_GATE_OPEN"],
-               "canon_event_ids": [], "canon_source_refs": [{"source_uuid": "uuid_gate"}],
-               "context_manifest_id": "CTX_1", "cost": "消耗备用晶体"}
-    payload = item_payload_from_chapter(chapter)
-    from novelforge.story_builder.models import OutlineItem
-    item = OutlineItem.model_validate(payload)          # 复用既有模型，不另造
-    assert item.chapter_uuid == "uuid_a" and item.canon_fact_ids == ["FACT_GATE_OPEN"]
-    assert item.context_manifest_id == "CTX_1"
-    assert "FACT_" not in item.summary and "ch" not in item.title
-    assert OutlineRepositoryAdapter(".").level == "CHAPTER"
 
 
 def test_canon_api_read_endpoints(tmp_path) -> None:

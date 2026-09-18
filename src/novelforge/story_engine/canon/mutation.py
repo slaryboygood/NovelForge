@@ -18,8 +18,6 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Iterable, Sequence
 
-from novelforge.story_engine import outline_forge
-
 from .bootstrap import CanonBootstrap
 from .chapters import ChapterLineage, ChapterLineageStore
 from .context import CanonContextBuilder, contains_writer_metadata, sanitize_writer_text
@@ -1729,16 +1727,12 @@ def _case_040() -> MutationCase:
                                      chapters_raw=[_chapter()])
         codes = _codes(shadow)
         shadow_files = list(runtime.shadow_dir.glob("*.json"))
-        source = Path(outline_forge.__file__).read_text(encoding="utf-8", errors="replace")
-        no_wiring = "canon" not in source.lower()
-        detected = (legacy_off and codes == ["SHADOW_DISABLED"] and not shadow_files
-                    and no_wiring)
+        detected = legacy_off and codes == ["SHADOW_DISABLED"] and not shadow_files
         return MutationObservation(
             detected=detected, detector="CanonOutlineFlags / CanonAwareOutlinePlanner",
             codes=codes or ["SHADOW_DISABLED"], severity="legacy", persisted=False,
             note=f"flag 默认关闭：canon path={planner.should_use_canon_path()}；"
-                 f"shadow 未执行（{len(shadow_files)} 个产物）；"
-                 f"legacy outline_forge 未接线 canon={no_wiring}")
+                 f"shadow 未执行（{len(shadow_files)} 个产物）")
 
     return MutationCase(
         mutation_id="MUT-040", category="compatibility", target_layer="planner",

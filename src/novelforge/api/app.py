@@ -24,7 +24,7 @@ from .canon_routes import install_canon_api
 from .agent_routes import install_agent_api
 from .delivery_routes import install_delivery_api
 from .editor_routes import install_editor_api
-from .story_builder_routes import install_story_builder_api
+from .project_routes import install_project_api
 from .studio_routes import install_studio_api
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -36,7 +36,6 @@ def create_app(project_root: Path | str = ROOT, *,
                plugin_host: Any = None,
                exporter_registry: Any = None,
                evaluator_registry: Any = None,
-               with_legacy: bool = True,
                ui_dist: Path | str | None = None) -> FastAPI:
     """构造 REST 应用（唯一装配入口）。
 
@@ -57,12 +56,8 @@ def create_app(project_root: Path | str = ROOT, *,
     plugin_service = getattr(plugin_host, "service", None) if plugin_host is not None \
         else None
 
-    if with_legacy:
-        # legacy catalog 来自仓库配置（数据根可以没有 novel/config，V4-01 起
-        # 产品配置属于仓库而不是作品数据）
-        from novelforge.story_builder import load_story_catalog
-
-        install_story_builder_api(app, root, catalog=load_story_catalog(ROOT))
+    # 作品生命周期（/novels）：唯一 owner 是 application ProjectService
+    install_project_api(app, root)
     install_canon_api(app, root)
     install_editor_api(app, root, gateway=gateway, memory=memory)
     install_delivery_api(app, root, exporter_registry=exporter_registry)

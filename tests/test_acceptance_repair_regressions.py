@@ -354,8 +354,7 @@ def test_novel_rename_and_archive_delete_leave_no_orphans(tmp_path: Path) -> Non
     """删除作品＝整体归档：profile / Blueprint / Quality / Editor / Delivery 一起移动。"""
 
     stack = clean_studio(tmp_path)
-    client = studio_app(tmp_path, gateway=stack["gateway"], memory=stack["memory"],
-                        with_legacy=True)
+    client = studio_app(tmp_path, gateway=stack["gateway"], memory=stack["memory"])
     delivered = _deliver(client, NOVEL_ID, ["json"])
     assert delivered["ok"] is True
 

@@ -66,15 +66,15 @@ EXPORTER_PLUGIN = _plugins.EXPORTER_PLUGIN
 
 
 def studio_app(root: Path, *, gateway: Any = None, memory: Any = None,
-               plugin_host_obj: Any = None, with_legacy: bool = False) -> Any:
-    """构造 REST 应用（默认关闭 legacy 路由，隔离 V4 面）。"""
+               plugin_host_obj: Any = None) -> Any:
+    """构造 REST 应用（只含 current V4 路由；legacy router 已整体退休）。"""
 
     from fastapi.testclient import TestClient
 
     from novelforge.api.app import create_app
 
     app = create_app(root, gateway=gateway, memory=memory,
-                     plugin_host=plugin_host_obj, with_legacy=with_legacy)
+                     plugin_host=plugin_host_obj)
     return TestClient(app)
 
 

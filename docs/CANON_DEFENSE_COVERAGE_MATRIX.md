@@ -170,7 +170,7 @@
 - **MUT-037**（['HARD_CONSTRAINTS_KEPT']）：max_items=1 / max_chars=1 仍保留 P0/P1（['EVENT_RITUAL', 'FACT_GATE_OPEN']）；低优先级被裁剪 ['EVENT_PLAIN', 'FACT_LATER_PLAN', 'FS_TIDE']
 - **MUT-038**（['PROMOTION_CONFLICT']）：参与者相同但地点不一致 → 必须报冲突且不自动 merge（auto_merge=False）
 - **MUT-039**（['MAPPING_STABLE']）：关闭并重开 repository 后再次 sync：source X → 同一 FACT identity；追加的新 effect 只新增自己的 fact（3 facts = 2 effect + 1 knowledge）
-- **MUT-040**（['SHADOW_DISABLED']）：flag 默认关闭：canon path=False；shadow 未执行（0 个产物）；legacy outline_forge 未接线 canon=True
+- **MUT-040**（['SHADOW_DISABLED']）：flag 默认关闭：canon path=False；shadow 未执行（0 个产物）
 - **MUT-041**（['ORPHANED_REFERENCE_FRAGMENT']）：7 处人工发现的残句全部命中（metadata_leak 检测不到这类损坏）
 - **MUT-042**（['CANON_AUDIT_PROSE_SPAM']）：audit_events=3 density=0.75；动作章（3 条 action）不误报=True
 - **MUT-043**（['DOG_ROLE_ACTION_ALIGNMENT', 'DOG_ROLE_PAYLOAD_SUMMARY_COPY', 'DOG_ROLE_PRESENCE_MISMATCH']）：absent 出场 / 被保护当 supportive / 字段拼接 payload 全部命中；真实嗅探+拦截动作不误报

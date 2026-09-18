@@ -1,0 +1,159 @@
+/*
+ * NovelForge Design System —— 共享原语样式（primitives.css）。
+ *
+ * 来源：post-release cleanup 时从 `ui/src/v3/v3.css` **迁移**（不是复制）出 Story Studio
+ * 真正使用的组件语言（card / button / badge / icon button / progress / disclosure /
+ * empty state / checkbox / loading / sr-only）。
+ *
+ * V3 工作台外壳（shell / nav / topbar / rail / creation / command center）的规则随 V3 产品面
+ * 一并删除；这里只保留当前产品面（Story Studio）需要的部分。
+ * 类名保持 `v3-*` 前缀：它们是已发布的 Markup Contract，改名会同时影响
+ * `ui/src/studio/**` 与浏览器门禁断言。
+ */
+
+.v3-sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.v3-card {
+  min-width: 0;
+}
+/* -------------------------------------------------------------------- card */
+.v3-card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-5);
+}
+.v3-card-elevated { background: var(--color-bg-surface-alt); }
+.v3-card-quiet { background: rgba(20, 29, 46, 0.55); box-shadow: none; }
+.v3-card.is-selected { border-color: var(--color-border-active); }
+.v3-card.is-clickable { padding: 0; }
+.v3-card-hit {
+  display: block; width: 100%; text-align: left; background: transparent; border: 0;
+  color: inherit; font: inherit; padding: var(--space-5); cursor: pointer;
+  border-radius: var(--radius-lg);
+}
+.v3-card-hit:hover { background: var(--color-bg-hover); }
+/* ------------------------------------------------------------------ button */
+.v3-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  border-radius: var(--radius-md); font: inherit; font-weight: 600; cursor: pointer;
+  white-space: nowrap;
+  border: 1px solid transparent; transition: background var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease);
+}
+.v3-btn-md { padding: 10px 18px; font-size: var(--text-sm); }
+.v3-btn-sm { padding: 6px 12px; font-size: var(--text-xs); }
+.v3-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.v3-btn-primary {
+  background: linear-gradient(180deg, var(--color-accent-primary-strong), var(--color-accent-primary));
+  color: var(--color-text-inverse);
+}
+.v3-btn-primary:hover:not(:disabled) { filter: brightness(1.05); }
+.v3-btn-secondary {
+  background: var(--color-bg-elevated); border-color: var(--color-border-strong);
+  color: var(--color-text-primary);
+}
+.v3-btn-secondary:hover:not(:disabled) { background: var(--color-bg-hover); }
+.v3-btn-ghost { background: transparent; color: var(--color-text-secondary); }
+.v3-btn-ghost:hover:not(:disabled) { background: var(--color-bg-hover); color: var(--color-text-primary); }
+.v3-btn-danger { background: var(--color-accent-danger); color: #fff; }
+.v3-icon-btn {
+  display: grid; place-items: center; width: 36px; height: 36px;
+  border-radius: var(--radius-md); background: transparent;
+  border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); cursor: pointer;
+  position: relative;
+}
+.v3-icon-btn:hover { background: var(--color-bg-hover); color: var(--color-text-primary); }
+.v3-icon-btn-ghost { border-color: transparent; }
+.v3-icon-btn-count {
+  position: absolute; top: -4px; right: -4px; min-width: 16px; height: 16px;
+  padding: 0 4px; border-radius: var(--radius-pill); background: var(--color-accent-warning);
+  color: var(--color-text-inverse); font-size: 10px; font-weight: 700;
+  display: grid; place-items: center;
+}
+/* ---------------------------------------------------------------- progress */
+.v3-progress { display: grid; gap: 6px; }
+.v3-progress-head { display: flex; align-items: baseline; justify-content: space-between; }
+.v3-progress-label { color: var(--color-text-secondary); font-size: var(--text-xs); }
+.v3-progress-value { color: var(--color-text-primary); font-size: var(--text-sm); font-weight: 600; }
+.v3-progress-track {
+  height: 6px; border-radius: var(--radius-pill); background: var(--color-bg-elevated);
+  overflow: hidden;
+}
+.v3-progress.is-compact .v3-progress-track { height: 5px; }
+.v3-progress-fill { display: block; height: 100%; border-radius: var(--radius-pill);
+  transition: width var(--motion-normal) var(--motion-ease); }
+.v3-progress-fill.tone-progress { background: linear-gradient(90deg, #2aa987, var(--color-accent-progress)); }
+.v3-progress-fill.tone-primary { background: linear-gradient(90deg, #c79a35, var(--color-accent-primary)); }
+.v3-progress-fill.tone-warning { background: var(--color-accent-warning); }
+.v3-progress-fill.tone-danger { background: var(--color-accent-danger); }
+/* ------------------------------------------------------------------- badge */
+.v3-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 10px; border-radius: var(--radius-pill);
+  font-size: var(--text-xs); border: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-elevated); color: var(--color-text-secondary);
+}
+.v3-badge-primary { border-color: var(--color-border-active); color: var(--color-accent-primary); }
+.v3-badge-progress, .v3-badge-success { border-color: rgba(53, 201, 160, 0.4); color: var(--color-accent-success); }
+.v3-badge-warning { border-color: var(--color-border-warning); color: var(--color-accent-warning); }
+.v3-badge-danger { border-color: var(--color-border-danger); color: var(--color-accent-danger); }
+/* ---------------------------------------------------------------- sections */
+.v3-section-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-4); }
+.v3-section-title { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.v3-section-title h2 { margin: 0; font-size: var(--text-lg); font-weight: 650; }
+.v3-section-title p { margin: 0; color: var(--color-text-muted); font-size: var(--text-xs); width: 100%; }
+.v3-card.is-clickable .v3-entity, .v3-entity .v3-card-hit { display: grid; gap: 4px; }
+.v3-route .v3-card-hit { display: grid; grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--space-3); align-items: center; width: 100%; text-align: left; }
+.v3-character .v3-card-hit, .v3-location .v3-card-hit, .v3-faction .v3-card-hit {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) 18px; gap: var(--space-3);
+  align-items: center; width: 100%; text-align: left;
+}
+.v3-chapter .v3-card-hit { display: grid; grid-template-columns: 104px minmax(0, 1fr) 18px;
+  align-items: start; gap: var(--space-3); width: 100%; text-align: left; }
+.v3-progress-foot { padding: var(--space-2) 0 var(--space-6); }
+.v3-recent .v3-card-hit { display: grid; gap: 2px; }
+.v3-check { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); color: var(--color-text-secondary); }
+.v3-check.is-done { color: var(--color-text-primary); }
+.v3-check-mark { display: grid; place-items: center; width: 18px; color: var(--color-accent-progress); }
+.v3-check-empty { width: 13px; height: 13px; border-radius: 50%; border: 1px solid var(--color-stage-locked); display: block; }
+.v3-check em { margin-left: auto; font-style: normal; font-size: 11px; color: var(--color-text-muted); }
+.v3-disclosure {
+  border: 1px solid var(--color-border-subtle); border-radius: var(--radius-md);
+  background: var(--color-bg-surface); padding: var(--space-3) var(--space-4);
+}
+.v3-disclosure > summary { cursor: pointer; color: var(--color-text-secondary); font-size: var(--text-sm); }
+.v3-disclosure[open] > summary { color: var(--color-text-primary); margin-bottom: var(--space-3); }
+.v3-disclosure-body { display: grid; gap: var(--space-3); }
+.v3-check-result { display: grid; gap: var(--space-3); }
+.v3-check-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
+.v3-check-list li {
+  display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap;
+  padding: var(--space-3); border-radius: var(--radius-md); background: var(--color-bg-surface-alt);
+  color: var(--color-text-secondary); font-size: var(--text-sm);
+}
+.v3-check-list em { font-style: normal; color: var(--color-text-muted); font-size: var(--text-xs); }
+/* ------------------------------------------------------------------ states */
+.v3-loading { display: flex; align-items: center; gap: var(--space-3); color: var(--color-text-muted); padding: var(--space-5); }
+.v3-loading-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-accent-primary);
+  animation: v3-pulse 1.1s ease-in-out infinite; }
+.v3-error { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4);
+  border: 1px solid var(--color-border-danger); border-radius: var(--radius-md);
+  background: rgba(220, 90, 84, 0.08); color: var(--color-accent-danger); }
+.v3-error p { margin: 2px 0 0; color: var(--color-text-secondary); font-size: var(--text-sm); }
+.v3-error b { color: var(--color-text-primary); }
+.v3-empty { display: grid; justify-items: center; gap: var(--space-2); text-align: center;
+  padding: var(--space-4); color: var(--color-text-secondary); }
+.v3-empty-icon { color: var(--color-accent-primary); }
+/* 真实空态插画就位前不占位、不报错：只有 manifest 解析出 URL 才会渲染。 */
+.v3-empty-art { display: block; width: min(220px, 60%); }
+.v3-empty-art img { display: block; width: 100%; height: auto; border-radius: var(--radius-md); }
+.v3-empty h3 { margin: 0; font-size: var(--text-md); color: var(--color-text-primary); }
+.v3-empty p { margin: 0; font-size: var(--text-sm); max-width: 52ch; }
+.v3-empty-value { color: var(--color-text-muted); font-size: var(--text-xs) !important; }
+.v3-novel-card-head .v3-badge { flex: 0 0 auto; }
+.v3-novel-card-foot .v3-btn { flex: 0 0 auto; white-space: nowrap; }

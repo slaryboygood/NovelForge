@@ -6,8 +6,8 @@
  */
 import { useMemo, useState } from 'react'
 import type { StudioNode } from '../../api/studio'
-import { Button, Card, SectionHeading } from '../../v3/design-system/primitives'
-import Icon from '../../v3/design-system/icons/IconRegistry'
+import { Button, Card, SectionHeading } from '../../design-system/primitives'
+import Icon from '../../design-system/icons/IconRegistry'
 import { StatusBadge } from '../design/status'
 import { NodeCard } from '../components'
 import { nodeTypeLabel } from '../design/fields'

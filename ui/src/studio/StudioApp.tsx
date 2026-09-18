@@ -8,10 +8,10 @@ import {
   Component, useCallback, useEffect, useMemo, useRef, useState, type ErrorInfo,
   type ReactNode,
 } from 'react'
-import Icon from '../v3/design-system/icons/IconRegistry'
+import Icon from '../design-system/icons/IconRegistry'
 import {
   Button, Card, LoadingState, SectionHeading,
-} from '../v3/design-system/primitives'
+} from '../design-system/primitives'
 import {
   studioApi, type DeliveryFormatsDto, type DeliverySnapshotRow, type PluginListDto,
   type QualityCenterDto, type StudioNode, type StudioOverview,
@@ -121,9 +121,6 @@ export default function StudioApp() {
     else window.location.hash = hash
   }, [])
 
-  if (route.name === 'v3') return <V3Redirect />
-  if (route.name === 'legacy') return <LegacyRedirect query={route.query} />
-
   if (route.name === 'landing' || !route.novelId) {
     return <StudioLanding onOpen={(novelId) => go(novelId, 'overview')}
       notify={push} />
@@ -137,18 +134,6 @@ export default function StudioApp() {
       setOperation={(label) => setOperation({ open: Boolean(label), label })}
       operation={operation} onCloseOperation={() => setOperation({ open: false, label: '' })} />
   )
-}
-
-function V3Redirect() {
-  useEffect(() => { window.location.href = `${window.location.pathname}?ui=v3#/` }, [])
-  return <LoadingState label="正在打开旧版工作台…" />
-}
-
-function LegacyRedirect({ query }: { query: string }) {
-  useEffect(() => {
-    window.location.href = `${window.location.pathname}?ui=v2${query ? `#${query}` : '#/story-builder'}`
-  }, [query])
-  return <LoadingState label="正在打开高级工具…" />
 }
 
 /* ---------------------------------------------------------------- landing */
@@ -172,9 +157,7 @@ function StudioLanding({ onOpen, notify }: {
             选一本作品继续，或者从一句前提开始新的故事。
           </p>
         </div>
-        <span className="studio-landing-actions">
-          <a className="studio-link" href="?ui=v2#/story-builder">高级工具（旧版）</a>
-        </span>
+        <span className="studio-landing-actions" />
       </header>
 
       <Card tone="elevated" className="studio-create-card">
@@ -567,12 +550,6 @@ function StudioShell({ novelId, view, drawerNode, setDrawerNode, go, busy, setBu
               <span className="studio-nav-hint">{item.hint}</span>
             </button>
           ))}
-          <a className="studio-nav-item studio-nav-extra"
-            href={`?ui=v2#/story-builder?novel_id=${encodeURIComponent(novelId)}`}>
-            <Icon name="settings" size={18} />
-            <span className="studio-nav-label">高级工具</span>
-            <span className="studio-nav-hint">旧版面板（兼容）</span>
-          </a>
         </nav>
 
         <main className="studio-main">

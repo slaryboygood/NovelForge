@@ -6,8 +6,8 @@
  *   · 颜色不是唯一信号（始终带图标与文案）；
  *   · 未登记的状态原样显示（不猜、不翻译成 PASS/FAIL）。
  */
-import { Badge } from '../../v3/design-system/primitives'
-import Icon from '../../v3/design-system/icons/IconRegistry'
+import { Badge } from '../../design-system/primitives'
+import Icon from '../../design-system/icons/IconRegistry'
 
 export type StatusTone = 'neutral' | 'primary' | 'progress' | 'success'
   | 'warning' | 'danger' | 'muted'

@@ -4,8 +4,8 @@
  * 所有数字都来自 `/studio/overview`（backend 算好）；UI 不推导进度、不判断质量。
  */
 import type { StudioOverview } from '../../api/studio'
-import { Button, Card, ProgressBar } from '../../v3/design-system/primitives'
-import Icon from '../../v3/design-system/icons/IconRegistry'
+import { Button, Card, ProgressBar } from '../../design-system/primitives'
+import Icon from '../../design-system/icons/IconRegistry'
 import { StatusBadge } from '../design/status'
 import { nodeTypeLabel } from '../design/fields'
 

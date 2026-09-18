@@ -8,8 +8,8 @@ import { useState } from 'react'
 import type {
   QualityCenterDto, QualityIssueRow, RepairPreviewDto, VerificationDto,
 } from '../../api/studio'
-import { Button, Card, Disclosure, SectionHeading } from '../../v3/design-system/primitives'
-import Icon from '../../v3/design-system/icons/IconRegistry'
+import { Button, Card, Disclosure, SectionHeading } from '../../design-system/primitives'
+import Icon from '../../design-system/icons/IconRegistry'
 import { StatusBadge } from '../design/status'
 import { ConfirmDialog, Drawer, IssueCard, SEVERITY_LABELS, issueHumanLabel } from '../components'
 import { fieldLabel } from '../design/fields'

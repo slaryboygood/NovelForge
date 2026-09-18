@@ -17,13 +17,13 @@
 
 // Product Default Artwork（正式产品默认资源；路径以 docs/V3_VISUAL_ASSET_REQUIREMENTS.json 为准）。
 // 通过 import 交给打包器处理指纹与体积，组件层面依然只认 Manifest。
-import defaultNovelCover from '../../../assets/defaults/default_novel_cover.webp'
-import defaultHeroBanner from '../../../assets/defaults/default_hero_banner.webp'
-import defaultCharacter from '../../../assets/defaults/default_character.webp'
-import defaultLocation from '../../../assets/defaults/default_location.webp'
+import defaultNovelCover from '../../assets/defaults/default_novel_cover.webp'
+import defaultHeroBanner from '../../assets/defaults/default_hero_banner.webp'
+import defaultCharacter from '../../assets/defaults/default_character.webp'
+import defaultLocation from '../../assets/defaults/default_location.webp'
 // 势力徽记需要真实透明通道：内容包给的是 PNG（requirements 允许 WebP or PNG）。
-import defaultFaction from '../../../assets/defaults/default_faction.png'
-import defaultChapter from '../../../assets/defaults/default_chapter.webp'
+import defaultFaction from '../../assets/defaults/default_faction.png'
+import defaultChapter from '../../assets/defaults/default_chapter.webp'
 
 /** 实体视觉种类（与 EntityVisual 一一对应）。 */
 export type ArtworkKind = 'novelCover' | 'hero' | 'character' | 'location'

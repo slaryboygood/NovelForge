@@ -5,8 +5,8 @@
  * 不提供 enable / disable / 安装 / 配置编辑（V4-09 §65–§67 + 本阶段 §53–§54）。
  */
 import type { PluginListDto } from '../../api/studio'
-import { Card, Disclosure, SectionHeading } from '../../v3/design-system/primitives'
-import Icon from '../../v3/design-system/icons/IconRegistry'
+import { Card, Disclosure, SectionHeading } from '../../design-system/primitives'
+import Icon from '../../design-system/icons/IconRegistry'
 import { StatusBadge, pluginStatusKey } from '../design/status'
 
 const PERMISSION_LABELS: Record<string, string> = {

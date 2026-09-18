@@ -5,8 +5,9 @@
  *   #/studio                              作品选择 / 新建
  *   #/studio/n/<novelId>                  Overview
  *   #/studio/n/<novelId>/<view>[/<id>]    某个工作区（可深链接实体）
- *   #/v3/...                              V3 兼容入口
- *   #/story-builder?...                    V2 legacy（高级工具）
+ *
+ * 旧入口（`#/v3/...`、`#/story-builder?...`）在 post-release cleanup 后
+ * 由 `ui/src/App.tsx` 归一化到 Story Studio；本模块不再有第二套产品路由。
  */
 
 export type StudioView = 'overview' | 'creation' | 'world' | 'characters' | 'story'
@@ -54,7 +55,7 @@ export const PRIMARY_LABELS: string[] = STUDIO_NAV
   .filter((row) => row.group === 'primary').map((row) => row.label)
 
 export interface StudioRoute {
-  name: 'landing' | 'studio' | 'v3' | 'legacy'
+  name: 'landing' | 'studio'
   novelId: string
   view: StudioView
   entityId: string
@@ -74,12 +75,6 @@ export function studioHash(novelId: string, view: StudioView = 'overview',
 export function parseStudioRoute(hash: string): StudioRoute {
   const raw = String(hash || '').replace(/^#/, '')
   const [path, query = ''] = raw.split('?')
-  if (raw.startsWith('/v3')) {
-    return { name: 'v3', novelId: '', view: 'overview', entityId: '', query }
-  }
-  if (raw.startsWith('/story-builder')) {
-    return { name: 'legacy', novelId: '', view: 'overview', entityId: '', query }
-  }
   if (!path || path === '/' || path === '/studio') {
     return { name: 'landing', novelId: '', view: 'overview', entityId: '', query }
   }

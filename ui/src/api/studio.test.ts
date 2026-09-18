@@ -4,7 +4,7 @@
  * 只验证「UI 发的请求形状」与「错误映射」；不重复后端业务测试。
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { ApiError } from '../api'
+import { ApiError } from './http'
 import { deliveryArtifactUrl, studioApi } from './studio'
 
 interface Call {

@@ -1,68 +1,45 @@
-import { useEffect, useState } from 'react'
-import StoryBuilderPage from './StoryBuilderPage'
-import V3App from './v3/V3App'
+import { useEffect } from 'react'
 import StudioApp from './studio/StudioApp'
-import './v3/design-system/tokens.css'
-import './v3/v3.css'
+import './design-system/tokens.css'
+import './design-system/primitives.css'
+import './studio/studio.css'
 
 /**
- * Product V4 的默认入口是 **Story Studio**（`ui/src/studio/**`）。
+ * NovelForge V4 只有 **Story Studio** 一个产品面（`docs/v4/V4_UI_CONTRACT.md`）。
  *
- * 三个产品面并存，各自有明确的进入方式（`docs/v4/V4_UI_CONTRACT.md` §3）：
+ * V2 / V3 产品面已在 post-release cleanup 中移除，旧 URL 不再加载旧 bundle：
  *
- *   * `#/studio/...`（默认）→ V4 Story Studio（Blueprint 主产品路径）；
- *   * `?ui=v3` / `#/v3...`  → V3 工作台（兼容入口，旧验收脚本使用）；
- *   * `?ui=v2` / `#/story-builder?...` → V2 legacy 面板（高级工具）。
+ *   * `?ui=v3` / `#/v3...`             → 回落（fallback）到 Story Studio；
+ *   * `?ui=v2` / `#/story-builder...`  → 回落（fallback）到 Story Studio。
  *
- * 三者共用同一份 domain 与同一批 REST API：不允许出现第二套业务规则。
+ * 旧入口只做一次 `replaceState` 归一化（不重新加载、不产生重定向循环），
+ * 既保留旧书签可用性，又不再维护第二套产品 UI。
  */
-type Surface = 'studio' | 'v3' | 'legacy'
-
-function detectSurface(): Surface {
-  try {
-    const ui = new URLSearchParams(window.location.search || '').get('ui')
-    if (ui === 'v2') return 'legacy'
-    if (ui === 'v3') return 'v3'
-    const hash = window.location.hash || ''
-    if (hash.startsWith('#/story-builder')) return 'legacy'
-    if (hash.startsWith('#/v3')) return 'v3'
-    return 'studio'
-  } catch {
-    return 'studio'
-  }
-}
+const LEGACY_HASH_PREFIXES = ['#/v3', '#/story-builder']
 
 export default function App() {
-  const [surface, setSurface] = useState<Surface>(() => detectSurface())
-
   useEffect(() => {
-    const normalize = () => {
-      setSurface(detectSurface())
-      // 深链接上下文（novel_id / view / entity）挂在 hash 上；只补齐缺失的 path，
-      // 不丢 query。
-      const hash = window.location.hash || ''
-      if (!hash) {
-        window.history.replaceState(null, '', '#/')
+    try {
+      const url = new URL(window.location.href)
+      const surface = url.searchParams.get('ui')
+      const hash = url.hash || ''
+      const isLegacySurface = surface === 'v2' || surface === 'v3'
+      const isLegacyHash = LEGACY_HASH_PREFIXES.some((prefix) =>
+        hash.startsWith(prefix))
+      if (isLegacySurface || isLegacyHash) {
+        url.searchParams.delete('ui')
+        url.hash = '#/'
+        window.history.replaceState(null, '', url.toString())
+        return
       }
+      if (!hash) {
+        url.hash = '#/'
+        window.history.replaceState(null, '', url.toString())
+      }
+    } catch {
+      // 非浏览器环境（单元测试）忽略 URL 归一化。
     }
-    normalize()
-    window.addEventListener('hashchange', normalize)
-    return () => window.removeEventListener('hashchange', normalize)
   }, [])
 
-  if (surface === 'studio') return <StudioApp />
-
-  if (surface === 'v3') {
-    return <div className="v3-root"><V3App /></div>
-  }
-
-  return <div style={{ display: 'flex', flexDirection: 'column', height: '100dvh' }}>
-    <header style={{ padding: '16px 24px', borderBottom: '1px solid var(--border)' }}>
-      <strong>NovelForge</strong>
-      <span style={{ marginLeft: 16, color: 'var(--muted)' }}>故事构筑（高级工具）</span>
-      <a href="#/studio" style={{ marginLeft: 16, color: 'var(--accent, #e2b451)' }}
-        data-testid="legacy-back-to-studio">返回 Story Studio</a>
-    </header>
-    <StoryBuilderPage />
-  </div>
+  return <StudioApp />
 }

@@ -6,7 +6,7 @@
  *   · 只描述 wire 形状；不做任何业务判断（不推断 accepted / 不判断 PASS）
  *   · 错误经 `ApiError`（code + message）→ 由 `studio/design/errors.ts` 映射成作者语言
  */
-import { requestJson } from '../api'
+import { requestJson } from './http'
 
 /* ------------------------------------------------------------------ 基础 DTO */
 

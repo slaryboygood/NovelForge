@@ -2,7 +2,7 @@
  * Agent Mode HTTP 客户端（V4-11 §97、§103）。
  * UI 只调用 application.services.agent 暴露的 REST facade，不做任何编排判断。
  */
-import { requestJson } from '../api'
+import { requestJson } from './http'
 
 const BASE = '/api/story-builder/agent'
 

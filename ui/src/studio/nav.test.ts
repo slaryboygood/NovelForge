@@ -25,9 +25,11 @@ describe('studio navigation', () => {
       { view: 'quality', entityId: 'QI_X' })
     expect(parseStudioRoute('#/studio/n/alpha/not-a-view')).toMatchObject(
       { view: 'overview' })
+    // post-release cleanup：旧入口不再有独立路由，由 App.tsx 归一化到 Studio；
+    // 解析器把它们当作 landing（第一方产品面），绝不解析出第二套产品路由。
     expect(parseStudioRoute('#/story-builder?novel_id=alpha'))
-      .toMatchObject({ name: 'legacy' })
-    expect(parseStudioRoute('#/v3/n/alpha')).toMatchObject({ name: 'v3' })
+      .toMatchObject({ name: 'landing' })
+    expect(parseStudioRoute('#/v3/n/alpha')).toMatchObject({ name: 'landing' })
   })
 
   it('round-trips hash representations (back/forward safe)', () => {

@@ -7,8 +7,8 @@
  * 冲突：显示「我的版本 / 当前版本 / 差异」，不自动覆盖（§59）。
  */
 import { useCallback, useEffect, useState } from 'react'
-import Icon from '../v3/design-system/icons/IconRegistry'
-import { Button, Card, Disclosure, LoadingState } from '../v3/design-system/primitives'
+import Icon from '../design-system/icons/IconRegistry'
+import { Button, Card, Disclosure, LoadingState } from '../design-system/primitives'
 import {
   studioApi, type DiffDto, type EditorNodeDto, type RevisionHistoryDto,
   type RewriteResultDto,

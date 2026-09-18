@@ -5,10 +5,10 @@
  * 这里只做展示与交互编排，**不做业务判断**（§2）。
  */
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import Icon from '../v3/design-system/icons/IconRegistry'
+import Icon from '../design-system/icons/IconRegistry'
 import {
   Button, Card, Disclosure, EmptyState, ErrorState, LoadingState, SectionHeading,
-} from '../v3/design-system/primitives'
+} from '../design-system/primitives'
 import {
   displayValue, fieldLabel, nodeTitle, nodeTypeIcon, nodeTypeLabel, storyFunctionLabel,
 } from './design/fields'

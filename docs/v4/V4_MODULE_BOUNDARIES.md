@@ -50,7 +50,7 @@ Module Tests
 | Story Repair | `repair` | `story_engine/repair.py`（冻结历史用途，**不复用**） | `src/novelforge/quality/repair/` | **NEW** | V4-05 ✅ |
 | Blueprint Editor | `editor` | `story_builder/writer_integration.py`（正文草稿，**不复用**） | `src/novelforge/editor/` | **NEW** | V4-06 ✅ |
 | Delivery / Export | `delivery` | `story_builder/export_package.py` 等 4 条路径 | `src/novelforge/delivery/` + `application.services.export`（facade） | **NEW** | V4-07 ✅ |
-| MCP Adapter | `mcp` | 无 | `src/novelforge/interfaces/mcp/` | DEFERRED | V4-08 |
+| MCP Adapter | `mcp` | 无 | `src/novelforge/interfaces/mcp/` | **NEW** | V4-08 ✅ |
 | Plugin Platform | `plugins` | 无 | `src/novelforge/plugins/` | DEFERRED | V4-09 |
 | Observability | `observability` | `src/novelforge/observability/model_trace.py` | 不变（最小实现） | **NEW** | V4-02 ✅ → V4-07 |
 | UI | `ui` | `ui/src/` | `ui/src/` | EXISTS | V4-10 |
@@ -441,6 +441,38 @@ Application facade（§21、§60）：`application.services.export.ExportService
 V4 主路径走 `deliver(...)` → `DeliveryService`；legacy `projection / validate / export /
 writer_bundle` 保留为 V3 compatibility（移除条件登记在 `V4_DELETION_PLAN.md` §3）。
 
+### 3.15 `interfaces.mcp` — MCP Adapter（V4-08 落地）
+
+```text
+Public Contract（精简）
+  MCPDispatcher / ResourcePayload / create_mcp_server / create_dispatcher
+  MCPToolRegistry / MCPResourceRegistry / ToolSpec / ResourceSpec / ToolResult
+  parse_uri / ResourceTarget / paginate / map_error / MCPError 家族
+  MCP_INTERFACE_VERSION / InvocationRecord
+Internal
+  tools/* / resources/*（具体 tool / resource 模块不导出）
+Allowed
+  application.services（唯一业务入口）、core（ids / errors，按需）、官方 MCP SDK
+Forbidden
+  blueprint / generation / quality / editor / delivery / memory / ai / persistence /
+  story_engine / story_builder / api、任何 HTTP client、自行读文件 / 拼路径、
+  调用 LLM Gateway、构造下层对象、执行业务规则
+State Ownership
+  无（只持有 per-novel ApplicationServices 缓存与接口层 invocation 记录）
+Module Tests
+  tests/mcp/**、tests/v4/isolation/test_mcp_boundaries.py
+```
+
+Application 侧配套（§58：缺口补在 Application，不在 MCP 绕过）：
+
+```text
+application.services.facade.ApplicationServices / application_services()
+  summary() / delivery_selection() / delivery_store()
+EditorService.reviews() / review_for()          （评审只读访问）
+ExportService.blueprint_view()                  （只读机器视图）
+DeliveryService.machine_representation()        （只读；不写 snapshot / artifact）
+```
+
 ### 4.1 明文禁令
 
 ```text
@@ -462,6 +494,12 @@ delivery     → 不允许 import api / application / ai / memory / story_engine
                / 自行拼路径 / 修改 Blueprint · Canon · StoryState / 调用 repair 或 editor 写操作
 core / domain / ai / memory / blueprint / generation / quality / editor
              → 不允许 import delivery（Application 可以依赖 delivery）
+interfaces.mcp
+             → 只允许 import application.services / core / MCP SDK；
+               不允许 blueprint / generation / quality / editor / delivery / memory /
+               ai / persistence / story_engine / api / HTTP client
+application 与所有业务模块
+             → 不允许 import interfaces.mcp（MCP 是 adapter，不是被依赖方）
 ```
 
 ### 4.2 守卫测试
@@ -492,6 +530,12 @@ tests/v4/isolation/test_delivery_boundaries.py（V4-07）
   · 下层不得反向 import delivery；delivery 顶层不 import application / api / ai / memory
   · Public Contract 精简（不导出具体 exporter 模块）；REST 路由只调用 application.services.export
   · Application facade 必须经 DeliveryService / DeliveryRequest
+tests/v4/isolation/test_mcp_boundaries.py（V4-08）
+  · MCP 只依赖 application.services / core（不 import 任何业务模块 / REST 框架 / HTTP client）
+  · MCP 不自行拼路径、不读文件；tool / resource 不构造下层对象
+  · application 与业务模块不得反向 import interfaces.mcp
+  · MCP 不通过 HTTP 调自己的 REST API（不出现 /api/story-builder、localhost）
+  · Public Contract 精简；requirements.txt 记录官方 MCP SDK 与 starlette 兼容区间
 ```
 
 ---

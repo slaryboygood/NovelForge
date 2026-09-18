@@ -411,7 +411,7 @@ src/novelforge/
 | 层 | Responsibility | Allowed Dependencies | Forbidden Dependencies | State Ownership |
 | --- | --- | --- | --- | --- |
 | `interfaces/api` | HTTP 协议转换、参数校验、错误码映射 | `application.services`、`core.result` | `domain.*` 直接调用、`persistence.*`、文件路径、`ai.*`、`mcp.*` | 无（不持有状态） |
-| `interfaces/mcp` | MCP resource / tool / prompt 协议转换、权限与 dry-run | `application.services`、`core.result` | 同上 + 不得自建业务规则 | 无 |
+| `interfaces/mcp` | MCP resource / tool 协议转换、参数校验、ownership 绑定、错误映射 | `application.services`、`core`（ids / errors）、官方 MCP SDK | `domain.*` / `persistence.*` / `ai.*` / 文件路径 / HTTP client / 自建业务规则 | 无（per-novel service 缓存 + invocation 记录） |
 | `application.services` | 用例编排、事务边界、权限判断、事件顺序、质量循环触发 | `domain.*`、`persistence.*`、`ai.gateway`、`memory.*`、`quality.service` | `interfaces.*`、`fastapi`、React、provider SDK | **编排状态**（会话、批次、agent session） |
 | `application.projections` | 只读 DTO（视图模型后端侧） | `domain.*`、`persistence.*` | 写操作、provider 调用 | 无（纯派生） |
 | `domain.*` | 业务规则与不变量 | 标准库、`pydantic`、`core.*`、同层 domain | `fastapi`、`mcp`、`openai`/SDK、`persistence`、文件系统、React、网络 | StoryState / Canon / ChapterIR / PlanningIR 的**语义** |
@@ -477,7 +477,7 @@ Legacy       → 不允许被新的写路径依赖
 | **Editor 边界** | 作者通过 Editor 掌握生成结果；Editor 不拥有 story truth | ✅ V4-06 已落地：`novelforge.editor`（patch / diff / history / rewrite / accept / reject / restore / move / audit）+ `application.services.EditorService`（组合 editor + quality + generation）；全部 mutation 是 append-only revision（ADR-021） | V4-06 完成 |
 | **Export 边界** | 唯一 `ExportService`；不允许 UI / API 各自拼产物 | ✅ V4-07 已落地：`novelforge.delivery`（selection → snapshot → validator → compiler → exporters → manifest）+ `application.services.export.ExportService` 作为唯一 facade；交付 revision-pinned、只读、0 LLM 调用（ADR-024/025/026） | V4-07 完成 |
 | **Blueprint 边界** | canonical Story Blueprint = `blueprint` 节点图 + repository；生成只产出 proposal | ✅ V4-04 已落地：`novelforge.blueprint` + `novelforge.generation`（逐级生成 / 局部重生成 / revision / 幂等 / 结构校验） | V4-04 完成 |
-| **MCP 边界** | MCP 只是协议；tool 调 service；统一 Result Envelope | 不存在 | V4-08 新建 |
+| **MCP 边界** | MCP 只是协议；tool 调 service；统一 Result Envelope | ✅ V4-08 已落地：`interfaces/mcp`（MCPDispatcher + Tool/Resource 注册表 + 稳定错误映射 + 分页 + 净化），只依赖 `application.services`；官方 MCP SDK 提供 stdio transport（ADR-027/028） | V4-08 完成 |
 | **Plugin 边界** | 插件通过 Registry 注册，声明 capability，经 Port 访问核心 | 不存在 | V4-09 新建 |
 | **Revision 边界** | 每个 artifact 带 `revision`；写操作带 `expected_revision` | blueprints / outlines / planning / StoryState 各自实现 | V4-01 统一语义 |
 | **Ownership 边界** | 每个 artifact 带 `project_id` / `novel_id` / `revision` / `created_at` / `source_ids` | `wasteland_001` 曾硬编码于 4 个模块；`novel/final/*.md` 与 570 章 historical 已由 V4-01 删除 | V4-01（已落地路径边界）+ V4-07 |

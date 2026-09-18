@@ -20,7 +20,6 @@ from _guard_utils import (
 #: `/novels` 现在只经 `application.services`（api/project_routes.py）。
 INTERFACE_TO_DOMAIN_ALLOWLIST = {
     "src/novelforge/api/canon_routes.py",
-    "src/novelforge/api/app.py",
 }
 
 #: application 层不允许依赖 interface

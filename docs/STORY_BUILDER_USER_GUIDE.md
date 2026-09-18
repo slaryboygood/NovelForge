@@ -1,5 +1,11 @@
 # 故事构筑使用说明
 
+> **2026-09 更新**：本指南描述的是 **V3 Story Builder 产品面**（引导流 / 设定自检 /
+> 模拟运行时 / 大纲锻造 / Writer 面板）。这些界面与后端已在 V4 post-release cleanup 中
+> 整体退休，相关 URL 返回 404。当前产品是 **Story Studio**：请以 `README.md`
+> （安装 / 启动 / 新建作品）与 `docs/v4/V4_UI_CONTRACT.md` / `docs/v4/V4_ARCHITECTURE.md`
+> 为准；本文件作为历史使用记录保留。
+
 ## 开始一个故事
 
 1. 启动 NovelForge，打开 <http://127.0.0.1:8000/>。

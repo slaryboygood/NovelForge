@@ -3,6 +3,23 @@
 本文件是**兼容性 SSOT**：说明旧数据、旧接口与旧行为在当前产品里如何被对待。
 历史开发过程见 Git history；版本历史见 `docs/CHANGELOG.md`。
 
+> **2026-09 更新（post-release cleanup）**：V2/V3 Story Builder 后端已**整体退休**：
+>
+> ```text
+> 已删除：story_builder/**、story_engine 的引导流 / 模拟运行时 / 大纲 / writer /
+>         planning / chapter IR / spec / route_lab、novelforge/legacy/**、
+>         api/story_builder_routes.py
+> 已退休 URL：/api/story-builder/{v3,creator,settings,outline,runtime,writer,inspector,
+>             repair,guided-flow,sessions,blueprints,outlines,catalogs,export}** → 404
+> 保留 URL：/api/story-builder/novels（owner = application/services/project.py，
+>           语义不变：409 二次确认删除 / 404 找不到 profile / 422 校验）
+> 保留数据：novel/authoring/**（frozen 证据）、作者产物（profiles / Blueprint /
+>           Quality / Delivery / Memory / Agent）——本地 gitignored
+> ```
+>
+> 逐项证据与保留例外见 `docs/v4/V4_POST_RELEASE_CLEANUP_REPORT.md` §96b–§96h。
+> 本文件以下关于"旧接口仍在"的段落按历史记录理解。
+
 ## 已冻结的版本边界
 
 ```text

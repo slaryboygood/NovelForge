@@ -1,5 +1,12 @@
 # 内容包格式说明（T16-03）
 
+> **2026-09 更新**：内容包（`novel/config/story_engine/*.json`）与它的 loader
+> （`settings_gen` / `settings_check` / `wizard`）已随 V2 Story Builder 后端退休；
+> `novel/config` 现在只剩 `ai/providers.json`。本文件保留为历史格式说明。
+> 当前 canonical creative artifact 是 **Story Blueprint**
+> （`docs/v4/V4_BLUEPRINT_CONTRACT.md`），题材默认值来自 `story_engine/templates.py`
+> （`apply_template`）。
+
 内容包描述“这本小说有什么”，不包含引擎逻辑。引擎按通用结构消费它，新增题材只需新增数据。
 
 ## 文件位置

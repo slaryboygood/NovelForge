@@ -42,10 +42,10 @@ DELETE 需要同时成立：
 
 | Path | Git state | Size | Current owner | Consumer（证据） | Regenerable | Unique data | Decision | Evidence |
 | ---- | --------- | ---: | ------------- | ---------------- | ----------- | ----------- | -------- | -------- |
-| `.agents/` | IGNORED | — | 旧 Codex/agent 工具残留 | AGENTS.md/skills/CI 均无引用 | 是 | 否 | LOCAL_DELETE | `.gitignore: .agents/`；无 tracked 引用 |
+| `.agents/` | IGNORED | — | 本地 Codex skill 挂载点（`.agents/skills`） | 当前会话的 skill 根；删除会被权限拒绝且破坏工具链 | 是 | 否 | KEEP（本地） | 删除尝试返回 access denied → 属当前执行环境，不自毁（§10） |
 | `.codex/` | IGNORED | — | 本地 Codex 运行目录 | 当前执行环境使用 | 是 | 否 | KEEP（本地，不入库） | 任务执行依赖；ignored |
-| `.dsh-runtime/` | IGNORED | 大（pnpm store） | 本地工具运行时缓存 | 无 V4 runtime 读取 | 是 | 否 | LOCAL_DELETE | `.gitignore: .dsh-runtime/` |
-| `.python311/` | IGNORED | — | 旧 embedded Python | 无脚本硬编码依赖（`.venv` 为正式环境） | 是 | 否 | LOCAL_DELETE | 脚本/README 均用 `.venv` |
+| `.dsh-runtime/` | IGNORED | 663 MB | 本地工具运行时缓存（pnpm store） | 无 V4 runtime 读取；但当前 Codex 运行环境正在使用 | 是 | 否 | LOCAL_DELETE（本会话未执行） | 663 MB 可再生成缓存；**运行中的宿主 runtime，删除有破坏当前会话风险**（§10），留待环境空闲时清理 |
+| `.python311/` | IGNORED | 63.7 MB | embedded Python 3.11 | `scripts/bootstrap_dev.ps1` 用它创建 `.venv` | 是 | 否 | KEEP（本地） | 脚本第 8/28/36 行硬编码 `.python311\python.exe` |
 | `.venv/` | IGNORED | — | 当前开发/测试 Python 环境 | pytest / scripts / clean-install smoke | 是 | 否 | KEEP（本地） | 全流程验证依赖 |
 | `docs/` | TRACKED(106) | — | 文档 | Contracts / ADR / 报告 / 证据 | 否 | 否 | KEEP（部分 SUPERSEDED/DEAD 见 §6） | 见 §6 |
 | `novel/` | TRACKED(663) | — | 数据 | 只有 `authoring/story_engine/**`、`config/{ai,story_builder,story_engine}` 被消费 | 部分 | 否 | 见 §3 | 逐目录证据见 §3 |
@@ -55,7 +55,7 @@ DELETE 需要同时成立：
 | `src/` | TRACKED(373) | — | 产品实现 | 见 §4 | 否 | 否 | 部分 DELETE | import-closure + 回归 |
 | `tests/` | TRACKED(283) | — | 测试 | 见 §7 | 否 | 否 | 部分 DELETE | 分类见 §7 |
 | `ui/` | TRACKED(86) | — | 前端 | Story Studio 为唯一当前产品面 | 否 | 否 | 部分 DELETE + MIGRATE | §8 |
-| `workspace/` | IGNORED | — | 本地验收证据/临时根 | 无 runtime 读取 | 是 | 否 | LOCAL_DELETE | 报告已记录文字证据 |
+| `workspace/` | IGNORED | — | 本地验收证据 + **作者写作材料** | 无 runtime 读取 | 部分 | **是（CH069/DEEPWRITE 等写作包）** | REVIEW_REQUIRED | 除 `studio_ui_review/`、`v4_12_ui_review/`、`pilot_v2/` 外的根级 `CH0xx_*` / `DEEPWRITE_*` 属作者内容 → §64 不自动删 |
 | `.env.example` | TRACKED(1) | — | 环境变量示例 | README / provider 配置说明 | 否 | 否 | KEEP | 当前 LLM Gateway 需要 |
 | `.env.local` | IGNORED | — | 本机覆盖配置 | `create_app` 不读取（仅 provider 环境变量） | 是 | 否 | LOCAL_DELETE | `.gitignore: .env.local` |
 | `AGENTS.md` | TRACKED(1) | — | 仓库执行规则 | Codex 会话读取 | 否 | 否 | KEEP（精简 V2/V3 专属内容） | §17 |
@@ -70,25 +70,25 @@ Data class：`STORY_TRUTH` / `CURRENT_CONFIG` / `CURRENT_RUNTIME` / `DERIVED` / 
 
 | Directory | Tracked files | Current V4 consumer | Data class | Regenerable | Decision | Evidence |
 | --------- | ------------: | ------------------- | ---------- | ----------- | -------- | -------- |
-| `novel/authoring/` | 242 | 无（V4 只用 `authoring/story_engine/**`，该子树 ignored） | LEGACY（outline/arcs/chapters/recipes/story_builder 投影） | 否（历史数据） | DELETE | `git ls-files` = `outline/**`136 + `recipes/**`69 + `story_builder/**`33；无 src 读取路径 |
-| `novel/bible/` | 0（空目录） | 无 | LEGACY | — | LOCAL_DELETE | 目录为空、未 tracked |
+| `novel/authoring/` | 242 | 无（V4 只用 `authoring/story_engine/**`，该子树 ignored） | **FROZEN EVIDENCE**（V2 冻结资产） | 否（历史数据） | **KEEP**（frozen） | `docs/FROZEN_EVIDENCE_MANIFEST.json:frozen_evidence[0]` 记录 `paths=["novel/authoring"]`、`file_count=242`、sha256 摘要；`tests/test_v2_frozen_guard.py::test_frozen_evidence_digest_matches_tracked_files` 断言文件数与摘要。删除 = 需改 frozen evidence（AGENTS.md §3.3 需 ARCHITECTURE_EXCEPTION）→ 本阶段不动 |
+| `novel/bible/` | 0（空目录） | 无 | LEGACY | — | LOCAL_DELETE ✓（已删） | 目录为空、未 tracked |
 | `novel/config/` | 103 | 部分（`ai/providers.json`、`story_builder/step_catalogs.yaml`、`story_engine/*.json`） | CURRENT_CONFIG + LEGACY | 部分 | KEEP 3 个子树 / DELETE 其余 | §22、per-file 扫描 |
-| `novel/gates/` | 0（空） | 无 | LEGACY | — | LOCAL_DELETE | 空目录；V4 Quality owner 是 `src/novelforge/quality/**` |
-| `novel/human/` | 0（空） | 无 | LEGACY | — | LOCAL_DELETE | 空目录 |
-| `novel/learning/` | 6 | 无（V4 Memory 是派生检索层，非旧 learning loop） | LEGACY | 否 | DELETE | import-closure 零引用 |
-| `novel/outline/` | 0（空） | 无（canonical creative artifact = StoryBlueprint） | LEGACY | — | LOCAL_DELETE | 空目录；蓝图 owner 是 `src/novelforge/blueprint/**` |
-| `novel/pipelines/` | 12 | 无（V4 orchestration = Application Services / Agent / Quality Repair） | LEGACY | 否 | DELETE | import-closure 零引用 |
-| `novel/relations/` | 0（空） | 无 | LEGACY | — | LOCAL_DELETE | 空目录 |
-| `novel/revision_plans/` | 0（空） | 无（Editor / Repair / Agent 有正式 owner） | LEGACY | — | LOCAL_DELETE | 空目录 |
-| `novel/runs/` | 0 | 无 | GENERATED | 是 | LOCAL_DELETE | 85.7 MB 本地产物；ignored |
-| `novel/runtime/` | 16 | 无（被 `novel/authoring/story_engine/**` 取代） | LEGACY | 否 | DELETE | import-closure 零引用 |
-| `novel/runtime_profiles/` | 5 | 无 | LEGACY | 否 | DELETE | 无 profile loader 引用 |
-| `novel/source_text/` | 0（空） | 无 | USER_SOURCE（潜在） | — | LOCAL_DELETE 空目录 | 空目录且未 tracked |
-| `novel/state/` | 278 | 无（V4 StoryState = `authoring/story_engine/state`） | LEGACY（V2/V3 state 快照） | 否 | DELETE | paths.py 指向 `authoring/story_engine/state` |
-| `novel/state_updates/` | 0（空） | 无 | LEGACY | — | LOCAL_DELETE | 空目录 |
-| `novel/status/` | 1 | 无 | LEGACY | 否 | DELETE | 无 src 引用 |
-| `novel/timeline/` | 0（空） | 无 | LEGACY | — | LOCAL_DELETE | 空目录 |
-| `novel/workspace/` | 0 | 无 | GENERATED | 是 | LOCAL_DELETE | 1.3 MB 本地 scratch |
+| `novel/gates/` | 0（空） | 无 | LEGACY | — | LOCAL_DELETE ✓（已删） | 空目录；V4 Quality owner 是 `src/novelforge/quality/**` |
+| `novel/human/` | 0（空） | 无 | LEGACY | — | LOCAL_DELETE ✓（已删） | 空目录 |
+| `novel/learning/` | 6 | 无（V4 Memory 是派生检索层，非旧 learning loop） | LEGACY | 否 | DELETE ✓（已删） | import-closure 零引用 |
+| `novel/outline/` | 0（空） | 无（canonical creative artifact = StoryBlueprint） | LEGACY | — | LOCAL_DELETE ✓（已删） | 空目录；蓝图 owner 是 `src/novelforge/blueprint/**` |
+| `novel/pipelines/` | 12 | 无（V4 orchestration = Application Services / Agent / Quality Repair） | LEGACY | 否 | DELETE ✓（已删） | import-closure 零引用 |
+| `novel/relations/` | 0（空） | 无 | LEGACY | — | LOCAL_DELETE ✓（已删） | 空目录 |
+| `novel/revision_plans/` | 0（空） | 无（Editor / Repair / Agent 有正式 owner） | LEGACY | — | LOCAL_DELETE ✓（已删） | 空目录 |
+| `novel/runs/` | 0 | 无 | GENERATED（含生成正文草稿） | 是 | **REVIEW_REQUIRED** | 750 json / 221 md / 69 txt；抽样 `A_draft_raw.md`、`B_candidate.md`、`CH001_candidate.txt` = 生成正文候选，可能是唯一副本 → §64 不自动删 |
+| `novel/runtime/` | 16 | 无（被 `novel/authoring/story_engine/**` 取代） | LEGACY | 否 | DELETE ✓（已删） | import-closure 零引用 |
+| `novel/runtime_profiles/` | 5 | 无 | LEGACY | 否 | DELETE ✓（已删） | 无 profile loader 引用 |
+| `novel/source_text/` | 0（空） | 无 | USER_SOURCE（潜在） | — | LOCAL_DELETE ✓（已删空目录） | 空目录且未 tracked |
+| `novel/state/` | 278 | 无（V4 StoryState = `authoring/story_engine/state`） | LEGACY（V2/V3 state 快照） | 否 | DELETE ✓（已删） | paths.py 指向 `authoring/story_engine/state`；`tests/test_v2_frozen_guard.py` 通过（frozen 只锁 authoring） |
+| `novel/state_updates/` | 0（空） | 无 | LEGACY | — | LOCAL_DELETE ✓（已删） | 空目录 |
+| `novel/status/` | 1 | 无 | LEGACY | 否 | DELETE ✓（已删） | 无 src 引用 |
+| `novel/timeline/` | 0（空） | 无 | LEGACY | — | LOCAL_DELETE ✓（已删） | 空目录 |
+| `novel/workspace/` | 0 | 无 | GENERATED + 作者 scratch | 部分 | **REVIEW_REQUIRED** | `_edit*_out.txt` / `_fix_ch030.py` / `_cards*.txt` = V2 时代作者改写草稿，未 tracked → §64 不自动删 |
 
 ## 4. src audit（任务书 §50/§51）
 

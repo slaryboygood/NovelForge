@@ -15,13 +15,15 @@ from _guard_utils import (
 )
 
 #: interface 层不得直接依赖 domain —— 存量例外（V4-01 记录，后续只减不增）
+#: post-release cleanup 之后只剩 canon_routes / app 两个存量例外：
+#: `story_builder_routes.py`（1,317 行 God router）已删除，
+#: `/novels` 现在只经 `application.services`（api/project_routes.py）。
 INTERFACE_TO_DOMAIN_ALLOWLIST = {
-    "src/novelforge/api/story_builder_routes.py",
     "src/novelforge/api/canon_routes.py",
     "src/novelforge/api/app.py",
 }
 
-#: application 层允许临时包装 V3 application（story_builder），但不允许依赖 interface
+#: application 层不允许依赖 interface
 APPLICATION_FORBIDDEN_PREFIXES = ("novelforge.api", "fastapi", "starlette")
 
 DOMAIN_FORBIDDEN_PREFIXES = (
@@ -48,17 +50,10 @@ MEMORY_FORBIDDEN_PREFIXES = (
     "anthropic",
 )
 
-#: V4-02 允许的 legacy 适配器：**只能在函数内**惰性 import novelforge.ai
-DOMAIN_AI_IMPORT_ALLOWLIST = {
-    "src/novelforge/story_engine/spec/llm.py",
-    "src/novelforge/story_engine/planning/plot_synthesis.py",
-    "src/novelforge/story_engine/planning/route_candidates.py",
-    # V4-04：四处 legacy structured provider 通过 Gateway 桥接入（函数内惰性 import）
-    "src/novelforge/story_engine/creative.py",
-    "src/novelforge/story_engine/settings_gen.py",
-    "src/novelforge/story_engine/outline_forge.py",
-    "src/novelforge/story_builder/ai_recommendations.py",
-}
+#: V4-02 允许的 legacy 适配器：**只能在函数内**惰性 import novelforge.ai。
+#: post-release cleanup：7 个 legacy 适配器全部随 V2 后端退休 → 白名单清空
+#: （domain 现在完全不得 import ai）。
+DOMAIN_AI_IMPORT_ALLOWLIST: set[str] = set()
 
 
 def _relative(path) -> str:
@@ -147,8 +142,8 @@ def test_http_clients_and_provider_sdks_live_only_in_ai_providers() -> None:
     """provider SDK / HTTP client 只允许出现在 ai/providers/。"""
 
     offenders: list[str] = []
-    for path in python_files("ai", "story_engine", "story_builder", "api",
-                             "application", "persistence", "legacy", "observability"):
+    for path in python_files("ai", "story_engine", "api", "application",
+                             "persistence", "observability"):
         relative = _relative(path)
         if relative.startswith("src/novelforge/ai/providers/"):
             continue

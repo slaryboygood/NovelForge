@@ -529,6 +529,35 @@ novelforge.plugins.sdk        插件作者唯一稳定依赖（Contribution / Pl
 Host Adapter                  唯一触碰 registry 的地方；插件拿不到 registry
 ```
 
+### 3.17 `agent` — Agent Mode（V4-11 落地）
+
+```text
+Public Contract
+  agent.contracts   AgentGoal / AgentScope / AgentPolicy / AgentContextSnapshot /
+                    AgentStep / AgentPlan / AgentApprovalRequest / AgentApprovalDecision /
+                    AgentStepResult / AgentResult / AgentRun / AgentCheckpoint
+  agent.registry    ACTION_REGISTRY / action_spec / FORBIDDEN_ACTIONS
+  agent.planner / agent.executor / agent.verifier / agent.policy / agent.session
+  agent.ports       AgentReadPort / GenerationPort / EditorPort / QualityPort /
+                    DeliveryPort（窄 Protocol；实现由 application 注入）
+  agent.errors      稳定 code（PLAN_INVALID / POLICY_DENIED / REVISION_CONFLICT /
+                    APPROVAL_REQUIRED / APPROVAL_STALE / BUDGET_EXHAUSTED /
+                    MAX_STEPS_REACHED / CANCELLED / NEEDS_HUMAN_REVIEW / NOT_FOUND）
+Application 侧
+  application.services.agent.AgentService（唯一入口）+ Application-backed Port Adapters
+Allowed
+  core（ids / errors）、persistence.paths（agent_* 路径）
+Forbidden
+  api / interfaces（含 mcp）/ blueprint / quality / editor / delivery / generation /
+  memory / ai.providers / application / plugins / HTTP client / shell / SQL /
+  自行拼 artifact path / 直接构造 repository·store·provider
+State Ownership
+  orchestration metadata（session / run / plan / checkpoint / audit）；
+  **不是** Canon / StoryState / Blueprint / Quality truth
+Module Tests
+  tests/agent/**、tests/v4/isolation/test_agent_boundaries.py、tests/browser_v4_11_agent.cjs
+```
+
 ### 4.1 明文禁令
 
 ```text
@@ -541,6 +570,12 @@ ui           → 不允许 import 任何 Python 模块（只走 HTTP）
 ui           → 不允许推导业务事实（quality / acceptance / delivery eligibility /
                repair scope / story truth）；只展示 HTTP 返回的真相（ADR-033）
 ui           → 默认产品面 = Story Studio；V3/V2 必须显式入口（?ui=v3 / ?ui=v2，ADR-032）
+agent        → 只依赖 agent.ports 的窄 Protocol + core + persistence.paths；
+               不允许直接依赖 application / repository / store / provider / api / mcp，
+               不允许 shell / SQL / 动态执行，不允许自行拼 artifact path（ADR-034）
+core / domain / ai / memory / blueprint / generation / quality / editor / delivery / plugins
+             → 不允许 import novelforge.agent（只有 application.services.agent 可以，ADR-034）
+interfaces   → 只允许调用 application.services.agent（不允许 import agent internals）
 quality      → 不允许 import api / ai.providers / HTTP client，不允许自行拼 artifact 路径
 quality      → 不允许修改 Blueprint 节点 / Canon / StoryState
 generation   → 不允许 import quality / repair（否则形成依赖环）

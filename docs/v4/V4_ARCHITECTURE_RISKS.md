@@ -308,6 +308,22 @@ Legacy compatibility（M / M）→ **已显式化**：
   历史 V3/V2 完整验收需要作者 acceptance data root（本环境缺失，未运行、未削弱）。
 ```
 
+### R-10 Agent duplicate writes —— V4-11 后状态（**已缓解**）
+
+```text
+V4-11 落地事实（证据见 docs/v4/V4_11_AGENT_MODE_REPORT.md §14、§33）
+  · 稳定 step_id（非 list index）+ 每步固定 idempotency_key
+  · mutation 步骤必须 expected_revision（规划期 + 执行期各校验一次）
+  · checkpoint 记录 completed steps / revision refs；resume 与重放跳过已完成步骤
+  · 幂等重放测试：同一 session / plan / step / key 重放不产生重复章节
+  · 冲突（revision / approval stale）→ pause / needs_human_review，绝不 force overwrite
+  · 上限：max_steps=20 / max_mutations=10 / batch=8 / token·cost·time 预算
+
+仍未解决
+  · Agent 编排元数据（session / checkpoint / audit）随步骤增长；audit 上限 1000 条
+  · 多 Agent 并发不在本阶段（单 orchestrator，§59）
+```
+
 ### R-12 Plugin privilege escalation
 
 ```text

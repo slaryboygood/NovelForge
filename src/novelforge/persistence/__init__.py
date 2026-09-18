@@ -42,6 +42,10 @@ from .paths import (
     delivery_packages_dir,
     delivery_snapshot_path,
     delivery_snapshots_dir,
+    plugin_audit_path,
+    plugin_enablement_path,
+    plugin_host_dir,
+    plugin_state_dir,
     novel_context,
     planning_dir,
     planning_index_path,
@@ -66,4 +70,6 @@ __all__ = [
     "delivery_artifact_path", "delivery_dir", "delivery_manifest_path",
     "delivery_manifests_dir", "delivery_packages_dir", "delivery_snapshot_path",
     "delivery_snapshots_dir",
+    "plugin_audit_path", "plugin_enablement_path", "plugin_host_dir",
+    "plugin_state_dir",
 ]

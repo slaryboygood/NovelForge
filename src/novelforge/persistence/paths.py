@@ -36,6 +36,7 @@ ARTIFACT_KINDS: frozenset[str] = frozenset({
     "quality",
     "editor",
     "delivery",
+    "plugin_state",
 })
 
 _NOVEL_ID_RE = re.compile(NOVEL_ID_PATTERN)
@@ -355,6 +356,50 @@ def delivery_artifact_path(project_root: Path | str, novel_id: str,
         str(relative_path).replace("\\", "/")
 
 
+def plugin_host_dir(project_root: Path | str) -> Path:
+    """Plugin Host 元数据根目录（**项目级**，不属于任何作品）：
+
+    `novel/authoring/story_engine/plugins/`
+
+    V4-09：这里只放 host 级元数据（enablement / audit / discovery cache），
+    **不是** story truth，也不属于任何作品。插件**状态**（state）仍是按
+    (novel_id, plugin_id) 隔离的（见 `plugin_state_dir`）。
+    """
+
+    return Path(project_root).resolve() / "novel" / "authoring" / "story_engine" / \
+        "plugins"
+
+
+def plugin_enablement_path(project_root: Path | str) -> Path:
+    """插件批准 / 启用记录（host 级）：approve 的版本与权限集合在这里。"""
+
+    return plugin_host_dir(project_root) / "enablement.json"
+
+
+def plugin_audit_path(project_root: Path | str) -> Path:
+    """插件审计记录（host 级）：discover / approve / enable / load / failed / disable。"""
+
+    return plugin_host_dir(project_root) / "audit.json"
+
+
+def plugin_state_dir(project_root: Path | str, novel_id: str, plugin_id: str) -> Path:
+    """插件状态目录（按 **novel_id + plugin_id** 隔离）：
+
+    `novel/authoring/story_engine/plugins/state/<novel_id>/<plugin_id>/`
+
+    插件状态只能存 cache / settings / plugin-specific metadata，
+    永远不是 Canon / StoryState / Blueprint / Quality truth（§30），
+    也不允许跨插件 / 跨作品读取（§29）。
+    """
+
+    context = novel_context(project_root, novel_id, artifact_kind="plugin_state")
+    if not str(plugin_id or "").strip():
+        raise OwnershipError("PLUGIN_ID_REQUIRED", "插件状态路径必须显式携带 plugin_id",
+                             novel_id=context.novel_id)
+    return context.resolve("novel", "authoring", "story_engine", "plugins", "state",
+                           context.novel_id, str(plugin_id))
+
+
 __all__ = [
     "ARTIFACT_KINDS", "NOVEL_ID_PATTERN", "ArtifactContext", "OwnershipError",
     "canon_db_path", "content_pack_path", "novel_context", "planning_dir",
@@ -370,4 +415,6 @@ __all__ = [
     "delivery_dir", "delivery_snapshots_dir", "delivery_manifests_dir",
     "delivery_packages_dir", "delivery_snapshot_path", "delivery_manifest_path",
     "delivery_artifact_path",
+    "plugin_audit_path", "plugin_enablement_path", "plugin_host_dir",
+    "plugin_state_dir",
 ]

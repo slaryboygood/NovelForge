@@ -1,38 +1,51 @@
 # NovelForge
 
-**当前版本：NovelForge V3 Final — Functional Closure**（tag `novelforge-product-v3-final`）
+**NovelForge V4 — Story Blueprint Runtime + Story Studio**
 
-> 历史版本（`novelforge-product-v3.0` / `novelforge-product-v2.0` / `story-engine-v2.0`）
-> 已归档：**historical / archived / not an active Git ref**。
-> 活动仓库是 V3 Final 的单一 root commit；旧历史的完整恢复由外部 bundle
+> V4 是一个**故事蓝图（Story Blueprint）运行时与创作工作台**：用于生成、编辑、校验、
+> 定向修复、评审、版本化、自动化与交付**结构化长篇故事方案**。
+> 它不是「AI 小说正文写作器」——正文写作不是 V4 Core 的职责（见 §Non-goals）。
+>
+> V3 Final（`novelforge-product-v3-final`）是**冻结的历史基线**：V4 在其边界之上继续开发，
+> 不修改其 frozen semantics（Canon / StoryState / legacy 源 / frozen Contract 与 Gate）。
+> 旧历史版本（`novelforge-product-v3.0` / `novelforge-product-v2.0` / `story-engine-v2.0`）
+> 已归档：**historical / archived / not an active Git ref**，完整恢复由外部 bundle
 > `NovelForge_pre_V4_full_history.bundle` 承担，见 `docs/FROZEN_EVIDENCE_MANIFEST.json`。
 
-NovelForge 是一款**游戏化的长篇小说创作工作台**：作者从一句创意出发，做出设定、推演剧情、
-比较路线、锻造四级大纲、检查一致性，最后把作品交给写作环节。
+## V4 核心能力
 
-它不是一个「后台管理系统」，而是一个持续推进创作的流程：
+| 能力 | 说明 |
+| --- | --- |
+| Structured Story Blueprint | 有序节点图（premise / theme / world / character / arc / story arc / unit / chapter / scene / setup / payoff / causal link），append-only revision |
+| LLM Gateway | 唯一模型入口：contract / 路由 / provider / 结构化输出 / retry / timeout / usage / trace / cache / secret 边界 |
+| Memory / Context | 派生且可重建的检索与上下文装配（ContextBuilder 是唯一上下文选择系统） |
+| Generation | 逐级结构化生成；AI 产出永远是 **proposal**，等待作者接受 |
+| Q0–Q9 Quality Closed Loop | Gate-based（Schema / Integrity / Canon / Continuity / Character / Causality / Semantic / Structure / Setup-Payoff / Delivery Readiness）；**没有权威总分** |
+| Targeted Repair | 最小范围 + preserve + 新 revision + verifier 确认才算解决；不可安全自动修复 → 需要作者决定 |
+| Revisioned Blueprint Editor | 字段级 patch / AI 改写 / deterministic diff / accept / reject / restore（历史永不删除）/ revision 冲突 |
+| Delivery / `.nfpack` | revision-pinned 交付：preflight → snapshot → manifest + checksum → 原子发布（JSON / Markdown / DOCX / nfpack，含插件 exporter 格式） |
+| MCP | 官方 SDK 的薄适配层：机器端可读 Blueprint、生成 / 编辑 / 检查 / 交付（23 tools / 13 resources 基线） |
+| Plugin Platform | 插件只经 Host 明确的扩展点追加能力：manifest → compatibility → approval → permission → contribution → adapter；Core 注册不可覆盖，disable 精确卸载 |
+| Story Studio | V4 默认产品面：创造 / 世界 / 人物 / 故事 / 场景 / 检查 + 交付 / 插件 / Agent |
+| Bounded Agent Mode | 目标 → 计划预览（0 mutation）→ 有界执行 → 审批 → 检查点 → 恢复；默认不自动接受、不自动交付 |
+
+核心边界：
 
 ```text
-当前目标 → 下一步动作 → 状态变化 → 解锁下一阶段
+规划不是事实：设计态（Blueprint proposal）与已发生事实（Canon / StoryState）严格分离。
+AI 可以生成，但不能静默覆盖；作者始终掌握 accept / reject / restore。
+UI 只展示后端返回的真相，不推导质量、接受状态或交付资格。
 ```
 
-## 能做什么
+## Non-goals（V4 Core 不做）
 
-| 工作区 | 做什么 |
-| --- | --- |
-| 首页 / Command Center | 看作品当前状态、当前目标、下一步、需要留意的问题 |
-| 创作 | 一句话创意 → 候选 → 设定 → 设定自检 → 开始推演 |
-| 世界 | 关键地点与势力（含冲突、危险度、控制方） |
-| 角色 | 主角与重要角色（定位、目标、关系） |
-| 故事 | 剧情线、事件、伏笔与成长 |
-| 推演 | 让故事往前走：真实候选方向、路线比较、世界影响 |
-| 大纲 | 全书 / 卷 / 篇章 / 章节四级结构、缺口与警告、章节详情 |
-| 检查 | 故事冲突与不一致；哪些需要处理、能否自动修、是否可逆 |
-| 导出 | 还能不能交给写作环节、会导出什么、下一步 |
-| 高级工具 | 既有面板（世界 / 角色 / 剧情 / 导演 / 路线实验室 / 大纲锻造 / Canon 检查 / 修复中心） |
-
-核心边界：**规划不是事实**。设定、路线、大纲都是设计态；只有已经发生的
-StoryState / Canon 才是事实。UI 只展示真实数据，不编造进度、风险或评分。
+```text
+Full prose generation / prose polishing（正文写作与润色）
+Untrusted plugin sandbox（进程级隔离；当前是 trusted in-process 模型）
+Plugin marketplace / 远程插件安装
+Distributed agent workers / 后台常驻自主循环
+EPUB-first publishing（可作为未来的插件 exporter）
+```
 
 ## 安装
 
@@ -65,16 +78,24 @@ boundary 说明见 `docs/v4/V4_LLM_CONTRACT.md` 与 `docs/v4/adr/ADR-012-unified
 # 打开 http://127.0.0.1:8000/
 ```
 
-## 创建小说
+## 创建小说（V4 Story Studio）
 
-1. 打开首页 → **新建小说** → 填作品编号。
-2. 进入 **创作**：写一句话创意 → 选择候选 → 保存设定。
-3. **设定自检** → 通过后 **开始推演**（起点事实写入 StoryState）。
-4. 到 **推演** 推进故事，到 **大纲** 锻造四级大纲与章节。
-5. 在 **检查** 看冲突，在 **导出** 生成给写作环节的包。
+1. 打开 `http://127.0.0.1:8000/` → Story Studio Landing → **新建作品**。
+2. **创造**：生成 / 撰写前提与主题（AI 产出为 proposal，需你接受）。
+3. **世界 / 人物 / 故事 / 场景**：逐级生成或直接编辑；场景卡正面告诉你「这场戏为什么存在」。
+4. **检查**：跑 Q0–Q9 质量门禁 → 看问题与证据 → 修复预览 → 执行 → 复核。
+5. **交付**：选择 accepted / current → preflight → 交付 → 下载（JSON / Markdown / DOCX / nfpack）。
+6. **Agent**（可选）：给出目标 → 先看计划（不修改任何内容）→ 执行 → 在需要时批准。
 
 更多说明：`docs/NEW_NOVEL_GUIDE.md`、`docs/STORY_BUILDER_USER_GUIDE.md`、
 `docs/NOVELFORGE_REAL_NOVEL_PRODUCTION_GUIDE.md`。
+
+旧版界面仍可通过显式入口访问（兼容，不再是默认）：
+
+```text
+?ui=v3   → V3 工作台        #/v3… 同样进入 V3
+?ui=v2   → V2 / Story Builder 面板（高级工具）
+```
 
 ## 运行测试
 
@@ -92,15 +113,26 @@ npm.cmd --prefix ui exec tsc -- --noEmit
 npm.cmd run build --prefix ui
 ```
 
-浏览器验收（Edge / Chromium；Playwright 由你自行安装，例如 `npm.cmd i -D playwright`）：
+前端测试与构建（项目真实 scripts）：
 
 ```powershell
-.venv\Scripts\python.exe scripts/creator_ui_test_server.py --port 8030 --root workspace/v3_ui_test_root
-node tests/browser_v3_p6_acceptance.cjs          # 全产品端到端
-node tests/browser_v3_p7_acceptance.cjs          # 导出 / 写作草稿 / 内部 id / 入口一致性（Repair 新增）
-node tests/browser_v3_visual_asset_gate.cjs      # 视觉资源契约
-node tests/browser_advanced_tools.cjs            # 高级工具可达性
+npm.cmd --prefix ui test        # vitest（组件 / 契约语义 / mocked HTTP）
+npm.cmd run build --prefix ui   # tsc -b + vite build
 ```
+
+V4 浏览器验收（真实 Edge + stub 模型，0 次真实模型网络调用）：
+
+```powershell
+.venv\Scripts\python.exe scripts/studio_ui_test_server.py --port 8040 --root workspace/studio_ui_test_root
+$env:NODE_PATH = "$PWD\ui\node_modules"
+node tests/browser_v4_studio_golden.cjs     # Story Studio golden（含真实下载）
+node tests/browser_v4_11_agent.cjs          # Agent（plan → start → approval → complete）
+node tests/browser_v4_legacy_entry.cjs      # 默认→Studio，?ui=v3→V3，?ui=v2→V2
+```
+
+历史 V3/V2 浏览器验收需要作者 acceptance data root（当前 workspace 不含该数据，
+因此 V4-12 记为 **NOT RUN**，未降低任何旧断言）；入口已改为显式
+`?ui=v3` / `?ui=v2`（`tests/browser_v3_*.cjs`、`tests/browser_creator_*.cjs`）。
 
 已知依赖提示（非产品缺陷）：`npm.cmd audit --prefix ui` 会报告 2 条 vite / esbuild 相关
 advisory（1 moderate、1 high）。它们只影响本地 `vite dev server`；产品以构建产物
@@ -108,6 +140,49 @@ advisory（1 moderate、1 high）。它们只影响本地 `vite dev server`；�
 升级（breaking change），按版本计划单独处理。
 
 如果 Playwright 装在别的位置，用 `NODE_PATH` 指向你自己的 `node_modules` 即可。
+
+## 可选：MCP（机器接口）
+
+```powershell
+.venv\Scripts\python.exe -m novelforge.interfaces.mcp    # stdio transport
+```
+
+MCP 与 REST 是**平级适配器**：两者都只调用 Application Services；MCP 不拥有业务逻辑，
+Agent 也不通过 MCP 调业务。
+
+依赖区间（V4-08 冻结，改动会触发完整回归）：
+
+```text
+mcp>=1.9,<2
+sse-starlette<2
+starlette<0.47
+```
+
+原因：MCP 2.x 目前与既有 FastAPI / Starlette 栈冲突。
+
+## 安全模型（要点）
+
+```text
+模型 API key    只经环境变量 / 配置边界（ADR-013），不进入 artifact、日志或交付物
+交付物          经过 secret scan；不导出 .env / Authorization / 私有绝对路径
+插件            当前模型 = Trusted in-process：permission 控制的是 Host API 能力，
+                不是 OS 安全沙箱（恶意 in-process 插件仍可直接访问解释器能力）
+MCP             作用域受 Application Services 限制；显式 novel scope，跨作品拒绝
+Agent           有界自治：默认不自动接受、不自动交付；protected action 需要作者批准
+```
+
+## Legacy / Previous Releases
+
+```text
+V3 Final — Functional Closure      tag `novelforge-product-v3-final`（V4 的冻结基线：
+                                   边界、Canon / StoryState 语义、frozen Repair Contract 与
+                                   Gate 均未改动）
+V3.0 / V2.0 / Story Engine V2.0    已归档 historical / archived / not an active Git ref
+
+V3 工作台与 V2 面板作为**显式兼容入口**保留（?ui=v3 / ?ui=v2），
+其移除条件见 `docs/v4/V4_DELETION_PLAN.md`；
+V4 迁移与验收证据见 `docs/v4/V4_12_EVIDENCE_INDEX.md`。
+```
 
 历史里程碑验收（V2 M11–M18 / wasteland / 570 章 historical）**已在 V4-01 随废弃资产一并删除**：
 作者判定那批历史数据与旧正文没有保留价值，因此仓库里不再保留对应的数据、脚本与测试

@@ -1,8 +1,11 @@
-# NovelForge V4-12 — Final Acceptance 状态（进行中）
+# NovelForge V4-12 — Final Acceptance 状态
 
-> 状态：**IN PROGRESS（未完成，下一步明确）**　分支：`v4-12-final-acceptance`
-> 已完成：三层 acceptance 测试套件 + 一处真实隔离缺陷修复（见下）。
-> 未完成：full pytest 基线记录、前端 / 浏览器回归重跑、4 份必需文档、README 更新。
+> 状态：**SUPERSEDED BY V4_12_FINAL_ACCEPTANCE_REPORT.md**
+> 本文件是 V4-12 执行过程中的**工作快照**（记录 acceptance suite 落盘与隔离缺陷修复），
+> 已被最终验收报告取代：[V4_12_FINAL_ACCEPTANCE_REPORT.md](V4_12_FINAL_ACCEPTANCE_REPORT.md)
+> （状态 `V4-12 = PASS`）。下方「未完成」清单现已全部完成：完整 Python 回归、前端 / 浏览器
+> 最终回归、四份必需文档与 README 更新均已落地。
+> 分支：`v4-12-final-acceptance`
 
 ## 已完成（有证据）
 

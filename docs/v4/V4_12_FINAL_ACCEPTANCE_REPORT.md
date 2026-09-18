@@ -506,8 +506,11 @@ python scripts/validate_project.py
    检查：无 test / spec / fixture 文件被打包；无 .env / 测试 secret
 
 2) Git archive dry run（任务书 §32）
-   git archive --format=zip HEAD → 成功、非空
-   contains   README.md / src/novelforge（414）/ tests（304）/ docs/v4（83）/ requirements.txt
+   git archive --format=zip HEAD（RC 提交 tree）→ 成功、非空
+   bytes      6,948,831
+   entries    1,724
+   contains   README.md / src/novelforge（414）/ tests（304）/ docs/v4（87，含本报告）/
+              requirements.txt / .env.example
    excludes   workspace/** / node_modules / ui/dist / .env（仅 .env.example，tracked 示例）/
               novel/authoring/story_engine/**（作者运行数据）
    archive 未被提交（临时目录生成后删除）
@@ -596,7 +599,7 @@ working tree clean（§36）、V3 frozen tag 未移动（§37）、acceptance La
 
 ```text
 release candidate commit:
-RC_SHA_PLACEHOLDER
+cc974ed8ac3adc3a6dcb79a5a460b3390130b5d1
 message   docs(v4): finalize v4-12 acceptance report and evidence
 branch    v4-12-final-acceptance
 改后工作树 clean（§36）
@@ -661,11 +664,14 @@ v4-12-final-acceptance
 ## 47. Git commits
 
 ```text
-c08c13b  docs(v4): record v4-12 continuation point
 6459a04  test(acceptance): add v4-12 contract integration and release gates
-         （含隔离缺陷修复：paths.py / agent.py）
-<RC>     docs(v4): finalize v4-12 acceptance report and evidence
-<CLOSE>  docs(v4): record v4-12 release candidate commit
+         （含隔离缺陷修复：persistence/paths.py + application/services/agent.py）
+c08c13b  docs(v4): record v4-12 continuation point
+cc974ed8ac3adc3a6dcb79a5a460b3390130b5d1
+         docs(v4): finalize v4-12 acceptance report and evidence   ← release candidate commit
+docs(v4): record v4-12 release candidate commit
+         （收尾提交：把 RC SHA 与最终回归数字回填进本报告 §41/§35 与证据索引 §9；
+           它是 V4-12 的最后一次提交，分支 tip 即此提交 —— 见 `git log --oneline -3`）
 ```
 
 ## 48. Final verdict

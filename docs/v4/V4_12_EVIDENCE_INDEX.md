@@ -114,7 +114,17 @@ docs/v4/V4_DELETION_PLAN.md             删除项与移除条件
 
 ```text
 branch        v4-12-final-acceptance
-HEAD          （见最终报告 §41；工作树 clean）
+release candidate commit
+              cc974ed8ac3adc3a6dcb79a5a460b3390130b5d1
+              docs(v4): finalize v4-12 acceptance report and evidence
+results       pytest -q                        1707 passed / 7 skipped / 0 failed / 818.48s
+              pytest -q tests/acceptance         28 passed（Layer A 9 / B 11 / C 8）
+              frozen guards                      12 passed
+              npm test                           60 passed（8 files）
+              npm run build                      PASS
+              browser gates                      Story Studio / Agent / Legacy entry = PASS
+              validate_project                   PASS
+final report  docs/v4/V4_12_FINAL_ACCEPTANCE_REPORT.md（48 节，V4-12 = PASS）
 V3 frozen tag novelforge-product-v3-final = f21464713e4786410e5550a7ad5504692cc644dd（未移动）
 recommended   Release version tag: v4.0.0
               Optional frozen product baseline tag: novelforge-product-v4-final

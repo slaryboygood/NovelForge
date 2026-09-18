@@ -93,6 +93,14 @@ class EditorService:
     def operations(self, *, node_id: str = "") -> list[dict[str, Any]]:
         return self.editor.operations(node_id=node_id)
 
+    def reviews(self, *, node_id: str = "") -> list[dict[str, Any]]:
+        """评审记录（accept / reject 决定；只读，供接口层消费）。"""
+
+        return self.editor.store.reviews(node_id=node_id)
+
+    def review_for(self, node_id: str, revision: int) -> dict[str, Any]:
+        return self.editor.review_for(node_id, int(revision))
+
     def stats(self) -> dict[str, Any]:
         payload = self.editor.stats()
         if self.quality is not None:

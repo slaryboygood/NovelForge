@@ -143,6 +143,23 @@ class ExportService:
     def delivery_snapshots(self) -> list[dict[str, Any]]:
         return self.delivery().list_snapshots()
 
+    def blueprint_view(self, *, selection_mode: str = "current",
+                       profile: str = "machine",
+                       include_node_types: Sequence[str] = (),
+                       policy: DeliveryPolicy | None = None,
+                       with_content: bool = False) -> dict[str, Any]:
+        """只读机器视图（V4-08 §14）：有序 Blueprint + 每节点 status / review / quality。
+
+        默认 `selection_mode="current"`（读工作态），交付仍默认 `accepted`。
+        """
+
+        selection = self.delivery_selection(
+            selection_mode=selection_mode, profile=profile,
+            formats=("json",), include_node_types=include_node_types,
+            policy=policy or (DeliveryPolicy() if selection_mode == "accepted"
+                              else DeliveryPolicy.relaxed()))
+        return self.delivery().machine_representation(selection)
+
 
 def export_service(project_root: Path | str, novel_id: str, *,
                    branch_id: str = DEFAULT_BRANCH) -> ExportService:

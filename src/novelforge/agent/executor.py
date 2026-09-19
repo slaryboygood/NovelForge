@@ -84,10 +84,14 @@ class AgentExecutor:
                 run: AgentRun, budget: AgentBudget,
                 approved_steps: Sequence[str] = (), start_sequence: int = 0,
                 completed_steps: Sequence[str] = (),
+                approval_ids: Mapping[str, str] | None = None,
                 max_batch_steps: int | None = None) -> ExecutionOutcome:
         audit = self.audit_factory(goal.novel_id, run.session_id)
         approvals: list[AgentApprovalRequest] = []
         completed = set(str(value) for value in completed_steps)
+        # V4.0.2 PB-2：`step_id → approval_id`（durable approval）
+        approved_approval_ids = {str(key): str(value)
+                                 for key, value in dict(approval_ids or {}).items()}
         batch_limit = int(max_batch_steps if max_batch_steps is not None
                           else policy.max_batch_steps)
         executed_in_batch = 0
@@ -166,7 +170,8 @@ class AgentExecutor:
 
             # 执行
             result, outcome = self._run_step(step=step, goal=goal, plan=plan,
-                                             run=run, budget=budget)
+                                             run=run, budget=budget,
+                                             approved_approval_ids=approved_approval_ids)
             run.step_results.append(result)
             executed_in_batch += 1
             if result.status == "completed":
@@ -211,9 +216,11 @@ class AgentExecutor:
 
     # --------------------------------------------------------------- 单步执行
     def _run_step(self, *, step: AgentStep, goal: AgentGoal, plan: AgentPlan,
-                  run: AgentRun, budget: AgentBudget
+                  run: AgentRun, budget: AgentBudget,
+                  approved_approval_ids: Mapping[str, str] | None = None
                   ) -> tuple[AgentStepResult, Any]:
         started = utc_now()
+        approved_ids = dict(approved_approval_ids or {})
         before = self._current_revision(step)
         skip_reason = self._skip_reason(step, goal)
         if skip_reason:
@@ -224,7 +231,8 @@ class AgentExecutor:
                 warnings=(skip_reason,),
                 message=skip_reason), None)
         try:
-            outcome, phase, usage = self._dispatch(step, goal)
+            outcome, phase, usage = self._dispatch(
+                step, goal, approved_approval_ids=approved_ids)
         except AgentError as exc:
             code = exc.code
             status = "needs_human_review" if code in HUMAN_REVIEW_CODES else "failed"
@@ -296,12 +304,16 @@ class AgentExecutor:
                                 .get("needs_human_review")))
         if needs_review:
             status = "needs_human_review"
+        result_refs = self._result_refs(outcome)
+        # V4.0.2 PB-2：把「这一步是被哪个 approval 批准的」写进结果与审计
+        if step.step_id in approved_ids:
+            result_refs.setdefault("approval_id", approved_ids[step.step_id])
         result = AgentStepResult(
             step_id=step.step_id, status=status, action=step.action,
             started_at=started, finished_at=utc_now(),
             idempotency_key=step.idempotency_key,
             revision_before=before, revision_after=after,
-            result_refs=self._result_refs(outcome),
+            result_refs=result_refs,
             issues=tuple(str(value) for value in verification.failed),
             warnings=tuple(getattr(outcome, "warnings", ()) or ()),
             usage=dict(usage or {}), changed_nodes=changed,
@@ -315,11 +327,13 @@ class AgentExecutor:
         return result, outcome
 
     # ---------------------------------------------------------------- 分发
-    def _dispatch(self, step: AgentStep, goal: AgentGoal
+    def _dispatch(self, step: AgentStep, goal: AgentGoal, *,
+                  approved_approval_ids: Mapping[str, str] | None = None
                   ) -> tuple[Any, str, Mapping[str, Any]]:
         action = step.action
         target = dict(step.target)
         inputs = dict(step.inputs)
+        approved_ids = dict(approved_approval_ids or {})
         node_id = str(target.get("node_id") or "")
         parent_id = str(target.get("parent_id") or "")
         if action == "inspect_blueprint":
@@ -386,9 +400,12 @@ class AgentExecutor:
             outcome = self.quality.verify(issue_ids=issue_ids)
             return outcome, "verification", outcome.usage
         if action == "request_accept":
-            # Agent 只产生 approval 请求；实际接受必须由作者批准后的 accept_revision 执行
-            return {"approval_id": "", "action": "request_accept",
-                    "node_id": node_id}, "approval", {}
+            # Agent 只产生 approval 请求；实际接受必须由作者批准后的 accept_revision 执行。
+            # V4.0.2 PB-2：作者批准后这一步才真正执行，此时必须记录**被批准的 approval_id**
+            # （success_criteria = approval_recorded；批准证据在验证之前不得丢失）。
+            return {"approval_id": str(approved_ids.get(step.step_id) or ""),
+                    "action": "request_accept", "node_id": node_id,
+                    "step_id": step.step_id}, "approval", {}
         if action == "accept_revision":
             outcome = self.editor.accept(
                 node_id=node_id, revision=int(inputs.get("revision") or 0) or None,

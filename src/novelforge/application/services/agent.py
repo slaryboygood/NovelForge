@@ -71,6 +71,23 @@ def _node_ref(payload: Mapping[str, Any]) -> NodeRef:
                    quality_status=str(node.get("quality_status") or ""))
 
 
+def _outcome_payload(result: Any) -> dict[str, Any]:
+    """Application Service 结果归一化（V4.0.2 PB-2）。
+
+    `EditorService.patch / rewrite / accept / reject` 返回**普通 dict**，而
+    `BlueprintService.generate_task` 返回 dataclass（有 `as_dict`）。Agent 的
+    EditorPort 之前一律调用 `.as_dict()`，导致所有 editor 类 Agent 步骤在
+    运行期抛 `AttributeError: 'dict' object has no attribute 'as_dict'`
+    （被 executor 包装成 AGENT_STEP_FAILED）。
+    """
+
+    if hasattr(result, "as_dict"):
+        return dict(result.as_dict())
+    if isinstance(result, Mapping):
+        return dict(result)
+    return {}
+
+
 # --------------------------------------------------------------------- Ports
 class ApplicationReadPort:
     """只读状态快照（§27）：不暴露 repository / 文件路径。"""
@@ -193,9 +210,9 @@ class ApplicationEditorPort:
     def patch(self, *, node_id: str, changes: Mapping[str, Any],
               expected_revision: int | None, idempotency_key: str = "",
               reason: str = "") -> EditOutcome:
-        payload = self.services.editor.patch(
+        payload = _outcome_payload(self.services.editor.patch(
             node_id, dict(changes), expected_revision=expected_revision,
-            reason=reason, idempotency_key=idempotency_key).as_dict()
+            reason=reason, idempotency_key=idempotency_key))
         return EditOutcome(node_id=node_id, revision=int(payload.get("revision") or 0),
                            status=str(payload.get("status") or ""),
                            changed_fields=tuple(str(value) for value in
@@ -207,11 +224,11 @@ class ApplicationEditorPort:
     def rewrite(self, *, node_id: str, target_fields: Sequence[str], instruction: str,
                 expected_revision: int | None, preserve_fields: Sequence[str] = (),
                 idempotency_key: str = "") -> EditOutcome:
-        payload = self.services.editor.rewrite(
+        payload = _outcome_payload(self.services.editor.rewrite(
             node_id, tuple(target_fields), instruction,
             expected_revision=expected_revision,
             preserve_fields=tuple(preserve_fields),
-            idempotency_key=idempotency_key).as_dict()
+            idempotency_key=idempotency_key))
         return EditOutcome(node_id=node_id, revision=int(payload.get("revision") or 0),
                            status=str(payload.get("status") or ""),
                            changed_fields=tuple(str(value) for value in
@@ -224,9 +241,9 @@ class ApplicationEditorPort:
     def accept(self, *, node_id: str, revision: int | None,
                expected_revision: int | None = None, idempotency_key: str = "",
                reason: str = "") -> EditOutcome:
-        payload = self.services.editor.accept(
+        payload = _outcome_payload(self.services.editor.accept(
             node_id, revision=revision, expected_revision=expected_revision,
-            reason=reason, idempotency_key=idempotency_key).as_dict()
+            reason=reason, idempotency_key=idempotency_key))
         return EditOutcome(node_id=node_id, revision=int(payload.get("revision") or 0),
                            status=str(payload.get("decision") or
                                       payload.get("status") or ""),
@@ -234,8 +251,9 @@ class ApplicationEditorPort:
 
     def reject(self, *, node_id: str, revision: int | None = None, reason: str = "",
                idempotency_key: str = "") -> EditOutcome:
-        payload = self.services.editor.reject(node_id, revision=revision, reason=reason,
-                                              idempotency_key=idempotency_key).as_dict()
+        payload = _outcome_payload(self.services.editor.reject(
+            node_id, revision=revision, reason=reason,
+            idempotency_key=idempotency_key))
         return EditOutcome(node_id=node_id, revision=int(payload.get("revision") or 0),
                            status=str(payload.get("decision") or "rejected"),
                            changed_fields=("review_status",))
@@ -441,6 +459,7 @@ class AgentService:
                                error_code="AGENT_REVISION_CONFLICT",
                                details={"drift": drift})
         return self._execute(session_id, approved_steps=session.approved_step_ids(),
+                             approval_ids=session.approved_step_approvals(),
                              max_batch_steps=max_batch_steps, fresh_run=False,
                              start_sequence=checkpoint.next_step_sequence,
                              completed=checkpoint.completed_steps,
@@ -506,6 +525,7 @@ class AgentService:
     def _execute(self, session_id: str, *, approved_steps: Sequence[str],
                  max_batch_steps: int | None, fresh_run: bool,
                  start_sequence: int = 0, completed: Sequence[str] = (),
+                 approval_ids: Mapping[str, str] | None = None,
                  existing_run_id: str = "", reuse_run: bool = False,
                  policy_override: AgentPolicy | Mapping[str, Any] | None = None
                  ) -> dict[str, Any]:
@@ -531,7 +551,8 @@ class AgentService:
         outcome = self.runtime.executor.execute(
             goal=goal, policy=policy, plan=plan, run=run, budget=budget,
             approved_steps=approved_steps, start_sequence=start_sequence,
-            completed_steps=completed, max_batch_steps=max_batch_steps)
+            completed_steps=completed, approval_ids=dict(approval_ids or {}),
+            max_batch_steps=max_batch_steps)
         self.store.save_run(self.novel_id, outcome.run)
         session.status = outcome.status
         session.stop_reason = outcome.stop_reason
@@ -588,8 +609,17 @@ class AgentService:
             return self._result(session, status="paused",
                                stop_reason=session.stop_reason,
                                error_code="AGENT_APPROVAL_REJECTED")
+        # V4.0.2 PB-2：批准后必须**从 checkpoint 继续**（不重跑已完成步骤），并把
+        # 批准证据（step_id → approval_id）带进执行，直到该 protected step 完成。
+        checkpoint = self.checkpoints.load(session_id)
         return self._execute(session_id, approved_steps=session.approved_step_ids(),
-                             max_batch_steps=None, fresh_run=False)
+                             approval_ids=session.approved_step_approvals(),
+                             max_batch_steps=None, fresh_run=False,
+                             start_sequence=(checkpoint.next_step_sequence
+                                             if checkpoint else 0),
+                             completed=(checkpoint.completed_steps
+                                        if checkpoint else ()),
+                             existing_run_id=(checkpoint.run_id if checkpoint else ""))
 
     def _revision_drift(self, revision_refs: Mapping[str, int]
                         ) -> dict[str, dict[str, int]]:

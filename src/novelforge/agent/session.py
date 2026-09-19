@@ -127,15 +127,31 @@ class AgentSessionRecord:
         self.decisions.append(dict(decision))
 
     def approved_step_ids(self) -> tuple[str, ...]:
-        approved: list[str] = []
+        """已获批准的 step_id（§49、§22）。"""
+
+        return tuple(sorted(self.approved_step_approvals()))
+
+    def approved_step_approvals(self) -> dict[str, str]:
+        """`step_id → approval_id`：**durable approval evidence**（V4.0.2 PB-2）。
+
+        作者对某个 protected step 的批准必须可证明到底：执行该 step 时要把这个
+        approval_id 带进结果（`request_accept` 的 success_criteria 就是
+        `approval_recorded`），而不是在验证之前丢掉。
+        """
+
+        rows: dict[str, str] = {}
         for row in self.decisions:
-            if str(row.get("decision")) == "approved":
-                approval_id = str(row.get("approval_id") or "")
-                match = next((item for item in self.approvals
-                              if str(item.get("approval_id")) == approval_id), None)
-                if match is not None:
-                    approved.append(str(match.get("step_id") or ""))
-        return tuple(sorted({row for row in approved if row}))
+            if str(row.get("decision")) != "approved":
+                continue
+            approval_id = str(row.get("approval_id") or "")
+            match = next((item for item in self.approvals
+                          if str(item.get("approval_id")) == approval_id), None)
+            if match is None:
+                continue
+            step_id = str(match.get("step_id") or "")
+            if step_id:
+                rows[step_id] = approval_id
+        return rows
 
 
 class AgentSessionStore:

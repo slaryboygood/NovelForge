@@ -30,6 +30,44 @@ async function clearToasts(page) {
   }
 }
 
+/*
+ * 驱动一次 Agent 执行：处理 bounded batch 的「暂停 → 继续执行」，
+ * 并按 allowApproval 决定是否批准 protected step。
+ *
+ * 返回 {approvals, failures}；只有出现 AGENT_STEP_FAILED 才抛错（不允许静默失败）。
+ */
+async function driveAgent(page, { allowApproval = false, maxRounds = 8 } = {}) {
+  let approvals = 0
+  const failures = []
+  for (let round = 0; round < maxRounds; round += 1) {
+    const completion = page.locator('[data-testid="agent-completion"]')
+    if (await completion.count() > 0) break
+    const errorLine = page.locator('[data-testid="agent-error-code"]')
+    if (await errorLine.count() > 0) {
+      const text = (await errorLine.first().textContent()) || ''
+      failures.push(text)
+      assert.ok(!/AGENT_STEP_FAILED/.test(text), `Agent step 失败：${text}`)
+    }
+    const approval = page.locator('[data-testid="agent-approval"]')
+    if (allowApproval && await approval.count() > 0) {
+      approvals += 1
+      await clearToasts(page)
+      await page.click('[data-testid="agent-approve"]')
+      await page.waitForTimeout(1500)
+      continue
+    }
+    const resume = page.locator('[data-testid="agent-resume"]')
+    if (await resume.count() > 0) {
+      await clearToasts(page)
+      await resume.first().click()
+      await page.waitForTimeout(1500)
+      continue
+    }
+    await page.waitForTimeout(1200)
+  }
+  return { approvals, failures }
+}
+
 ;(async () => {
   const browser = await chromium.launch({ channel: 'msedge' })
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } })
@@ -73,18 +111,10 @@ async function clearToasts(page) {
   let status = await page.textContent('[data-testid="agent-status"]')
   await shot(page, '15-agent-running')
 
-  // 4) 审批流（如出现）：批准后继续
-  const approval = page.locator('[data-testid="agent-approval"]')
-  if (await approval.count() > 0) {
-    const approvalText = await approval.textContent()
-    assert.ok(approvalText.includes('需要你的确认'), '审批面板文案不正确')
-    assert.ok(approvalText.includes('基于版本'), '审批面板缺少 revision 绑定信息')
-    await clearToasts(page)
-    await page.click('[data-testid="agent-approve"]')
-    await page.waitForTimeout(1000)
-    await clearToasts(page)
-    status = await page.textContent('[data-testid="agent-status"]')
-  }
+  // 4) 跑到终态（本阶段的目标「不要自动接受」→ 不应出现 protected 审批）
+  const phase1 = await driveAgent(page, { allowApproval: false })
+  assert.equal(phase1.approvals, 0, '「不要自动接受」的目标不应要求 protected 审批')
+  status = await page.textContent('[data-testid="agent-status"]')
 
   // 5) 完成摘要（目标 / 修改节点 / 版本 / 质量 / 需作者决定）
   await page.waitForSelector('[data-testid="agent-completion"]', { timeout: 90000 })
@@ -107,6 +137,46 @@ async function clearToasts(page) {
     `新增内容未保持 proposed：${JSON.stringify(proposed)}`)
   assert.ok(!proposed.statuses.some((row) => row.includes('ch_00') && false), '')
   await shot(page, '16-agent-complete')
+
+  // 6b) protected approval 路径（V4.0.2 PB-2）：必须真实经过人工闸门
+  //     前置：上一阶段的结果必须清空（点「生成计划」会 setResult(null)）
+  await page.fill('[data-testid="agent-goal-input"]', '接受当前章节与场景的结果')
+  await page.selectOption('[data-testid="agent-scope"]', 'novel')
+  await page.waitForTimeout(400)
+  await clearToasts(page)
+  await page.click('[data-testid="agent-plan"]')
+  await page.waitForSelector('[data-testid="agent-plan-preview"]', { timeout: 30000 })
+  // 上一阶段的预览仍在 DOM 里 → 必须等**新计划**（含 protected 步骤）真正渲染出来
+  await page.waitForFunction(() => {
+    const text = document.querySelector('[data-testid="agent-plan-preview"]')?.textContent || ''
+    const match = text.match(/需要你确认\s*(\d+)\s*步/)
+    return Boolean(match && Number(match[1]) >= 1)
+  }, null, { timeout: 30000 })
+  const approvalPreview = await page.textContent('[data-testid="agent-plan-preview"]')
+  assert.ok(approvalPreview.includes('需要你确认'),
+    '接受类计划必须标记「需要你确认」步骤')
+  const protectedSteps = Number((approvalPreview.match(/需要你确认\s*(\d+)\s*步/) || [])[1])
+  assert.ok(protectedSteps >= 1, `受保护步骤数异常：${approvalPreview}`)
+  assert.ok(await page.locator('[data-testid="agent-completion"]').count() === 0,
+    '新计划必须清空上一阶段结果')
+
+  await clearToasts(page)
+  await page.click('[data-testid="agent-start"]')
+  await page.waitForSelector('[data-testid="agent-approval"]', { timeout: 60000 })
+  const approvalText = await page.locator('[data-testid="agent-approval"]').textContent()
+  assert.ok(approvalText.includes('需要你的确认'), '审批面板文案不正确')
+  assert.ok(approvalText.includes('基于版本'), '审批面板缺少 revision 绑定信息')
+  await shot(page, '17-agent-approval')
+
+  const phase2 = await driveAgent(page, { allowApproval: true, maxRounds: 8 })
+  assert.ok(phase2.approvals >= 1,
+    `approvals=${phase2.approvals}：必须至少覆盖一次 protected 审批`)
+  await page.waitForSelector('[data-testid="agent-completion"]', { timeout: 90000 })
+  const approvalCompletion = await page.textContent('[data-testid="agent-completion"]')
+  assert.ok(approvalCompletion.includes('修改的节点'), '审批阶段完成摘要不完整')
+  const approvalErrors = await page.locator('[data-testid="agent-error-code"]').count()
+  assert.equal(approvalErrors, 0, '审批阶段出现了错误提示')
+  await shot(page, '18-agent-approved')
 
   // 7) 取消文案诚实（不声称已立即中止模型）
   const cancelSemantics = await page.evaluate(async (novelId) => {

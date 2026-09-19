@@ -291,7 +291,9 @@ commits
   395482d fix(delivery): ignore resolved historical quality blockers
   ce892b4 fix(agent): preserve approval state through protected step execution
   fd40c77 fix(mcp): restore supported stdio server startup
-  （收尾）test(skills)/docs(v4)：V4.0.2 skill delta + 本报告
+  99b6629 docs(skills): add v4.0.2 skill baseline delta and closure report
+  9fb886d docs(v4): refresh v4.0.2 verification numbers on the final HEAD
+  （下一提交）docs(v4): record exact commit list in the stabilization report
 
 product files changed
   src/novelforge/quality/store.py

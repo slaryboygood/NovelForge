@@ -1,0 +1,92 @@
+product: NovelForge
+version: 4.0.1
+skill_library_version: novelforge-v4.0.1
+skill_schema_version: 1
+status: frozen-baseline
+baseline_start_commit: afc57d8
+product_tags_referenced:
+  - v4.0.1
+  - v4.0.0
+  - novelforge-product-v4-final
+
+layout:
+  root: skills/novelforge-v4.0.1
+  module_contract: <module>/README.md
+  atomic_skill: <module>/<verb-object>/SKILL.md
+  composition_layer: workflows
+  hash_baseline: SKILL_MANIFEST.json
+  validator: scripts/validate_v4_0_1_skills.py
+  tests: tests/v4/skills
+
+entry_points:
+  catalog: SKILL_CATALOG.md
+  source_map: SOURCE_MAP.md
+  dependency_map: DEPENDENCY_MAP.md
+  readme: README.md
+
+docs:
+  feature_catalog: docs/v4/V4_0_1_FEATURE_USAGE_CATALOG.md
+  interface_map: docs/v4/V4_0_1_INTERFACE_MAP.md
+  user_guide: docs/v4/V4_0_1_USER_FEATURE_GUIDE.md
+  coverage: docs/v4/V4_0_1_SKILL_COVERAGE.md
+  gaps: docs/v4/V4_0_1_SKILL_GAPS.md
+
+modules:
+  - id: project
+    title: 作品生命周期
+    skill_count: 4
+  - id: studio
+    title: Story Studio（唯一产品面）
+    skill_count: 4
+  - id: blueprint
+    title: Story Blueprint 节点图
+    skill_count: 5
+  - id: generation
+    title: 逐级结构化生成
+    skill_count: 9
+  - id: memory
+    title: 派生记忆与上下文装配
+    skill_count: 3
+  - id: quality
+    title: Q0–Q9 质量门禁
+    skill_count: 4
+  - id: repair
+    title: 定向修复与复核
+    skill_count: 4
+  - id: editor
+    title: 作者编辑（patch / rewrite / accept / restore）
+    skill_count: 6
+  - id: delivery
+    title: revision-pinned 交付
+    skill_count: 6
+  - id: canon
+    title: 受保护真相（Canon）
+    skill_count: 5
+  - id: story-state
+    title: StoryState 边界与只读检查
+    skill_count: 2
+  - id: plugins
+    title: 插件平台（Host 扩展点）
+    skill_count: 5
+  - id: agent
+    title: 有界 Agent Mode
+    skill_count: 6
+  - id: mcp
+    title: MCP 机器接口
+    skill_count: 5
+  - id: ai
+    title: LLM Gateway 与 provider 配置
+    skill_count: 4
+  - id: workflows
+    title: 组合层（不是 product owner）
+    skill_count: 5
+
+tools:
+  validator: scripts/validate_v4_0_1_skills.py
+  manifest_writer: python scripts/validate_v4_0_1_skills.py --write-manifest
+
+update_policy: |
+  skills/novelforge-v4.0.1/** 是 V4.0.1 的 documentation/tooling baseline（不是产品 tag）。
+  未发布版本（V4.0.2 / V4.1 / V5）应建立自己的版本化 baseline 并显式记录继承关系，
+  不要静默修改本目录。必须纠正文档错误时，走 SKILL_BASELINE_UPDATE：
+  说明原因 → 更新 SKILL_MANIFEST.json 哈希 → 更新测试。

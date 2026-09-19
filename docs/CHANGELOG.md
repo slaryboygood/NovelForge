@@ -5,6 +5,52 @@ Git history 中，不再在仓库里保留副本。
 
 ---
 
+## NovelForge V4.0.2
+
+```text
+release_date   = 2026-09-19
+release_tag    = v4.0.2
+release_kind   = PATCH（stabilization / bugfix only）
+scope          = 三个 P0 缺陷修复（V4.0.1 Skill Dogfood 发现）
+evidence       = docs/v4/V4_0_2_STABILIZATION_REPORT.md
+```
+
+V4.0.2 只修正确性缺陷，不新增 major capability，不删除任何已记录的 V4 公共 API。
+（V4 线的更早版本 `v4.0.0` / `v4.0.1` 与其验收证据保存在 Git tag 与 `docs/v4/**` 中，
+本文件此前只记录到 V3。）
+
+### Fixed
+
+```text
+Delivery  preflight 不再把"已 resolved / 已被最新报告取代"的历史 quality issue
+          当成当前 blocker：issue liveness 由 Quality Store 统一判定
+          （status + 最新报告覆盖 + revision identity）。
+Agent     protected approval 现在可以 durable 地走完：批准后从 checkpoint 继续，
+          批准证据（approval_id）绑定到被执行的 protected step；
+          Editor 类步骤正确归一化 Application 返回值。
+MCP       正式 stdio entrypoint 在受支持区间（mcp>=1.9,<2）可正常启动
+          （NotificationOptions 实例），并新增真实 subprocess 握手回归。
+```
+
+### Validation
+
+```text
+Delivery strict/default workflow   restored（默认 preflight 不再被历史 issue 卡住）
+Agent protected approval workflow  restored（approve → 继续 → completed）
+MCP stdio workflow                 restored（真实 subprocess 握手 + 干净退出）
+Full python suite / acceptance / frozen guards / isolation / browser gates   PASS
+MCP core surface                   不变：23 tools / 13 resources
+```
+
+### Not in this release
+
+```text
+PB-4（单例节点 sequence）、PB-5、PB-6 与 GAP-001…GAP-012 中的其它条目仍留在 backlog；
+本版本没有把它们标记为已修复。
+```
+
+---
+
 ## NovelForge V3 Final — Functional Closure
 
 ```text

@@ -337,7 +337,7 @@ Recommended release version   v4.0.2（patch：三个 P0 bugfix，无新增 majo
 [x] PB-3 reproduced before fix / fixed / real stdio subprocess handshake PASS /
     MCP 23 tools / 13 resources unchanged
 [x] prepare-final-delivery / operate-with-agent / use-novelforge-through-mcp workflow PASS
-[x] full pytest 0 failed（982 passed, 1 skipped）
+[x] full pytest 0 failed（990 passed, 1 skipped；最终 HEAD 上的真实结果）
 [x] acceptance / frozen guards / delivery / agent / MCP / isolation / browser PASS
 [x] skill delta updated（V4.0.2 覆盖 + 继承）且 original V4.0.1 evidence preserved
 [x] no unrelated P1/P2/P3 implementation（PB-4 / GAP-002 / GAP-009 等原样保留）

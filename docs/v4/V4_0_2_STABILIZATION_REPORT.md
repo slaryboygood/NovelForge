@@ -225,7 +225,10 @@ V4-10 Story Studio browser gate: PASS
 ## 7. 验证记录（§52–§58）
 
 ```text
-full pytest             982 passed, 1 skipped（561.17s；P0 新增回归全在其中）
+full pytest             990 passed, 1 skipped（550.48s；在最终 HEAD 上重跑；P0 新增回归全在其中）
+targeted gates          366 passed（tests/delivery + tests/agent + tests/mcp + tests/v4/isolation
+                         + tests/acceptance + tests/v4/skills + V2/V3 frozen guards +
+                         repair regression + product surface，在最终 HEAD 上重跑）
 tests/acceptance/**     PASS（含 frozen guards：V2 frozen / V3 frozen / repair frozen）
 tests/delivery/**       PASS（含 4 个新回归）
 tests/quality/**        PASS（含 6 个 issue 生命周期回归）

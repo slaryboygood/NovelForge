@@ -22,7 +22,7 @@ Related modules    所有其它模块（作为消费方）
 | `characters` | 人物 | 人物卡与人物弧 | Generation + Editor |
 | `story` | 故事 | 故事弧 / 结构单元 / 章节 | Generation + Editor |
 | `scenes` | 场景 | 每场戏为什么存在 | Generation + Editor |
-| `quality` | 检查 | 质量问题与定向修复 | `GET/POST /studio/quality*` |
+| `quality` | 检查 | 质量问题与定向修复 | `/studio/quality`（GET 读；POST evaluate / repair / verify） |
 | `delivery` | 交付 | 选择 / 预检 / 下载 | `/delivery` + `/studio/delivery/formats` |
 | `plugins` | 插件 | 扩展能力的只读状态 | `GET /studio/plugins` |
 | `agent` | Agent | 给目标，先看计划再执行 | `/agent/*` |

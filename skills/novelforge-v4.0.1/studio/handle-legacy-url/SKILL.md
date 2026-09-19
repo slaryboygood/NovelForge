@@ -64,7 +64,7 @@ Story Studio 正常渲染；浏览器历史里没有循环跳转。
 ```text
 · node tests/browser_v4_legacy_entry.cjs（0 page error / 0 循环）
 · 页面里不存在 V2/V3 专属控件
-· GET /api/story-builder/v3/** 等旧端点不存在（404），且 UI 不依赖它们
+· 旧端点（`/api/story-builder/v3/**` 等）已不存在（404），且 UI 不依赖它们
 ```
 
 ## Common failures

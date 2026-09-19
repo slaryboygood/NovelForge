@@ -71,7 +71,7 @@ MCP          N/A
 ```text
 · 交叉核对 src/novelforge/story_engine/state.py（StoryState 字段）与 context.py（读取入口）
 · 交叉核对 src/novelforge/memory/sources/story_state.py（只读投影 + revision）
-· 交叉核对 tests/v4/isolation/test_memory_ownership.py 与 docs/v4/V4_DATA_MODEL.md（truth 分层）
+· 交叉核对 tests/v4/isolation/test_memory_ownership.py 与 docs/DATA_MODEL.md（truth 分层）
 ```
 
 ## Common failures
@@ -101,6 +101,6 @@ StoryState 写入不属于本 Skill Library 的范围（需要作者审批边界
 
 ```text
 src/novelforge/story_engine/state.py、context.py、storage.py
-docs/DATA_MODEL.md、docs/v4/V4_DATA_MODEL.md（如存在）
+docs/DATA_MODEL.md
 AGENTS.md §15（数据原则）、§12.2（必须停止的情况）
 ```

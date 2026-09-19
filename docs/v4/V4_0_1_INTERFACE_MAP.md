@@ -56,6 +56,7 @@
 | 规划对照 Canon | N/A | `POST /canon/validate-outline` | `validate_chapter_plan` + `SourceReferenceValidator` | N/A |
 | 记忆检索 | N/A | N/A（DEFER） | `MemoryService.search` | N/A |
 | 生成上下文装配 | N/A（generation 内部） | N/A | `ContextBuilder.build` | N/A |
+| 读取 StoryState 摘要（story-state） | N/A（generation 上下文内部） | N/A | `resolve_novel_context`（canonical 只读入口） | N/A |
 | 配置模型 provider | N/A（改配置 + 重启） | N/A | `load_provider_configs` | N/A |
 | 机器调用（工具） | N/A | 与 REST 平级 | `ApplicationServices` | 23 tools |
 | 机器读取（资源） | N/A | 与 REST 平级 | `ApplicationServices` | 13 resources |

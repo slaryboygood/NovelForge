@@ -1,5 +1,5 @@
 ---
-name: novelforge-v4.0.1/editor/restore-revision
+name: novelforge-v4.0.1.editor.restore-revision
 description: 把历史 revision 的内容恢复成一个新的 revision（历史不删除，带 restored_from 记录）。
 ---
 

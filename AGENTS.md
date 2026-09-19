@@ -796,6 +796,15 @@ docs/NOVELFORGE_PRODUCT_V2_RELEASE.md           V2 release 记录（frozen）
 不要把已经发布版本的验收 artifact 当成进行中的计划。
 ```
 
+V4.0.1 起另有**操作知识层**（Codex / Agent 执行用）：
+
+```text
+For NovelForge V4.0.1 operational workflows,
+consult skills/novelforge-v4.0.1/SKILL_CATALOG.md
+（能力用法 / 接口映射 / 哈希基线见 skills/novelforge-v4.0.1/** 与 docs/v4/V4_0_1_*.md）
+该目录是 documentation/tooling baseline，不是 product frozen tag；不要静默修改。
+```
+
 如果文档与代码冲突：
 
 ```text

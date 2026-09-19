@@ -84,7 +84,7 @@ JSON 资源（或文件字节 + 正确 MIME）。资源全部只读。
 
 ```text
 资源只读（read-only by construction）
-不提供 novelforge://everything（粒度明确，ADR-027/§48）
+不提供"整库"资源（没有 everything 形式的 URI；粒度明确，ADR-027/§48）
 不返回内部绝对路径 / secret
 ```
 

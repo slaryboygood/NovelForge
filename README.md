@@ -206,6 +206,7 @@ V4 边界守卫（跨作品污染 / 废弃资产 / 模块依赖）现在默认�
 
 | 主题 | 位置 |
 | --- | --- |
+| **用 Codex / Agent 操作 NovelForge** | `skills/novelforge-v4.0.1/README.md`（操作知识层）、`docs/v4/V4_0_1_USER_FEATURE_GUIDE.md`（人看） |
 | 架构（Domain / Application / ViewModel / UI） | `docs/ARCHITECTURE.md` |
 | 数据模型与 truth 分层 | `docs/DATA_MODEL.md` |
 | 内容包 / 题材模板规范 | `docs/CONTENT_PACK.md`、`docs/GENRE_TEMPLATE.md` |

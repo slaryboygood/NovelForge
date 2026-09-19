@@ -98,7 +98,6 @@ TRUTH_PRECEDENCE 不可倒置
 ## Related skills
 
 `inspect-derived-memory`、`build-generation-context`、
-`novelforge-v4.0.1.canon.understand-canon-boundary`（若存在）、
 `novelforge-v4.0.1.story-state.understand-story-state-boundary`
 
 ## Source references

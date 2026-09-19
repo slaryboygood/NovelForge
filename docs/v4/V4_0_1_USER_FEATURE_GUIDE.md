@@ -117,7 +117,13 @@ Canon = 已确认事实（事实 / 事件 / 实体 / 知识 / 伏笔 / 依赖图
 两者都是**只读真相**：V4 生成只把它们当作上下文约束，不写入。
 
 ```text
-GET  /api/story-builder/canon/{facts,events,entities,knowledge,foreshadows,graph,validate}
+GET  /api/story-builder/canon/facts             已确认事实（planned / happened）
+GET  /api/story-builder/canon/events            事件（planned / occurred）
+GET  /api/story-builder/canon/entities          实体
+GET  /api/story-builder/canon/knowledge         谁知道什么
+GET  /api/story-builder/canon/foreshadows       伏笔
+GET  /api/story-builder/canon/graph             依赖图摘要
+GET  /api/story-builder/canon/validate          Canon 一致性校验
 POST /api/story-builder/canon/rebuild           受控重建（失败保留原 DB）
 POST /api/story-builder/canon/validate-outline  规划对照 Canon（只读检查）
 ```

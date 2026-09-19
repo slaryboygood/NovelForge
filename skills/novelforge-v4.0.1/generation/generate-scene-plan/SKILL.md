@@ -55,8 +55,9 @@ MCP          tool generate_scene_plan
 1 选父章节（inspect-blueprint?node_type=chapter）
 2 决定 sequence（本章已有场景数 + 1）
 3 POST /studio/generate {novel_id, task:"scene", parent_id, sequence}
-   REST 会从 parent_id（ch_007 → 7）推导 chapter_index 生成 sc_007_2
-4 校验 node_id 形如 sc_<chapter_index>_<seq>、parent 类型 == chapter、status == proposed
+   REST 会从 parent_id（ch_007 → 7）推导 chapter_index，生成 sc_007_02（两位补零）
+4 校验 node_id 形如 sc_<chapter_index:03d>_<seq:02d>（例如 `sc_001_01`）、
+  parent 类型 == chapter、status == proposed
 5 读 payload.{scene_purpose, location, time, conflict, escalation, turn, outcome,
   information_reveal, character_change, relationship_change, next_hook, story_function}
 6 与上一场比较：story_function 不应完全相同（Q6 SCENE_SEMANTIC_REPETITION）

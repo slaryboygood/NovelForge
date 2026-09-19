@@ -77,6 +77,7 @@ MCP          N/A
 | --- | --- | --- |
 | 贡献为空 | 插件未 enabled / 加载失败 | 查看 status 与 audit 的失败原因 |
 | 与交付格式不一致 | 用了不同的 registry 实例 | 交付侧应注入同一 ExporterRegistry（宿主装配） |
+| disable 之后 `get_plugin().contributions` 仍非空 | 该字段是 manifest **声明**；**已注册**贡献看 `contributions(type=...)` | 以 registered_ids / contributions(type) 为准，声明列表不会随 disable 清空 |
 
 ## Safety / invariants
 

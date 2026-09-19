@@ -43,8 +43,9 @@ canon db 存在；准备待校验的 chapters 列表（结构化计划，不是�
 
 ```text
 UI           N/A
-REST         POST /api/story-builder/canon/validate-outline
-             body {"novel_id","chapters":[…],"temporal_cutoff":123}
+REST         POST /api/story-builder/canon/validate-outline?novel_id=<id>
+             body {"chapters":[…],"temporal_cutoff":123}
+             （novel_id 是 **query 参数**，放在 body 里会 422 extra_forbidden）
 Application  validate_chapter_plan + SourceReferenceValidator.validate_refs + LocalSemanticIndex
 MCP          N/A
 ```
@@ -53,7 +54,9 @@ MCP          N/A
 
 ```text
 1 准备 chapters（结构化 schema；schema 不合法的章节会得到 CHAPTER_SCHEMA_INVALID）
-2 POST /canon/validate-outline {novel_id, chapters, temporal_cutoff?}
+   每章至少需要：`chapter_uuid`（不是 chapter_id）+ ≥3 条互不相同的 `concrete_events`；
+   其余（title / goal / location / participants / canon_source_refs / canon_fact_ids）可选。
+2 POST /canon/validate-outline?novel_id=<id> {chapters, temporal_cutoff?}
 3 读 ok 与 findings[]（来源引用缺失 / 时间截点越界 / 声称事实不被支持）
 4 读 duplicate_candidates[]（语义相似的历史 / 计划事件候选）
 5 有 conflict → 调整规划（不是改 Canon）；重复候选 → 用不同事件或显式合并

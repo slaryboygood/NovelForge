@@ -13,7 +13,7 @@
       "path": "skills/novelforge-v4.0.1/agent/approve-agent-run/SKILL.md",
       "module": "agent",
       "skill_id": "novelforge-v4.0.1.agent.approve-agent-run",
-      "sha256": "46c4684dc357d7f9801671f2690f26455f04211546df8c25518936b1cc887b25"
+      "sha256": "04af982b5561e768a9ec83f9a6474fb34894831060a7f6fbb76abdc6f6efc44a"
     },
     {
       "path": "skills/novelforge-v4.0.1/agent/cancel-agent-session/SKILL.md",
@@ -25,13 +25,13 @@
       "path": "skills/novelforge-v4.0.1/agent/inspect-agent-session/SKILL.md",
       "module": "agent",
       "skill_id": "novelforge-v4.0.1.agent.inspect-agent-session",
-      "sha256": "4ebb1960d5475e617982308d5f9d0ecf61cf0d4dcba8045ac336bdc48e9b5444"
+      "sha256": "c2ff21607c83c28e258ac2e0a9a0c506d7b50528961b1fc5dd919718437b0558"
     },
     {
       "path": "skills/novelforge-v4.0.1/agent/plan-agent-goal/SKILL.md",
       "module": "agent",
       "skill_id": "novelforge-v4.0.1.agent.plan-agent-goal",
-      "sha256": "5df495827790597947da385c503ecd04d7169faa29c751ab3c8bbcd0999bd37c"
+      "sha256": "46dee7232b8f0cef82726dbbc4c2a8b6e337578b881b00f232b9d47bed4a0031"
     },
     {
       "path": "skills/novelforge-v4.0.1/agent/README.md",
@@ -49,7 +49,7 @@
       "path": "skills/novelforge-v4.0.1/agent/start-agent-session/SKILL.md",
       "module": "agent",
       "skill_id": "novelforge-v4.0.1.agent.start-agent-session",
-      "sha256": "9f18e72816897e1a95cabde5ec4c12a4c1f2fcb390807c9189da1ccbeaf046bf"
+      "sha256": "dd7da45f80586f12d9ba884a2db6817d0cf778a87d91c6fe314633699501f30f"
     },
     {
       "path": "skills/novelforge-v4.0.1/ai/configure-llm-provider/SKILL.md",
@@ -139,7 +139,7 @@
       "path": "skills/novelforge-v4.0.1/canon/rebuild-canon/SKILL.md",
       "module": "canon",
       "skill_id": "novelforge-v4.0.1.canon.rebuild-canon",
-      "sha256": "ebc30e119bcc73928bea79ffa3327c77f6b84b90016954b6baccb9b6bed81dbe"
+      "sha256": "25eed60ac12f6f1c541e39754e86deb47e3b9d849fc546fe14066f8eac15e2cb"
     },
     {
       "path": "skills/novelforge-v4.0.1/canon/validate-canon-integrity/SKILL.md",
@@ -151,7 +151,7 @@
       "path": "skills/novelforge-v4.0.1/canon/validate-planning-against-canon/SKILL.md",
       "module": "canon",
       "skill_id": "novelforge-v4.0.1.canon.validate-planning-against-canon",
-      "sha256": "e7824e8d8b32dcff599ee0f25f4e3e27e5ecc6276dee5dc549410922257c6717"
+      "sha256": "52988eb740dfa7e8b186b1f46ffc252927acdb04618db5d74514dd3075142540"
     },
     {
       "path": "skills/novelforge-v4.0.1/delivery/create-delivery-snapshot/SKILL.md",
@@ -193,7 +193,7 @@
       "path": "skills/novelforge-v4.0.1/delivery/validate-delivery/SKILL.md",
       "module": "delivery",
       "skill_id": "novelforge-v4.0.1.delivery.validate-delivery",
-      "sha256": "d7403761508a864c847902cdd7820f12850728ea5c60d2f0f9d33561c8d9fb51"
+      "sha256": "1cab59e9fabae6acdeb2df9a0e67273173bbabffad2d4a655888f4018b977adc"
     },
     {
       "path": "skills/novelforge-v4.0.1/DEPENDENCY_MAP.md",
@@ -205,7 +205,7 @@
       "path": "skills/novelforge-v4.0.1/editor/accept-revision/SKILL.md",
       "module": "editor",
       "skill_id": "novelforge-v4.0.1.editor.accept-revision",
-      "sha256": "e9ddde92941d6035a758ed2ce7d4611610b6cb02d27a1cd23a2344a1012d8ad1"
+      "sha256": "badb8e43f6bf98dd95d894dd75f1ccffb45ab5941b65193ea9b7c7888a651d8e"
     },
     {
       "path": "skills/novelforge-v4.0.1/editor/diff-revisions/SKILL.md",
@@ -247,7 +247,7 @@
       "path": "skills/novelforge-v4.0.1/generation/generate-chapter-plan/SKILL.md",
       "module": "generation",
       "skill_id": "novelforge-v4.0.1.generation.generate-chapter-plan",
-      "sha256": "278c9555e81191ade5812746e3ebfdc4c641d9e74274af3c869a18e6ab40e89d"
+      "sha256": "e7a60caf3384aef9f4a618fadce57cc7b8700e16b274e911c75821f4bb21b7f6"
     },
     {
       "path": "skills/novelforge-v4.0.1/generation/generate-character/SKILL.md",
@@ -259,7 +259,7 @@
       "path": "skills/novelforge-v4.0.1/generation/generate-character-arc/SKILL.md",
       "module": "generation",
       "skill_id": "novelforge-v4.0.1.generation.generate-character-arc",
-      "sha256": "29c85bbfe888a365ab9906df98507f36dcc03a044ebbd1a52cb8a030e1475b75"
+      "sha256": "8413772f5be60af55dc3389a673e78a5d2d8411ae62df0f1d5b22b8948af1d6f"
     },
     {
       "path": "skills/novelforge-v4.0.1/generation/generate-premise/SKILL.md",
@@ -271,7 +271,7 @@
       "path": "skills/novelforge-v4.0.1/generation/generate-scene-plan/SKILL.md",
       "module": "generation",
       "skill_id": "novelforge-v4.0.1.generation.generate-scene-plan",
-      "sha256": "d22f4ab5117a464fe9970ac3e19ca6546118db95e5a3925b4310e0c15fe5297e"
+      "sha256": "55c69416e0aedf65e05e2271ee27d6c48e88563f057c932398830362c042f361"
     },
     {
       "path": "skills/novelforge-v4.0.1/generation/generate-story-arc/SKILL.md",
@@ -283,7 +283,7 @@
       "path": "skills/novelforge-v4.0.1/generation/generate-structural-unit/SKILL.md",
       "module": "generation",
       "skill_id": "novelforge-v4.0.1.generation.generate-structural-unit",
-      "sha256": "45181cece461dbbe3ba392e3a6844d44d37d22671cf28522a3702021d9653425"
+      "sha256": "f45c28e1bb44a8b5528273bd703f94371f1b706bc3a90c592890eae3c376eeea"
     },
     {
       "path": "skills/novelforge-v4.0.1/generation/generate-theme/SKILL.md",
@@ -301,7 +301,7 @@
       "path": "skills/novelforge-v4.0.1/generation/README.md",
       "module": "",
       "skill_id": "",
-      "sha256": "7e372756dc7abcd36b8ca81ccef45a8a4209527d5f1da8dedaf0b6dd0ffd783e"
+      "sha256": "9cefc1c6308626b0cc2cce7ef43604f9e77801eaaae8299f46b20969849cc53b"
     },
     {
       "path": "skills/novelforge-v4.0.1/manifest.yaml",
@@ -337,7 +337,7 @@
       "path": "skills/novelforge-v4.0.1/mcp/start-mcp-server/SKILL.md",
       "module": "mcp",
       "skill_id": "novelforge-v4.0.1.mcp.start-mcp-server",
-      "sha256": "6ecd79857ab293d3a74c8cb57b2b4d884022275e302891e1c6cee4525f4de9be"
+      "sha256": "f3627dfbf3478cdc74c1f7fe6c7a4843a419666c840185758065a585a63f2342"
     },
     {
       "path": "skills/novelforge-v4.0.1/mcp/understand-mcp-boundary/SKILL.md",
@@ -355,7 +355,7 @@
       "path": "skills/novelforge-v4.0.1/memory/inspect-derived-memory/SKILL.md",
       "module": "memory",
       "skill_id": "novelforge-v4.0.1.memory.inspect-derived-memory",
-      "sha256": "dadaa34af6d9149bf2563bc1d7aa782578e470ccc2af38951e692a7c9ad8f27b"
+      "sha256": "5c2cc231fdb7233b835fd2888ca2b377ceccc7409162694bcca8ca12286d0fbd"
     },
     {
       "path": "skills/novelforge-v4.0.1/memory/README.md",
@@ -391,7 +391,7 @@
       "path": "skills/novelforge-v4.0.1/plugins/inspect-plugin-contributions/SKILL.md",
       "module": "plugins",
       "skill_id": "novelforge-v4.0.1.plugins.inspect-plugin-contributions",
-      "sha256": "84f8282533b8147445471ffdc587837c0d1cd72f7a06a01980a4067104d2d96f"
+      "sha256": "88b64894a4374e6a13fbdef157be8e8d8ec58917deef9770be574b9a9e44fb4c"
     },
     {
       "path": "skills/novelforge-v4.0.1/plugins/inspect-plugins/SKILL.md",
@@ -445,7 +445,7 @@
       "path": "skills/novelforge-v4.0.1/quality/inspect-quality-report/SKILL.md",
       "module": "quality",
       "skill_id": "novelforge-v4.0.1.quality.inspect-quality-report",
-      "sha256": "e0d7f6be6f357d929edf9e5cbae8985b6db5e4e39651acd46781b4eb147f2176"
+      "sha256": "a8eab8fa5affb1c10d646c2030578d4c140a57d0f6a5d81efa84ff12a0df7cb7"
     },
     {
       "path": "skills/novelforge-v4.0.1/quality/list-quality-issues/SKILL.md",
@@ -553,7 +553,7 @@
       "path": "skills/novelforge-v4.0.1/studio/open-story-studio/SKILL.md",
       "module": "studio",
       "skill_id": "novelforge-v4.0.1.studio.open-story-studio",
-      "sha256": "794cb63fe15fcdff8d240f8f48b830f9b87d3da6ac0955ebebdbb2c23833e459"
+      "sha256": "f686ef14a6d9c6ea0f70be0efe7b2e80f0842791c60205c671f8cd3dc43fa63e"
     },
     {
       "path": "skills/novelforge-v4.0.1/studio/README.md",

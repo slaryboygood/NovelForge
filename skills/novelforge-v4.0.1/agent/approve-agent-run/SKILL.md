@@ -59,6 +59,13 @@ MCP          N/A
 3 approve：POST /{session_id}/approve {approval_id, actor:"author", reason}
    reject ：POST /{session_id}/reject  {approval_id, actor:"author", reason}
 4 读返回状态：approved → 继续执行；rejected → 停止 / 重规划
+   ⚠ 实测（V4.0.1 dogfood）：当前 **approve 路径本身有缺陷**。对一个
+   `request_accept` 之类的 protected step 调 approve 后，session 会直接变成
+   `failed`：`error_code=AGENT_STEP_FAILED`、`stop_reason="验证未通过：approval_recorded"`、
+   `ok=false`，approval 步骤的 `result_refs.approval_id` 为空。reject 路径正常
+   （status → paused，stop_reason="approval rejected"）。
+   因此现在不要声称"批准后 Agent 会继续跑完"；遇到需要批准的计划，先记录该缺陷，
+   需要推进就回到单个 atomic skill（editor.accept-revision 等）。
 5 复验：审批记录进入 audit（谁、何时、为什么）
 6 next：resume-agent-session（继续）或 inspect-agent-session
 ```

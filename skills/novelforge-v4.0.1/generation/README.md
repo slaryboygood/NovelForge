@@ -49,3 +49,16 @@ GAP-002  BlueprintService.build_links（setup / payoff / causal_link）没有 UI
           → 生成场景后 setup / payoff 可能为空，Q5 / Q7 / Q9 相关 issue 属预期
 默认不启用任何 provider → 未配置模型时返回 GENERATION_UNAVAILABLE（422），不静默降级
 ```
+
+补充（V4.0.1 dogfood 实测，仍属当前边界，不要当作新接口）：
+
+```text
+· 422 GENERATION_UNAVAILABLE 这个 code 同时被复用于"模型输出未通过 schema 校验"
+  （message 写作"...生成失败：结构化输出未通过 schema 校验"）。它**不一定**表示
+  provider 没配置：provider / stub 返回缺必填字段的内容时也会得到同一个 code。
+· 给单例类型（theme / world / story_arc）传 parent_id（例如 parent_id="premise"）时，
+  生成的节点 sequence=0；Q0 会把"非根节点 sequence=0"判为 SEQUENCE_INVALID（major，
+  repairable=false），之后对该父节点再生成还可能直接 422 BLUEPRINT_VALIDATION_FAILED。
+  当前安全做法是让这些单例节点留在根（不要传 parent_id），除非产品侧修正 sequence 赋值。
+  （详见 docs/v4/V4_0_1_SKILL_DOGFOOD_REPORT.md；属产品问题，本目录不修 runtime。）
+```

@@ -40,7 +40,7 @@ provider enabled
 | `task` / `node_type` | 是 | `structural_unit` |
 | `parent_id` | 否 | 缺省 = story_arc |
 | `unit_type` | 是 | 单元类型（例如 `act` / `part` / `volume`） |
-| `index` | 否 | 兄弟序号（决定 `unit_<unit_type>_<index>`）；缺省自动计算 |
+| `index` | 否 | 兄弟序号（决定 `<unit_type>_<NN>`，例如 unit_type=act、index=1 → `act_01`）；缺省自动计算 |
 
 ## Authoritative interfaces
 
@@ -57,7 +57,8 @@ MCP          tool generate_structural_unit
 1 确认 story_arc 存在
 2 决定 unit_type 与 index（第 N 幕）
 3 POST /studio/generate {novel_id, task:"structural_unit", unit_type, index}
-4 校验 node_id 形如 unit_<unit_type>_<index>、parent 类型 ∈ {story_arc, structural_unit}
+4 校验 node_id 形如 <unit_type>_<NN>（unit_type=act, index=1 → `act_01`）、
+  parent 类型 ∈ {story_arc, structural_unit}
 5 读 payload.{unit_type, title, goal, conflict, turn, outcome}
 6 next：generate-chapter-plan（父节点 = 这个单元）
 ```

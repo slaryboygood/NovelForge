@@ -44,7 +44,7 @@ provider enabled
 
 ```text
 UI           「故事」→ 章节卡
-REST         POST /studio/generate {"task":"chapter","parent_id":"unit_act_1","index":3}
+REST         POST /studio/generate {"task":"chapter","parent_id":"act_01","index":3}
 Application  BlueprintService.generate_task("chapter", …)
 MCP          tool generate_chapter_plan
 ```
@@ -52,7 +52,7 @@ MCP          tool generate_chapter_plan
 ## Procedure
 
 ```text
-1 选择父单元（inspect-blueprint?node_type=structural_unit）
+1 选择父单元（inspect-blueprint?node_type=structural_unit；结构单元 id 形如 `act_01`）
 2 决定章节序号 index（不要与已有章节重复）
 3 POST /studio/generate {novel_id, task:"chapter", parent_id, index, instruction?}
 4 校验 node_id == ch_<index:03d>、parent ∈ {structural_unit, story_arc}、status == proposed

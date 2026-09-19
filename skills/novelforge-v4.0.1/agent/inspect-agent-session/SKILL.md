@@ -50,8 +50,11 @@ MCP          N/A
 
 ```text
 1 GET /agent/sessions?novel_id=<id> → 取 session_id 与最新状态
-2 GET /agent/{session_id}?novel_id=<id> → 状态 / 计划 / 已执行步骤 / 待审批项 / 预算使用
-3 读 audit_records：每步 operation / 结果 / revision 变化
+2 GET /agent/{session_id}?novel_id=<id> → 返回 {session, runs, checkpoint,
+  pending_approvals, audit}：状态/计划/决策在 `session`，逐步结果在 `runs[].step_results`，
+  断点与预算在 `checkpoint`，待批在 `pending_approvals`，时间线在 `audit`
+3 读 audit[]：每步 operation / status / step_id / target / business_result_refs
+   （没有 revision 前后对照字段，revision 变化看 runs[].step_results[]）
 4 对照 policy：mutations / tokens / cost / elapsed 是否接近上限
 5 next：待审批 → approve-agent-run；paused → resume-agent-session；异常 → cancel-agent-session
 ```
@@ -59,9 +62,12 @@ MCP          N/A
 ## Expected result
 
 ```json
-{"session_id":"ags_…","status":"awaiting_approval","steps_run":3,"mutations":2,
- "approval":{"approval_id":"apr_…","action":"accept_revision"},
- "budget":{"usage":{"total":{"model_calls":2}},"max_mutations":10}}
+{"session":{"session_id":"session_…","status":"awaiting_approval","stop_reason":"…",
+            "checkpoint":{…},"budget":{…}},
+ "runs":[{"run_id":"run_…","status":"awaiting_approval","step_results":[…]}],
+ "checkpoint":{"completed_steps":[…],"next_step_sequence":2,"budget_used":{…}},
+ "pending_approvals":[{"approval_id":"approval_…","action":"accept_revision"}],
+ "audit":[{"operation":"approval_required","status":"awaiting_approval"}]}
 ```
 
 ## Verification

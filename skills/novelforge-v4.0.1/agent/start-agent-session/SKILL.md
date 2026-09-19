@@ -53,8 +53,13 @@ MCP          N/A
 ```text
 1 确认 session 状态（inspect-agent-session）：应为 created / paused / awaiting_approval
 2 POST /agent/start {session_id, max_batch_steps}
-3 读返回：status（executing / awaiting_approval / paused / completed / needs_human_review）/ steps_run
+3 读返回字段（实测）：ok / status / session_id / run_id / goal / plan / completed_steps /
+  pending_steps / changed_nodes / new_revisions / quality_summary / approvals_required /
+  usage / warnings / errors / stop_reason / needs_human_review / steps / pending_approvals
+  （**没有** steps_run / mutations 顶层字段；步数看 steps[]，受影响节点看 changed_nodes）
 4 读每一步的结果与 mutation 计数（对照 policy.max_mutations）
+   注意：planner 可能生成 `repair` 步骤但 `inputs.issue_ids` 为空，执行时该步会被
+   标成 `skipped`；这不等于修复失败，而是"没有可修 issue"。
 5 出现 approval 请求 → approve-agent-run；出现 revision 漂移 → 由作者决定（needs_human_review）
 6 next：resume-agent-session（继续）或 inspect-agent-session（审计）
 ```
@@ -62,9 +67,9 @@ MCP          N/A
 ## Expected result
 
 ```json
-{"session_id":"ags_…","status":"awaiting_approval","steps_run":3,
- "mutations":2,"approval":{"approval_id":"apr_…","action":"accept_revision",
- "target":{"node_id":"ch_003","revision":3}}}
+{"session_id":"session_…","status":"awaiting_approval","stop_reason":"approval required for allow",
+ "approvals_required":[{"approval_id":"approval_…","action":"accept_revision",
+ "target":{"kind":"node","node_id":"ch_003","revision":3}}]}
 ```
 
 ## Verification

@@ -58,6 +58,8 @@ MCP          tool accept_revision
 2 记录该 revision 的质量状态（inspect-node）作为接受依据
 3 POST /accept {novel_id, node_id, revision, expected_revision, reason}
 4 读返回：decision="accepted" / reviewed_revision / revision / status / previous_status
+   （注意：返回体里的 `status` 是**操作状态**（成功时 `"applied"`），不是节点 lifecycle；
+    节点 lifecycle 要看 `GET /editor/nodes/{node_id}` 的 node.status == "accepted"）
 5 复验：inspect-node 显示 status == accepted；inspect-blueprint?mode=accepted 包含该节点
 6 next：其它节点同样处理，或 delivery.validate-delivery
 ```
@@ -74,7 +76,9 @@ MCP          tool accept_revision
 ```text
 · status == accepted；review 记录里出现该 revision（resource .../review）
 · 质量结论没有被"接受"改写（quality_status 仍是它自己的投影值）
-· 重复 accept 同一 revision → idempotent=true，不重复产生 revision
+· 重复 accept 同一 revision：不会产生第二个 revision，但**也不是** idempotent=true ——
+  实际返回 422 EDITOR_OPERATION_REJECTED（"当前状态不允许接受：accepted"）。
+  想再确认状态请用 `GET /editor/nodes/{node_id}`，不要把它当作幂等重放。
 ```
 
 ## Common failures

@@ -55,8 +55,10 @@ MCP          tool validate_delivery
 1 confirm novel_id 与格式清单：GET /studio/delivery/formats
 2 POST /delivery {novel_id, selection_mode:"accepted", profile:"author",
   formats:[…], dry_run:true}
-3 读 validation.{ok, phase, blocking_reason, issues[]}
-4 读 excluded[]（未被选中的节点及原因：未 accepted / 质量未通过 / 缺评估）
+3 读 validation.{ok, phase, blocking_reason, issues[], selected_revisions, quality_summary}
+4 读未被选中的节点：**顶层没有 excluded[]**，看 `validation.quality_summary.excluded`
+   （计数）；要逐节点原因用 `GET /delivery/snapshots` 里同一次 selection 的 `excluded[]`
+   （node_id / node_type / reason，例如 NO_REVISION / not_accepted）
 5 需要放宽时先向作者说明（require_* / allow_* 都是显式决定）
 6 next：ok → create-delivery-snapshot / deliver-blueprint；不 ok → 回到 quality / editor
 ```
@@ -66,7 +68,7 @@ MCP          tool validate_delivery
 ```json
 {"status":"validated","ok":true,
  "validation":{"ok":true,"phase":"preflight","issues":[]},
- "excluded":[{"node_id":"ch_004","reason":"not_accepted"}],
+ "selected_revisions":{"ch_001":5},
  "manifest":null,"idempotent":false}
 ```
 
@@ -76,6 +78,18 @@ MCP          tool validate_delivery
 · dry_run 下 0 落盘（delivery snapshots 数量不变）
 · validation.phase == "preflight"，且 ok=false 时 blocking_reason 非空
 · 与 Q9（Delivery Readiness）结论不冲突（Q9 blocker → preflight 必须拦住）
+```
+
+实测补充（V4.0.1 dogfood）：
+
+```text
+· `require_accepted` / `require_quality_pass` / `allow_*` 只能放宽"政策类"检查。
+  DELIVERY_Q9_BLOCKER / DELIVERY_REJECTED_REVISION / DELIVERY_PLACEHOLDER_CONTENT
+  等仍会拦；不要以为把开关全关掉就一定能交付。
+· 这些检查读的是 Quality Store 里的历史 issue，**不按 issue.status 过滤**：
+  即使底层问题已修好、最新报告该 gate 已 passed、issue 已被 verify 标为 resolved，
+  preflight 仍可能继续报同一个 blocker（已知产品问题，见 dogfood report）。
+  当前唯一可用绕过口径是把受影响节点排除在 selection 之外（explicit_revisions）。
 ```
 
 ## Common failures

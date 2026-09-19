@@ -53,7 +53,11 @@ MCP          N/A
 ```text
 1 from novelforge.memory import build_default_service, MemoryQuery, RetrievalPolicy
 2 service = build_default_service(novel_id, project_root)
-3 result = service.search(MemoryQuery(novel_id=novel_id, text="…", top_k=8))
+3 result = service.search(MemoryQuery(novel_id=novel_id, task="scene",
+                                     entities=("char_01",), locations=("station",), top_k=8))
+   注意：`MemoryQuery` **没有** `text` / `query` 字段（传 text= 会 TypeError）。可用检索维度是
+   `task` / `entities` / `locations` / `source_types` / `time_range` / `revision` /
+   `top_k` / `token_budget` / `required_source_ids` / `policy`。
 4 对每条 item 读 source.source_type / source_id / revision / relevance / selection_reason
 5 service.stale_report() 检查是否基于过期 revision
 6 记录结论（供生成 / 质量解释使用），不要写入任何 artifact

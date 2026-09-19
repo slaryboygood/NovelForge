@@ -56,8 +56,9 @@ MCP          N/A
 ```text
 1 resolve novel_id（inspect-novels）；建议先用 inspect-overview 看现状
 2 POST /agent/plan {novel_id, instruction, scope_kind:"novel", policy?}
-3 读返回 session_id / status（应为 awaiting_approval 或 created，且 0 mutation）/ plan.steps[]
-4 对每个 step 读 action / target / mutation / protected / reason
+3 读返回 session_id / status（实测 plan 之后是 `planning`，且 mutations == 0）/ plan.steps[]
+4 对每个 step 读 action / target / mutation / **requires_approval**（不是 `protected`）
+  / success_criteria / expected_revision
 5 确认 scope 与约束符合预期；必要时调整 instruction / constraints 后重新 plan
 6 next：start-agent-session（执行）或放弃
 ```
@@ -65,11 +66,11 @@ MCP          N/A
 ## Expected result
 
 ```json
-{"session_id":"ags_…","status":"awaiting_approval","dry_run":true,
- "plan":{"steps":[{"action":"inspect_blueprint","mutation":false,"protected":false},
-                  {"action":"generate_node","mutation":true,"protected":false},
-                  {"action":"accept_revision","mutation":true,"protected":true},
-                  {"action":"deliver","mutation":true,"protected":true}]},
+{"session_id":"session_…","status":"planning","dry_run":true,"mutations":0,
+ "plan":{"steps":[{"action":"inspect_blueprint","mutation":false,"requires_approval":false},
+                  {"action":"generate_node","mutation":true,"requires_approval":false},
+                  {"action":"accept_revision","mutation":true,"requires_approval":true},
+                  {"action":"deliver","mutation":true,"requires_approval":true}]},
  "policy":{"allow_auto_accept":false,"allow_delivery":false,"max_steps":20}}
 ```
 
@@ -78,7 +79,7 @@ MCP          N/A
 ```text
 · dry_run 下 0 mutation：Blueprint revision / Quality Store / delivery 全不变
 · 每个 step.action 都在 ACTION_REGISTRY 内（13 个）
-· protected action 被标记，且要求 approval
+· protected action 用 `requires_approval=true` + `policy.require_approval_for` 表达
 ```
 
 ## Common failures

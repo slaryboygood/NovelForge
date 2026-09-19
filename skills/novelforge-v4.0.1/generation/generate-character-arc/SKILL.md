@@ -56,8 +56,11 @@ MCP          tool generate_character_arc
 1 取人物节点 id（inspect-blueprint?node_type=character）
 2 POST /studio/generate {novel_id, task:"character_arc", parent_id:<character>, instruction?}
 3 校验 node.node_id == arc_<character_id>、父节点类型 == character
-4 读 payload.{start_state, internal_conflict, external_pressure, key_turns, midpoint_change,
-  crisis, climax_choice, end_state}
+4 读 payload.{character_id, start_state, internal_conflict, external_pressure, key_turns,
+  midpoint_change, crisis, climax_choice, end_state}
+  注意：contract `blueprint.character_arc.v1` 要求 payload **必须带 character_id**
+  （非空字符串）。系统随后用父节点 id 覆盖它，但模型输出里缺这个字段会直接得到
+  422（结构化输出未通过 schema 校验）。stub / 本地 provider 也必须返回它。
 5 校验 character_id 与父节点一致（系统覆盖模型输出的 id）
 6 next：generate-story-arc，或 evaluate-blueprint 看 Q4
 ```
@@ -81,6 +84,7 @@ MCP          tool generate_character_arc
 | 报"任务需要存在的父节点" | parent_id 缺失 / 不存在 | 先建人物或修正 parent_id |
 | 弧线停滞 | 关键点过少 | Q4 `CHARACTER_ARC_STALL` → `plan-repair` |
 | character_id 与父节点不符 | 手工构造 payload | 交给系统分配，不要手写 id |
+| 422 且 message 是"结构化输出未通过 schema 校验" | 模型输出缺 `character_id` 等必填字段 | 让 provider / stub 返回该字段（值会被系统覆盖） |
 
 ## Safety / invariants
 

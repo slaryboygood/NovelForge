@@ -36,8 +36,12 @@ description: 启动并打开 NovelForge V4.0.1 Story Studio（后端 + 已构建
 | 输入 | 必填 | 说明 |
 | --- | --- | --- |
 | `--port` | 否 | 默认端口由启动脚本决定（README 示例 8000） |
-| `--root` | 否 | 项目根（默认当前仓库根） |
 | `--rebuild-ui` | 否 | 首次 / 前端改动后构建 `ui/dist` |
+
+> ⚠ 实测：`scripts/start_novelforge_ui.py` **没有** `--root` 参数，它总是以仓库根作为
+> project root。要跑隔离数据根（不碰作者 `novel/authoring/**`）请用浏览器门禁用的
+> `scripts/studio_ui_test_server.py --port 8040 --root <isolated root>`
+> （自带 stub 模型 + fixture 插件，0 真实模型调用）。
 
 ## Authoritative interfaces
 

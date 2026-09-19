@@ -45,7 +45,8 @@ Canon 属受保护边界：这是一次显式的 production mutation
 
 ```text
 UI           N/A
-REST         POST /api/story-builder/canon/rebuild
+REST         POST /api/story-builder/canon/rebuild?novel_id=<id>
+             （novel_id 是 **query 参数**；放在 body 里会 422 extra_forbidden）
 Application  CanonBootstrap(repository).rebuild(novel_id, state=…, content_pack=…, profile=…)
 MCP          N/A
 ```
@@ -55,7 +56,7 @@ MCP          N/A
 ```text
 1 先备份 / 记录当前 canon db 路径（persistence.paths.canon_db_path）
 2 先只读检查现状：GET /canon/validate（记录 before 状态作为对照）
-3 POST /canon/rebuild {novel_id, state?, content_pack?, profile?}
+3 POST /canon/rebuild?novel_id=<id> {state?, content_pack?, profile?}
 4 读返回（重建结果摘要）
 5 复验：GET /canon/validate 与 GET /canon/facts 与预期一致
 6 与作者确认 before / after 差异（重建会改变 Canon 内容）

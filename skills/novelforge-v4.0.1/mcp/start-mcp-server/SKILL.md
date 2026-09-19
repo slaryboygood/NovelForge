@@ -53,7 +53,14 @@ MCP          stdio transport
 
 ```text
 1 设置 NOVELFORGE_PROJECT_ROOT 指向仓库（或测试用 workspace 根）
-2 .venv\Scripts\python.exe -m novelforge.interfaces.mcp      （stdio）
+2 $env:PYTHONPATH="<repo>\src"; .venv\Scripts\python.exe -m novelforge.interfaces.mcp  （stdio）
+   注意：仓库未把 novelforge 装成 package（`pip show novelforge` 为空），所以**必须**
+   让 `src` 进入 PYTHONPATH，否则直接报 ModuleNotFoundError: No module named 'novelforge'。
+   ⚠ 实测（V4.0.1 dogfood，mcp 1.9.4，即 requirements.txt 允许区间内）：stdio 入口当前
+   启动即崩：`AttributeError: 'NoneType' object has no attribute 'resources_changed'`
+   （`interfaces/mcp/server.py::run_stdio` 把 notification_options=None 传给
+   `Server.get_capabilities`）。要在本版本真正跑 MCP，请用下面的 in-process 路径
+   （create_dispatcher / MCPDispatcher），或等产品修 stdio 入口。
 3 用客户端列出 tools / resources（见 discover-mcp-surface）
 4 调用任意 tool 时显式传 novel_id
 5 需要真实模型能力时：宿主需注入 gateway 且 provider enabled（否则生成类 tool 返回 MCP_LLM_UNAVAILABLE）
@@ -76,6 +83,8 @@ server 以 `novelforge` 身份握手成功；tools / resources 列表可枚举�
 | 现象 | 原因 | 处理 |
 | --- | --- | --- |
 | 启动即报依赖错误 | mcp / starlette 版本不匹配 | 使用 README 的依赖区间 |
+| 启动即 ModuleNotFoundError: novelforge | venv 里没有安装该包 | 设 PYTHONPATH=<repo>\src（见 Procedure 步骤 2） |
+| 启动即 `'NoneType' object has no attribute 'resources_changed'` | stdio 入口的已知缺陷（mcp 1.9.x） | 用 in-process dispatcher，或修 runtime 后再用 stdio |
 | 每次调用都扫盘很慢 | 期望值：应按 novel_id 惰性构造 | 检查是否传了 project_root |
 | 生成失败 | provider 未启用 | 配置 provider（不要绕过 Gateway） |
 

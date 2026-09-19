@@ -28,6 +28,7 @@ from .serialization import content_blocks
 
 try:  # pragma: no cover - 依赖可选安装（requirements.txt 记录 mcp）
     from mcp.server import Server
+    from mcp.server.lowlevel import NotificationOptions
     from mcp.server.models import InitializationOptions
     from mcp.server.stdio import stdio_server
     import mcp.types as types
@@ -37,6 +38,7 @@ except Exception:  # noqa: BLE001 - SDK 未安装时给出明确错误
     MCP_SDK_AVAILABLE = False
     Server = None  # type: ignore[assignment]
     types = None  # type: ignore[assignment]
+    NotificationOptions = None  # type: ignore[assignment]
     InitializationOptions = None  # type: ignore[assignment]
     stdio_server = None  # type: ignore[assignment]
 
@@ -150,10 +152,17 @@ def _resource_template_model(spec: Any) -> Any:
 
 async def run_stdio(server: Any) -> None:  # pragma: no cover - 需要真实 stdio 会话
     _require_sdk()
+    # V4.0.2 PB-3：mcp 1.9.x 的 Server.get_capabilities 要求 NotificationOptions **实例**
+    # （传 None 会 AttributeError: 'NoneType' object has no attribute 'resources_changed'）。
+    # 本 server 不主动推送 list-changed 通知，因此三个 flag 都保持 False（诚实声明）。
+    if NotificationOptions is None:  # pragma: no cover - 仅依赖异常版本时触发
+        raise MCPSdkUnavailable(
+            "当前 mcp SDK 没有 server.lowlevel.NotificationOptions；"
+            "请在 requirements.txt 记录的版本区间内安装。")
     options = InitializationOptions(
         server_name=MCP_SERVER_NAME,
         server_version=str(MCP_INTERFACE_VERSION),
-        capabilities=server.get_capabilities(notification_options=None,
+        capabilities=server.get_capabilities(notification_options=NotificationOptions(),
                                             experimental_capabilities={}),
     )
     async with stdio_server() as (read_stream, write_stream):

@@ -1,0 +1,71 @@
+product: NovelForge
+version: 4.0.2
+skill_library_version: novelforge-v4.0.2
+skill_schema_version: 1
+status: frozen-baseline
+release_kind: bugfix-stabilization
+
+inherits:
+  skill_library_version: novelforge-v4.0.1
+  root: skills/novelforge-v4.0.1
+  manifest: skills/novelforge-v4.0.1/SKILL_MANIFEST.json
+  mode: copy-and-override
+  rule: >
+    生效集合 = V4.0.1 全部文件 ∪ 本目录同路径覆盖。
+    覆盖路径必须已存在于 V4.0.1（同路径替换，不允许新增 skill 目录）。
+
+baseline_start_commit: fa3d748
+fixed_defects:
+  - id: PB-1
+    title: delivery preflight ignored resolved/superseded quality issues
+    commit_message: "fix(delivery): ignore resolved historical quality blockers"
+  - id: PB-2
+    title: agent protected approval always failed
+    commit_message: "fix(agent): preserve approval state through protected step execution"
+  - id: PB-3
+    title: MCP stdio entrypoint crashed on the supported mcp range
+    commit_message: "fix(mcp): restore supported stdio server startup"
+
+overrides:
+  - path: delivery/README.md
+    module: delivery
+  - path: delivery/validate-delivery/SKILL.md
+    module: delivery
+    skill_id: novelforge-v4.0.2.delivery.validate-delivery
+  - path: agent/README.md
+    module: agent
+  - path: agent/approve-agent-run/SKILL.md
+    module: agent
+    skill_id: novelforge-v4.0.2.agent.approve-agent-run
+  - path: mcp/README.md
+    module: mcp
+  - path: mcp/start-mcp-server/SKILL.md
+    module: mcp
+    skill_id: novelforge-v4.0.2.mcp.start-mcp-server
+  - path: workflows/prepare-final-delivery/SKILL.md
+    module: workflows
+    skill_id: novelforge-v4.0.2.workflows.prepare-final-delivery
+  - path: workflows/operate-with-agent/SKILL.md
+    module: workflows
+    skill_id: novelforge-v4.0.2.workflows.operate-with-agent
+  - path: workflows/use-novelforge-through-mcp/SKILL.md
+    module: workflows
+    skill_id: novelforge-v4.0.2.workflows.use-novelforge-through-mcp
+
+id_namespace:
+  rule: >
+    override 文件使用 novelforge-v4.0.2.<module>.<skill>；
+    继承文件保持 novelforge-v4.0.1.<module>.<skill>（同一份未修改的 skill）。
+    两个前缀同时出现是有意的：它标记"本版本哪一步被修正过"。
+
+unchanged:
+  skills_inherited_from_v4_0_1: 77
+  skill_id_rule: "novelforge-v4.0.2.<module>.<verb-object>（仅覆盖文件改前缀）"
+
+tools:
+  validator: scripts/validate_v4_0_2_skills.py
+  manifest_writer: python scripts/validate_v4_0_2_skills.py --write-manifest
+
+update_policy: |
+  skills/novelforge-v4.0.2/** 是 V4.0.2 的 documentation/tooling baseline（不是产品 tag）。
+  未来版本建立新的 baseline 并显式记录继承关系；必须纠正文档时走 SKILL_BASELINE_UPDATE。

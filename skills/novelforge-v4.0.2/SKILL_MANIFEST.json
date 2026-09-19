@@ -1,0 +1,140 @@
+{
+  "product": "NovelForge",
+  "version": "4.0.2",
+  "skill_library_version": "novelforge-v4.0.2",
+  "skill_schema_version": 1,
+  "status": "frozen-baseline",
+  "release_kind": "bugfix-stabilization",
+  "hash_algorithm": "sha256",
+  "hash_input": "file bytes with CRLF normalised to LF",
+  "inherits": {
+    "skill_library_version": "novelforge-v4.0.1",
+    "root": "skills/novelforge-v4.0.1",
+    "base_manifest": "skills/novelforge-v4.0.1/SKILL_MANIFEST.json",
+    "base_manifest_sha256": "af8c4eab16c2b11465bef8424007cc786bb3ec9283e4a94e4266072f8f8d4ad3",
+    "mode": "copy-and-override"
+  },
+  "id_namespace": "override 文件用 novelforge-v4.0.2.*；继承文件保持 novelforge-v4.0.1.*（同一份未修改的 skill）",
+  "fixed_defects": [
+    "PB-1",
+    "PB-2",
+    "PB-3"
+  ],
+  "closure_tests": [
+    "tests/delivery/test_delivery_historical_quality.py",
+    "tests/agent/test_agent_approval_lifecycle.py",
+    "tests/mcp/test_mcp_stdio_entrypoint.py"
+  ],
+  "override_count": 11,
+  "override_files": [
+    "agent/approve-agent-run/SKILL.md",
+    "agent/README.md",
+    "delivery/README.md",
+    "delivery/validate-delivery/SKILL.md",
+    "manifest.yaml",
+    "mcp/README.md",
+    "mcp/start-mcp-server/SKILL.md",
+    "README.md",
+    "workflows/operate-with-agent/SKILL.md",
+    "workflows/prepare-final-delivery/SKILL.md",
+    "workflows/use-novelforge-through-mcp/SKILL.md"
+  ],
+  "skill_ids": [
+    "novelforge-v4.0.2.agent.approve-agent-run",
+    "novelforge-v4.0.2.delivery.validate-delivery",
+    "novelforge-v4.0.2.mcp.start-mcp-server",
+    "novelforge-v4.0.2.workflows.operate-with-agent",
+    "novelforge-v4.0.2.workflows.prepare-final-delivery",
+    "novelforge-v4.0.2.workflows.use-novelforge-through-mcp"
+  ],
+  "files": [
+    {
+      "path": "skills/novelforge-v4.0.2/agent/approve-agent-run/SKILL.md",
+      "relative_path": "agent/approve-agent-run/SKILL.md",
+      "module": "agent",
+      "skill_id": "novelforge-v4.0.2.agent.approve-agent-run",
+      "override": true,
+      "sha256": "d77cb2342d8dfdba5b650f2958fe3f05541068cdfd65ef106f9e6628deefdf49"
+    },
+    {
+      "path": "skills/novelforge-v4.0.2/agent/README.md",
+      "relative_path": "agent/README.md",
+      "module": "agent",
+      "skill_id": "",
+      "override": true,
+      "sha256": "b0c81980be8accba0b605bb7a0f2b8b7293458a831cb103d5a55639879d2df57"
+    },
+    {
+      "path": "skills/novelforge-v4.0.2/delivery/README.md",
+      "relative_path": "delivery/README.md",
+      "module": "delivery",
+      "skill_id": "",
+      "override": true,
+      "sha256": "ab2aa03f01acc0a99f5ca9d9d621c97b70faa02c8915a542968f56203bdf8952"
+    },
+    {
+      "path": "skills/novelforge-v4.0.2/delivery/validate-delivery/SKILL.md",
+      "relative_path": "delivery/validate-delivery/SKILL.md",
+      "module": "delivery",
+      "skill_id": "novelforge-v4.0.2.delivery.validate-delivery",
+      "override": true,
+      "sha256": "334d7006b82f735fdb53685e717d1ae439f3cc057c3b322f7ae8b37c1e15050d"
+    },
+    {
+      "path": "skills/novelforge-v4.0.2/manifest.yaml",
+      "relative_path": "manifest.yaml",
+      "module": "",
+      "skill_id": "",
+      "override": true,
+      "sha256": "e9c2f3e20c52e2aa75f7771c780b27cb14472da8e240884efe360b156d45d3a2"
+    },
+    {
+      "path": "skills/novelforge-v4.0.2/mcp/README.md",
+      "relative_path": "mcp/README.md",
+      "module": "mcp",
+      "skill_id": "",
+      "override": true,
+      "sha256": "46c70cc16457e7103fd64a9214affee5dbcc51ec7d9c77f5a89e2d6e285524e7"
+    },
+    {
+      "path": "skills/novelforge-v4.0.2/mcp/start-mcp-server/SKILL.md",
+      "relative_path": "mcp/start-mcp-server/SKILL.md",
+      "module": "mcp",
+      "skill_id": "novelforge-v4.0.2.mcp.start-mcp-server",
+      "override": true,
+      "sha256": "a59915f9ff3fc61d21f371a98702d40f5b5c68e992fff218bd14741977cd1b04"
+    },
+    {
+      "path": "skills/novelforge-v4.0.2/README.md",
+      "relative_path": "README.md",
+      "module": "",
+      "skill_id": "",
+      "override": true,
+      "sha256": "e72e58aa19d0784f42aa9cbd877247850a7490b31691a4112141476f757a091e"
+    },
+    {
+      "path": "skills/novelforge-v4.0.2/workflows/operate-with-agent/SKILL.md",
+      "relative_path": "workflows/operate-with-agent/SKILL.md",
+      "module": "workflows",
+      "skill_id": "novelforge-v4.0.2.workflows.operate-with-agent",
+      "override": true,
+      "sha256": "1202885a2691527264a7c1949d4afbfa746431e16a91aa5ee7638681b6cb3f54"
+    },
+    {
+      "path": "skills/novelforge-v4.0.2/workflows/prepare-final-delivery/SKILL.md",
+      "relative_path": "workflows/prepare-final-delivery/SKILL.md",
+      "module": "workflows",
+      "skill_id": "novelforge-v4.0.2.workflows.prepare-final-delivery",
+      "override": true,
+      "sha256": "9a9200618c28d0141070adfd055425a054978a1c679604696dc7a692f3ea9737"
+    },
+    {
+      "path": "skills/novelforge-v4.0.2/workflows/use-novelforge-through-mcp/SKILL.md",
+      "relative_path": "workflows/use-novelforge-through-mcp/SKILL.md",
+      "module": "workflows",
+      "skill_id": "novelforge-v4.0.2.workflows.use-novelforge-through-mcp",
+      "override": true,
+      "sha256": "b3d3f4f14bf4d3a6e789aab5f8c1537c8c9744115ab74d0ad640f23e471b3499"
+    }
+  ]
+}

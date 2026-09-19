@@ -87,16 +87,6 @@ class SelectionOutcome:
                 "digest": self.digest}
 
 
-def _issue_revision(issue: Mapping[str, Any]) -> int:
-    scope = dict(issue.get("scope") or {})
-    revision = int(scope.get("revision") or 0)
-    if revision:
-        return revision
-    revisions = [int(row.get("revision") or 0)
-                 for row in (issue.get("evidence") or []) if row.get("revision")]
-    return max(revisions) if revisions else 0
-
-
 class RevisionSelector:
     """把 DeliverySelection 解析成 (node_id → revision) + 质量 / review 证据。"""
 
@@ -197,9 +187,10 @@ class RevisionSelector:
         blocking = set(selection.policy.blocking_severities)
         if self.quality_store is None:
             return NodeQualityState(node_id=node_id, revision=int(revision))
-        issues = [row for row in self.quality_store.list_issues()
-                  if node_id in (row.get("scope") or {}).get("node_ids", [])
-                  and _issue_revision(row) == int(revision)]
+        # V4.0.2 PB-1：只统计**仍是当前真相**的 issue（open/repairing + 最新报告仍包含它），
+        # 历史（已 resolved 或已被新报告取代）的 issue 不得继续把节点判成 failed。
+        issues = self.quality_store.live_issues(node_id=node_id,
+                                                revision=int(revision))
         blocking_codes = tuple(sorted(str(row.get("code")) for row in issues
                                       if str(row.get("severity")) in blocking))
         evaluated_revision, report_id, evaluated_at = self._evaluated_revision(node_id)

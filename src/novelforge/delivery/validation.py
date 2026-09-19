@@ -214,21 +214,20 @@ class DeliveryValidator:
                    policy: Any) -> list[DeliveryIssue]:
         if self.quality_store is None:
             return []
+        severities = set(policy.blocking_severities)
         rows: list[DeliveryIssue] = []
-        for issue in self.quality_store.list_issues():
-            scope = dict(issue.get("scope") or {})
-            if node_id not in scope.get("node_ids", []):
-                continue
-            if str(issue.get("gate")) != "Q9":
-                continue
-            if str(issue.get("severity")) not in set(policy.blocking_severities):
+        # V4.0.2 PB-1：只复用**仍是当前真相**的 Q9 结论（scope 命中 + 最新报告仍包含）。
+        for issue in self.quality_store.live_issues(node_id=node_id,
+                                                    revision=int(revision), gate="Q9"):
+            if str(issue.get("severity")) not in severities:
                 continue
             rows.append(DeliveryIssue(
                 code="DELIVERY_Q9_BLOCKER", severity="blocker",
                 message=f"Q9 交付就绪度问题：{issue.get('code')}",
                 node_ids=(node_id,), revision=int(revision),
                 evidence={"quality_issue_id": issue.get("issue_id"),
-                          "quality_code": issue.get("code")}))
+                          "quality_code": issue.get("code"),
+                          "quality_report_id": issue.get("live_report_id")}))
         return rows
 
     def _structure_issues(self, nodes: Mapping[str, BlueprintNode],
@@ -303,19 +302,20 @@ class DeliveryValidator:
         if self.quality_store is None:
             return []
         issues: list[DeliveryIssue] = []
-        for issue in self.quality_store.list_issues():
-            code = str(issue.get("code"))
-            if code not in PLACEHOLDER_SOURCES:
-                continue
-            for node_id in (issue.get("scope") or {}).get("node_ids", []):
-                if node_id not in nodes:
-                    continue
+        for node_id, node in sorted(nodes.items()):
+            # V4.0.2 PB-1：只统计仍是当前真相的占位符结论
+            # （历史 issue / 已被修复取代的 issue 不得继续阻塞默认交付）。
+            for issue in self.quality_store.live_issues(
+                    node_id=node_id, revision=int(node.revision),
+                    codes=PLACEHOLDER_SOURCES):
+                code = str(issue.get("code"))
                 issues.append(DeliveryIssue(
                     code="DELIVERY_PLACEHOLDER_CONTENT", severity="blocker",
                     message=f"{node_id} 含占位 / 空洞内容（{code}）",
-                    node_ids=(node_id,), revision=nodes[node_id].revision,
+                    node_ids=(node_id,), revision=int(node.revision),
                     evidence={"quality_issue_id": issue.get("issue_id"),
-                              "quality_code": code}))
+                              "quality_code": code,
+                              "quality_report_id": issue.get("live_report_id")}))
         return issues
 
     @staticmethod

@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Iterable, Mapping
+from typing import Any, Iterable, Mapping, Sequence
 
 from novelforge.persistence.paths import (
     quality_issues_dir,
@@ -128,6 +128,86 @@ class QualityStore:
 
         return tuple(QualityIssue.from_dict(row)
                      for row in self.list_issues(status=status, gate=gate))
+
+    # -------------------------------------------------------- issue 生命周期
+    def latest_coverage(self) -> dict[str, dict[str, Any]]:
+        """`node_id` → **最新一份覆盖它的质量报告**（V4.0.2 PB-1 / §45 语义）。
+
+        "最新"按 `(generated_at, report_id)` 判定：新报告取代旧报告后，旧报告里的
+        issue 不再代表当前真相（GAP-010：issue 生命周期此前没有"随最新报告失效"的语义）。
+        """
+
+        coverage: dict[str, dict[str, Any]] = {}
+        for report in self.reports():
+            generated = str(report.get("generated_at") or "")
+            report_id = str(report.get("report_id") or "")
+            issue_ids = {str(row.get("issue_id"))
+                         for row in (report.get("issues") or [])}
+            for raw_node_id, raw_revision in (report.get("node_revisions") or {}).items():
+                node_id = str(raw_node_id)
+                current = coverage.get(node_id)
+                if current is not None and (
+                        str(current["generated_at"]),
+                        str(current["report_id"])) >= (generated, report_id):
+                    continue
+                coverage[node_id] = {
+                    "report_id": report_id, "generated_at": generated,
+                    "revision": int(raw_revision or 0), "issue_ids": issue_ids}
+        return coverage
+
+    def live_issues(self, *, node_id: str = "", revision: int | None = None,
+                    gate: str = "", codes: Sequence[str] = (),
+                    statuses: Sequence[str] = ("open", "repairing")
+                    ) -> list[dict[str, Any]]:
+        """仍是**当前质量真相**的 issue（V4.0.2 PB-1 的核心语义）。
+
+        判定条件（全部满足）：
+
+        ```text
+        1. status ∈ statuses（resolved / accepted_risk / ignored 不再算 live）
+        2. issue 仍出现在**最新一份覆盖其 scope 节点**的报告里
+           （被新报告取代的历史 issue 不代表当前真相）
+        3. 可选过滤：node_id（scope 必须包含它）/ gate / codes
+        4. 给定 revision 时，覆盖报告评估的必须正是该 revision
+        ```
+
+        返回行是 issue 的副本，并附 `live_report_id` / `live_revision` 证据字段，
+        便于调用方在 issue 证据里说明"为什么它现在仍然有效"。
+        """
+
+        allowed = {str(value) for value in statuses}
+        wanted_codes = {str(value) for value in codes if str(value)}
+        coverage = self.latest_coverage()
+        rows: list[dict[str, Any]] = []
+        for issue in self.list_issues():
+            if allowed and str(issue.get("status")) not in allowed:
+                continue
+            if gate and str(issue.get("gate")) != str(gate):
+                continue
+            code = str(issue.get("code"))
+            if wanted_codes and code not in wanted_codes:
+                continue
+            scope_nodes = [str(value) for value in
+                           ((issue.get("scope") or {}).get("node_ids") or []) if value]
+            if node_id:
+                if str(node_id) not in scope_nodes:
+                    continue
+                cover = coverage.get(str(node_id))
+                if cover is None or str(issue.get("issue_id")) not in cover["issue_ids"]:
+                    continue
+                if revision is not None and int(cover["revision"]) != int(revision):
+                    continue
+                rows.append({**issue, "live_report_id": cover["report_id"],
+                             "live_revision": int(cover["revision"])})
+                continue
+            covers = [coverage[value] for value in scope_nodes
+                      if value in coverage
+                      and str(issue.get("issue_id")) in coverage[value]["issue_ids"]]
+            if not covers:
+                continue
+            rows.append({**issue, "live_report_id": covers[0]["report_id"],
+                         "live_revision": int(covers[0]["revision"])})
+        return rows
 
     def update_issue_status(self, issue_id: str, status: str, *,
                             note: str = "") -> dict[str, Any]:

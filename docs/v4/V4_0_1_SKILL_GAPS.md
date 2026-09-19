@@ -3,6 +3,50 @@
 > 本任务**不修 Runtime**（§4、§86）。发现的不一致一律记录在这里，继续 Skill 工作。
 > 每项都给出：现象、证据、影响、建议处置（属未来产品任务）。
 
+> **2026-09-19 更新（Skill Dogfood / Operator Acceptance）**：
+> 一次"只用 skill + 公开接口"的完整演练又发现 4 个新 gap（GAP-009 … GAP-012）与
+> 3 个 P0 产品缺陷（delivery preflight 不按 issue status 过滤；agent approve 后 session
+> 失败；MCP stdio 入口崩溃）。完整复现、证据、优先级与 V4.0.2 backlog 见
+> `docs/v4/V4_0_1_SKILL_DOGFOOD_REPORT.md`（§8–§10）与
+> `docs/v4/V4_0_1_SKILL_USABILITY_MATRIX.md`。下面 4 条是本轮新增记录的摘要。
+
+## GAP-009 REST/UI 服务无法指定隔离 project root
+
+```text
+现象：scripts/start_novelforge_ui.py 没有 --root（skill 曾写成可传，已修），
+      只有浏览器门禁用的 scripts/studio_ui_test_server.py 支持 --root。
+影响：新操作者无法在"不碰作者 novel/authoring/**"的前提下起一套可操作的产品面演练；
+      官方 REST 路径的隔离根只能自己拼 create_app(root) composition。
+处置建议：给 start_novelforge_ui.py 增加 --root，或把 test server 正式化为"演练模式"。
+```
+
+## GAP-010 quality issue 生命周期没有"随最新报告自动关闭"的语义
+
+```text
+现象：GET /studio/quality?gate=Q9 继续返回历史 issue（含已被 verify 标为 resolved 的），
+      与 skill 的 "report 与 issue 列表一致" 期望冲突；delivery preflight 也因此继续阻塞
+      （见 dogfood report PB-1 / PB-5）。
+影响：修复后仍无法交付，且 gate 视图无法反映"当前真相"。
+处置建议：issue 生命周期补自动 supersede/close；preflight 只计 open 且属于最新 report 的 issue。
+```
+
+## GAP-011 `GENERATION_UNAVAILABLE` 一个 code 表示两类原因
+
+```text
+现象："没有 enabled provider" 与"模型输出未通过 schema 校验" 都返回 422
+      GENERATION_UNAVAILABLE（message 不同、code 相同）。
+影响：调用方（UI / MCP / Agent）无法程序化区分"该配模型"还是"该修 provider 输出"。
+处置建议：拆分稳定错误码（例如 LLM_STRUCTURED_OUTPUT_ERROR / GENERATION_NO_PROVIDER）。
+```
+
+## GAP-012 create-delivery-snapshot 与 deliver-blueprint 共用 POST /delivery
+
+```text
+现象：两个 skill 指向同一个端点，行为差异完全由参数决定（dry_run / formats / policy）。
+影响：catalog 层面看不出"建快照"与"正式交付"其实是同一入口的两种参数组合。
+处置建议：至少在 catalog / 接口映射里点明共用端点；或产品侧分开更明确的路由。
+```
+
 ## GAP-001 `/studio/generate` 声明 dry_run 但不生效
 
 ```text

@@ -293,7 +293,7 @@ commits
   fd40c77 fix(mcp): restore supported stdio server startup
   99b6629 docs(skills): add v4.0.2 skill baseline delta and closure report
   9fb886d docs(v4): refresh v4.0.2 verification numbers on the final HEAD
-  （下一提交）docs(v4): record exact commit list in the stabilization report
+  （此后仅可能有纯 docs 提交，例如把本清单校正为精确 SHA；以 `git log` 为准）
 
 product files changed
   src/novelforge/quality/store.py
